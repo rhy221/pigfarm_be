@@ -1,0 +1,456 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model assignment_details {
+  id               String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at       DateTime     @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  assignment_id    String?      @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  employee_id      String?      @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pen_id           String?      @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  task_description String?      @default("")
+  shift_id         String?      @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  assignments      assignments? @relation(fields: [assignment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employees        employees?   @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pens             pens?        @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  work_shifts      work_shifts? @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model assignments {
+  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at         DateTime             @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  assignment_date    DateTime?            @db.Date
+  assignment_details assignment_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model chemicals {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at       DateTime           @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name             String?            @default("")
+  cleaning_details cleaning_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model cleaning_details {
+  id                   String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at           DateTime            @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  cleaning_schedule_id String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pen_id               String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  employee_id          String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  method_id            String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  chemical_id          String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  status               String?             @default("")
+  chemicals            chemicals?          @relation(fields: [chemical_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cleaning_schedules   cleaning_schedules? @relation(fields: [cleaning_schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employees            employees?          @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cleaning_methods     cleaning_methods?   @relation(fields: [method_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pens                 pens?               @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model cleaning_methods {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at       DateTime           @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name             String?            @default("")
+  cleaning_details cleaning_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model cleaning_schedules {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at       DateTime           @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  cleaning_date    DateTime?          @db.Date
+  cleaning_details cleaning_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model disease_treatments {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at        DateTime            @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pig_id            String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  weight            Float?              @default(0) @db.Real
+  symptom           String?             @default("")
+  disease_id        String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  diseases          diseases?           @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  treatment_details treatment_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model diseases {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name                   String?                  @default("")
+  disease_treatments     disease_treatments[]
+  vaccine_report_details vaccine_report_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model employees {
+  id                      String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at              DateTime                  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name                    String?                   @default("")
+  email                   String?                   @default("")
+  role                    String?                   @default("")
+  assignment_details      assignment_details[]
+  cleaning_details        cleaning_details[]
+  environment_log_details environment_log_details[]
+  vaccination_schedules   vaccination_schedules[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model environment_log_details {
+  id                  String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at          DateTime          @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  log_id              String?           @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pen_id              String?           @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  average_temperature Float?            @db.Real
+  average_humidity    Float?            @db.Real
+  ventilation_status  String?
+  average_water       Float?            @db.Real
+  inspector_id        String?           @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  warning             String?
+  employees           employees?        @relation(fields: [inspector_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  environment_logs    environment_logs? @relation(fields: [log_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pens                pens?             @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model environment_logs {
+  id                      String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at              DateTime                  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  environment_log_details environment_log_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model expenses {
+  id                 String              @id(map: "expenses_pkey1") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at         DateTime            @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  category_id        String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  amount             Decimal?            @db.Decimal
+  payment_status     String?             @default("")
+  cost_entity_id     String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  expense_categories expense_categories? @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  expense_entities   expense_entities?   @relation(fields: [cost_entity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model feeding_schedule_details {
+  id                  String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at          DateTime           @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  feeding_schedule_id String?            @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pen_id              String?            @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  feeding_time        DateTime?          @default(now()) @db.Timetz(6)
+  feed_id             String?            @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  feed_amount         Float?             @default(0) @db.Real
+  feeds               feeds?             @relation(fields: [feed_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  feeding_schedules   feeding_schedules? @relation(fields: [feeding_schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pens                pens?              @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model feeding_schedules {
+  id                       String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at               DateTime                   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  feeding_date             DateTime?                  @db.Date
+  feeding_schedule_details feeding_schedule_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model feeds {
+  id                       String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at               DateTime                   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name                     String?                    @default("")
+  feeding_schedule_details feeding_schedule_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model herd_report_pen_pigs {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at   DateTime      @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pig_id       String?       @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  weight       Float?        @default(0) @db.Real
+  status_id    String?       @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pigs         pigs?         @relation(fields: [pig_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pig_statuses pig_statuses? @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model herd_report_pens {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at    DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pen_id        String?  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  healthy_count Int?     @default(0)
+  sick_count    Int?     @default(0)
+  dead_count    Int?     @default(0)
+  shipped_count Int?     @default(0)
+  pens          pens?    @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model herd_reports {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model inventory_report_items {
+  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at    DateTime   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  material_id   String?    @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  opening_stock Float?     @default(0) @db.Real
+  closing_stock Float?     @default(0) @db.Real
+  change_amout  Float?     @default(0) @db.Real
+  materials     materials? @relation(fields: [material_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model inventory_reports {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model material_types {
+  id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime    @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name       String?     @default("")
+  materials  materials[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model materials {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name                   String?                  @default("")
+  material_type_id       String?                  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  quantity               Int?                     @default(0)
+  price_unit             Decimal?                 @default(0) @db.Decimal
+  expiration_date        DateTime?                @db.Date
+  inventory_report_items inventory_report_items[]
+  material_types         material_types?          @relation(fields: [material_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pen_types {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at    DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pen_type_name String?  @default("")
+  pens          pens[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pens {
+  id                                           String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at                                   DateTime                   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pen_name                                     String?                    @default("")
+  pen_type_id                                  String?                    @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  assignment_details                           assignment_details[]
+  cleaning_details                             cleaning_details[]
+  environment_log_details                      environment_log_details[]
+  feeding_schedule_details                     feeding_schedule_details[]
+  herd_report_pens                             herd_report_pens[]
+  pen_types                                    pen_types?                 @relation(fields: [pen_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pig_transfers_pig_transfers_new_pen_idTopens pig_transfers[]            @relation("pig_transfers_new_pen_idTopens")
+  pig_transfers_pig_transfers_old_pen_idTopens pig_transfers[]            @relation("pig_transfers_old_pen_idTopens")
+  pigs                                         pigs[]
+  rearing_pens                                 rearing_pens[]
+  vaccination_schedules                        vaccination_schedules[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pig_batchs {
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at   DateTime       @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  quantity     Int            @default(0)
+  pig_breed_id String?        @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pig_breeds   pig_breeds?    @relation(fields: [pig_breed_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pigs         pigs[]
+  rearing_pens rearing_pens[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pig_breeds {
+  id         String       @id(map: "pigBreed_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime     @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  breed_name String?      @default("")
+  pig_batchs pig_batchs[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pig_shipping_details {
+  id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at            DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pig_shipping_id       String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pen_id                String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  quantity              Int?                   @default(0)
+  total_weight          Float?                 @default(0) @db.Real
+  price_unit            Decimal?               @default(0) @db.Decimal
+  amount                Decimal?               @default(0) @db.Decimal
+  payment_method        String?                @default("")
+  status_id             String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pig_shippings         pig_shippings?         @relation(fields: [pig_shipping_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pig_shipping_statuses pig_shipping_statuses? @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pig_shipping_statuses {
+  id                   String                 @id(map: "shipping_pig_form_statuses_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at           DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name                 String?                @default("")
+  pig_shipping_details pig_shipping_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pig_shippings {
+  id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at           DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  customer_name        String?                @default("")
+  address              String?                @default("")
+  phone_number         String?                @default("")
+  total_amount         Decimal?               @default(0) @db.Decimal
+  pig_shipping_details pig_shipping_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pig_statuses {
+  id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at           DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  status_name          String?                @default("")
+  herd_report_pen_pigs herd_report_pen_pigs[]
+  pigs                 pigs[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pig_transfers {
+  id                                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at                          DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pig_id                              String?  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  old_pen_id                          String?  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  new_pen_id                          String?  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pens_pig_transfers_new_pen_idTopens pens?    @relation("pig_transfers_new_pen_idTopens", fields: [new_pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pens_pig_transfers_old_pen_idTopens pens?    @relation("pig_transfers_old_pen_idTopens", fields: [old_pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pigs                                pigs?    @relation(fields: [pig_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model pigs {
+  id                   String                 @id(map: "pig_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at           DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pig_batch_id         String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  weight               Float?                 @default(0) @db.Real
+  pen_id               String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pig_status_id        String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ear_tag_number       String?                @default("")
+  herd_report_pen_pigs herd_report_pen_pigs[]
+  pig_transfers        pig_transfers[]
+  pens                 pens?                  @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pig_pen_id_fkey")
+  pig_batchs           pig_batchs?            @relation(fields: [pig_batch_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pig_pig_batch_id_fkey")
+  pig_statuses         pig_statuses?          @relation(fields: [pig_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pig_pig_status_id_fkey")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model rearing_pens {
+  created_at DateTime   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pen_id     String     @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  batch_id   String     @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  quantity   Int?       @default(0)
+  pig_batchs pig_batchs @relation(fields: [batch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pens       pens       @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([pen_id, batch_id])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model treatment_details {
+  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at         DateTime            @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  treatment_id       String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  medicine           String?             @default("")
+  dosage             Float?              @default(0) @db.Real
+  condition          String?             @default("")
+  disease_treatments disease_treatments? @relation(fields: [treatment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model vaccination_schedule_details {
+  id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at            DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  schedule_id           String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  stage                 Int?                   @default(1)
+  dosage                Float?                 @default(0) @db.Real
+  vaccination_schedules vaccination_schedules? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model vaccination_schedules {
+  id                           String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at                   DateTime                       @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pen_id                       String?                        @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  employee_id                  String?                        @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  vaccination_schedule_details vaccination_schedule_details[]
+  employees                    employees?                     @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pens                         pens?                          @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model vaccine_report_details {
+  id                      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at              DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  vaccine_id              String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  disease_id              String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  cost                    Decimal?  @default(0) @db.Decimal
+  total_vaccinated        Int?      @default(0)
+  post_vaccination_status String?   @default("")
+  effectiveness_rate      Float?    @default(0) @db.Real
+  diseases                diseases? @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vaccines                vaccines? @relation(fields: [vaccine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model vaccine_reports {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model vaccines {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  vaccine_name           String?                  @default("")
+  vaccine_report_details vaccine_report_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model work_shifts {
+  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at         DateTime             @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  session            String?              @default("")
+  start_time         DateTime?            @default(now()) @db.Timetz(6)
+  end_time           DateTime?            @default(now()) @db.Timetz(6)
+  assignment_details assignment_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model expense_categories {
+  id         String     @id(map: "expenses_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name       String?    @default("")
+  expenses   expenses[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model expense_entities {
+  id         String     @id(map: "expense_objects_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name       String?    @default("")
+  expenses   expenses[]
+}
