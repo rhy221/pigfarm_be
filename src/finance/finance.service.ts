@@ -33,7 +33,6 @@ export class FinanceService {
 
   // ============ HELPER METHODS ============
   private async generateTransactionCode(
-    farmId: string,
     type: TransactionType,
     date: Date,
   ): Promise<string> {
@@ -47,7 +46,6 @@ export class FinanceService {
 
     const count = await this.prisma.transaction.count({
       where: {
-        farmId,
         transactionType: type,
         transactionDate: {
           gte: startOfDay,
@@ -83,9 +81,8 @@ export class FinanceService {
     });
   }
 
-  async getTransactionCategories(farmId: string, type?: TransactionType) {
+  async getTransactionCategories(type?: TransactionType) {
     const where: Prisma.TransactionCategoryWhereInput = {
-      farmId,
       isActive: true,
     };
     if (type) where.type = type;
@@ -101,7 +98,7 @@ export class FinanceService {
   async createCashAccount(dto: CreateCashAccountDto) {
     if (dto.isDefault) {
       await this.prisma.cashAccount.updateMany({
-        where: { farmId: dto.farmId, isDefault: true },
+        where: { isDefault: true },
         data: { isDefault: false },
       });
     }
@@ -120,7 +117,7 @@ export class FinanceService {
 
     if (dto.isDefault) {
       await this.prisma.cashAccount.updateMany({
-        where: { farmId: account.farmId, isDefault: true },
+        where: { isDefault: true },
         data: { isDefault: false },
       });
     }
@@ -138,9 +135,9 @@ export class FinanceService {
     });
   }
 
-  async getCashAccounts(farmId: string) {
+  async getCashAccounts() {
     return this.prisma.cashAccount.findMany({
-      where: { farmId, isActive: true },
+      where: { isActive: true },
       orderBy: [{ isDefault: 'desc' }, { name: 'asc' }],
     });
   }
@@ -155,7 +152,6 @@ export class FinanceService {
   async createTransaction(dto: CreateTransactionDto, createdById?: string) {
     const transactionDate = new Date(dto.transactionDate);
     const transactionCode = await this.generateTransactionCode(
-      dto.farmId,
       dto.transactionType,
       transactionDate,
     );
@@ -163,7 +159,6 @@ export class FinanceService {
     return this.prisma.$transaction(async (tx) => {
       const newTransaction = await tx.transaction.create({
         data: {
-          farmId: dto.farmId,
           cashAccountId: dto.cashAccountId,
           categoryId: dto.categoryId,
           transactionCode,
@@ -280,11 +275,10 @@ export class FinanceService {
   }
 
   async getTransactions(query: TransactionQueryDto) {
-    const { farmId, cashAccountId, categoryId, transactionType, fromDate, toDate, search, isRecorded, page = 1, limit = 20 } = query;
+    const { cashAccountId, categoryId, transactionType, fromDate, toDate, search, isRecorded, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
     const where: Prisma.TransactionWhereInput = { status: 'confirmed' };
-    if (farmId) where.farmId = farmId;
     if (cashAccountId) where.cashAccountId = cashAccountId;
     if (categoryId) where.categoryId = categoryId;
     if (transactionType) where.transactionType = transactionType;
@@ -340,19 +334,17 @@ export class FinanceService {
 
     return this.prisma.$transaction(async (tx) => {
       const category = await tx.transactionCategory.findFirst({
-        where: { farmId: dto.farmId, code: 'CP007', isActive: true },
+        where: { code: 'CP007', isActive: true },
       });
 
       const paymentDate = new Date(dto.paymentDate);
       const transactionCode = await this.generateTransactionCode(
-        dto.farmId,
         TransactionType.EXPENSE,
         paymentDate,
       );
 
       const transaction = await tx.transaction.create({
         data: {
-          farmId: dto.farmId,
           cashAccountId: dto.cashAccountId,
           categoryId: category?.id,
           transactionCode,
@@ -386,7 +378,6 @@ export class FinanceService {
 
       await tx.supplierDebt.create({
         data: {
-          farmId: dto.farmId,
           supplierId: dto.supplierId,
           referenceType: 'payment',
           referenceId: transaction.id,
@@ -404,10 +395,9 @@ export class FinanceService {
 
   // ============ CASH BOOK REPORT METHODS ============
   async getCashBookReport(dto: CashBookReportDto) {
-    const { farmId, cashAccountId, fromDate, toDate } = dto;
+    const { cashAccountId, fromDate, toDate } = dto;
 
     const where: Prisma.TransactionWhereInput = {
-      farmId,
       status: 'confirmed',
       isRecorded: true,
       transactionDate: {
@@ -419,7 +409,7 @@ export class FinanceService {
 
     const accounts = cashAccountId
       ? [await this.prisma.cashAccount.findUnique({ where: { id: cashAccountId } })]
-      : await this.prisma.cashAccount.findMany({ where: { farmId, isActive: true } });
+      : await this.prisma.cashAccount.findMany({ where: { isActive: true } });
 
     let openingBalance = 0;
     for (const account of accounts) {
@@ -477,7 +467,7 @@ export class FinanceService {
   }
 
   async getFinancialSummary(dto: FinancialSummaryDto) {
-    const { farmId, month, year, fromDate, toDate } = dto;
+    const { month, year, fromDate, toDate } = dto;
 
     let dateFilter: { gte: Date; lte: Date };
     if (fromDate && toDate) {
@@ -497,7 +487,6 @@ export class FinanceService {
 
     const transactions = await this.prisma.transaction.findMany({
       where: {
-        farmId,
         status: 'confirmed',
         isRecorded: true,
         transactionDate: dateFilter,
@@ -548,9 +537,9 @@ export class FinanceService {
     return summary;
   }
 
-  async getCashAccountBalances(farmId: string) {
+  async getCashAccountBalances() {
     const accounts = await this.prisma.cashAccount.findMany({
-      where: { farmId, isActive: true },
+      where: { isActive: true },
     });
 
     let totalBalance = 0;
@@ -576,9 +565,9 @@ export class FinanceService {
     return this.prisma.monthlyBill.update({ where: { id }, data: { isActive: false } });
   }
 
-  async getMonthlyBills(farmId: string) {
+  async getMonthlyBills() {
     return this.prisma.monthlyBill.findMany({
-      where: { farmId, isActive: true },
+      where: { isActive: true },
       include: { category: true },
       orderBy: { name: 'asc' },
     });
@@ -621,14 +610,12 @@ export class FinanceService {
     return this.prisma.$transaction(async (tx) => {
       const paidDate = dto.paidDate ? new Date(dto.paidDate) : new Date();
       const transactionCode = await this.generateTransactionCode(
-        record.bill.farmId,
         TransactionType.EXPENSE,
         paidDate,
       );
 
       const transaction = await tx.transaction.create({
         data: {
-          farmId: record.bill.farmId,
           cashAccountId: dto.cashAccountId,
           categoryId: record.bill.categoryId,
           transactionCode,
@@ -698,14 +685,12 @@ export class FinanceService {
       // Tạo phiếu chi
       const paidDate = new Date(dto.paidDate);
       const transactionCode = await this.generateTransactionCode(
-        bill.farmId,
         TransactionType.EXPENSE,
         paidDate,
       );
 
       const transaction = await tx.transaction.create({
         data: {
-          farmId: bill.farmId,
           cashAccountId: dto.cashAccountId,
           categoryId: bill.categoryId,
           transactionCode,
@@ -745,7 +730,6 @@ export class FinanceService {
 
   async getMonthlyBillRecords(query: MonthlyBillQueryDto) {
     const where: Prisma.MonthlyBillRecordWhereInput = {};
-    if (query.farmId) where.bill = { farmId: query.farmId, isActive: true };
     if (query.month) where.periodMonth = query.month;
     if (query.year) where.periodYear = query.year;
     if (query.status) where.status = query.status;
@@ -760,7 +744,7 @@ export class FinanceService {
   // ============ CUSTOMER METHODS ============
   async createCustomer(dto: CreateCustomerDto) {
     if (!dto.code) {
-      const count = await this.prisma.customer.count({ where: { farmId: dto.farmId } });
+      const count = await this.prisma.customer.count();
       dto.code = `KH${String(count + 1).padStart(4, '0')}`;
     }
     return this.prisma.customer.create({ data: dto });
@@ -770,8 +754,8 @@ export class FinanceService {
     return this.prisma.customer.update({ where: { id }, data: dto });
   }
 
-  async getCustomers(farmId: string, search?: string) {
-    const where: Prisma.CustomerWhereInput = { farmId, isActive: true };
+  async getCustomers(search?: string) {
+    const where: Prisma.CustomerWhereInput = { isActive: true };
     if (search) {
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },
@@ -783,17 +767,16 @@ export class FinanceService {
   }
 
   // ============ DASHBOARD METHODS ============
-  async getDashboardStats(farmId: string) {
+  async getDashboardStats() {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
 
     const [cashBalances, monthlyTransactions, supplierDebt, overdueCount] = await Promise.all([
-      this.getCashAccountBalances(farmId),
+      this.getCashAccountBalances(),
       this.prisma.transaction.groupBy({
         by: ['transactionType'],
         where: {
-          farmId,
           status: 'confirmed',
           isRecorded: true,
           transactionDate: { gte: startOfMonth, lte: endOfMonth },
@@ -801,12 +784,12 @@ export class FinanceService {
         _sum: { amount: true },
       }),
       this.prisma.supplier.aggregate({
-        where: { farmId, isActive: true },
+        where: {  isActive: true },
         _sum: { totalDebt: true },
       }),
       this.prisma.monthlyBillRecord.count({
         where: {
-          bill: { farmId, isActive: true },
+          bill: { isActive: true },
           status: 'pending',
           dueDate: { lt: now },
         },

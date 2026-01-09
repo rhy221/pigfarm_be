@@ -67,10 +67,9 @@ export class FinanceController {
   @Get('categories')
   @ApiOperation({ summary: 'Lấy danh sách danh mục thu chi' })
   async getCategories(
-    @Query('farmId') farmId: string,
     @Query('type') type?: TransactionType,
   ) {
-    return this.financeService.getTransactionCategories(farmId, type);
+    return this.financeService.getTransactionCategories( type);
   }
 
   // ============ CASH ACCOUNT ENDPOINTS ============
@@ -95,8 +94,8 @@ export class FinanceController {
 
   @Get('accounts')
   @ApiOperation({ summary: 'Lấy danh sách tài khoản quỹ' })
-  async getCashAccounts(@Query('farmId') farmId: string) {
-    return this.financeService.getCashAccounts(farmId);
+  async getCashAccounts() {
+    return this.financeService.getCashAccounts();
   }
 
   @Get('accounts/:id')
@@ -107,8 +106,8 @@ export class FinanceController {
 
   @Get('accounts/balances')
   @ApiOperation({ summary: 'Lấy số dư các tài khoản' })
-  async getCashAccountBalances(@Query('farmId') farmId: string) {
-    return this.financeService.getCashAccountBalances(farmId);
+  async getCashAccountBalances() {
+    return this.financeService.getCashAccountBalances();
   }
 
   // ============ TRANSACTION ENDPOINTS ============
@@ -165,8 +164,8 @@ export class FinanceController {
 
   @Get('reports/dashboard')
   @ApiOperation({ summary: 'Thống kê tài chính cho dashboard' })
-  async getDashboardStats(@Query('farmId') farmId: string) {
-    return this.financeService.getDashboardStats(farmId);
+  async getDashboardStats() {
+    return this.financeService.getDashboardStats();
   }
 
   // ============ MONTHLY BILL ENDPOINTS ============
@@ -191,8 +190,8 @@ export class FinanceController {
 
   @Get('monthly-bills')
   @ApiOperation({ summary: 'Lấy danh sách hóa đơn tháng' })
-  async getMonthlyBills(@Query('farmId') farmId: string) {
-    return this.financeService.getMonthlyBills(farmId);
+  async getMonthlyBills() {
+    return this.financeService.getMonthlyBills();
   }
 
   @Post('monthly-bills/records')
@@ -234,7 +233,7 @@ export class FinanceController {
 
   @Get('customers')
   @ApiOperation({ summary: 'Lấy danh sách khách hàng' })
-  async getCustomers(@Query('farmId') farmId: string, @Query('search') search?: string) {
-    return this.financeService.getCustomers(farmId, search);
+  async getCustomers(@Query('search') search?: string) {
+    return this.financeService.getCustomers( search);
   }
 }

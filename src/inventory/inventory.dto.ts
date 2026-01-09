@@ -50,9 +50,6 @@ export enum PaymentStatus {
 
 // ============ WAREHOUSE DTOs ============
 export class CreateWarehouseDto {
-  @ApiProperty({ description: 'ID của trang trại' })
-  @IsUUID()
-  farmId: string;
 
   @ApiProperty({ description: 'Tên kho' })
   @IsString()
@@ -82,9 +79,6 @@ export class UpdateWarehouseDto extends PartialType(CreateWarehouseDto) {}
 
 // ============ WAREHOUSE CATEGORY DTOs ============
 export class CreateWarehouseCategoryDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
 
   @ApiProperty()
   @IsString()
@@ -104,9 +98,6 @@ export class UpdateWarehouseCategoryDto extends PartialType(CreateWarehouseCateg
 
 // ============ UNIT DTOs ============
 export class CreateUnitDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
 
   @ApiProperty()
   @IsString()
@@ -122,9 +113,6 @@ export class UpdateUnitDto extends PartialType(CreateUnitDto) {}
 
 // ============ PRODUCT DTOs ============
 export class CreateProductDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
 
   @ApiPropertyOptional()
   @IsUUID()
@@ -177,9 +165,6 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {}
 
 // ============ SUPPLIER DTOs ============
 export class CreateSupplierDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
 
   @ApiPropertyOptional()
   @IsString()
@@ -286,9 +271,6 @@ export class StockReceiptItemDto {
 }
 
 export class CreateStockReceiptDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
 
   @ApiProperty()
   @IsUUID()
@@ -377,9 +359,6 @@ export class StockIssueItemDto {
 }
 
 export class CreateStockIssueDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
 
   @ApiProperty()
   @IsUUID()
@@ -436,9 +415,6 @@ export class InventoryCheckItemDto {
 }
 
 export class CreateInventoryCheckDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
 
   @ApiProperty()
   @IsUUID()
@@ -462,10 +438,6 @@ export class CreateInventoryCheckDto {
 
 // ============ QUERY DTOs ============
 export class InventoryQueryDto {
-  @ApiPropertyOptional()
-  @IsUUID()
-  @IsOptional()
-  farmId?: string;
 
   @ApiPropertyOptional()
   @IsUUID()
@@ -501,10 +473,6 @@ export class InventoryQueryDto {
 }
 
 export class StockReceiptQueryDto {
-  @ApiPropertyOptional()
-  @IsUUID()
-  @IsOptional()
-  farmId?: string;
 
   @ApiPropertyOptional()
   @IsUUID()
@@ -555,10 +523,6 @@ export class StockReceiptQueryDto {
 }
 
 export class StockIssueQueryDto {
-  @ApiPropertyOptional()
-  @IsUUID()
-  @IsOptional()
-  farmId?: string;
 
   @ApiPropertyOptional()
   @IsUUID()
@@ -604,10 +568,7 @@ export class StockIssueQueryDto {
 }
 
 export class InventoryHistoryQueryDto {
-  @ApiPropertyOptional()
-  @IsUUID()
-  @IsOptional()
-  farmId?: string;
+  
 
   @ApiPropertyOptional()
   @IsUUID()
@@ -666,9 +627,7 @@ export enum ExpiryStatus {
 
 // ============ EXPIRY ALERT DTOs ============
 export class ExpiryAlertQueryDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
+ 
 
   @ApiPropertyOptional({ enum: ExpiryStatus })
   @IsEnum(ExpiryStatus)

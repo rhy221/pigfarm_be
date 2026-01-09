@@ -40,9 +40,6 @@ export enum BillStatus {
 
 // ============ TRANSACTION CATEGORY DTOs ============
 export class CreateTransactionCategoryDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
 
   @ApiPropertyOptional()
   @IsUUID()
@@ -77,9 +74,6 @@ export class UpdateTransactionCategoryDto extends PartialType(CreateTransactionC
 
 // ============ CASH ACCOUNT DTOs ============
 export class CreateCashAccountDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
 
   @ApiProperty()
   @IsString()
@@ -120,9 +114,7 @@ export class UpdateCashAccountDto extends PartialType(CreateCashAccountDto) {}
 
 // ============ TRANSACTION DTOs ============
 export class CreateTransactionDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
+
 
   @ApiProperty()
   @IsUUID()
@@ -191,9 +183,7 @@ export class UpdateTransactionDto extends PartialType(CreateTransactionDto) {}
 
 // ============ SUPPLIER PAYMENT DTOs ============
 export class CreateSupplierPaymentDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
+
 
   @ApiProperty()
   @IsUUID()
@@ -225,9 +215,7 @@ export class CreateSupplierPaymentDto {
 
 // ============ MONTHLY BILL DTOs ============
 export class CreateMonthlyBillDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
+
 
   @ApiPropertyOptional()
   @IsUUID()
@@ -342,9 +330,7 @@ export class PayBillDirectDto {
 
 // ============ CUSTOMER DTOs ============
 export class CreateCustomerDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
+
 
   @ApiPropertyOptional()
   @IsString()
@@ -385,10 +371,6 @@ export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {}
 
 // ============ QUERY DTOs ============
 export class TransactionQueryDto {
-  @ApiPropertyOptional()
-  @IsUUID()
-  @IsOptional()
-  farmId?: string;
 
   @ApiPropertyOptional()
   @IsUUID()
@@ -440,9 +422,7 @@ export class TransactionQueryDto {
 }
 
 export class CashBookReportDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
+
 
   @ApiPropertyOptional()
   @IsUUID()
@@ -459,9 +439,7 @@ export class CashBookReportDto {
 }
 
 export class FinancialSummaryDto {
-  @ApiProperty()
-  @IsUUID()
-  farmId: string;
+
 
   @ApiPropertyOptional()
   @IsInt()
@@ -485,10 +463,6 @@ export class FinancialSummaryDto {
 }
 
 export class MonthlyBillQueryDto {
-  @ApiPropertyOptional()
-  @IsUUID()
-  @IsOptional()
-  farmId?: string;
 
   @ApiPropertyOptional()
   @IsInt()

@@ -73,8 +73,8 @@ export class InventoryController {
 
   @Get('warehouses')
   @ApiOperation({ summary: 'Lấy danh sách kho' })
-  async getWarehouses(@Query('farmId') farmId: string) {
-    return this.inventoryService.getWarehouses(farmId);
+  async getWarehouses() {
+    return this.inventoryService.getWarehouses();
   }
 
   @Get('warehouses/:id')
@@ -98,8 +98,8 @@ export class InventoryController {
 
   @Get('categories')
   @ApiOperation({ summary: 'Lấy danh sách danh mục kho' })
-  async getCategories(@Query('farmId') farmId: string) {
-    return this.inventoryService.getWarehouseCategories(farmId);
+  async getCategories() {
+    return this.inventoryService.getWarehouseCategories();
   }
 
   // ============ UNIT ENDPOINTS ============
@@ -117,8 +117,8 @@ export class InventoryController {
 
   @Get('units')
   @ApiOperation({ summary: 'Lấy danh sách đơn vị tính' })
-  async getUnits(@Query('farmId') farmId: string) {
-    return this.inventoryService.getUnits(farmId);
+  async getUnits() {
+    return this.inventoryService.getUnits();
   }
 
   // ============ PRODUCT ENDPOINTS ============
@@ -144,11 +144,10 @@ export class InventoryController {
   @Get('products')
   @ApiOperation({ summary: 'Lấy danh sách sản phẩm' })
   async getProducts(
-    @Query('farmId') farmId: string,
     @Query('categoryId') categoryId?: string,
     @Query('search') search?: string,
   ) {
-    return this.inventoryService.getProducts(farmId, categoryId, search);
+    return this.inventoryService.getProducts(categoryId, search);
   }
 
   @Get('products/:id')
@@ -179,8 +178,8 @@ export class InventoryController {
 
   @Get('suppliers')
   @ApiOperation({ summary: 'Lấy danh sách nhà cung cấp' })
-  async getSuppliers(@Query('farmId') farmId: string, @Query('search') search?: string) {
-    return this.inventoryService.getSuppliers(farmId, search);
+  async getSuppliers(@Query('search') search?: string) {
+    return this.inventoryService.getSuppliers(search);
   }
 
   @Get('suppliers/:id')
@@ -208,8 +207,8 @@ export class InventoryController {
 
   @Get('stock/summary')
   @ApiOperation({ summary: 'Lấy tổng hợp tồn kho' })
-  async getInventorySummary(@Query('farmId') farmId: string) {
-    return this.inventoryService.getInventorySummary(farmId);
+  async getInventorySummary() {
+    return this.inventoryService.getInventorySummary();
   }
 
   @Get('stock/history')
@@ -306,8 +305,8 @@ export class InventoryController {
   // ============ EXPIRY ALERT ENDPOINTS ============
   @Get('expiry/summary')
   @ApiOperation({ summary: 'Lấy tổng hợp cảnh báo hạn sử dụng' })
-  async getExpirySummary(@Query('farmId') farmId: string) {
-    return this.inventoryService.getExpirySummary(farmId);
+  async getExpirySummary() {
+    return this.inventoryService.getExpirySummary();
   }
 
   @Get('expiry/alerts')
@@ -324,8 +323,8 @@ export class InventoryController {
 
   @Post('expiry/update-status')
   @ApiOperation({ summary: 'Cập nhật trạng thái các lô hết hạn' })
-  async updateExpiredBatches(@Query('farmId') farmId: string) {
-    return this.inventoryService.updateExpiredBatches(farmId);
+  async updateExpiredBatches() {
+    return this.inventoryService.updateExpiredBatches();
   }
 
   @Get('batches/:inventoryId')

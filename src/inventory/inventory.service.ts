@@ -33,14 +33,13 @@ export class InventoryService {
   constructor(private prisma: PrismaService) {}
 
   // ============ HELPER METHODS ============
-  private async generateDocumentCode(farmId: string, prefix: string, date: Date): Promise<string> {
+  private async generateDocumentCode(prefix: string, date: Date): Promise<string> {
     const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '');
     
     let count = 1;
     if (prefix === 'PN') {
       count = await this.prisma.stockReceipt.count({
         where: {
-          farmId,
           receiptDate: {
             gte: new Date(date.setHours(0, 0, 0, 0)),
             lt: new Date(date.setHours(23, 59, 59, 999)),
@@ -50,7 +49,6 @@ export class InventoryService {
     } else if (prefix === 'PX') {
       count = await this.prisma.stockIssue.count({
         where: {
-          farmId,
           issueDate: {
             gte: new Date(date.setHours(0, 0, 0, 0)),
             lt: new Date(date.setHours(23, 59, 59, 999)),
@@ -60,7 +58,6 @@ export class InventoryService {
     } else if (prefix === 'KK') {
       count = await this.prisma.inventoryCheck.count({
         where: {
-          farmId,
           checkDate: {
             gte: new Date(date.setHours(0, 0, 0, 0)),
             lt: new Date(date.setHours(23, 59, 59, 999)),
@@ -77,7 +74,7 @@ export class InventoryService {
     // Nếu set là default, unset các kho khác
     if (dto.isDefault) {
       await this.prisma.warehouse.updateMany({
-        where: { farmId: dto.farmId, isDefault: true },
+        where: { isDefault: true },
         data: { isDefault: false },
       });
     }
@@ -94,7 +91,7 @@ export class InventoryService {
     // Nếu set là default, unset các kho khác
     if (dto.isDefault) {
       await this.prisma.warehouse.updateMany({
-        where: { farmId: warehouse.farmId, isDefault: true, id: { not: id } },
+        where: { isDefault: true, id: { not: id } },
         data: { isDefault: false },
       });
     }
@@ -115,9 +112,9 @@ export class InventoryService {
     });
   }
 
-  async getWarehouses(farmId: string) {
+  async getWarehouses() {
     return this.prisma.warehouse.findMany({
-      where: { farmId, isActive: true },
+      where: { isActive: true },
       include: {
         _count: {
           select: { inventory: true },
@@ -158,9 +155,9 @@ export class InventoryService {
     return this.prisma.warehouseCategory.update({ where: { id }, data: dto });
   }
 
-  async getWarehouseCategories(farmId: string) {
+  async getWarehouseCategories() {
     return this.prisma.warehouseCategory.findMany({
-      where: { farmId, isActive: true },
+      where: {  isActive: true },
       orderBy: { name: 'asc' },
     });
   }
@@ -174,9 +171,9 @@ export class InventoryService {
     return this.prisma.unit.update({ where: { id }, data: dto });
   }
 
-  async getUnits(farmId: string) {
+  async getUnits() {
     return this.prisma.unit.findMany({
-      where: { farmId, isActive: true },
+      where: {  isActive: true },
       orderBy: { name: 'asc' },
     });
   }
@@ -184,7 +181,7 @@ export class InventoryService {
   // ============ PRODUCT METHODS ============
   async createProduct(dto: CreateProductDto) {
     if (!dto.code) {
-      const count = await this.prisma.product.count({ where: { farmId: dto.farmId } });
+      const count = await this.prisma.product.count();
       dto.code = `SP${String(count + 1).padStart(4, '0')}`;
     }
     return this.prisma.product.create({
@@ -208,9 +205,9 @@ export class InventoryService {
     });
   }
 
-  async getProducts(farmId: string, categoryId?: string, search?: string) {
+  async getProducts(categoryId?: string, search?: string) {
     const where: Prisma.ProductWhereInput = {
-      farmId,
+      
       isActive: true,
     };
     if (categoryId) where.categoryId = categoryId;
@@ -239,7 +236,7 @@ export class InventoryService {
   // ============ SUPPLIER METHODS ============
   async createSupplier(dto: CreateSupplierDto) {
     if (!dto.code) {
-      const count = await this.prisma.supplier.count({ where: { farmId: dto.farmId } });
+      const count = await this.prisma.supplier.count();
       dto.code = `NCC${String(count + 1).padStart(4, '0')}`;
     }
     return this.prisma.supplier.create({ data: dto });
@@ -256,8 +253,8 @@ export class InventoryService {
     });
   }
 
-  async getSuppliers(farmId: string, search?: string) {
-    const where: Prisma.SupplierWhereInput = { farmId, isActive: true };
+  async getSuppliers( search?: string) {
+    const where: Prisma.SupplierWhereInput = { isActive: true };
     if (search) {
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },
@@ -290,11 +287,10 @@ export class InventoryService {
 
   // ============ INVENTORY METHODS ============
   async getInventory(query: InventoryQueryDto) {
-    const { farmId, warehouseId, categoryId, search, stockStatus, page = 1, limit = 20 } = query;
+    const {warehouseId, categoryId, search, stockStatus, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
     const where: Prisma.InventoryWhereInput = {};
-    if (farmId) where.farmId = farmId;
     if (warehouseId) where.warehouseId = warehouseId;
     if (categoryId) where.product = { categoryId };
     if (search) {
@@ -343,9 +339,9 @@ export class InventoryService {
     };
   }
 
-  async getInventorySummary(farmId: string) {
+  async getInventorySummary() {
     const inventory = await this.prisma.inventory.findMany({
-      where: { farmId },
+      
       include: {
         product: { include: { category: true } },
       },
@@ -386,7 +382,7 @@ export class InventoryService {
   // ============ STOCK RECEIPT METHODS ============
   async createStockReceipt(dto: CreateStockReceiptDto, createdById?: string) {
     const receiptDate = new Date(dto.receiptDate);
-    const receiptCode = await this.generateDocumentCode(dto.farmId, 'PN', receiptDate);
+    const receiptCode = await this.generateDocumentCode( 'PN', receiptDate);
 
     // Calculate totals
     let totalAmount = 0;
@@ -426,7 +422,7 @@ export class InventoryService {
 
     return this.prisma.stockReceipt.create({
       data: {
-        farmId: dto.farmId,
+
         warehouseId: dto.warehouseId,
         supplierId: dto.supplierId,
         receiptCode,
@@ -584,7 +580,7 @@ export class InventoryService {
             },
           },
           create: {
-            farmId: receipt.farmId,
+       
             warehouseId: receipt.warehouseId,
             productId: item.productId,
             quantity: Number(item.quantity),
@@ -600,7 +596,7 @@ export class InventoryService {
         // Create inventory history
         await tx.inventoryHistory.create({
           data: {
-            farmId: receipt.farmId,
+       
             warehouseId: receipt.warehouseId,
             productId: item.productId,
             transactionType: 'in',
@@ -631,7 +627,6 @@ export class InventoryService {
 
         await tx.supplierDebt.create({
           data: {
-            farmId: receipt.farmId,
             supplierId: receipt.supplierId,
             referenceType: 'stock_receipt',
             referenceId: receipt.id,
@@ -671,11 +666,10 @@ export class InventoryService {
   }
 
   async getStockReceipts(query: StockReceiptQueryDto) {
-    const { farmId, warehouseId, supplierId, fromDate, toDate, status, paymentStatus, search, page = 1, limit = 20 } = query;
+    const { warehouseId, supplierId, fromDate, toDate, status, paymentStatus, search, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
     const where: Prisma.StockReceiptWhereInput = {};
-    if (farmId) where.farmId = farmId;
     if (warehouseId) where.warehouseId = warehouseId;
     if (supplierId) where.supplierId = supplierId;
     if (status) where.status = status;
@@ -729,7 +723,7 @@ export class InventoryService {
   // ============ STOCK ISSUE METHODS ============
   async createStockIssue(dto: CreateStockIssueDto, createdById?: string) {
     const issueDate = new Date(dto.issueDate);
-    const issueCode = await this.generateDocumentCode(dto.farmId, 'PX', issueDate);
+    const issueCode = await this.generateDocumentCode('PX', issueDate);
 
     // Validate inventory and get unit costs
     const itemsData = [];
@@ -767,7 +761,6 @@ export class InventoryService {
 
     return this.prisma.stockIssue.create({
       data: {
-        farmId: dto.farmId,
         warehouseId: dto.warehouseId,
         issueCode,
         issueDate,
@@ -834,7 +827,6 @@ export class InventoryService {
 
         await tx.inventoryHistory.create({
           data: {
-            farmId: issue.farmId,
             warehouseId: issue.warehouseId,
             productId: item.productId,
             transactionType: 'out',
@@ -875,11 +867,10 @@ export class InventoryService {
   }
 
   async getStockIssues(query: StockIssueQueryDto) {
-    const { farmId, warehouseId, fromDate, toDate, status, issueType, search, page = 1, limit = 20 } = query;
+    const { warehouseId, fromDate, toDate, status, issueType, search, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
     const where: Prisma.StockIssueWhereInput = {};
-    if (farmId) where.farmId = farmId;
     if (warehouseId) where.warehouseId = warehouseId;
     if (status) where.status = status;
     if (issueType) where.issueType = issueType;
@@ -928,12 +919,11 @@ export class InventoryService {
 
   // ============ INVENTORY HISTORY METHODS ============
   async getInventoryHistory(query: InventoryHistoryQueryDto) {
-    const { farmId, warehouseId, productId, fromDate, toDate, transactionType, page = 1, limit = 20 } = query;
+    const { warehouseId, productId, fromDate, toDate, transactionType, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
     const where: Prisma.InventoryHistoryWhereInput = {};
-    if (farmId) where.farmId = farmId;
-    if (warehouseId) where.warehouseId = warehouseId;
+  if (warehouseId) where.warehouseId = warehouseId;
     if (productId) where.productId = productId;
     if (transactionType) where.transactionType = transactionType;
     if (fromDate || toDate) {
@@ -963,7 +953,7 @@ export class InventoryService {
   // ============ INVENTORY CHECK METHODS ============
   async createInventoryCheck(dto: CreateInventoryCheckDto, createdById?: string) {
     const checkDate = new Date(dto.checkDate);
-    const checkCode = await this.generateDocumentCode(dto.farmId, 'KK', checkDate);
+    const checkCode = await this.generateDocumentCode( 'KK', checkDate);
 
     const itemsData = [];
     for (const item of dto.items) {
@@ -994,7 +984,6 @@ export class InventoryService {
 
     return this.prisma.inventoryCheck.create({
       data: {
-        farmId: dto.farmId,
         warehouseId: dto.warehouseId,
         checkCode,
         checkDate,
@@ -1043,7 +1032,6 @@ export class InventoryService {
               },
             },
             create: {
-              farmId: check.farmId,
               warehouseId: check.warehouseId,
               productId: item.productId,
               quantity: Number(item.actualQuantity),
@@ -1057,7 +1045,6 @@ export class InventoryService {
 
           await tx.inventoryHistory.create({
             data: {
-              farmId: check.farmId,
               warehouseId: check.warehouseId,
               productId: item.productId,
               transactionType: 'adjustment',
@@ -1095,7 +1082,7 @@ export class InventoryService {
 
   // ============ EXPIRY ALERT METHODS ============
 
-  async getExpirySummary(farmId: string) {
+  async getExpirySummary() {
     const now = new Date();
     const sevenDaysLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
     const thirtyDaysLater = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
@@ -1103,7 +1090,6 @@ export class InventoryService {
 
     const batches = await this.prisma.inventoryBatch.findMany({
       where: {
-        farmId,
         status: 'active',
         quantity: { gt: 0 },
         expiryDate: { not: null },
@@ -1149,7 +1135,6 @@ export class InventoryService {
   }
 
   async getExpiryAlerts(query: {
-    farmId: string;
     expiryStatus?: string;
     warehouseId?: string;
     categoryId?: string;
@@ -1157,7 +1142,7 @@ export class InventoryService {
     page?: number;
     limit?: number;
   }) {
-    const { farmId, expiryStatus, warehouseId, categoryId, productId, page = 1, limit = 20 } = query;
+    const { expiryStatus, warehouseId, categoryId, productId, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
     const now = new Date();
@@ -1180,7 +1165,6 @@ export class InventoryService {
     }
 
     const where: any = {
-      farmId,
       status: 'active',
       quantity: { gt: 0 },
       expiryDate: expiryDateFilter,
@@ -1294,7 +1278,6 @@ export class InventoryService {
       // Create history record
       await tx.inventoryHistory.create({
         data: {
-          farmId: batch.farmId,
           warehouseId: batch.warehouseId,
           productId: batch.productId,
           transactionType: 'out',
@@ -1313,12 +1296,11 @@ export class InventoryService {
     });
   }
 
-  async updateExpiredBatches(farmId: string) {
+  async updateExpiredBatches() {
     const now = new Date();
 
     const result = await this.prisma.inventoryBatch.updateMany({
       where: {
-        farmId,
         status: 'active',
         expiryDate: { lt: now },
       },

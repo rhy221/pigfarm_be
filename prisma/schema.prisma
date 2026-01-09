@@ -17,6 +17,10 @@ model assignment_details {
   pen_id           String?      @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   task_description String?      @default("")
   shift_id         String?      @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  notes            String?
+  status           String?      @default("pending")
+  task_type        String?      @default("other")
+  updated_at       DateTime?    @db.Timestamptz(6)
   assignments      assignments? @relation(fields: [assignment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   employees        employees?   @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pens             pens?        @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -185,58 +189,23 @@ model herd_report_pen_pigs {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model herd_report_pens {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at    DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  pen_id        String?  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  healthy_count Int?     @default(0)
-  sick_count    Int?     @default(0)
-  dead_count    Int?     @default(0)
-  shipped_count Int?     @default(0)
-  pens          pens?    @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at     DateTime      @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pen_id         String?       @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  healthy_count  Int?          @default(0)
+  sick_count     Int?          @default(0)
+  dead_count     Int?          @default(0)
+  shipped_count  Int?          @default(0)
+  herd_report_id String?       @db.Uuid
+  herd_reports   herd_reports? @relation(fields: [herd_report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pens           pens?         @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model herd_reports {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model inventory_report_items {
-  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at    DateTime   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  material_id   String?    @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  opening_stock Float?     @default(0) @db.Real
-  closing_stock Float?     @default(0) @db.Real
-  change_amout  Float?     @default(0) @db.Real
-  materials     materials? @relation(fields: [material_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model inventory_reports {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model material_types {
-  id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime    @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  name       String?     @default("")
-  materials  materials[]
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model materials {
-  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  name                   String?                  @default("")
-  material_type_id       String?                  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  quantity               Int?                     @default(0)
-  price_unit             Decimal?                 @default(0) @db.Decimal
-  expiration_date        DateTime?                @db.Date
-  inventory_report_items inventory_report_items[]
-  material_types         material_types?          @relation(fields: [material_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at       DateTime           @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  herd_report_pens herd_report_pens[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -296,6 +265,7 @@ model pig_shipping_details {
   price_unit            Decimal?               @default(0) @db.Decimal
   amount                Decimal?               @default(0) @db.Decimal
   status_id             String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  payment_method        String?                @default("")
   pig_shippings         pig_shippings?         @relation(fields: [pig_shipping_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pig_shipping_statuses pig_shipping_statuses? @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -384,9 +354,8 @@ model vaccination_schedule_details {
   id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at            DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   schedule_id           String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  stage                 String?
   dosage                Float?                 @default(0) @db.Real
-  vaccinating_date      DateTime?              @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  stage                 Int?                   @default(1)
   vaccination_schedules vaccination_schedules? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -403,22 +372,25 @@ model vaccination_schedules {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model vaccine_report_details {
-  id                      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at              DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  vaccine_id              String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  disease_id              String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  cost                    Decimal?  @default(0) @db.Decimal
-  total_vaccinated        Int?      @default(0)
-  post_vaccination_status String?   @default("")
-  effectiveness_rate      Float?    @default(0) @db.Real
-  diseases                diseases? @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  vaccines                vaccines? @relation(fields: [vaccine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                      String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at              DateTime         @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  vaccine_id              String?          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  disease_id              String?          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  cost                    Decimal?         @default(0) @db.Decimal
+  total_vaccinated        Int?             @default(0)
+  post_vaccination_status String?          @default("")
+  effectiveness_rate      Float?           @default(0) @db.Real
+  vaccine_report_id       String?          @db.Uuid
+  diseases                diseases?        @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vaccines                vaccines?        @relation(fields: [vaccine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vaccine_reports         vaccine_reports? @relation(fields: [vaccine_report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model vaccine_reports {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  vaccine_report_details vaccine_report_details[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -457,14 +429,500 @@ model expense_entities {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model warehouses {
-  id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String
-  type        warehouse_types
-  location    String?
-  capacity    Float?          @db.Real
+  id                        String                      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name                      String                      @db.VarChar(255)
+  location                  String?
+  description               String?
+  warehouse_type            String                      @db.VarChar(50)
+  is_default                Boolean?                    @default(false)
+  is_active                 Boolean?                    @default(true)
+  created_at                DateTime?                   @default(now()) @db.Timestamptz(6)
+  updated_at                DateTime?                   @default(now()) @db.Timestamptz(6)
+  daily_inventory_snapshots daily_inventory_snapshots[]
+  inventory                 inventory[]
+  inventory_batches         inventory_batches[]
+  inventory_checks          inventory_checks[]
+  inventory_history         inventory_history[]
+  stock_issues              stock_issues[]
+  stock_receipts            stock_receipts[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model cash_accounts {
+  id                   String                 @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name                 String                 @db.VarChar(255)
+  account_type         String?                @default("cash") @db.VarChar(50)
+  account_number       String?                @db.VarChar(100)
+  bank_name            String?                @db.VarChar(255)
+  opening_balance      Decimal?               @default(0) @db.Decimal(18, 2)
+  current_balance      Decimal?               @default(0) @db.Decimal(18, 2)
+  description          String?
+  is_default           Boolean?               @default(false)
+  is_active            Boolean?               @default(true)
+  created_at           DateTime?              @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime?              @default(now()) @db.Timestamptz(6)
+  daily_cash_snapshots daily_cash_snapshots[]
+  transactions         transactions[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model customers {
+  id               String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  code             String?   @db.VarChar(100)
+  name             String    @db.VarChar(255)
+  contact_person   String?   @db.VarChar(255)
+  phone            String?   @db.VarChar(20)
+  email            String?   @db.VarChar(255)
+  address          String?
+  tax_code         String?   @db.VarChar(50)
+  total_receivable Decimal?  @default(0) @db.Decimal(18, 2)
+  is_active        Boolean?  @default(true)
+  created_at       DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model daily_cash_snapshots {
+  id              String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  cash_account_id String        @db.Uuid
+  snapshot_date   DateTime      @db.Date
+  opening_balance Decimal?      @default(0) @db.Decimal(18, 2)
+  total_income    Decimal?      @default(0) @db.Decimal(18, 2)
+  total_expense   Decimal?      @default(0) @db.Decimal(18, 2)
+  closing_balance Decimal?      @default(0) @db.Decimal(18, 2)
+  created_at      DateTime?     @default(now()) @db.Timestamptz(6)
+  cash_accounts   cash_accounts @relation(fields: [cash_account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([cash_account_id, snapshot_date])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model daily_inventory_snapshots {
+  id                String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  warehouse_id      String     @db.Uuid
+  product_id        String     @db.Uuid
+  snapshot_date     DateTime   @db.Date
+  opening_quantity  Decimal?   @default(0) @db.Decimal(15, 3)
+  received_quantity Decimal?   @default(0) @db.Decimal(15, 3)
+  issued_quantity   Decimal?   @default(0) @db.Decimal(15, 3)
+  closing_quantity  Decimal?   @default(0) @db.Decimal(15, 3)
+  avg_cost          Decimal?   @default(0) @db.Decimal(18, 2)
+  total_value       Decimal?   @default(0) @db.Decimal(18, 2)
+  created_at        DateTime?  @default(now()) @db.Timestamptz(6)
+  products          products   @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  warehouses        warehouses @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([warehouse_id, product_id, snapshot_date])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model farm_members {
+  id        String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id   String    @db.Uuid
+  role      String?   @default("staff") @db.VarChar(50)
+  joined_at DateTime? @default(now()) @db.Timestamptz(6)
+  users     users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model inventory {
+  id                String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  warehouse_id      String              @db.Uuid
+  product_id        String              @db.Uuid
+  quantity          Decimal?            @default(0) @db.Decimal(15, 3)
+  avg_cost          Decimal?            @default(0) @db.Decimal(18, 2)
+  last_updated      DateTime?           @default(now()) @db.Timestamptz(6)
+  products          products            @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  warehouses        warehouses          @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  inventory_batches inventory_batches[]
+
+  @@unique([warehouse_id, product_id])
+  @@index([warehouse_id, product_id], map: "idx_inventory_warehouse_product")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model inventory_batches {
+  id                  String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  inventory_id        String               @db.Uuid
+  warehouse_id        String               @db.Uuid
+  product_id          String               @db.Uuid
+  receipt_item_id     String?              @db.Uuid
+  batch_number        String?              @db.VarChar(100)
+  quantity            Decimal?             @default(0) @db.Decimal(15, 3)
+  initial_quantity    Decimal?             @default(0) @db.Decimal(15, 3)
+  unit_cost           Decimal?             @default(0) @db.Decimal(18, 2)
+  manufacturing_date  DateTime?            @db.Date
+  expiry_date         DateTime?            @db.Date
+  received_date       DateTime             @db.Date
+  status              String?              @default("active") @db.VarChar(20)
+  notes               String?
+  created_at          DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime?            @default(now()) @db.Timestamptz(6)
+  inventory           inventory            @relation(fields: [inventory_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  products            products             @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stock_receipt_items stock_receipt_items? @relation(fields: [receipt_item_id], references: [id], onUpdate: NoAction)
+  warehouses          warehouses           @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([inventory_id], map: "idx_inventory_batches_inventory")
+  @@index([product_id], map: "idx_inventory_batches_product")
+  @@index([status], map: "idx_inventory_batches_status")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model inventory_check_items {
+  id               String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  check_id         String           @db.Uuid
+  product_id       String           @db.Uuid
+  system_quantity  Decimal?         @default(0) @db.Decimal(15, 3)
+  actual_quantity  Decimal?         @default(0) @db.Decimal(15, 3)
+  difference       Decimal?         @default(0) @db.Decimal(15, 3)
+  unit_cost        Decimal?         @default(0) @db.Decimal(18, 2)
+  difference_value Decimal?         @default(0) @db.Decimal(18, 2)
+  notes            String?
+  created_at       DateTime?        @default(now()) @db.Timestamptz(6)
+  inventory_checks inventory_checks @relation(fields: [check_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  products         products         @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model inventory_checks {
+  id                                        String                  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  warehouse_id                              String                  @db.Uuid
+  check_code                                String                  @db.VarChar(100)
+  check_date                                DateTime                @db.Date
+  notes                                     String?
+  status                                    String?                 @default("draft") @db.VarChar(50)
+  created_by                                String?                 @db.Uuid
+  approved_by                               String?                 @db.Uuid
+  created_at                                DateTime?               @default(now()) @db.Timestamptz(6)
+  updated_at                                DateTime?               @default(now()) @db.Timestamptz(6)
+  inventory_check_items                     inventory_check_items[]
+  users_inventory_checks_approved_byTousers users?                  @relation("inventory_checks_approved_byTousers", fields: [approved_by], references: [id], onUpdate: NoAction)
+  users_inventory_checks_created_byTousers  users?                  @relation("inventory_checks_created_byTousers", fields: [created_by], references: [id], onUpdate: NoAction)
+  warehouses                                warehouses              @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model inventory_history {
+  id               String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  warehouse_id     String     @db.Uuid
+  product_id       String     @db.Uuid
+  transaction_type String     @db.VarChar(50)
+  reference_type   String?    @db.VarChar(50)
+  reference_id     String?    @db.Uuid
+  quantity_before  Decimal?   @default(0) @db.Decimal(15, 3)
+  quantity_change  Decimal    @db.Decimal(15, 3)
+  quantity_after   Decimal?   @default(0) @db.Decimal(15, 3)
+  unit_cost        Decimal?   @default(0) @db.Decimal(18, 2)
+  total_cost       Decimal?   @default(0) @db.Decimal(18, 2)
+  notes            String?
+  created_by       String?    @db.Uuid
+  created_at       DateTime?  @default(now()) @db.Timestamptz(6)
+  users            users?     @relation(fields: [created_by], references: [id], onUpdate: NoAction)
+  products         products   @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  warehouses       warehouses @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([created_at], map: "idx_inventory_history_date")
+  @@index([product_id], map: "idx_inventory_history_product")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model monthly_bill_records {
+  id             String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  bill_id        String        @db.Uuid
+  period_month   Int
+  period_year    Int
+  amount         Decimal       @db.Decimal(18, 2)
+  due_date       DateTime?     @db.Date
+  paid_date      DateTime?     @db.Date
+  transaction_id String?       @db.Uuid
+  status         String?       @default("pending") @db.VarChar(50)
+  notes          String?
+  created_at     DateTime?     @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?     @default(now()) @db.Timestamptz(6)
+  monthly_bills  monthly_bills @relation(fields: [bill_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  transactions   transactions? @relation(fields: [transaction_id], references: [id], onUpdate: NoAction)
+
+  @@unique([bill_id, period_month, period_year])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model monthly_bills {
+  id                     String                  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  category_id            String?                 @db.Uuid
+  name                   String                  @db.VarChar(255)
+  description            String?
+  default_amount         Decimal?                @default(0) @db.Decimal(18, 2)
+  due_day                Int?
+  is_active              Boolean?                @default(true)
+  created_at             DateTime?               @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime?               @default(now()) @db.Timestamptz(6)
+  monthly_bill_records   monthly_bill_records[]
+  transaction_categories transaction_categories? @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model products {
+  id                        String                      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  category_id               String?                     @db.Uuid
+  code                      String?                     @db.VarChar(100)
+  name                      String                      @db.VarChar(255)
+  description               String?
+  unit_id                   String?                     @db.Uuid
+  min_quantity              Decimal?                    @default(0) @db.Decimal(15, 3)
+  default_price             Decimal?                    @default(0) @db.Decimal(18, 2)
+  image_url                 String?
+  barcode                   String?                     @db.VarChar(100)
+  is_active                 Boolean?                    @default(true)
+  created_at                DateTime?                   @default(now()) @db.Timestamptz(6)
+  updated_at                DateTime?                   @default(now()) @db.Timestamptz(6)
+  daily_inventory_snapshots daily_inventory_snapshots[]
+  inventory                 inventory[]
+  inventory_batches         inventory_batches[]
+  inventory_check_items     inventory_check_items[]
+  inventory_history         inventory_history[]
+  warehouse_categories      warehouse_categories?       @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+  units                     units?                      @relation(fields: [unit_id], references: [id], onUpdate: NoAction)
+  stock_issue_items         stock_issue_items[]
+  stock_receipt_items       stock_receipt_items[]
+
+  @@index([category_id], map: "idx_products_category_id")
+  @@index([code], map: "idx_products_code")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model stock_issue_items {
+  id           String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  issue_id     String       @db.Uuid
+  product_id   String       @db.Uuid
+  quantity     Decimal      @db.Decimal(15, 3)
+  unit_cost    Decimal      @db.Decimal(18, 2)
+  total_amount Decimal      @db.Decimal(18, 2)
+  notes        String?
+  created_at   DateTime?    @default(now()) @db.Timestamptz(6)
+  stock_issues stock_issues @relation(fields: [issue_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  products     products     @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model stock_issues {
+  id                                    String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  warehouse_id                          String              @db.Uuid
+  issue_code                            String              @db.VarChar(100)
+  issue_date                            DateTime            @db.Date
+  issue_type                            String?             @default("usage") @db.VarChar(50)
+  purpose                               String?
+  total_amount                          Decimal?            @default(0) @db.Decimal(18, 2)
+  notes                                 String?
+  created_by                            String?             @db.Uuid
+  approved_by                           String?             @db.Uuid
+  status                                String?             @default("draft") @db.VarChar(50)
+  pig_batch_id                          String?             @db.Uuid
+  created_at                            DateTime?           @default(now()) @db.Timestamptz(6)
+  updated_at                            DateTime?           @default(now()) @db.Timestamptz(6)
+  stock_issue_items                     stock_issue_items[]
+  users_stock_issues_approved_byTousers users?              @relation("stock_issues_approved_byTousers", fields: [approved_by], references: [id], onUpdate: NoAction)
+  users_stock_issues_created_byTousers  users?              @relation("stock_issues_created_byTousers", fields: [created_by], references: [id], onUpdate: NoAction)
+  warehouses                            warehouses          @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([issue_code], map: "idx_stock_issues_code")
+  @@index([issue_date], map: "idx_stock_issues_date")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model stock_receipt_items {
+  id                String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  receipt_id        String              @db.Uuid
+  product_id        String              @db.Uuid
+  quantity          Decimal             @db.Decimal(15, 3)
+  unit_price        Decimal             @db.Decimal(18, 2)
+  discount_percent  Decimal?            @default(0) @db.Decimal(5, 2)
+  discount_amount   Decimal?            @default(0) @db.Decimal(18, 2)
+  tax_percent       Decimal?            @default(0) @db.Decimal(5, 2)
+  tax_amount        Decimal?            @default(0) @db.Decimal(18, 2)
+  total_amount      Decimal             @db.Decimal(18, 2)
+  expiry_date       DateTime?           @db.Date
+  batch_number      String?             @db.VarChar(100)
+  notes             String?
+  created_at        DateTime?           @default(now()) @db.Timestamptz(6)
+  inventory_batches inventory_batches[]
+  products          products            @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stock_receipts    stock_receipts      @relation(fields: [receipt_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model stock_receipts {
+  id                                      String                @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  warehouse_id                            String                @db.Uuid
+  supplier_id                             String?               @db.Uuid
+  receipt_code                            String                @db.VarChar(100)
+  receipt_date                            DateTime              @db.Date
+  receipt_type                            String?               @default("purchase") @db.VarChar(50)
+  total_amount                            Decimal?              @default(0) @db.Decimal(18, 2)
+  discount_amount                         Decimal?              @default(0) @db.Decimal(18, 2)
+  tax_amount                              Decimal?              @default(0) @db.Decimal(18, 2)
+  shipping_fee                            Decimal?              @default(0) @db.Decimal(18, 2)
+  final_amount                            Decimal?              @default(0) @db.Decimal(18, 2)
+  paid_amount                             Decimal?              @default(0) @db.Decimal(18, 2)
+  debt_amount                             Decimal?              @default(0) @db.Decimal(18, 2)
+  payment_status                          String?               @default("unpaid") @db.VarChar(50)
+  notes                                   String?
+  invoice_number                          String?               @db.VarChar(100)
+  invoice_date                            DateTime?             @db.Date
+  created_by                              String?               @db.Uuid
+  approved_by                             String?               @db.Uuid
+  status                                  String?               @default("draft") @db.VarChar(50)
+  is_cost_recorded                        Boolean?              @default(false)
+  created_at                              DateTime?             @default(now()) @db.Timestamptz(6)
+  updated_at                              DateTime?             @default(now()) @db.Timestamptz(6)
+  stock_receipt_items                     stock_receipt_items[]
+  users_stock_receipts_approved_byTousers users?                @relation("stock_receipts_approved_byTousers", fields: [approved_by], references: [id], onUpdate: NoAction)
+  users_stock_receipts_created_byTousers  users?                @relation("stock_receipts_created_byTousers", fields: [created_by], references: [id], onUpdate: NoAction)
+  suppliers                               suppliers?            @relation(fields: [supplier_id], references: [id], onUpdate: NoAction)
+  warehouses                              warehouses            @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([receipt_code], map: "idx_stock_receipts_code")
+  @@index([receipt_date], map: "idx_stock_receipts_date")
+  @@index([supplier_id], map: "idx_stock_receipts_supplier")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model supplier_debts {
+  id               String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  supplier_id      String    @db.Uuid
+  reference_type   String    @db.VarChar(50)
+  reference_id     String    @db.Uuid
+  transaction_date DateTime  @db.Date
+  debt_amount      Decimal?  @default(0) @db.Decimal(18, 2)
+  payment_amount   Decimal?  @default(0) @db.Decimal(18, 2)
+  balance_before   Decimal?  @default(0) @db.Decimal(18, 2)
+  balance_after    Decimal?  @default(0) @db.Decimal(18, 2)
+  notes            String?
+  created_at       DateTime? @default(now()) @db.Timestamptz(6)
+  suppliers        suppliers @relation(fields: [supplier_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([transaction_date], map: "idx_supplier_debts_date")
+  @@index([supplier_id], map: "idx_supplier_debts_supplier")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model suppliers {
+  id             String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  code           String?          @db.VarChar(100)
+  name           String           @db.VarChar(255)
+  contact_person String?          @db.VarChar(255)
+  phone          String?          @db.VarChar(20)
+  email          String?          @db.VarChar(255)
+  address        String?
+  tax_code       String?          @db.VarChar(50)
+  bank_account   String?          @db.VarChar(100)
+  bank_name      String?          @db.VarChar(255)
+  notes          String?
+  total_debt     Decimal?         @default(0) @db.Decimal(18, 2)
+  is_active      Boolean?         @default(true)
+  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  stock_receipts stock_receipts[]
+  supplier_debts supplier_debts[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model transaction_categories {
+  id                           String                   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  parent_id                    String?                  @db.Uuid
+  name                         String                   @db.VarChar(255)
+  type                         String                   @db.VarChar(20)
+  code                         String?                  @db.VarChar(50)
+  description                  String?
+  is_system                    Boolean?                 @default(false)
+  is_active                    Boolean?                 @default(true)
+  sort_order                   Int?                     @default(0)
+  created_at                   DateTime?                @default(now()) @db.Timestamptz(6)
+  updated_at                   DateTime?                @default(now()) @db.Timestamptz(6)
+  monthly_bills                monthly_bills[]
+  transaction_categories       transaction_categories?  @relation("transaction_categoriesTotransaction_categories", fields: [parent_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  other_transaction_categories transaction_categories[] @relation("transaction_categoriesTotransaction_categories")
+  transactions                 transactions[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model transactions {
+  id                                    String                  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  cash_account_id                       String                  @db.Uuid
+  category_id                           String?                 @db.Uuid
+  transaction_code                      String                  @db.VarChar(100)
+  transaction_type                      String                  @db.VarChar(20)
+  transaction_date                      DateTime                @db.Date
+  amount                                Decimal                 @db.Decimal(18, 2)
+  contact_type                          String?                 @db.VarChar(50)
+  contact_id                            String?                 @db.Uuid
+  contact_name                          String?                 @db.VarChar(255)
+  reference_type                        String?                 @db.VarChar(50)
+  reference_id                          String?                 @db.Uuid
+  description                           String?
+  notes                                 String?
+  is_recorded                           Boolean?                @default(true)
+  status                                String?                 @default("confirmed") @db.VarChar(50)
+  created_by                            String?                 @db.Uuid
+  approved_by                           String?                 @db.Uuid
+  created_at                            DateTime?               @default(now()) @db.Timestamptz(6)
+  updated_at                            DateTime?               @default(now()) @db.Timestamptz(6)
+  monthly_bill_records                  monthly_bill_records[]
+  users_transactions_approved_byTousers users?                  @relation("transactions_approved_byTousers", fields: [approved_by], references: [id], onUpdate: NoAction)
+  cash_accounts                         cash_accounts           @relation(fields: [cash_account_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  transaction_categories                transaction_categories? @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+  users_transactions_created_byTousers  users?                  @relation("transactions_created_byTousers", fields: [created_by], references: [id], onUpdate: NoAction)
+
+  @@index([category_id], map: "idx_transactions_category")
+  @@index([transaction_code], map: "idx_transactions_code")
+  @@index([transaction_date], map: "idx_transactions_date")
+  @@index([transaction_type], map: "idx_transactions_type")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model units {
+  id           String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name         String     @db.VarChar(100)
+  abbreviation String?    @db.VarChar(20)
+  is_active    Boolean?   @default(true)
+  created_at   DateTime?  @default(now()) @db.Timestamptz(6)
+  products     products[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model users {
+  id                                                   String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email                                                String              @unique @db.VarChar(255)
+  password_hash                                        String              @db.VarChar(255)
+  full_name                                            String              @db.VarChar(255)
+  phone                                                String?             @db.VarChar(20)
+  role                                                 String?             @default("staff") @db.VarChar(50)
+  avatar_url                                           String?
+  is_active                                            Boolean?            @default(true)
+  created_at                                           DateTime?           @default(now()) @db.Timestamptz(6)
+  updated_at                                           DateTime?           @default(now()) @db.Timestamptz(6)
+  farm_members                                         farm_members[]
+  inventory_checks_inventory_checks_approved_byTousers inventory_checks[]  @relation("inventory_checks_approved_byTousers")
+  inventory_checks_inventory_checks_created_byTousers  inventory_checks[]  @relation("inventory_checks_created_byTousers")
+  inventory_history                                    inventory_history[]
+  stock_issues_stock_issues_approved_byTousers         stock_issues[]      @relation("stock_issues_approved_byTousers")
+  stock_issues_stock_issues_created_byTousers          stock_issues[]      @relation("stock_issues_created_byTousers")
+  stock_receipts_stock_receipts_approved_byTousers     stock_receipts[]    @relation("stock_receipts_approved_byTousers")
+  stock_receipts_stock_receipts_created_byTousers      stock_receipts[]    @relation("stock_receipts_created_byTousers")
+  transactions_transactions_approved_byTousers         transactions[]      @relation("transactions_approved_byTousers")
+  transactions_transactions_created_byTousers          transactions[]      @relation("transactions_created_byTousers")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model warehouse_categories {
+  id          String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String     @db.VarChar(255)
   description String?
-  is_active   Boolean
-  created_at  DateTime        @db.Timestamptz(6)
+  type        String     @db.VarChar(50)
+  is_active   Boolean?   @default(true)
+  created_at  DateTime?  @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?  @default(now()) @db.Timestamptz(6)
+  products    products[]
 }
 
 enum material_categories {
