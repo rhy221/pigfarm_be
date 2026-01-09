@@ -4,7 +4,6 @@
 
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 import {
   CreateTransactionCategoryDto,
   UpdateTransactionCategoryDto,
@@ -26,7 +25,8 @@ import {
   MonthlyBillQueryDto,
   TransactionType,
 } from './finance.dto';
-
+import {NamingUtils} from '../lib/utils';
+import { Prisma } from 'generated/prisma/client'
 @Injectable()
 export class FinanceService {
   constructor(private prisma: PrismaService) {}
@@ -44,10 +44,10 @@ export class FinanceService {
     const endOfDay = new Date(date);
     endOfDay.setHours(23, 59, 59, 999);
 
-    const count = await this.prisma.transaction.count({
+    const count = await this.prisma.transactions.count({
       where: {
-        transactionType: type,
-        transactionDate: {
+        transaction_type: type,
+        transaction_date: {
           gte: startOfDay,
           lt: endOfDay,
         },
@@ -59,91 +59,91 @@ export class FinanceService {
 
   // ============ TRANSACTION CATEGORY METHODS ============
   async createTransactionCategory(dto: CreateTransactionCategoryDto) {
-    return this.prisma.transactionCategory.create({ data: dto });
+    return this.prisma.transaction_categories.create({ data: NamingUtils.toSnakeCase(dto) });
   }
 
   async updateTransactionCategory(id: string, dto: UpdateTransactionCategoryDto) {
-    return this.prisma.transactionCategory.update({
+    return this.prisma.transaction_categories.update({
       where: { id },
-      data: dto,
+      data: NamingUtils.toSnakeCase(dto),
     });
   }
 
   async deleteTransactionCategory(id: string) {
-    const category = await this.prisma.transactionCategory.findUnique({ where: { id } });
+    const category = await this.prisma.transaction_categories.findUnique({ where: { id } });
     if (!category) throw new NotFoundException('Không tìm thấy danh mục');
-    if (category.isSystem) {
+    if (category.is_system) {
       throw new BadRequestException('Không thể xóa danh mục hệ thống');
     }
-    return this.prisma.transactionCategory.update({
+    return this.prisma.transaction_categories.update({
       where: { id },
-      data: { isActive: false },
+      data: { is_active: false },
     });
   }
 
   async getTransactionCategories(type?: TransactionType) {
-    const where: any = {
-      isActive: true,
+    const where: Prisma.transaction_categoriesWhereInput = {
+      is_active: true,
     };
     if (type) where.type = type;
 
-    return this.prisma.transactionCategory.findMany({
+    return this.prisma.transaction_categories.findMany({
       where,
-      include: { children: true },
-      orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+      include: { other_transaction_categories: true },
+      orderBy: [{ sort_order: 'asc' }, { name: 'asc' }],
     });
   }
 
   // ============ CASH ACCOUNT METHODS ============
   async createCashAccount(dto: CreateCashAccountDto) {
     if (dto.isDefault) {
-      await this.prisma.cashAccount.updateMany({
-        where: { isDefault: true },
-        data: { isDefault: false },
+      await this.prisma.cash_accounts.updateMany({
+        where: { is_default: true },
+        data: { is_default: false },
       });
     }
 
-    return this.prisma.cashAccount.create({
+    return this.prisma.cash_accounts.create({
       data: {
         ...dto,
-        currentBalance: dto.openingBalance || 0,
+        current_balance: dto.openingBalance || 0,
       },
     });
   }
 
   async updateCashAccount(id: string, dto: UpdateCashAccountDto) {
-    const account = await this.prisma.cashAccount.findUnique({ where: { id } });
+    const account = await this.prisma.cash_accounts.findUnique({ where: { id } });
     if (!account) throw new NotFoundException('Không tìm thấy tài khoản');
 
     if (dto.isDefault) {
-      await this.prisma.cashAccount.updateMany({
-        where: { isDefault: true },
-        data: { isDefault: false },
+      await this.prisma.cash_accounts.updateMany({
+        where: { is_default: true },
+        data: { is_default: false },
       });
     }
 
-    return this.prisma.cashAccount.update({
+    return this.prisma.cash_accounts.update({
       where: { id },
       data: dto,
     });
   }
 
   async deleteCashAccount(id: string) {
-    return this.prisma.cashAccount.update({
+    return this.prisma.cash_accounts.update({
       where: { id },
-      data: { isActive: false },
+      data: { is_active: false },
     });
   }
 
   async getCashAccounts() {
-    return this.prisma.cashAccount.findMany({
-      where: { isActive: true },
-      orderBy: [{ isDefault: 'desc' }, { name: 'asc' }],
+    return this.prisma.cash_accounts.findMany({
+      where: { is_active: true },
+      orderBy: [{ is_default: 'desc' }, { name: 'asc' }],
     });
   }
 
   async getCashAccountById(id: string) {
-    const account = await this.prisma.cashAccount.findUnique({ where: { id } });
+    const account = await this.prisma.cash_accounts.findUnique({ where: { id } });
     if (!account) throw new NotFoundException('Không tìm thấy tài khoản');
     return account;
   }
@@ -157,39 +157,39 @@ export class FinanceService {
     );
 
     return this.prisma.$transaction(async (tx) => {
-      const newTransaction = await tx.transaction.create({
+      const newTransaction = await tx.transactions.create({
         data: {
-          cashAccountId: dto.cashAccountId,
-          categoryId: dto.categoryId,
-          transactionCode,
-          transactionType: dto.transactionType,
-          transactionDate,
+          cash_account_id: dto.cashAccountId,
+          category_id: dto.categoryId,
+          transaction_code: transactionCode,
+          transaction_type: dto.transactionType,
+          transaction_date: transactionDate,
           amount: dto.amount,
-          contactType: dto.contactType,
-          contactId: dto.contactId,
-          contactName: dto.contactName,
-          referenceType: dto.referenceType,
-          referenceId: dto.referenceId,
+          contact_type: dto.contactType,
+          contact_id: dto.contactId,
+          contact_name: dto.contactName,
+          reference_type: dto.referenceType,
+          reference_id: dto.referenceId,
           description: dto.description,
           notes: dto.notes,
-          isRecorded: dto.isRecorded ?? true,
+          is_recorded: dto.isRecorded ?? true,
           status: 'confirmed',
-          createdById,
+          created_by: createdById,
         },
         include: {
-          category: true,
-          cashAccount: true,
+          transaction_categories: true,
+          cash_accounts: true,
         },
       });
 
-      if (newTransaction.isRecorded) {
+      if (newTransaction.is_recorded) {
         const balanceChange =
           dto.transactionType === TransactionType.INCOME ? dto.amount : -dto.amount;
 
-        await tx.cashAccount.update({
+        await tx.cash_accounts.update({
           where: { id: dto.cashAccountId },
           data: {
-            currentBalance: { increment: balanceChange },
+            current_balance: { increment: balanceChange },
           },
         });
       }
@@ -199,50 +199,50 @@ export class FinanceService {
   }
 
   async updateTransaction(id: string, dto: UpdateTransactionDto) {
-    const transaction = await this.prisma.transaction.findUnique({ where: { id } });
+    const transaction = await this.prisma.transactions.findUnique({ where: { id } });
     if (!transaction) throw new NotFoundException('Không tìm thấy giao dịch');
 
     return this.prisma.$transaction(async (tx) => {
-      if (transaction.isRecorded) {
+      if (transaction.is_recorded) {
         const oldBalanceChange =
-          transaction.transactionType === 'income'
+          transaction.transaction_type === 'income'
             ? -Number(transaction.amount)
             : Number(transaction.amount);
 
-        await tx.cashAccount.update({
-          where: { id: transaction.cashAccountId },
-          data: { currentBalance: { increment: oldBalanceChange } },
+        await tx.cash_accounts.update({
+          where: { id: transaction.cash_account_id },
+          data: { current_balance: { increment: oldBalanceChange } },
         });
       }
 
-      const updatedTransaction = await tx.transaction.update({
+      const updatedTransaction = await tx.transactions.update({
         where: { id },
         data: {
-          categoryId: dto.categoryId,
-          transactionDate: dto.transactionDate ? new Date(dto.transactionDate) : undefined,
+          category_id: dto.categoryId,
+          transaction_date: dto.transactionDate ? new Date(dto.transactionDate) : undefined,
           amount: dto.amount,
-          contactType: dto.contactType,
-          contactId: dto.contactId,
-          contactName: dto.contactName,
+          contact_type: dto.contactType,
+          contact_id: dto.contactId,
+          contact_name: dto.contactName,
           description: dto.description,
           notes: dto.notes,
-          isRecorded: dto.isRecorded,
+          is_recorded: dto.isRecorded,
         },
         include: {
-          category: true,
-          cashAccount: true,
+          transaction_categories: true,
+          cash_accounts: true,
         },
       });
 
-      const isRecorded = dto.isRecorded ?? updatedTransaction.isRecorded;
+      const isRecorded = dto.isRecorded ?? updatedTransaction.is_recorded;
       if (isRecorded) {
         const newAmount = dto.amount ?? Number(transaction.amount);
-        const type = dto.transactionType ?? transaction.transactionType;
+        const type = dto.transactionType ?? transaction.transaction_type;
         const newBalanceChange = type === 'income' ? newAmount : -newAmount;
 
-        await tx.cashAccount.update({
-          where: { id: updatedTransaction.cashAccountId },
-          data: { currentBalance: { increment: newBalanceChange } },
+        await tx.cash_accounts.update({
+          where: { id: updatedTransaction.cash_account_id },
+          data: { current_balance: { increment: newBalanceChange } },
         });
       }
 
@@ -251,23 +251,23 @@ export class FinanceService {
   }
 
   async deleteTransaction(id: string) {
-    const transaction = await this.prisma.transaction.findUnique({ where: { id } });
+    const transaction = await this.prisma.transactions.findUnique({ where: { id } });
     if (!transaction) throw new NotFoundException('Không tìm thấy giao dịch');
 
     return this.prisma.$transaction(async (tx) => {
-      if (transaction.isRecorded) {
+      if (transaction.is_recorded) {
         const balanceChange =
-          transaction.transactionType === 'income'
+          transaction.transaction_type === 'income'
             ? -Number(transaction.amount)
             : Number(transaction.amount);
 
-        await tx.cashAccount.update({
-          where: { id: transaction.cashAccountId },
-          data: { currentBalance: { increment: balanceChange } },
+        await tx.cash_accounts.update({
+          where: { id: transaction.cash_account_id },
+          data: { current_balance: { increment: balanceChange } },
         });
       }
 
-      return tx.transaction.update({
+      return tx.transactions.update({
         where: { id },
         data: { status: 'cancelled' },
       });
@@ -278,49 +278,49 @@ export class FinanceService {
     const { cashAccountId, categoryId, transactionType, fromDate, toDate, search, isRecorded, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
-    const where: any = { status: 'confirmed' };
-    if (cashAccountId) where.cashAccountId = cashAccountId;
-    if (categoryId) where.categoryId = categoryId;
-    if (transactionType) where.transactionType = transactionType;
-    if (isRecorded !== undefined) where.isRecorded = isRecorded;
+    const where: Prisma.transactionsWhereInput = { status: 'confirmed' };
+    if (cashAccountId) where.cash_account_id = cashAccountId;
+    if (categoryId) where.category_id = categoryId;
+    if (transactionType) where.transaction_type = transactionType;
+    if (isRecorded !== undefined) where.is_recorded = isRecorded;
     if (fromDate || toDate) {
-      where.transactionDate = {};
-      if (fromDate) where.transactionDate.gte = new Date(fromDate);
-      if (toDate) where.transactionDate.lte = new Date(toDate);
+      where.transaction_date = {};
+      if (fromDate) where.transaction_date.gte = new Date(fromDate);
+      if (toDate) where.transaction_date.lte = new Date(toDate);
     }
     if (search) {
       where.OR = [
-        { transactionCode: { contains: search, mode: 'insensitive' } },
+        { transaction_code: { contains: search, mode: 'insensitive' } },
         { description: { contains: search, mode: 'insensitive' } },
-        { contactName: { contains: search, mode: 'insensitive' } },
+        { contact_name: { contains: search, mode: 'insensitive' } },
       ];
     }
 
     const [data, total] = await Promise.all([
-      this.prisma.transaction.findMany({
+      this.prisma.transactions.findMany({
         where,
         include: {
-          category: true,
-          cashAccount: true,
-          createdBy: { select: { id: true, fullName: true } },
+          transaction_categories: true,
+          cash_accounts: true,
+          users_transactions_created_byTousers: { select: { id: true, full_name: true } },
         },
         skip,
         take: limit,
-        orderBy: [{ transactionDate: 'desc' }, { createdAt: 'desc' }],
+        orderBy: [{ transaction_date: 'desc' }, { created_at: 'desc' }],
       }),
-      this.prisma.transaction.count({ where }),
+      this.prisma.transactions.count({ where }),
     ]);
 
     return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   async getTransactionById(id: string) {
-    const transaction = await this.prisma.transaction.findUnique({
+    const transaction = await this.prisma.transactions.findUnique({
       where: { id },
       include: {
-        category: true,
-        cashAccount: true,
-        createdBy: { select: { id: true, fullName: true } },
+        transaction_categories: true,
+        cash_accounts: true,
+        users_transactions_created_byTousers: { select: { id: true, full_name: true } },
       },
     });
     if (!transaction) throw new NotFoundException('Không tìm thấy giao dịch');
@@ -329,12 +329,12 @@ export class FinanceService {
 
   // ============ SUPPLIER PAYMENT METHODS ============
   async createSupplierPayment(dto: CreateSupplierPaymentDto, createdById?: string) {
-    const supplier = await this.prisma.supplier.findUnique({ where: { id: dto.supplierId } });
+    const supplier = await this.prisma.suppliers.findUnique({ where: { id: dto.supplierId } });
     if (!supplier) throw new NotFoundException('Không tìm thấy nhà cung cấp');
 
     return this.prisma.$transaction(async (tx) => {
-      const category = await tx.transactionCategory.findFirst({
-        where: { code: 'CP007', isActive: true },
+      const category = await tx.transaction_categories.findFirst({
+        where: { code: 'CP007', is_active: true },
       });
 
       const paymentDate = new Date(dto.paymentDate);
@@ -343,49 +343,49 @@ export class FinanceService {
         paymentDate,
       );
 
-      const transaction = await tx.transaction.create({
+      const transaction = await tx.transactions.create({
         data: {
-          cashAccountId: dto.cashAccountId,
-          categoryId: category?.id,
-          transactionCode,
-          transactionType: TransactionType.EXPENSE,
-          transactionDate: paymentDate,
+          cash_account_id: dto.cashAccountId,
+          category_id: category?.id,
+          transaction_code: transactionCode,
+          transaction_type: TransactionType.EXPENSE,
+          transaction_date: paymentDate,
           amount: dto.amount,
-          contactType: 'supplier',
-          contactId: dto.supplierId,
-          contactName: supplier.name,
-          referenceType: 'other',
+          contact_type: 'supplier',
+          contact_id: dto.supplierId,
+          contact_name: supplier.name,
+          reference_type: 'other',
           description: dto.description || `Thanh toán công nợ NCC: ${supplier.name}`,
           notes: dto.notes,
-          isRecorded: true,
+          is_recorded: true,
           status: 'confirmed',
-          createdById,
+          created_by: createdById,
         },
       });
 
-      await tx.cashAccount.update({
+      await tx.cash_accounts.update({
         where: { id: dto.cashAccountId },
-        data: { currentBalance: { decrement: dto.amount } },
+        data: { current_balance: { decrement: dto.amount } },
       });
 
-      const balanceBefore = Number(supplier.totalDebt);
+      const balanceBefore = Number(supplier.total_debt);
       const balanceAfter = balanceBefore - dto.amount;
 
-      await tx.supplier.update({
+      await tx.suppliers.update({
         where: { id: dto.supplierId },
-        data: { totalDebt: Math.max(0, balanceAfter) },
+        data: { total_debt: Math.max(0, balanceAfter) },
       });
 
-      await tx.supplierDebt.create({
+      await tx.supplier_debts.create({
         data: {
-          supplierId: dto.supplierId,
-          referenceType: 'payment',
-          referenceId: transaction.id,
-          transactionDate: paymentDate,
-          debtAmount: 0,
-          paymentAmount: dto.amount,
-          balanceBefore,
-          balanceAfter: Math.max(0, balanceAfter),
+          supplier_id: dto.supplierId,
+          reference_type: 'payment',
+          reference_id: transaction.id,
+          transaction_date: paymentDate,
+          debt_amount: 0,
+          payment_amount: dto.amount,
+          balance_before: balanceBefore,
+          balance_after: Math.max(0, balanceAfter),
         },
       });
 
@@ -408,24 +408,24 @@ export class FinanceService {
     if (cashAccountId) where.cashAccountId = cashAccountId;
 
     const accounts = cashAccountId
-      ? [await this.prisma.cashAccount.findUnique({ where: { id: cashAccountId } })]
-      : await this.prisma.cashAccount.findMany({ where: { isActive: true } });
+      ? [await this.prisma.cash_accounts.findUnique({ where: { id: cashAccountId } })]
+      : await this.prisma.cash_accounts.findMany({ where: { is_active: true } });
 
     let openingBalance = 0;
     for (const account of accounts) {
       if (!account) continue;
-      const previousTransactions = await this.prisma.transaction.findMany({
+      const previousTransactions = await this.prisma.transactions.findMany({
         where: {
-          cashAccountId: account.id,
+          cash_account_id: account.id,
           status: 'confirmed',
-          isRecorded: true,
-          transactionDate: { lt: new Date(fromDate) },
+          is_recorded: true,
+          transaction_date: { lt: new Date(fromDate) },
         },
       });
 
-      let accountOpening = Number(account.openingBalance);
+      let accountOpening = Number(account.opening_balance);
       for (const t of previousTransactions) {
-        if (t.transactionType === 'income') {
+        if (t.transaction_type === 'income') {
           accountOpening += Number(t.amount);
         } else {
           accountOpening -= Number(t.amount);
@@ -434,10 +434,10 @@ export class FinanceService {
       openingBalance += accountOpening;
     }
 
-    const transactions = await this.prisma.transaction.findMany({
+    const transactions = await this.prisma.transactions.findMany({
       where,
-      include: { category: true, cashAccount: true },
-      orderBy: [{ transactionDate: 'asc' }, { createdAt: 'asc' }],
+      include: { transaction_categories: true, cash_accounts: true },
+      orderBy: [{ transaction_date: 'asc' }, { created_at: 'asc' }],
     });
 
     let totalIncome = 0;
@@ -445,7 +445,7 @@ export class FinanceService {
     let runningBalance = openingBalance;
 
     const transactionsWithBalance = transactions.map((t) => {
-      if (t.transactionType === 'income') {
+      if (t.transaction_type === 'income') {
         totalIncome += Number(t.amount);
         runningBalance += Number(t.amount);
       } else {
@@ -485,13 +485,13 @@ export class FinanceService {
       };
     }
 
-    const transactions = await this.prisma.transaction.findMany({
+    const transactions = await this.prisma.transactions.findMany({
       where: {
         status: 'confirmed',
-        isRecorded: true,
-        transactionDate: dateFilter,
+        is_recorded: true,
+        transaction_date: dateFilter,
       },
-      include: { category: true },
+      include: { transaction_categories: true },
     });
 
     const summary = {
@@ -506,15 +506,15 @@ export class FinanceService {
 
     for (const t of transactions) {
       const amount = Number(t.amount);
-      const categoryName = t.category?.name || 'Chưa phân loại';
-      const categoryId = t.categoryId || 'uncategorized';
-      const dateKey = t.transactionDate.toISOString().slice(0, 10);
+      const categoryName = t.transaction_categories?.name || 'Chưa phân loại';
+      const categoryId = t.category_id || 'uncategorized';
+      const dateKey = t.transaction_date.toISOString().slice(0, 10);
 
       if (!summary.dailySummary[dateKey]) {
         summary.dailySummary[dateKey] = { income: 0, expense: 0 };
       }
 
-      if (t.transactionType === 'income') {
+      if (t.transaction_type === 'income') {
         summary.totalIncome += amount;
         summary.dailySummary[dateKey].income += amount;
         if (!summary.incomeByCategory[categoryId]) {
@@ -538,15 +538,15 @@ export class FinanceService {
   }
 
   async getCashAccountBalances() {
-    const accounts = await this.prisma.cashAccount.findMany({
-      where: { isActive: true },
+    const accounts = await this.prisma.cash_accounts.findMany({
+      where: { is_active: true },
     });
 
     let totalBalance = 0;
     const accountBalances = accounts.map((a) => {
-      const balance = Number(a.currentBalance);
+      const balance = Number(a.current_balance);
       totalBalance += balance;
-      return { id: a.id, name: a.name, type: a.accountType, balance };
+      return { id: a.id, name: a.name, type: a.account_type, balance };
     });
 
     return { totalBalance, accounts: accountBalances };
@@ -554,42 +554,42 @@ export class FinanceService {
 
   // ============ MONTHLY BILL METHODS ============
   async createMonthlyBill(dto: CreateMonthlyBillDto) {
-    return this.prisma.monthlyBill.create({ data: dto });
+    return this.prisma.monthly_bills.create({ data: dto });
   }
 
   async updateMonthlyBill(id: string, dto: UpdateMonthlyBillDto) {
-    return this.prisma.monthlyBill.update({ where: { id }, data: dto });
+    return this.prisma.monthly_bills.update({ where: { id }, data: dto });
   }
 
   async deleteMonthlyBill(id: string) {
-    return this.prisma.monthlyBill.update({ where: { id }, data: { isActive: false } });
+    return this.prisma.monthly_bills.update({ where: { id }, data: { is_active: false } });
   }
 
   async getMonthlyBills() {
-    return this.prisma.monthlyBill.findMany({
-      where: { isActive: true },
-      include: { category: true },
+    return this.prisma.monthly_bills.findMany({
+      where: { is_active: true },
+      include: { transaction_categories: true },
       orderBy: { name: 'asc' },
     });
   }
 
   async createMonthlyBillRecord(dto: CreateMonthlyBillRecordDto) {
-    const bill = await this.prisma.monthlyBill.findUnique({ where: { id: dto.billId } });
+    const bill = await this.prisma.monthly_bills.findUnique({ where: { id: dto.billId } });
     if (!bill) throw new NotFoundException('Không tìm thấy hóa đơn tháng');
 
     const dueDate = dto.dueDate
       ? new Date(dto.dueDate)
-      : bill.dueDay
-      ? new Date(dto.periodYear, dto.periodMonth - 1, bill.dueDay)
+      : bill.due_day
+      ? new Date(dto.periodYear, dto.periodMonth - 1, bill.due_day)
       : null;
 
-    return this.prisma.monthlyBillRecord.create({
+    return this.prisma.monthly_bill_records.create({
       data: {
-        billId: dto.billId,
-        periodMonth: dto.periodMonth,
-        periodYear: dto.periodYear,
+        bill_id: dto.billId,
+        period_month: dto.periodMonth,
+        period_year: dto.periodYear,
         amount: dto.amount,
-        dueDate,
+        due_date: dueDate,
         notes: dto.notes,
         status: 'pending',
       },
@@ -597,9 +597,9 @@ export class FinanceService {
   }
 
   async payMonthlyBill(dto: PayMonthlyBillDto, createdById?: string) {
-    const record = await this.prisma.monthlyBillRecord.findUnique({
+    const record = await this.prisma.monthly_bill_records.findUnique({
       where: { id: dto.recordId },
-      include: { bill: { include: { category: true } } },
+      include: { monthly_bills: { include: { transaction_categories: true } } },
     });
 
     if (!record) throw new NotFoundException('Không tìm thấy bản ghi hóa đơn');
@@ -614,32 +614,32 @@ export class FinanceService {
         paidDate,
       );
 
-      const transaction = await tx.transaction.create({
+      const transaction = await tx.transactions.create({
         data: {
-          cashAccountId: dto.cashAccountId,
-          categoryId: record.bill.categoryId,
-          transactionCode,
-          transactionType: TransactionType.EXPENSE,
-          transactionDate: paidDate,
+          cash_account_id: dto.cashAccountId,
+          category_id: record.monthly_bills.category_id,
+          transaction_code: transactionCode,
+          transaction_type: TransactionType.EXPENSE,
+          transaction_date: paidDate,
           amount: Number(record.amount),
-          referenceType: 'invoice',
-          referenceId: record.id,
-          description: `Thanh toán ${record.bill.name} - ${record.periodMonth}/${record.periodYear}`,
+          reference_type: 'invoice',
+          reference_id: record.id,
+          description: `Thanh toán ${record.monthly_bills.name} - ${record.period_month}/${record.period_year}`,
           notes: dto.notes,
-          isRecorded: true,
+          is_recorded: true,
           status: 'confirmed',
-          createdById,
+          created_by: createdById,
         },
       });
 
-      await tx.cashAccount.update({
+      await tx.cash_accounts.update({
         where: { id: dto.cashAccountId },
-        data: { currentBalance: { decrement: Number(record.amount) } },
+        data: { current_balance: { decrement: Number(record.amount) } },
       });
 
-      await tx.monthlyBillRecord.update({
+      await tx.monthly_bill_records.update({
         where: { id: dto.recordId },
-        data: { status: 'paid', paidDate, transactionId: transaction.id },
+        data: { status: 'paid', paid_date: paidDate, transaction_id: transaction.id },
       });
 
       return transaction;
@@ -648,20 +648,20 @@ export class FinanceService {
 
   // Thanh toán trực tiếp từ bill - tự động tạo record nếu chưa có
   async payBillDirect(dto: PayBillDirectDto, createdById?: string) {
-    const bill = await this.prisma.monthlyBill.findUnique({
+    const bill = await this.prisma.monthly_bills.findUnique({
       where: { id: dto.billId },
-      include: { category: true },
+      include: { transaction_categories: true },
     });
 
     if (!bill) throw new NotFoundException('Không tìm thấy hóa đơn');
 
     return this.prisma.$transaction(async (tx) => {
       // Tìm hoặc tạo record cho tháng/năm
-      let record = await tx.monthlyBillRecord.findFirst({
+      let record = await tx.monthly_bill_records.findFirst({
         where: {
-          billId: dto.billId,
-          periodMonth: dto.periodMonth,
-          periodYear: dto.periodYear,
+          bill_id: dto.billId,
+          period_month: dto.periodMonth,
+          period_year: dto.periodYear,
         },
       });
 
@@ -671,11 +671,11 @@ export class FinanceService {
 
       if (!record) {
         // Tạo record mới
-        record = await tx.monthlyBillRecord.create({
+        record = await tx.monthly_bill_records.create({
           data: {
-            billId: dto.billId,
-            periodMonth: dto.periodMonth,
-            periodYear: dto.periodYear,
+            bill_id: dto.billId,
+            period_month: dto.periodMonth,
+            period_year: dto.periodYear,
             amount: dto.amount,
             status: 'pending',
           },
@@ -689,37 +689,37 @@ export class FinanceService {
         paidDate,
       );
 
-      const transaction = await tx.transaction.create({
+      const transaction = await tx.transactions.create({
         data: {
-          cashAccountId: dto.cashAccountId,
-          categoryId: bill.categoryId,
-          transactionCode,
-          transactionType: TransactionType.EXPENSE,
-          transactionDate: paidDate,
+          cash_account_id: dto.cashAccountId,
+          category_id: bill.category_id,
+          transaction_code: transactionCode,
+          transaction_type: TransactionType.EXPENSE,
+          transaction_date: paidDate,
           amount: dto.amount,
-          referenceType: 'invoice',
-          referenceId: record.id,
+          reference_type: 'invoice',
+          reference_id: record.id,
           description: `Thanh toán ${bill.name} - ${dto.periodMonth}/${dto.periodYear}`,
           notes: dto.notes,
-          isRecorded: true,
+          is_recorded: true,
           status: 'confirmed',
-          createdById,
+          created_by: createdById,
         },
       });
 
       // Cập nhật số dư tài khoản
-      await tx.cashAccount.update({
+      await tx.cash_accounts.update({
         where: { id: dto.cashAccountId },
-        data: { currentBalance: { decrement: dto.amount } },
+        data: { current_balance: { decrement: dto.amount } },
       });
 
       // Cập nhật record
-      await tx.monthlyBillRecord.update({
+      await tx.monthly_bill_records.update({
         where: { id: record.id },
         data: { 
           status: 'paid', 
-          paidDate, 
-          transactionId: transaction.id,
+          paid_date: paidDate, 
+          transaction_id: transaction.id,
           amount: dto.amount,
         },
       });
@@ -734,24 +734,24 @@ export class FinanceService {
     if (query.year) where.periodYear = query.year;
     if (query.status) where.status = query.status;
 
-    return this.prisma.monthlyBillRecord.findMany({
+    return this.prisma.monthly_bill_records.findMany({
       where,
-      include: { bill: { include: { category: true } }, transaction: true },
-      orderBy: [{ periodYear: 'desc' }, { periodMonth: 'desc' }],
+      include: { monthly_bills: { include: { transaction_categories: true } }, transactions: true },
+      orderBy: [{ period_year: 'desc' }, { period_month: 'desc' }],
     });
   }
 
   // ============ CUSTOMER METHODS ============
   async createCustomer(dto: CreateCustomerDto) {
     if (!dto.code) {
-      const count = await this.prisma.customer.count();
+      const count = await this.prisma.customers.count();
       dto.code = `KH${String(count + 1).padStart(4, '0')}`;
     }
-    return this.prisma.customer.create({ data: dto });
+    return this.prisma.customers.create({ data: dto });
   }
 
   async updateCustomer(id: string, dto: UpdateCustomerDto) {
-    return this.prisma.customer.update({ where: { id }, data: dto });
+    return this.prisma.customers.update({ where: { id }, data: dto });
   }
 
   async getCustomers(search?: string) {
@@ -763,7 +763,7 @@ export class FinanceService {
         { phone: { contains: search } },
       ];
     }
-    return this.prisma.customer.findMany({ where, orderBy: { name: 'asc' } });
+    return this.prisma.customers.findMany({ where, orderBy: { name: 'asc' } });
   }
 
   // ============ DASHBOARD METHODS ============
@@ -774,37 +774,37 @@ export class FinanceService {
 
     const [cashBalances, monthlyTransactions, supplierDebt, overdueCount] = await Promise.all([
       this.getCashAccountBalances(),
-      this.prisma.transaction.groupBy({
-        by: ['transactionType'],
+      this.prisma.transactions.groupBy({
+        by: ['transaction_type'],
         where: {
           status: 'confirmed',
-          isRecorded: true,
-          transactionDate: { gte: startOfMonth, lte: endOfMonth },
+          is_recorded: true,
+          transaction_date: { gte: startOfMonth, lte: endOfMonth },
         },
         _sum: { amount: true },
       }),
-      this.prisma.supplier.aggregate({
-        where: {  isActive: true },
-        _sum: { totalDebt: true },
+      this.prisma.suppliers.aggregate({
+        where: {  is_active: true },
+        _sum: { total_debt: true },
       }),
-      this.prisma.monthlyBillRecord.count({
+      this.prisma.monthly_bill_records.count({
         where: {
-          bill: { isActive: true },
+          monthly_bills: { is_active: true },
           status: 'pending',
-          dueDate: { lt: now },
+          due_date: { lt: now },
         },
       }),
     ]);
 
-    const monthlyIncome = monthlyTransactions.find((t) => t.transactionType === 'income');
-    const monthlyExpense = monthlyTransactions.find((t) => t.transactionType === 'expense');
+    const monthlyIncome = monthlyTransactions.find((t) => t.transaction_type === 'income');
+    const monthlyExpense = monthlyTransactions.find((t) => t.transaction_type === 'expense');
 
     return {
       cashBalance: cashBalances.totalBalance,
       accounts: cashBalances.accounts,
       monthlyIncome: monthlyIncome?._sum.amount ? Number(monthlyIncome._sum.amount) : 0,
       monthlyExpense: monthlyExpense?._sum.amount ? Number(monthlyExpense._sum.amount) : 0,
-      totalSupplierDebt: supplierDebt._sum.totalDebt ? Number(supplierDebt._sum.totalDebt) : 0,
+      totalSupplierDebt: supplierDebt._sum.total_debt ? Number(supplierDebt._sum.total_debt) : 0,
       overdueCount,
     };
   }

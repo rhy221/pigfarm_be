@@ -1,10 +1,9 @@
 // src/warehouse/warehouse.service.ts
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class WarehouseService {
-  constructor(private prisma: PrismaService) {}
+  constructor() {}
 
   // ============ QUẢN LÝ KHO ============
 
