@@ -206,7 +206,7 @@ export class InventoryService {
   }
 
   async getProducts(categoryId?: string, search?: string) {
-    const where: Prisma.ProductWhereInput = {
+    const where: any = {
       
       isActive: true,
     };
@@ -254,7 +254,7 @@ export class InventoryService {
   }
 
   async getSuppliers( search?: string) {
-    const where: Prisma.SupplierWhereInput = { isActive: true };
+    const where: any = { isActive: true };
     if (search) {
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },
@@ -290,7 +290,7 @@ export class InventoryService {
     const {warehouseId, categoryId, search, stockStatus, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.InventoryWhereInput = {};
+    const where: any = {};
     if (warehouseId) where.warehouseId = warehouseId;
     if (categoryId) where.product = { categoryId };
     if (search) {
@@ -669,7 +669,7 @@ export class InventoryService {
     const { warehouseId, supplierId, fromDate, toDate, status, paymentStatus, search, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.StockReceiptWhereInput = {};
+    const where: any = {};
     if (warehouseId) where.warehouseId = warehouseId;
     if (supplierId) where.supplierId = supplierId;
     if (status) where.status = status;
@@ -726,7 +726,7 @@ export class InventoryService {
     const issueCode = await this.generateDocumentCode('PX', issueDate);
 
     // Validate inventory and get unit costs
-    const itemsData = [];
+    const itemsData: any = [];
     let totalAmount = 0;
 
     for (const item of dto.items) {
@@ -870,7 +870,7 @@ export class InventoryService {
     const { warehouseId, fromDate, toDate, status, issueType, search, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.StockIssueWhereInput = {};
+    const where: any = {};
     if (warehouseId) where.warehouseId = warehouseId;
     if (status) where.status = status;
     if (issueType) where.issueType = issueType;
@@ -922,7 +922,7 @@ export class InventoryService {
     const { warehouseId, productId, fromDate, toDate, transactionType, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.InventoryHistoryWhereInput = {};
+    const where: any = {};
   if (warehouseId) where.warehouseId = warehouseId;
     if (productId) where.productId = productId;
     if (transactionType) where.transactionType = transactionType;
@@ -955,7 +955,7 @@ export class InventoryService {
     const checkDate = new Date(dto.checkDate);
     const checkCode = await this.generateDocumentCode( 'KK', checkDate);
 
-    const itemsData = [];
+    const itemsData: any = [];
     for (const item of dto.items) {
       const inventory = await this.prisma.inventory.findUnique({
         where: {

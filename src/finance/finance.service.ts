@@ -82,7 +82,7 @@ export class FinanceService {
   }
 
   async getTransactionCategories(type?: TransactionType) {
-    const where: Prisma.TransactionCategoryWhereInput = {
+    const where: any = {
       isActive: true,
     };
     if (type) where.type = type;
@@ -278,7 +278,7 @@ export class FinanceService {
     const { cashAccountId, categoryId, transactionType, fromDate, toDate, search, isRecorded, page = 1, limit = 20 } = query;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.TransactionWhereInput = { status: 'confirmed' };
+    const where: any = { status: 'confirmed' };
     if (cashAccountId) where.cashAccountId = cashAccountId;
     if (categoryId) where.categoryId = categoryId;
     if (transactionType) where.transactionType = transactionType;
@@ -397,7 +397,7 @@ export class FinanceService {
   async getCashBookReport(dto: CashBookReportDto) {
     const { cashAccountId, fromDate, toDate } = dto;
 
-    const where: Prisma.TransactionWhereInput = {
+    const where: any = {
       status: 'confirmed',
       isRecorded: true,
       transactionDate: {
@@ -729,7 +729,7 @@ export class FinanceService {
   }
 
   async getMonthlyBillRecords(query: MonthlyBillQueryDto) {
-    const where: Prisma.MonthlyBillRecordWhereInput = {};
+    const where: any = {};
     if (query.month) where.periodMonth = query.month;
     if (query.year) where.periodYear = query.year;
     if (query.status) where.status = query.status;
@@ -755,7 +755,7 @@ export class FinanceService {
   }
 
   async getCustomers(search?: string) {
-    const where: Prisma.CustomerWhereInput = { isActive: true };
+    const where: any = { isActive: true };
     if (search) {
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },
