@@ -105,7 +105,7 @@ export class FinanceService {
 
     return this.prisma.cash_accounts.create({
       data: {
-        ...dto,
+        ...NamingUtils.toSnakeCase(dto),
         current_balance: dto.openingBalance || 0,
       },
     });
