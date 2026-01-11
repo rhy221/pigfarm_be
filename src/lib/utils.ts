@@ -11,12 +11,14 @@ export class NamingUtils {
     return str.replace(/(_\w)/g, (m) => m[1].toUpperCase());
   }
 
-  private static isObject(item: any): boolean {
+ private static isObject(item: any): boolean {
     return (
-      item &&
+      item !== null &&
       typeof item === 'object' &&
       !Array.isArray(item) &&
-      !(item instanceof Date) // Không đệ quy vào đối tượng ngày tháng
+      !(item instanceof Date) &&
+      // Kiểm tra để không đệ quy vào các class instance như Decimal của Prisma
+      (item.constructor === Object || Object.getPrototypeOf(item) === null)
     );
   }
 
