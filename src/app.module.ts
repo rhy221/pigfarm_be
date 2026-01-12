@@ -12,6 +12,7 @@ import { FacilityModule } from './facility/facility.module';
 import { WorkModule } from './work/work.module';
 import { ReportModule } from './report/report.module';
 import { ConfigurationModule } from './configuration/configuration.module';
+import { WarehouseModule } from './warehouse/warehouse.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ConfigurationModule } from './configuration/configuration.module';
     WorkModule,
     ReportModule,
     ConfigurationModule,
+    WarehouseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
