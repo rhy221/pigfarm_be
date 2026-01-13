@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional
-from langchain.memory import ConversationBufferWindowMemory
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.chat_history import InMemoryChatMessageHistory
+from langchain_core.messages import HumanMessage, AIMessage, BaseMessage
 import threading
 
 from app.config import get_settings
@@ -16,18 +16,14 @@ class SessionStore:
         self._sessions: dict[str, dict] = {}
         self._lock = threading.Lock()
     
-    def get_or_create_memory(self, session_id: str) -> ConversationBufferWindowMemory:
+    def get_or_create_memory(self, session_id: str) -> InMemoryChatMessageHistory:
         """Get existing memory or create new one for session"""
         with self._lock:
             self._cleanup_expired()
             
             if session_id not in self._sessions:
                 self._sessions[session_id] = {
-                    "memory": ConversationBufferWindowMemory(
-                        k=10,  # Keep last 10 exchanges
-                        return_messages=True,
-                        memory_key="chat_history"
-                    ),
+                    "memory": InMemoryChatMessageHistory(),
                     "last_access": datetime.now()
                 }
             else:
@@ -38,13 +34,17 @@ class SessionStore:
     def add_message(self, session_id: str, human_message: str, ai_message: str):
         """Add a human-AI message pair to session memory"""
         memory = self.get_or_create_memory(session_id)
-        memory.chat_memory.add_user_message(human_message)
-        memory.chat_memory.add_ai_message(ai_message)
-    
+        memory.add_user_message(human_message)
+        memory.add_ai_message(ai_message)
+        
+        # Implement Window logic manually (keep last 20 messages = 10 exchanges)
+        if len(memory.messages) > 20:
+             memory.messages = memory.messages[-20:]
+
     def get_history(self, session_id: str) -> list[dict]:
         """Get chat history for a session"""
         memory = self.get_or_create_memory(session_id)
-        messages = memory.chat_memory.messages
+        messages = memory.messages
         
         history = []
         for msg in messages:

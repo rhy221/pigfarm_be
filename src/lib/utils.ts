@@ -1,17 +1,16 @@
 export class NamingUtils {
   static camelToSnake(str: string): string {
     // Thêm xử lý để không bị gạch dưới ở đầu chuỗi nếu là PascalCase
-    return str
-      .replace(/([A-Z])/g, (letter, index) => {
-        return index === 0 ? letter.toLowerCase() : `_${letter.toLowerCase()}`;
-      });
+    return str.replace(/([A-Z])/g, (letter, index) => {
+      return index === 0 ? letter.toLowerCase() : `_${letter.toLowerCase()}`;
+    });
   }
 
   static snakeToCamel(str: string): string {
     return str.replace(/(_\w)/g, (m) => m[1].toUpperCase());
   }
 
- private static isObject(item: any): boolean {
+  private static isObject(item: any): boolean {
     return (
       item !== null &&
       typeof item === 'object' &&

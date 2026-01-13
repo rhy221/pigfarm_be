@@ -18,7 +18,8 @@ class QueryTransformer:
         self.llm = ChatGoogleGenerativeAI(
             model=settings.gemini_model,
             google_api_key=settings.google_api_key,
-            temperature=0.3
+            temperature=0.3,
+            streaming=False  # IMPORTANT: Disable streaming to avoid polluting Agent's event stream
         )
         
         # Query rewriting prompt
@@ -81,15 +82,22 @@ Các bệnh phổ biến gây sốt ở heo thịt
         """
         Full query transformation pipeline:
         1. Rewrite the query
-        2. Generate multiple variations
+        2. Skip Multi-query (Disabled)
         """
         rewritten = await self.rewrite_query(query)
-        multi_queries = await self.generate_multi_queries(rewritten)
+        print(f"\n[RAG] Query Rewrite: '{query}' -> '{rewritten}'")
+        # multi_queries = await self.generate_multi_queries(rewritten) # Disabled
+        
+        # Variations now only include original and rewritten query
+        # This reduces LLM calls by 1 (only 1 call for rewrite)
+        variations = [query]
+        if rewritten != query:
+            variations.append(rewritten)
         
         return {
             "original": query,
             "rewritten": rewritten,
-            "variations": multi_queries
+            "variations": variations
         }
 
 

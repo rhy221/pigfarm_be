@@ -2,7 +2,18 @@
 // INVENTORY MODULE - DTOs
 // =====================================================
 
-import { IsString, IsOptional, IsNumber, IsUUID, IsBoolean, IsDateString, IsArray, ValidateNested, IsEnum, Min } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsNumber,
+  IsUUID,
+  IsBoolean,
+  IsDateString,
+  IsArray,
+  ValidateNested,
+  IsEnum,
+  Min,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 
@@ -50,7 +61,6 @@ export enum PaymentStatus {
 
 // ============ WAREHOUSE DTOs ============
 export class CreateWarehouseDto {
-
   @ApiProperty({ description: 'Tên kho' })
   @IsString()
   name: string;
@@ -79,7 +89,6 @@ export class UpdateWarehouseDto extends PartialType(CreateWarehouseDto) {}
 
 // ============ WAREHOUSE CATEGORY DTOs ============
 export class CreateWarehouseCategoryDto {
-
   @ApiProperty()
   @IsString()
   name: string;
@@ -94,11 +103,12 @@ export class CreateWarehouseCategoryDto {
   type: CategoryType;
 }
 
-export class UpdateWarehouseCategoryDto extends PartialType(CreateWarehouseCategoryDto) {}
+export class UpdateWarehouseCategoryDto extends PartialType(
+  CreateWarehouseCategoryDto,
+) {}
 
 // ============ UNIT DTOs ============
 export class CreateUnitDto {
-
   @ApiProperty()
   @IsString()
   name: string;
@@ -113,7 +123,6 @@ export class UpdateUnitDto extends PartialType(CreateUnitDto) {}
 
 // ============ PRODUCT DTOs ============
 export class CreateProductDto {
-
   @ApiPropertyOptional()
   @IsUUID()
   @IsOptional()
@@ -165,7 +174,6 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {}
 
 // ============ SUPPLIER DTOs ============
 export class CreateSupplierDto {
-
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
@@ -271,7 +279,6 @@ export class StockReceiptItemDto {
 }
 
 export class CreateStockReceiptDto {
-
   @ApiProperty()
   @IsUUID()
   warehouseId: string;
@@ -359,7 +366,6 @@ export class StockIssueItemDto {
 }
 
 export class CreateStockIssueDto {
-
   @ApiProperty()
   @IsUUID()
   warehouseId: string;
@@ -415,7 +421,6 @@ export class InventoryCheckItemDto {
 }
 
 export class CreateInventoryCheckDto {
-
   @ApiProperty()
   @IsUUID()
   warehouseId: string;
@@ -438,7 +443,6 @@ export class CreateInventoryCheckDto {
 
 // ============ QUERY DTOs ============
 export class InventoryQueryDto {
-
   @ApiPropertyOptional()
   @IsUUID()
   @IsOptional()
@@ -473,7 +477,6 @@ export class InventoryQueryDto {
 }
 
 export class StockReceiptQueryDto {
-
   @ApiPropertyOptional()
   @IsUUID()
   @IsOptional()
@@ -523,7 +526,6 @@ export class StockReceiptQueryDto {
 }
 
 export class StockIssueQueryDto {
-
   @ApiPropertyOptional()
   @IsUUID()
   @IsOptional()
@@ -568,8 +570,6 @@ export class StockIssueQueryDto {
 }
 
 export class InventoryHistoryQueryDto {
-  
-
   @ApiPropertyOptional()
   @IsUUID()
   @IsOptional()
@@ -627,8 +627,6 @@ export enum ExpiryStatus {
 
 // ============ EXPIRY ALERT DTOs ============
 export class ExpiryAlertQueryDto {
- 
-
   @ApiPropertyOptional({ enum: ExpiryStatus })
   @IsEnum(ExpiryStatus)
   @IsOptional()

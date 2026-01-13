@@ -4,6 +4,6 @@ import { FacilityService } from './facility.service';
 
 @Module({
   controllers: [FacilityController],
-  providers: [FacilityService]
+  providers: [FacilityService],
 })
 export class FacilityModule {}

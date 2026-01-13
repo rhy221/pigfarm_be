@@ -54,7 +54,10 @@ export class FinanceController {
 
   @Put('categories/:id')
   @ApiOperation({ summary: 'Cập nhật danh mục thu chi' })
-  async updateCategory(@Param('id') id: string, @Body() dto: UpdateTransactionCategoryDto) {
+  async updateCategory(
+    @Param('id') id: string,
+    @Body() dto: UpdateTransactionCategoryDto,
+  ) {
     return this.financeService.updateTransactionCategory(id, dto);
   }
 
@@ -67,22 +70,25 @@ export class FinanceController {
 
   @Get('categories')
   @ApiOperation({ summary: 'Lấy danh sách danh mục thu chi' })
-  async getCategories(
-    @Query('type') type?: TransactionType,
-  ) {
-    return this.financeService.getTransactionCategories( type);
+  async getCategories(@Query('type') type?: TransactionType) {
+    return this.financeService.getTransactionCategories(type);
   }
 
   // ============ CASH ACCOUNT ENDPOINTS ============
   @Post('accounts')
   @ApiOperation({ summary: 'Tạo tài khoản quỹ' })
   async createCashAccount(@Body() dto: CreateCashAccountDto) {
-    return NamingUtils.toCamelCase(await this.financeService.createCashAccount(dto));
+    return NamingUtils.toCamelCase(
+      await this.financeService.createCashAccount(dto),
+    );
   }
 
   @Put('accounts/:id')
   @ApiOperation({ summary: 'Cập nhật tài khoản quỹ' })
-  async updateCashAccount(@Param('id') id: string, @Body() dto: UpdateCashAccountDto) {
+  async updateCashAccount(
+    @Param('id') id: string,
+    @Body() dto: UpdateCashAccountDto,
+  ) {
     return this.financeService.updateCashAccount(id, dto);
   }
 
@@ -114,13 +120,19 @@ export class FinanceController {
   // ============ TRANSACTION ENDPOINTS ============
   @Post('transactions')
   @ApiOperation({ summary: 'Tạo phiếu thu/chi' })
-  async createTransaction(@Body() dto: CreateTransactionDto, @Request() req: any) {
+  async createTransaction(
+    @Body() dto: CreateTransactionDto,
+    @Request() req: any,
+  ) {
     return this.financeService.createTransaction(dto, req.user?.id);
   }
 
   @Put('transactions/:id')
   @ApiOperation({ summary: 'Cập nhật phiếu thu/chi' })
-  async updateTransaction(@Param('id') id: string, @Body() dto: UpdateTransactionDto) {
+  async updateTransaction(
+    @Param('id') id: string,
+    @Body() dto: UpdateTransactionDto,
+  ) {
     return this.financeService.updateTransaction(id, dto);
   }
 
@@ -146,7 +158,10 @@ export class FinanceController {
   // ============ SUPPLIER PAYMENT ENDPOINTS ============
   @Post('supplier-payments')
   @ApiOperation({ summary: 'Thanh toán công nợ nhà cung cấp' })
-  async createSupplierPayment(@Body() dto: CreateSupplierPaymentDto, @Request() req: any) {
+  async createSupplierPayment(
+    @Body() dto: CreateSupplierPaymentDto,
+    @Request() req: any,
+  ) {
     return this.financeService.createSupplierPayment(dto, req.user?.id);
   }
 
@@ -178,7 +193,10 @@ export class FinanceController {
 
   @Put('monthly-bills/:id')
   @ApiOperation({ summary: 'Cập nhật hóa đơn tháng' })
-  async updateMonthlyBill(@Param('id') id: string, @Body() dto: UpdateMonthlyBillDto) {
+  async updateMonthlyBill(
+    @Param('id') id: string,
+    @Body() dto: UpdateMonthlyBillDto,
+  ) {
     return this.financeService.updateMonthlyBill(id, dto);
   }
 
@@ -208,7 +226,9 @@ export class FinanceController {
   }
 
   @Post('monthly-bills/pay-direct')
-  @ApiOperation({ summary: 'Thanh toán trực tiếp hóa đơn (tự động tạo record)' })
+  @ApiOperation({
+    summary: 'Thanh toán trực tiếp hóa đơn (tự động tạo record)',
+  })
   async payBillDirect(@Body() dto: PayBillDirectDto, @Request() req: any) {
     return this.financeService.payBillDirect(dto, req.user?.id);
   }
@@ -228,13 +248,16 @@ export class FinanceController {
 
   @Put('customers/:id')
   @ApiOperation({ summary: 'Cập nhật khách hàng' })
-  async updateCustomer(@Param('id') id: string, @Body() dto: UpdateCustomerDto) {
+  async updateCustomer(
+    @Param('id') id: string,
+    @Body() dto: UpdateCustomerDto,
+  ) {
     return this.financeService.updateCustomer(id, dto);
   }
 
   @Get('customers')
   @ApiOperation({ summary: 'Lấy danh sách khách hàng' })
   async getCustomers(@Query('search') search?: string) {
-    return this.financeService.getCustomers( search);
+    return this.financeService.getCustomers(search);
   }
 }

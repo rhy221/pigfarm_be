@@ -16,8 +16,8 @@ class Settings(BaseSettings):
     cohere_api_key: str
     
     # AI Settings
-    gemini_model: str = "gemini-2.5-flash"
-    gemini_embedding_model: str = "models/gemini-embedding-001"
+    gemini_model: str
+    gemini_embedding_model: str
     
     # Server
     host: str = "0.0.0.0"

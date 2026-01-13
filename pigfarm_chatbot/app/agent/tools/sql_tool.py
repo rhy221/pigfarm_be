@@ -48,8 +48,12 @@ async def query_farm_database(sql_query: str) -> str:
             return summary
             
     except ValueError as e:
+        print(f"⚠️ [SQL Warning]: {str(e)}")
         return f"Lỗi: {str(e)}. Chỉ cho phép câu lệnh SELECT."
     except Exception as e:
+        import traceback
+        print(f"\n❌ [SQL Tool Error]: {str(e)}")
+        print(traceback.format_exc())
         return f"Lỗi khi thực thi truy vấn: {str(e)}"
 
 

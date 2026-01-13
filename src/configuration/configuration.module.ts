@@ -4,6 +4,6 @@ import { ConfigurationService } from './configuration.service';
 
 @Module({
   controllers: [ConfigurationController],
-  providers: [ConfigurationService]
+  providers: [ConfigurationService],
 })
 export class ConfigurationModule {}

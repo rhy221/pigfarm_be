@@ -1,5 +1,9 @@
 // src/warehouse/warehouse.service.ts
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 
 @Injectable()
 export class WarehouseService {

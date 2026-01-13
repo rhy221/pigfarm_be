@@ -2,7 +2,19 @@
 // FINANCE MODULE - DTOs (Quản lý chi phí / Sổ quỹ)
 // =====================================================
 
-import { IsString, IsOptional, IsNumber, IsUUID, IsBoolean, IsDateString, IsArray, ValidateNested, IsEnum, Min, IsInt } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsNumber,
+  IsUUID,
+  IsBoolean,
+  IsDateString,
+  IsArray,
+  ValidateNested,
+  IsEnum,
+  Min,
+  IsInt,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 
@@ -40,7 +52,6 @@ export enum BillStatus {
 
 // ============ TRANSACTION CATEGORY DTOs ============
 export class CreateTransactionCategoryDto {
-
   @ApiPropertyOptional()
   @IsUUID()
   @IsOptional()
@@ -70,11 +81,12 @@ export class CreateTransactionCategoryDto {
   sortOrder?: number;
 }
 
-export class UpdateTransactionCategoryDto extends PartialType(CreateTransactionCategoryDto) {}
+export class UpdateTransactionCategoryDto extends PartialType(
+  CreateTransactionCategoryDto,
+) {}
 
 // ============ CASH ACCOUNT DTOs ============
 export class CreateCashAccountDto {
-
   @ApiProperty()
   @IsString()
   name: string;
@@ -114,8 +126,6 @@ export class UpdateCashAccountDto extends PartialType(CreateCashAccountDto) {}
 
 // ============ TRANSACTION DTOs ============
 export class CreateTransactionDto {
-
-
   @ApiProperty()
   @IsUUID()
   cashAccountId: string;
@@ -183,8 +193,6 @@ export class UpdateTransactionDto extends PartialType(CreateTransactionDto) {}
 
 // ============ SUPPLIER PAYMENT DTOs ============
 export class CreateSupplierPaymentDto {
-
-
   @ApiProperty()
   @IsUUID()
   supplierId: string;
@@ -215,8 +223,6 @@ export class CreateSupplierPaymentDto {
 
 // ============ MONTHLY BILL DTOs ============
 export class CreateMonthlyBillDto {
-
-
   @ApiPropertyOptional()
   @IsUUID()
   @IsOptional()
@@ -330,8 +336,6 @@ export class PayBillDirectDto {
 
 // ============ CUSTOMER DTOs ============
 export class CreateCustomerDto {
-
-
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
@@ -371,7 +375,6 @@ export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {}
 
 // ============ QUERY DTOs ============
 export class TransactionQueryDto {
-
   @ApiPropertyOptional()
   @IsUUID()
   @IsOptional()
@@ -422,8 +425,6 @@ export class TransactionQueryDto {
 }
 
 export class CashBookReportDto {
-
-
   @ApiPropertyOptional()
   @IsUUID()
   @IsOptional()
@@ -439,8 +440,6 @@ export class CashBookReportDto {
 }
 
 export class FinancialSummaryDto {
-
-
   @ApiPropertyOptional()
   @IsInt()
   @IsOptional()
@@ -463,7 +462,6 @@ export class FinancialSummaryDto {
 }
 
 export class MonthlyBillQueryDto {
-
   @ApiPropertyOptional()
   @IsInt()
   @IsOptional()

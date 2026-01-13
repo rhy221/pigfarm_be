@@ -26,7 +26,7 @@ export class ReportRepository {
 
   // Inventory Reports
   async findInventoryReport(startDate: Date, endDate: Date) {
-    return this.prisma.inventory_reports.findFirst({
+    return (this.prisma as any).inventory_reports.findFirst({
       where: { created_at: { gte: startDate, lte: endDate } },
       include: { inventory_report_items: { include: { materials: true } } },
     });
@@ -52,7 +52,7 @@ export class ReportRepository {
     category?: string,
     status?: string,
   ) {
-    const where: Prisma.expensesWhereInput = {
+    const where: any = {
       created_at: { gte: startDate, lte: endDate },
     };
     if (category) where.expense_categories = { name: category };
