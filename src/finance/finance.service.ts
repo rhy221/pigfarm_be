@@ -26,7 +26,7 @@ import {
   TransactionType,
 } from './finance.dto';
 import {NamingUtils} from '../lib/utils';
-import { Prisma } from 'generated/prisma/client'
+import { Prisma, PrismaClient } from '../generated/prisma/client.js';
 @Injectable()
 export class FinanceService {
   constructor(private prisma: PrismaService) {}

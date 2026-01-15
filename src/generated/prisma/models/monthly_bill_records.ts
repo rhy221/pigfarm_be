@@ -536,6 +536,14 @@ export type monthly_bill_recordsOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type monthly_bill_recordsCreateNestedManyWithoutMonthly_billsInput = {
   create?: Prisma.XOR<Prisma.monthly_bill_recordsCreateWithoutMonthly_billsInput, Prisma.monthly_bill_recordsUncheckedCreateWithoutMonthly_billsInput> | Prisma.monthly_bill_recordsCreateWithoutMonthly_billsInput[] | Prisma.monthly_bill_recordsUncheckedCreateWithoutMonthly_billsInput[]
   connectOrCreate?: Prisma.monthly_bill_recordsCreateOrConnectWithoutMonthly_billsInput | Prisma.monthly_bill_recordsCreateOrConnectWithoutMonthly_billsInput[]
