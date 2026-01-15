@@ -3,12 +3,21 @@ import { IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, Min } from 'class-vali
 
 export class CreateTemplateDto {
   @ApiProperty({ 
-    description: 'ID của loại vắc-xin (chọn từ danh sách vắc-xin)', 
-    example: '123e4567-e89b-12d3-a456-426614174000' 
+    description: 'ID vaccine (nếu chọn từ danh sách gợi ý)', 
+    example: 'uuid-co-san',
+    required: false 
   })
   @IsUUID()
+  @IsOptional()
+  vaccineId?: string;
+
+  @ApiProperty({ 
+    description: 'Tên vaccine (Người dùng tự nhập hoặc lấy từ gợi ý)', 
+    example: 'Vắc-xin Myco mới' 
+  })
+  @IsString()
   @IsNotEmpty()
-  vaccineId: string;
+  vaccineName: string;
 
   @ApiProperty({ description: 'Mũi tiêm số mấy', example: 1 })
   @IsInt()
@@ -25,12 +34,11 @@ export class CreateTemplateDto {
   @IsOptional()
   dosage: string;
 
-  @ApiProperty({ description: 'Ghi chú thêm', example: 'Tiêm sau khi ăn', required: false })
+  @ApiProperty({ description: 'Ghi chú thêm', required: false })
   @IsString()
   @IsOptional()
   notes: string;
 }
-
 
 export class VaccinationTemplateResponseDto {
   @ApiProperty({ example: '123e4567-e89b-12d3-a456-426614174000' })

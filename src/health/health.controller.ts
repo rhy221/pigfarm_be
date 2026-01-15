@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Patch, Body, Query } from '@nestjs/common';
 import { HealthService } from './health.service';
 import { ApiTags, ApiOperation, ApiQuery, ApiBody, ApiResponse } from '@nestjs/swagger';
+import { Controller, Get, Post, Put, Patch, Delete, Body, Query, Param } from '@nestjs/common';
 
 import { 
   MarkVaccinatedDto, 
-  DailyVaccinationDetailDto, 
+  DailyVaccinationDetailDto,
+  CreateManualScheduleDto,
+  UpdateScheduleDto, 
 } from './health.dto';
 
 import { 
@@ -70,21 +72,40 @@ export class HealthController {
     return this.healthService.getDailyDetails(date);
   }
 
-  @Patch('vaccination/complete')
-  @ApiOperation({ summary: 'Xác nhận/Đánh dấu các lịch đã tiêm xong (Nút "Đã tiêm")' })
+@Patch('vaccination/complete')
+  @ApiOperation({ summary: 'Xác nhận/Đánh dấu các lịch đã tiêm xong' })
   @ApiBody({ type: MarkVaccinatedDto })
   @ApiResponse({
     status: 200,
-    description: 'Kết quả update (số lượng bản ghi đã update)',
-    schema: {
-      type: 'object',
-      properties: {
-        count: { type: 'number', example: 5 }
-      }
-    }
+    description: 'Đã xử lý thành công',
   })
   markAsComplete(@Body() body: MarkVaccinatedDto) {
-    return this.healthService.markAsVaccinated(body.scheduleIds);
+    return this.healthService.markAsVaccinated(body.items);
+  }
+
+@Post('vaccination/manual')
+  @ApiOperation({ summary: 'Tạo lịch tiêm thủ công (cho nhiều chuồng cùng lúc)' })
+  @ApiBody({ type: CreateManualScheduleDto })
+  @ApiResponse({ status: 201, description: 'Tạo thành công' })
+  createManual(@Body() body: CreateManualScheduleDto) {
+    return this.healthService.createManualSchedule(body);
+  }
+
+  @Patch('vaccination/:id')
+  @ApiOperation({ summary: 'Cập nhật thông tin một lịch tiêm cụ thể (Dời lịch)' })
+  @ApiResponse({ status: 200, description: 'Cập nhật thành công' })
+  updateSchedule(
+    @Param('id') id: string, 
+    @Body() body: UpdateScheduleDto
+  ) {
+    return this.healthService.updateSchedule(id, body);
+  }
+
+  @Delete('vaccination/:id')
+  @ApiOperation({ summary: 'Xóa một lịch tiêm (nếu tạo nhầm)' })
+  @ApiResponse({ status: 200, description: 'Xóa thành công' })
+  deleteSchedule(@Param('id') id: string) {
+    return this.healthService.deleteSchedule(id);
   }
 
   // ==========================================
@@ -103,14 +124,14 @@ export class HealthController {
     return this.healthService.getVaccinationTemplates();
   }
 
-  @Post('templates')
-  @ApiOperation({ summary: 'Lưu toàn bộ danh sách mẫu tiêm (Cơ chế: Xóa cũ -> Tạo mới)' })
+  @Put('templates')
+  @ApiOperation({ summary: 'Cập nhật toàn bộ danh sách mẫu tiêm (Ghi đè)' }) 
   @ApiBody({ 
     type: [CreateTemplateDto], 
-    description: 'Gửi lên mảng chứa toàn bộ các dòng cấu hình hiện có trên bảng giao diện'
+    description: 'Gửi lên mảng chứa toàn bộ các dòng cấu hình hiện có. Danh sách cũ sẽ bị xóa và thay thế bằng danh sách này.'
   })
   @ApiResponse({
-    status: 201,
+    status: 200, 
     description: 'Trả về danh sách mới nhất sau khi lưu',
     type: [VaccinationTemplateResponseDto]
   })
@@ -127,5 +148,28 @@ export class HealthController {
   })
   getSuggestions() {
     return this.healthService.getVaccinationSuggestions();
+  }
+
+  @Post('templates/item')
+  @ApiOperation({ summary: 'Thêm mới một dòng mẫu tiêm chủng' })
+  @ApiBody({ type: CreateTemplateDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Trả về chi tiết mẫu vừa tạo',
+    type: VaccinationTemplateResponseDto
+  })
+  addTemplateItem(@Body() body: CreateTemplateDto) {
+    return this.healthService.addTemplate(body);
+  }
+
+  @Delete('templates/item/:id')
+  @ApiOperation({ summary: 'Xóa một dòng mẫu tiêm chủng theo ID' })
+  @ApiQuery({ name: 'id', example: 'uuid-can-xoa', description: 'ID của dòng template cần xóa' })
+  @ApiResponse({
+    status: 200,
+    description: 'Xóa thành công',
+  })
+  deleteTemplateItem(@Param('id') id: string) {
+    return this.healthService.deleteTemplate(id);
   }
 }

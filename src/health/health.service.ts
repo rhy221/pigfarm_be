@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateTemplateDto } from './template.dto'; 
 import dayjs from 'dayjs';
+import { CreateManualScheduleDto, MarkVaccinatedDto, UpdateScheduleDto, VaccinationActionItem } from './health.dto';
+
 
 @Injectable()
 export class HealthService {
@@ -55,6 +58,7 @@ export class HealthService {
             name: vaccineName,
             status: sched.status,
             type: 'actual',
+            color: sched.color || (sched.status === 'completed' ? '#10B981' : '#3B82F6') 
           });
         }
       });
@@ -95,6 +99,104 @@ export class HealthService {
     }
 
     return calendarMap;
+  }
+
+  async createManualSchedule(data: CreateManualScheduleDto) {
+    let targetVaccineId = data.vaccineId;
+
+    if (!targetVaccineId && data.vaccineName) {
+      const existing = await this.prisma.vaccines.findFirst({
+        where: { vaccine_name: { equals: data.vaccineName, mode: 'insensitive' } }
+      });
+
+      if (existing) {
+        targetVaccineId = existing.id;
+      } else {
+        const newVac = await this.prisma.vaccines.create({
+          data: { vaccine_name: data.vaccineName }
+        });
+        targetVaccineId = newVac.id;
+      }
+    }
+
+    if (!targetVaccineId) {
+      throw new Error('Vui lòng chọn hoặc nhập tên vắc-xin');
+    }
+
+    const tasks = data.penIds.map(penId => {
+      return this.prisma.vaccination_schedules.create({
+        data: {
+          pen_id: penId,
+          scheduled_date: new Date(data.scheduledDate),
+          status: 'pending',
+          
+          color: data.color || '#3B82F6',
+          
+          vaccination_schedule_details: {
+            create: {
+              vaccine_id: targetVaccineId,
+              stage: data.stage,
+              dosage: 0
+            }
+          }
+        }
+      });
+    });
+
+    await Promise.all(tasks);
+    return { success: true, count: data.penIds.length };
+  }
+
+  async updateSchedule(id: string, data: UpdateScheduleDto) {
+    let newVaccineId = data.vaccineId;
+
+    if (!newVaccineId && data.vaccineName) {
+      const existing = await this.prisma.vaccines.findFirst({
+        where: { vaccine_name: { equals: data.vaccineName, mode: 'insensitive' } }
+      });
+
+      if (existing) {
+        newVaccineId = existing.id;
+      } else {
+        const newVac = await this.prisma.vaccines.create({
+          data: { vaccine_name: data.vaccineName }
+        });
+        newVaccineId = newVac.id;
+      }
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const updatedSchedule = await tx.vaccination_schedules.update({
+        where: { id },
+        data: {
+          scheduled_date: data.scheduledDate ? new Date(data.scheduledDate) : undefined,
+          color: data.color, 
+        },
+      });
+
+      if (newVaccineId || data.stage) {
+        await tx.vaccination_schedule_details.updateMany({
+          where: { schedule_id: id },
+          data: {
+            vaccine_id: newVaccineId || undefined, 
+            stage: data.stage || undefined,
+          }
+        });
+      }
+
+      return updatedSchedule;
+    });
+  }
+
+  async deleteSchedule(id: string) {
+    return this.prisma.$transaction(async (tx) => {
+      await tx.vaccination_schedule_details.deleteMany({
+        where: { schedule_id: id }
+      });
+      await tx.vaccination_schedules.delete({
+        where: { id }
+      });
+    });
   }
 
   // ==========================================================
@@ -192,41 +294,48 @@ export class HealthService {
   }
 
   // 3. Mark As Vaccinated
-  async markAsVaccinated(items: any[]) {
-      const realIds = items.filter(i => i.isReal).map(i => i.scheduleId);
-      const forecastItems = items.filter(i => !i.isReal);
+  async markAsVaccinated(items: VaccinationActionItem[]) {
+    const realItems = items.filter(i => i.isReal && i.scheduleId);
+    const forecastItems = items.filter(i => !i.isReal && i.templateId && i.penId);
 
-      if (realIds.length) {
-          await this.prisma.vaccination_schedules.updateMany({
-              where: { id: { in: realIds } },
-              data: { status: 'completed' }
-          });
-      }
+    if (realItems.length > 0) {
+      const idsToUpdate = realItems.map(i => i.scheduleId as string);
+      await this.prisma.vaccination_schedules.updateMany({
+        where: { id: { in: idsToUpdate } },
+        data: { status: 'completed' }
+      });
+    }
 
-      if (forecastItems.length) {
-          for (const item of forecastItems) {
-               const template = await this.prisma.vaccination_templates.findUnique({
-                   where: { id: item.templateId }
-               });
-               if (!template) continue;
+    if (forecastItems.length > 0) {
+      for (const item of forecastItems) {
+        const template = await this.prisma.vaccination_templates.findUnique({
+          where: { id: item.templateId }
+        });
 
-               await this.prisma.vaccination_schedules.create({
-                   data: {
-                       pen_id: item.penId,
-                       scheduled_date: new Date(),
-                       status: 'completed',
-                       vaccination_schedule_details: {
-                           create: {
-                               vaccine_id: template.vaccine_id,
-                               stage: template.stage,
-                               dosage: parseFloat(template.dosage || '0')
-                           }
-                       }
-                   }
-               });
+        if (!template) continue; 
+
+        await this.prisma.vaccination_schedules.create({
+          data: {
+            pen_id: item.penId,
+            scheduled_date: new Date(), 
+            status: 'completed',
+            vaccination_schedule_details: {
+              create: {
+                vaccine_id: template.vaccine_id,
+                stage: template.stage,
+                dosage: parseFloat(template.dosage?.replace(/[^0-9.]/g, '') || '0') 
+              }
+            }
           }
+        });
       }
-      return { success: true };
+    }
+
+    return { 
+      success: true, 
+      updated: realItems.length, 
+      created: forecastItems.length 
+    };
   }
 
   async getVaccinationTemplates() {
@@ -273,30 +382,108 @@ export class HealthService {
     return this.getVaccinationTemplates();
   }
 
-  // 6. Gợi ý 
-  async getVaccinationSuggestions() {
-    const demoVaccine = await this.prisma.vaccines.findFirst();
-    const vaccineId = demoVaccine?.id || 'demo-id';
+async getVaccinationSuggestions() {
+  const currentTemplates = await this.prisma.vaccination_templates.findMany();
+  
+  const standardLibrary = await this.prisma.vaccines.findMany({
+    where: { 
+      days_old: { gt: 0 } 
+    } 
+  });
 
-    return [
-      {
-        code: 'FMD',
-        name: 'Lở mồm long móng (FMD)',
-        daysOld: 112,
-        dosage: '2ml/con',
-        description: 'Thương lái/kiểm dịch thường yêu cầu nếu xuất đi xa',
-        color: 'green',
-        vaccineId: vaccineId
-      },
-      {
-        code: 'CSF',
-        name: 'Dịch tả heo cổ điển',
-        daysOld: 15,
-        dosage: '1ml/con',
-        description: 'Bệnh bắt buộc tiêm phòng',
-        color: 'blue',
-        vaccineId: vaccineId
-      },
-    ];
+  // [FIX 1] Thêm kiểu : any[] hoặc VaccinationSuggestionDto[]
+  const suggestions: any[] = []; 
+
+  for (const stdItem of standardLibrary) {
+    const isExist = currentTemplates.some(t => 
+      t.vaccine_id === stdItem.id && t.stage === stdItem.stage
+    );
+
+    if (!isExist) {
+      suggestions.push({
+        vaccineId: stdItem.id,
+        vaccineName: stdItem.vaccine_name || '', 
+        nameDisplay: stdItem.vaccine_name || '', 
+        stage: stdItem.stage || 1,
+        daysOld: stdItem.days_old || 0,
+        dosage: stdItem.dosage || '',
+        description: stdItem.description || '', 
+        color: this.getPriorityColor(stdItem.days_old || 999),
+        type: 'gap_analysis'
+      });
+    }
+  }
+
+  return suggestions;
+}
+  private getPriorityColor(days: number): string {
+    if (days <= 21) return 'red';   
+    if (days <= 45) return 'orange'; 
+    return 'blue';                   
+  }
+
+  async addTemplate(data: CreateTemplateDto) {
+  let targetVaccineId = data.vaccineId;
+
+  if (!targetVaccineId) {
+    const existingVaccine = await this.prisma.vaccines.findFirst({
+      where: { 
+        vaccine_name: { 
+          equals: data.vaccineName, 
+          mode: 'insensitive' 
+        } 
+      }
+    });
+
+    if (existingVaccine) {
+      targetVaccineId = existingVaccine.id;
+    } else {
+      const newVaccine = await this.prisma.vaccines.create({
+        data: {
+          vaccine_name: data.vaccineName
+        }
+      });
+      targetVaccineId = newVaccine.id;
+    }
+  }
+
+  const newTemplate = await this.prisma.vaccination_templates.create({
+    data: {
+      vaccine_id: targetVaccineId, 
+      stage: data.stage,
+      days_old: data.daysOld,
+      dosage: data.dosage,
+      notes: data.notes,
+    },
+    include: {
+      vaccines: true,
+    },
+  });
+
+  return {
+    id: newTemplate.id,
+    vaccineId: newTemplate.vaccine_id,
+    vaccineName: newTemplate.vaccines?.vaccine_name || data.vaccineName,
+    stage: newTemplate.stage,
+    fullName: `${newTemplate.vaccines?.vaccine_name} - Mũi ${newTemplate.stage}`,
+    dosage: newTemplate.dosage,
+    daysOld: newTemplate.days_old,
+    daysOldText: `${newTemplate.days_old} ngày tuổi`,
+    notes: newTemplate.notes,
+  };
+}
+
+  async deleteTemplate(id: string) {
+    const exists = await this.prisma.vaccination_templates.findUnique({
+      where: { id },
+    });
+
+    if (!exists) {
+      throw new Error('Mẫu tiêm không tồn tại');
+    }
+
+    return this.prisma.vaccination_templates.delete({
+      where: { id },
+    });
   }
 }

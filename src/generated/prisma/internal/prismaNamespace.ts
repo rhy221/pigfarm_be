@@ -456,7 +456,8 @@ export const ModelName = {
   pig_in_treatment: 'pig_in_treatment',
   shipped_pig_items: 'shipped_pig_items',
   treatment_logs: 'treatment_logs',
-  vaccination_templates: 'vaccination_templates'
+  vaccination_templates: 'vaccination_templates',
+  chat_documents: 'chat_documents'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -472,7 +473,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "assignment_details" | "assignments" | "chemicals" | "cleaning_details" | "cleaning_methods" | "cleaning_schedules" | "disease_treatments" | "diseases" | "employees" | "environment_log_details" | "environment_logs" | "expenses" | "feeding_schedule_details" | "feeding_schedules" | "feeds" | "herd_report_pen_pigs" | "herd_report_pens" | "herd_reports" | "pen_types" | "pens" | "pig_breeds" | "pig_shipping_details" | "pig_shipping_statuses" | "pig_shippings" | "pig_statuses" | "pig_transfers" | "pigs" | "rearing_pens" | "treatment_details" | "vaccination_schedule_details" | "vaccination_schedules" | "vaccine_report_details" | "vaccine_reports" | "vaccines" | "work_shifts" | "expense_categories" | "expense_entities" | "warehouses" | "cash_accounts" | "customers" | "daily_cash_snapshots" | "daily_inventory_snapshots" | "farm_members" | "inventory" | "inventory_batches" | "inventory_check_items" | "inventory_checks" | "inventory_history" | "monthly_bill_records" | "monthly_bills" | "products" | "stock_issue_items" | "stock_issues" | "stock_receipt_items" | "stock_receipts" | "supplier_debts" | "suppliers" | "transaction_categories" | "transactions" | "units" | "users" | "warehouse_categories" | "pig_batches" | "pig_in_treatment" | "shipped_pig_items" | "treatment_logs" | "vaccination_templates"
+    modelProps: "assignment_details" | "assignments" | "chemicals" | "cleaning_details" | "cleaning_methods" | "cleaning_schedules" | "disease_treatments" | "diseases" | "employees" | "environment_log_details" | "environment_logs" | "expenses" | "feeding_schedule_details" | "feeding_schedules" | "feeds" | "herd_report_pen_pigs" | "herd_report_pens" | "herd_reports" | "pen_types" | "pens" | "pig_breeds" | "pig_shipping_details" | "pig_shipping_statuses" | "pig_shippings" | "pig_statuses" | "pig_transfers" | "pigs" | "rearing_pens" | "treatment_details" | "vaccination_schedule_details" | "vaccination_schedules" | "vaccine_report_details" | "vaccine_reports" | "vaccines" | "work_shifts" | "expense_categories" | "expense_entities" | "warehouses" | "cash_accounts" | "customers" | "daily_cash_snapshots" | "daily_inventory_snapshots" | "farm_members" | "inventory" | "inventory_batches" | "inventory_check_items" | "inventory_checks" | "inventory_history" | "monthly_bill_records" | "monthly_bills" | "products" | "stock_issue_items" | "stock_issues" | "stock_receipt_items" | "stock_receipts" | "supplier_debts" | "suppliers" | "transaction_categories" | "transactions" | "units" | "users" | "warehouse_categories" | "pig_batches" | "pig_in_treatment" | "shipped_pig_items" | "treatment_logs" | "vaccination_templates" | "chat_documents"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5434,6 +5435,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    chat_documents: {
+      payload: Prisma.$chat_documentsPayload<ExtArgs>
+      fields: Prisma.chat_documentsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.chat_documentsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.chat_documentsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload>
+        }
+        findFirst: {
+          args: Prisma.chat_documentsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.chat_documentsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload>
+        }
+        findMany: {
+          args: Prisma.chat_documentsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload>[]
+        }
+        create: {
+          args: Prisma.chat_documentsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload>
+        }
+        createMany: {
+          args: Prisma.chat_documentsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.chat_documentsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload>[]
+        }
+        delete: {
+          args: Prisma.chat_documentsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload>
+        }
+        update: {
+          args: Prisma.chat_documentsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload>
+        }
+        deleteMany: {
+          args: Prisma.chat_documentsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.chat_documentsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.chat_documentsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload>[]
+        }
+        upsert: {
+          args: Prisma.chat_documentsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$chat_documentsPayload>
+        }
+        aggregate: {
+          args: Prisma.Chat_documentsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChat_documents>
+        }
+        groupBy: {
+          args: Prisma.chat_documentsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Chat_documentsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.chat_documentsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Chat_documentsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5813,7 +5888,8 @@ export const Vaccination_schedulesScalarFieldEnum = {
   pen_id: 'pen_id',
   employee_id: 'employee_id',
   scheduled_date: 'scheduled_date',
-  status: 'status'
+  status: 'status',
+  color: 'color'
 } as const
 
 export type Vaccination_schedulesScalarFieldEnum = (typeof Vaccination_schedulesScalarFieldEnum)[keyof typeof Vaccination_schedulesScalarFieldEnum]
@@ -5845,7 +5921,11 @@ export type Vaccine_reportsScalarFieldEnum = (typeof Vaccine_reportsScalarFieldE
 export const VaccinesScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
-  vaccine_name: 'vaccine_name'
+  vaccine_name: 'vaccine_name',
+  stage: 'stage',
+  days_old: 'days_old',
+  dosage: 'dosage',
+  description: 'description'
 } as const
 
 export type VaccinesScalarFieldEnum = (typeof VaccinesScalarFieldEnum)[keyof typeof VaccinesScalarFieldEnum]
@@ -6369,12 +6449,32 @@ export const Vaccination_templatesScalarFieldEnum = {
 export type Vaccination_templatesScalarFieldEnum = (typeof Vaccination_templatesScalarFieldEnum)[keyof typeof Vaccination_templatesScalarFieldEnum]
 
 
+export const Chat_documentsScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  content: 'content',
+  chunk_index: 'chunk_index',
+  metadata: 'metadata',
+  created_at: 'created_at'
+} as const
+
+export type Chat_documentsScalarFieldEnum = (typeof Chat_documentsScalarFieldEnum)[keyof typeof Chat_documentsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -6391,6 +6491,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -6529,6 +6638,20 @@ export type Enumpig_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'pig_status[]'
  */
 export type ListEnumpig_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'pig_status[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 /**
@@ -6685,6 +6808,7 @@ export type GlobalOmitConfig = {
   shipped_pig_items?: Prisma.shipped_pig_itemsOmit
   treatment_logs?: Prisma.treatment_logsOmit
   vaccination_templates?: Prisma.vaccination_templatesOmit
+  chat_documents?: Prisma.chat_documentsOmit
 }
 
 /* Types for Logging */

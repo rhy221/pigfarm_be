@@ -115,7 +115,8 @@ export const ModelName = {
   pig_in_treatment: 'pig_in_treatment',
   shipped_pig_items: 'shipped_pig_items',
   treatment_logs: 'treatment_logs',
-  vaccination_templates: 'vaccination_templates'
+  vaccination_templates: 'vaccination_templates',
+  chat_documents: 'chat_documents'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -474,7 +475,8 @@ export const Vaccination_schedulesScalarFieldEnum = {
   pen_id: 'pen_id',
   employee_id: 'employee_id',
   scheduled_date: 'scheduled_date',
-  status: 'status'
+  status: 'status',
+  color: 'color'
 } as const
 
 export type Vaccination_schedulesScalarFieldEnum = (typeof Vaccination_schedulesScalarFieldEnum)[keyof typeof Vaccination_schedulesScalarFieldEnum]
@@ -506,7 +508,11 @@ export type Vaccine_reportsScalarFieldEnum = (typeof Vaccine_reportsScalarFieldE
 export const VaccinesScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
-  vaccine_name: 'vaccine_name'
+  vaccine_name: 'vaccine_name',
+  stage: 'stage',
+  days_old: 'days_old',
+  dosage: 'dosage',
+  description: 'description'
 } as const
 
 export type VaccinesScalarFieldEnum = (typeof VaccinesScalarFieldEnum)[keyof typeof VaccinesScalarFieldEnum]
@@ -1030,12 +1036,32 @@ export const Vaccination_templatesScalarFieldEnum = {
 export type Vaccination_templatesScalarFieldEnum = (typeof Vaccination_templatesScalarFieldEnum)[keyof typeof Vaccination_templatesScalarFieldEnum]
 
 
+export const Chat_documentsScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  content: 'content',
+  chunk_index: 'chunk_index',
+  metadata: 'metadata',
+  created_at: 'created_at'
+} as const
+
+export type Chat_documentsScalarFieldEnum = (typeof Chat_documentsScalarFieldEnum)[keyof typeof Chat_documentsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1052,4 +1078,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
