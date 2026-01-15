@@ -29,3 +29,30 @@ export const warehouse_types = {
 } as const
 
 export type warehouse_types = (typeof warehouse_types)[keyof typeof warehouse_types]
+
+
+export const sick_group_status = {
+  TREATING: 'TREATING',
+  FINISHED: 'FINISHED'
+} as const
+
+export type sick_group_status = (typeof sick_group_status)[keyof typeof sick_group_status]
+
+
+export const pig_status = {
+  SICK: 'SICK',
+  RECOVERED: 'RECOVERED',
+  DEAD: 'DEAD'
+} as const
+
+export type pig_status = (typeof pig_status)[keyof typeof pig_status]
+
+
+export const growth_stage = {
+  PIGLET: 'PIGLET',
+  WEANER: 'WEANER',
+  GROWER: 'GROWER',
+  FINISHER: 'FINISHER'
+} as const
+
+export type growth_stage = (typeof growth_stage)[keyof typeof growth_stage]

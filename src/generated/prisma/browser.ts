@@ -48,16 +48,6 @@ export type cleaning_methods = Prisma.cleaning_methodsModel
  */
 export type cleaning_schedules = Prisma.cleaning_schedulesModel
 /**
- * Model disease_treatments
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type disease_treatments = Prisma.disease_treatmentsModel
-/**
- * Model diseases
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type diseases = Prisma.diseasesModel
-/**
  * Model employees
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
@@ -117,11 +107,6 @@ export type pen_types = Prisma.pen_typesModel
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type pens = Prisma.pensModel
-/**
- * Model pig_batchs
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type pig_batchs = Prisma.pig_batchsModel
 /**
  * Model pig_breeds
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -332,3 +317,43 @@ export type users = Prisma.usersModel
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type warehouse_categories = Prisma.warehouse_categoriesModel
+/**
+ * Model diseases
+ * 
+ */
+export type diseases = Prisma.diseasesModel
+/**
+ * Model disease_treatments
+ * 
+ */
+export type disease_treatments = Prisma.disease_treatmentsModel
+/**
+ * Model pig_in_treatment
+ * The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+ */
+export type pig_in_treatment = Prisma.pig_in_treatmentModel
+/**
+ * Model treatment_logs
+ * 
+ */
+export type treatment_logs = Prisma.treatment_logsModel
+/**
+ * Model shipped_pig_items
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type shipped_pig_items = Prisma.shipped_pig_itemsModel
+/**
+ * Model chat_documents
+ * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ */
+export type chat_documents = Prisma.chat_documentsModel
+/**
+ * Model pig_batches
+ * 
+ */
+export type pig_batches = Prisma.pig_batchesModel
+/**
+ * Model vaccination_templates
+ * 
+ */
+export type vaccination_templates = Prisma.vaccination_templatesModel

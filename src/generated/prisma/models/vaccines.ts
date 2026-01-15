@@ -20,46 +20,92 @@ export type vaccinesModel = runtime.Types.Result.DefaultSelection<Prisma.$vaccin
 
 export type AggregateVaccines = {
   _count: VaccinesCountAggregateOutputType | null
+  _avg: VaccinesAvgAggregateOutputType | null
+  _sum: VaccinesSumAggregateOutputType | null
   _min: VaccinesMinAggregateOutputType | null
   _max: VaccinesMaxAggregateOutputType | null
+}
+
+export type VaccinesAvgAggregateOutputType = {
+  stage: number | null
+  days_old: number | null
+}
+
+export type VaccinesSumAggregateOutputType = {
+  stage: number | null
+  days_old: number | null
 }
 
 export type VaccinesMinAggregateOutputType = {
   id: string | null
   created_at: Date | null
   vaccine_name: string | null
+  stage: number | null
+  days_old: number | null
+  dosage: string | null
+  description: string | null
 }
 
 export type VaccinesMaxAggregateOutputType = {
   id: string | null
   created_at: Date | null
   vaccine_name: string | null
+  stage: number | null
+  days_old: number | null
+  dosage: string | null
+  description: string | null
 }
 
 export type VaccinesCountAggregateOutputType = {
   id: number
   created_at: number
   vaccine_name: number
+  stage: number
+  days_old: number
+  dosage: number
+  description: number
   _all: number
 }
 
+
+export type VaccinesAvgAggregateInputType = {
+  stage?: true
+  days_old?: true
+}
+
+export type VaccinesSumAggregateInputType = {
+  stage?: true
+  days_old?: true
+}
 
 export type VaccinesMinAggregateInputType = {
   id?: true
   created_at?: true
   vaccine_name?: true
+  stage?: true
+  days_old?: true
+  dosage?: true
+  description?: true
 }
 
 export type VaccinesMaxAggregateInputType = {
   id?: true
   created_at?: true
   vaccine_name?: true
+  stage?: true
+  days_old?: true
+  dosage?: true
+  description?: true
 }
 
 export type VaccinesCountAggregateInputType = {
   id?: true
   created_at?: true
   vaccine_name?: true
+  stage?: true
+  days_old?: true
+  dosage?: true
+  description?: true
   _all?: true
 }
 
@@ -101,6 +147,18 @@ export type VaccinesAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: VaccinesAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: VaccinesSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: VaccinesMinAggregateInputType
@@ -131,6 +189,8 @@ export type vaccinesGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: VaccinesCountAggregateInputType | true
+  _avg?: VaccinesAvgAggregateInputType
+  _sum?: VaccinesSumAggregateInputType
   _min?: VaccinesMinAggregateInputType
   _max?: VaccinesMaxAggregateInputType
 }
@@ -139,7 +199,13 @@ export type VaccinesGroupByOutputType = {
   id: string
   created_at: Date
   vaccine_name: string | null
+  stage: number | null
+  days_old: number | null
+  dosage: string | null
+  description: string | null
   _count: VaccinesCountAggregateOutputType | null
+  _avg: VaccinesAvgAggregateOutputType | null
+  _sum: VaccinesSumAggregateOutputType | null
   _min: VaccinesMinAggregateOutputType | null
   _max: VaccinesMaxAggregateOutputType | null
 }
@@ -166,6 +232,12 @@ export type vaccinesWhereInput = {
   id?: Prisma.UuidFilter<"vaccines"> | string
   created_at?: Prisma.DateTimeFilter<"vaccines"> | Date | string
   vaccine_name?: Prisma.StringNullableFilter<"vaccines"> | string | null
+  stage?: Prisma.IntNullableFilter<"vaccines"> | number | null
+  days_old?: Prisma.IntNullableFilter<"vaccines"> | number | null
+  dosage?: Prisma.StringNullableFilter<"vaccines"> | string | null
+  description?: Prisma.StringNullableFilter<"vaccines"> | string | null
+  vaccination_schedule_details?: Prisma.Vaccination_schedule_detailsListRelationFilter
+  vaccination_templates?: Prisma.Vaccination_templatesListRelationFilter
   vaccine_report_details?: Prisma.Vaccine_report_detailsListRelationFilter
 }
 
@@ -173,6 +245,12 @@ export type vaccinesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   vaccine_name?: Prisma.SortOrderInput | Prisma.SortOrder
+  stage?: Prisma.SortOrderInput | Prisma.SortOrder
+  days_old?: Prisma.SortOrderInput | Prisma.SortOrder
+  dosage?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsOrderByRelationAggregateInput
+  vaccination_templates?: Prisma.vaccination_templatesOrderByRelationAggregateInput
   vaccine_report_details?: Prisma.vaccine_report_detailsOrderByRelationAggregateInput
 }
 
@@ -183,6 +261,12 @@ export type vaccinesWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.vaccinesWhereInput | Prisma.vaccinesWhereInput[]
   created_at?: Prisma.DateTimeFilter<"vaccines"> | Date | string
   vaccine_name?: Prisma.StringNullableFilter<"vaccines"> | string | null
+  stage?: Prisma.IntNullableFilter<"vaccines"> | number | null
+  days_old?: Prisma.IntNullableFilter<"vaccines"> | number | null
+  dosage?: Prisma.StringNullableFilter<"vaccines"> | string | null
+  description?: Prisma.StringNullableFilter<"vaccines"> | string | null
+  vaccination_schedule_details?: Prisma.Vaccination_schedule_detailsListRelationFilter
+  vaccination_templates?: Prisma.Vaccination_templatesListRelationFilter
   vaccine_report_details?: Prisma.Vaccine_report_detailsListRelationFilter
 }, "id">
 
@@ -190,9 +274,15 @@ export type vaccinesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   vaccine_name?: Prisma.SortOrderInput | Prisma.SortOrder
+  stage?: Prisma.SortOrderInput | Prisma.SortOrder
+  days_old?: Prisma.SortOrderInput | Prisma.SortOrder
+  dosage?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.vaccinesCountOrderByAggregateInput
+  _avg?: Prisma.vaccinesAvgOrderByAggregateInput
   _max?: Prisma.vaccinesMaxOrderByAggregateInput
   _min?: Prisma.vaccinesMinOrderByAggregateInput
+  _sum?: Prisma.vaccinesSumOrderByAggregateInput
 }
 
 export type vaccinesScalarWhereWithAggregatesInput = {
@@ -202,12 +292,22 @@ export type vaccinesScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"vaccines"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"vaccines"> | Date | string
   vaccine_name?: Prisma.StringNullableWithAggregatesFilter<"vaccines"> | string | null
+  stage?: Prisma.IntNullableWithAggregatesFilter<"vaccines"> | number | null
+  days_old?: Prisma.IntNullableWithAggregatesFilter<"vaccines"> | number | null
+  dosage?: Prisma.StringNullableWithAggregatesFilter<"vaccines"> | string | null
+  description?: Prisma.StringNullableWithAggregatesFilter<"vaccines"> | string | null
 }
 
 export type vaccinesCreateInput = {
   id?: string
   created_at?: Date | string
   vaccine_name?: string | null
+  stage?: number | null
+  days_old?: number | null
+  dosage?: string | null
+  description?: string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsCreateNestedManyWithoutVaccinesInput
+  vaccination_templates?: Prisma.vaccination_templatesCreateNestedManyWithoutVaccinesInput
   vaccine_report_details?: Prisma.vaccine_report_detailsCreateNestedManyWithoutVaccinesInput
 }
 
@@ -215,6 +315,12 @@ export type vaccinesUncheckedCreateInput = {
   id?: string
   created_at?: Date | string
   vaccine_name?: string | null
+  stage?: number | null
+  days_old?: number | null
+  dosage?: string | null
+  description?: string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsUncheckedCreateNestedManyWithoutVaccinesInput
+  vaccination_templates?: Prisma.vaccination_templatesUncheckedCreateNestedManyWithoutVaccinesInput
   vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedCreateNestedManyWithoutVaccinesInput
 }
 
@@ -222,6 +328,12 @@ export type vaccinesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsUpdateManyWithoutVaccinesNestedInput
+  vaccination_templates?: Prisma.vaccination_templatesUpdateManyWithoutVaccinesNestedInput
   vaccine_report_details?: Prisma.vaccine_report_detailsUpdateManyWithoutVaccinesNestedInput
 }
 
@@ -229,6 +341,12 @@ export type vaccinesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsUncheckedUpdateManyWithoutVaccinesNestedInput
+  vaccination_templates?: Prisma.vaccination_templatesUncheckedUpdateManyWithoutVaccinesNestedInput
   vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedUpdateManyWithoutVaccinesNestedInput
 }
 
@@ -236,18 +354,30 @@ export type vaccinesCreateManyInput = {
   id?: string
   created_at?: Date | string
   vaccine_name?: string | null
+  stage?: number | null
+  days_old?: number | null
+  dosage?: string | null
+  description?: string | null
 }
 
 export type vaccinesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type vaccinesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type VaccinesNullableScalarRelationFilter = {
@@ -259,18 +389,61 @@ export type vaccinesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   vaccine_name?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
+  days_old?: Prisma.SortOrder
+  dosage?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+}
+
+export type vaccinesAvgOrderByAggregateInput = {
+  stage?: Prisma.SortOrder
+  days_old?: Prisma.SortOrder
 }
 
 export type vaccinesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   vaccine_name?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
+  days_old?: Prisma.SortOrder
+  dosage?: Prisma.SortOrder
+  description?: Prisma.SortOrder
 }
 
 export type vaccinesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   vaccine_name?: Prisma.SortOrder
+  stage?: Prisma.SortOrder
+  days_old?: Prisma.SortOrder
+  dosage?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+}
+
+export type vaccinesSumOrderByAggregateInput = {
+  stage?: Prisma.SortOrder
+  days_old?: Prisma.SortOrder
+}
+
+export type VaccinesScalarRelationFilter = {
+  is?: Prisma.vaccinesWhereInput
+  isNot?: Prisma.vaccinesWhereInput
+}
+
+export type vaccinesCreateNestedOneWithoutVaccination_schedule_detailsInput = {
+  create?: Prisma.XOR<Prisma.vaccinesCreateWithoutVaccination_schedule_detailsInput, Prisma.vaccinesUncheckedCreateWithoutVaccination_schedule_detailsInput>
+  connectOrCreate?: Prisma.vaccinesCreateOrConnectWithoutVaccination_schedule_detailsInput
+  connect?: Prisma.vaccinesWhereUniqueInput
+}
+
+export type vaccinesUpdateOneWithoutVaccination_schedule_detailsNestedInput = {
+  create?: Prisma.XOR<Prisma.vaccinesCreateWithoutVaccination_schedule_detailsInput, Prisma.vaccinesUncheckedCreateWithoutVaccination_schedule_detailsInput>
+  connectOrCreate?: Prisma.vaccinesCreateOrConnectWithoutVaccination_schedule_detailsInput
+  upsert?: Prisma.vaccinesUpsertWithoutVaccination_schedule_detailsInput
+  disconnect?: Prisma.vaccinesWhereInput | boolean
+  delete?: Prisma.vaccinesWhereInput | boolean
+  connect?: Prisma.vaccinesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.vaccinesUpdateToOneWithWhereWithoutVaccination_schedule_detailsInput, Prisma.vaccinesUpdateWithoutVaccination_schedule_detailsInput>, Prisma.vaccinesUncheckedUpdateWithoutVaccination_schedule_detailsInput>
 }
 
 export type vaccinesCreateNestedOneWithoutVaccine_report_detailsInput = {
@@ -289,16 +462,106 @@ export type vaccinesUpdateOneWithoutVaccine_report_detailsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.vaccinesUpdateToOneWithWhereWithoutVaccine_report_detailsInput, Prisma.vaccinesUpdateWithoutVaccine_report_detailsInput>, Prisma.vaccinesUncheckedUpdateWithoutVaccine_report_detailsInput>
 }
 
+export type vaccinesCreateNestedOneWithoutVaccination_templatesInput = {
+  create?: Prisma.XOR<Prisma.vaccinesCreateWithoutVaccination_templatesInput, Prisma.vaccinesUncheckedCreateWithoutVaccination_templatesInput>
+  connectOrCreate?: Prisma.vaccinesCreateOrConnectWithoutVaccination_templatesInput
+  connect?: Prisma.vaccinesWhereUniqueInput
+}
+
+export type vaccinesUpdateOneRequiredWithoutVaccination_templatesNestedInput = {
+  create?: Prisma.XOR<Prisma.vaccinesCreateWithoutVaccination_templatesInput, Prisma.vaccinesUncheckedCreateWithoutVaccination_templatesInput>
+  connectOrCreate?: Prisma.vaccinesCreateOrConnectWithoutVaccination_templatesInput
+  upsert?: Prisma.vaccinesUpsertWithoutVaccination_templatesInput
+  connect?: Prisma.vaccinesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.vaccinesUpdateToOneWithWhereWithoutVaccination_templatesInput, Prisma.vaccinesUpdateWithoutVaccination_templatesInput>, Prisma.vaccinesUncheckedUpdateWithoutVaccination_templatesInput>
+}
+
+export type vaccinesCreateWithoutVaccination_schedule_detailsInput = {
+  id?: string
+  created_at?: Date | string
+  vaccine_name?: string | null
+  stage?: number | null
+  days_old?: number | null
+  dosage?: string | null
+  description?: string | null
+  vaccination_templates?: Prisma.vaccination_templatesCreateNestedManyWithoutVaccinesInput
+  vaccine_report_details?: Prisma.vaccine_report_detailsCreateNestedManyWithoutVaccinesInput
+}
+
+export type vaccinesUncheckedCreateWithoutVaccination_schedule_detailsInput = {
+  id?: string
+  created_at?: Date | string
+  vaccine_name?: string | null
+  stage?: number | null
+  days_old?: number | null
+  dosage?: string | null
+  description?: string | null
+  vaccination_templates?: Prisma.vaccination_templatesUncheckedCreateNestedManyWithoutVaccinesInput
+  vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedCreateNestedManyWithoutVaccinesInput
+}
+
+export type vaccinesCreateOrConnectWithoutVaccination_schedule_detailsInput = {
+  where: Prisma.vaccinesWhereUniqueInput
+  create: Prisma.XOR<Prisma.vaccinesCreateWithoutVaccination_schedule_detailsInput, Prisma.vaccinesUncheckedCreateWithoutVaccination_schedule_detailsInput>
+}
+
+export type vaccinesUpsertWithoutVaccination_schedule_detailsInput = {
+  update: Prisma.XOR<Prisma.vaccinesUpdateWithoutVaccination_schedule_detailsInput, Prisma.vaccinesUncheckedUpdateWithoutVaccination_schedule_detailsInput>
+  create: Prisma.XOR<Prisma.vaccinesCreateWithoutVaccination_schedule_detailsInput, Prisma.vaccinesUncheckedCreateWithoutVaccination_schedule_detailsInput>
+  where?: Prisma.vaccinesWhereInput
+}
+
+export type vaccinesUpdateToOneWithWhereWithoutVaccination_schedule_detailsInput = {
+  where?: Prisma.vaccinesWhereInput
+  data: Prisma.XOR<Prisma.vaccinesUpdateWithoutVaccination_schedule_detailsInput, Prisma.vaccinesUncheckedUpdateWithoutVaccination_schedule_detailsInput>
+}
+
+export type vaccinesUpdateWithoutVaccination_schedule_detailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccination_templates?: Prisma.vaccination_templatesUpdateManyWithoutVaccinesNestedInput
+  vaccine_report_details?: Prisma.vaccine_report_detailsUpdateManyWithoutVaccinesNestedInput
+}
+
+export type vaccinesUncheckedUpdateWithoutVaccination_schedule_detailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccination_templates?: Prisma.vaccination_templatesUncheckedUpdateManyWithoutVaccinesNestedInput
+  vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedUpdateManyWithoutVaccinesNestedInput
+}
+
 export type vaccinesCreateWithoutVaccine_report_detailsInput = {
   id?: string
   created_at?: Date | string
   vaccine_name?: string | null
+  stage?: number | null
+  days_old?: number | null
+  dosage?: string | null
+  description?: string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsCreateNestedManyWithoutVaccinesInput
+  vaccination_templates?: Prisma.vaccination_templatesCreateNestedManyWithoutVaccinesInput
 }
 
 export type vaccinesUncheckedCreateWithoutVaccine_report_detailsInput = {
   id?: string
   created_at?: Date | string
   vaccine_name?: string | null
+  stage?: number | null
+  days_old?: number | null
+  dosage?: string | null
+  description?: string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsUncheckedCreateNestedManyWithoutVaccinesInput
+  vaccination_templates?: Prisma.vaccination_templatesUncheckedCreateNestedManyWithoutVaccinesInput
 }
 
 export type vaccinesCreateOrConnectWithoutVaccine_report_detailsInput = {
@@ -321,12 +584,88 @@ export type vaccinesUpdateWithoutVaccine_report_detailsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsUpdateManyWithoutVaccinesNestedInput
+  vaccination_templates?: Prisma.vaccination_templatesUpdateManyWithoutVaccinesNestedInput
 }
 
 export type vaccinesUncheckedUpdateWithoutVaccine_report_detailsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsUncheckedUpdateManyWithoutVaccinesNestedInput
+  vaccination_templates?: Prisma.vaccination_templatesUncheckedUpdateManyWithoutVaccinesNestedInput
+}
+
+export type vaccinesCreateWithoutVaccination_templatesInput = {
+  id?: string
+  created_at?: Date | string
+  vaccine_name?: string | null
+  stage?: number | null
+  days_old?: number | null
+  dosage?: string | null
+  description?: string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsCreateNestedManyWithoutVaccinesInput
+  vaccine_report_details?: Prisma.vaccine_report_detailsCreateNestedManyWithoutVaccinesInput
+}
+
+export type vaccinesUncheckedCreateWithoutVaccination_templatesInput = {
+  id?: string
+  created_at?: Date | string
+  vaccine_name?: string | null
+  stage?: number | null
+  days_old?: number | null
+  dosage?: string | null
+  description?: string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsUncheckedCreateNestedManyWithoutVaccinesInput
+  vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedCreateNestedManyWithoutVaccinesInput
+}
+
+export type vaccinesCreateOrConnectWithoutVaccination_templatesInput = {
+  where: Prisma.vaccinesWhereUniqueInput
+  create: Prisma.XOR<Prisma.vaccinesCreateWithoutVaccination_templatesInput, Prisma.vaccinesUncheckedCreateWithoutVaccination_templatesInput>
+}
+
+export type vaccinesUpsertWithoutVaccination_templatesInput = {
+  update: Prisma.XOR<Prisma.vaccinesUpdateWithoutVaccination_templatesInput, Prisma.vaccinesUncheckedUpdateWithoutVaccination_templatesInput>
+  create: Prisma.XOR<Prisma.vaccinesCreateWithoutVaccination_templatesInput, Prisma.vaccinesUncheckedCreateWithoutVaccination_templatesInput>
+  where?: Prisma.vaccinesWhereInput
+}
+
+export type vaccinesUpdateToOneWithWhereWithoutVaccination_templatesInput = {
+  where?: Prisma.vaccinesWhereInput
+  data: Prisma.XOR<Prisma.vaccinesUpdateWithoutVaccination_templatesInput, Prisma.vaccinesUncheckedUpdateWithoutVaccination_templatesInput>
+}
+
+export type vaccinesUpdateWithoutVaccination_templatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsUpdateManyWithoutVaccinesNestedInput
+  vaccine_report_details?: Prisma.vaccine_report_detailsUpdateManyWithoutVaccinesNestedInput
+}
+
+export type vaccinesUncheckedUpdateWithoutVaccination_templatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vaccine_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stage?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  days_old?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccination_schedule_details?: Prisma.vaccination_schedule_detailsUncheckedUpdateManyWithoutVaccinesNestedInput
+  vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedUpdateManyWithoutVaccinesNestedInput
 }
 
 
@@ -335,10 +674,14 @@ export type vaccinesUncheckedUpdateWithoutVaccine_report_detailsInput = {
  */
 
 export type VaccinesCountOutputType = {
+  vaccination_schedule_details: number
+  vaccination_templates: number
   vaccine_report_details: number
 }
 
 export type VaccinesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  vaccination_schedule_details?: boolean | VaccinesCountOutputTypeCountVaccination_schedule_detailsArgs
+  vaccination_templates?: boolean | VaccinesCountOutputTypeCountVaccination_templatesArgs
   vaccine_report_details?: boolean | VaccinesCountOutputTypeCountVaccine_report_detailsArgs
 }
 
@@ -355,6 +698,20 @@ export type VaccinesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * VaccinesCountOutputType without action
  */
+export type VaccinesCountOutputTypeCountVaccination_schedule_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.vaccination_schedule_detailsWhereInput
+}
+
+/**
+ * VaccinesCountOutputType without action
+ */
+export type VaccinesCountOutputTypeCountVaccination_templatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.vaccination_templatesWhereInput
+}
+
+/**
+ * VaccinesCountOutputType without action
+ */
 export type VaccinesCountOutputTypeCountVaccine_report_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.vaccine_report_detailsWhereInput
 }
@@ -364,6 +721,12 @@ export type vaccinesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   created_at?: boolean
   vaccine_name?: boolean
+  stage?: boolean
+  days_old?: boolean
+  dosage?: boolean
+  description?: boolean
+  vaccination_schedule_details?: boolean | Prisma.vaccines$vaccination_schedule_detailsArgs<ExtArgs>
+  vaccination_templates?: boolean | Prisma.vaccines$vaccination_templatesArgs<ExtArgs>
   vaccine_report_details?: boolean | Prisma.vaccines$vaccine_report_detailsArgs<ExtArgs>
   _count?: boolean | Prisma.VaccinesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vaccines"]>
@@ -372,22 +735,36 @@ export type vaccinesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   created_at?: boolean
   vaccine_name?: boolean
+  stage?: boolean
+  days_old?: boolean
+  dosage?: boolean
+  description?: boolean
 }, ExtArgs["result"]["vaccines"]>
 
 export type vaccinesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
   vaccine_name?: boolean
+  stage?: boolean
+  days_old?: boolean
+  dosage?: boolean
+  description?: boolean
 }, ExtArgs["result"]["vaccines"]>
 
 export type vaccinesSelectScalar = {
   id?: boolean
   created_at?: boolean
   vaccine_name?: boolean
+  stage?: boolean
+  days_old?: boolean
+  dosage?: boolean
+  description?: boolean
 }
 
-export type vaccinesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "vaccine_name", ExtArgs["result"]["vaccines"]>
+export type vaccinesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "vaccine_name" | "stage" | "days_old" | "dosage" | "description", ExtArgs["result"]["vaccines"]>
 export type vaccinesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  vaccination_schedule_details?: boolean | Prisma.vaccines$vaccination_schedule_detailsArgs<ExtArgs>
+  vaccination_templates?: boolean | Prisma.vaccines$vaccination_templatesArgs<ExtArgs>
   vaccine_report_details?: boolean | Prisma.vaccines$vaccine_report_detailsArgs<ExtArgs>
   _count?: boolean | Prisma.VaccinesCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -397,12 +774,18 @@ export type vaccinesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $vaccinesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "vaccines"
   objects: {
+    vaccination_schedule_details: Prisma.$vaccination_schedule_detailsPayload<ExtArgs>[]
+    vaccination_templates: Prisma.$vaccination_templatesPayload<ExtArgs>[]
     vaccine_report_details: Prisma.$vaccine_report_detailsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     created_at: Date
     vaccine_name: string | null
+    stage: number | null
+    days_old: number | null
+    dosage: string | null
+    description: string | null
   }, ExtArgs["result"]["vaccines"]>
   composites: {}
 }
@@ -797,6 +1180,8 @@ readonly fields: vaccinesFieldRefs;
  */
 export interface Prisma__vaccinesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  vaccination_schedule_details<T extends Prisma.vaccines$vaccination_schedule_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.vaccines$vaccination_schedule_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$vaccination_schedule_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  vaccination_templates<T extends Prisma.vaccines$vaccination_templatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.vaccines$vaccination_templatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$vaccination_templatesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vaccine_report_details<T extends Prisma.vaccines$vaccine_report_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.vaccines$vaccine_report_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$vaccine_report_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -830,6 +1215,10 @@ export interface vaccinesFieldRefs {
   readonly id: Prisma.FieldRef<"vaccines", 'String'>
   readonly created_at: Prisma.FieldRef<"vaccines", 'DateTime'>
   readonly vaccine_name: Prisma.FieldRef<"vaccines", 'String'>
+  readonly stage: Prisma.FieldRef<"vaccines", 'Int'>
+  readonly days_old: Prisma.FieldRef<"vaccines", 'Int'>
+  readonly dosage: Prisma.FieldRef<"vaccines", 'String'>
+  readonly description: Prisma.FieldRef<"vaccines", 'String'>
 }
     
 
@@ -1215,6 +1604,54 @@ export type vaccinesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many vaccines to delete.
    */
   limit?: number
+}
+
+/**
+ * vaccines.vaccination_schedule_details
+ */
+export type vaccines$vaccination_schedule_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the vaccination_schedule_details
+   */
+  select?: Prisma.vaccination_schedule_detailsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the vaccination_schedule_details
+   */
+  omit?: Prisma.vaccination_schedule_detailsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.vaccination_schedule_detailsInclude<ExtArgs> | null
+  where?: Prisma.vaccination_schedule_detailsWhereInput
+  orderBy?: Prisma.vaccination_schedule_detailsOrderByWithRelationInput | Prisma.vaccination_schedule_detailsOrderByWithRelationInput[]
+  cursor?: Prisma.vaccination_schedule_detailsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Vaccination_schedule_detailsScalarFieldEnum | Prisma.Vaccination_schedule_detailsScalarFieldEnum[]
+}
+
+/**
+ * vaccines.vaccination_templates
+ */
+export type vaccines$vaccination_templatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the vaccination_templates
+   */
+  select?: Prisma.vaccination_templatesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the vaccination_templates
+   */
+  omit?: Prisma.vaccination_templatesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.vaccination_templatesInclude<ExtArgs> | null
+  where?: Prisma.vaccination_templatesWhereInput
+  orderBy?: Prisma.vaccination_templatesOrderByWithRelationInput | Prisma.vaccination_templatesOrderByWithRelationInput[]
+  cursor?: Prisma.vaccination_templatesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Vaccination_templatesScalarFieldEnum | Prisma.Vaccination_templatesScalarFieldEnum[]
 }
 
 /**
