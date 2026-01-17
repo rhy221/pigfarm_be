@@ -7,18 +7,16 @@ export class ReportService {
 
   async getHerdReport(query: { date?: string; pen?: string }) {
     const targetDate = query.date ? new Date(query.date) : new Date();
-    const startDate = new Date(targetDate);
-    startDate.setHours(0, 0, 0, 0);
-    const endDate = new Date(targetDate);
-    endDate.setHours(23, 59, 59, 999);
 
-    let report = await this.repo.findHerdReportByDate(startDate, endDate);
-    if (!report) report = await this.repo.createHerdReport(targetDate);
+    // Get stats directly from Pens and Pigs tables
+    const penStats = await this.repo.getRealtimeHerdStats(
+      targetDate,
+      query.pen,
+    );
 
-    const penStats = await this.repo.findHerdReportPens(report.id, query.pen);
     const pens = penStats.map((s) => ({
       penId: s.pen_id || '',
-      penName: s.pens?.pen_name || '',
+      penName: s.pen_name || '',
       healthyCount: s.healthy_count || 0,
       sickCount: s.sick_count || 0,
       deadCount: s.dead_count || 0,
@@ -31,7 +29,6 @@ export class ReportService {
       pens,
     };
   }
-
   async getInventoryReport(query: { month?: string }) {
     const targetMonth = query.month || new Date().toISOString().slice(0, 7);
     const [year, month] = targetMonth.split('-').map(Number);
@@ -40,15 +37,23 @@ export class ReportService {
 
     const report = await this.repo.findInventoryReport(startDate, endDate);
     const items =
-      report?.inventory_report_items.map((i) => ({
-        materialId: i.material_id || '',
-        materialName: i.materials?.name || '',
-        openingStock: i.opening_stock || 0,
-        changeAmount: i.change_amout || 0,
-        closingStock: i.closing_stock || 0,
-      })) || [];
+      report?.inventory_report_items.map(
+        (i: {
+          material_id: string;
+          materials: { name: string } | null;
+          opening_stock: number;
+          change_amout: number;
+          closing_stock: number;
+        }) => ({
+          materialId: String(i.material_id || ''),
+          materialName: String(i.materials?.name || ''),
+          openingStock: Number(i.opening_stock || 0),
+          changeAmount: Number(i.change_amout || 0),
+          closingStock: Number(i.closing_stock || 0),
+        }),
+      ) || [];
 
-    return { month: targetMonth, items, trends: [] };
+    return { month: targetMonth, items, trends: report?.trends || [] };
   }
 
   async getVaccineReport(query: { month?: string; vaccine?: string }) {
@@ -57,30 +62,34 @@ export class ReportService {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0, 23, 59, 59);
 
-    const report = await this.repo.findVaccineReport(
+    const vaccineStats = await this.repo.getVaccineStatsDirect(
       startDate,
       endDate,
-      query.vaccine,
     );
-    const details =
-      report?.vaccine_report_details.map((d) => ({
-        vaccineId: d.vaccine_id || '',
-        vaccineName: d.vaccines?.vaccine_name || '',
-        diseaseName: d.diseases?.name || '',
-        cost: Number(d.cost) || 0,
-        totalVaccinated: d.total_vaccinated || 0,
-        sickCount: 0,
-        effectivenessRate: d.effectiveness_rate || 0,
-      })) || [];
+
+    const details = vaccineStats.map((v) => ({
+      vaccineId: String(v.vaccine_id || ''),
+      vaccineName: String(v.vaccine_name || ''),
+      diseaseName: String(v.disease_name || 'N/A'),
+      cost: Number(v.cost || 0),
+      totalVaccinated: Number(v.total_vaccinated || 0),
+      sickCount: Number(v.sick_count || 0),
+      effectivenessRate: Number(v.effectiveness_rate || 0),
+    }));
+
+    const totalVaccinated = details.reduce((s, d) => s + d.totalVaccinated, 0);
+    const totalSick = details.reduce((s, d) => s + d.sickCount, 0);
+    const totalCost = details.reduce((s, d) => s + d.cost, 0);
+    const avgEffectiveness = details.length
+      ? details.reduce((s, d) => s + d.effectivenessRate, 0) / details.length
+      : 0;
 
     return {
       month: targetMonth,
-      totalCost: details.reduce((s, d) => s + d.cost, 0),
-      totalPigs: details.reduce((s, d) => s + d.totalVaccinated, 0),
-      totalSick: 0,
-      avgEffectiveness: details.length
-        ? details.reduce((s, d) => s + d.effectivenessRate, 0) / details.length
-        : 0,
+      totalCost,
+      totalPigs: totalVaccinated,
+      totalSick,
+      avgEffectiveness,
       details,
     };
   }

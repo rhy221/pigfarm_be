@@ -44,33 +44,50 @@ Sử dụng khi người dùng hỏi về:
 
 ## Cấu trúc Database (để viết SQL)
 
-### Bảng chính:
-- `pigs`: Thông tin từng con heo (id, ear_tag_number, weight, dob, pig_batch_id, pig_status_id)
-- `pig_batchs`: Lô heo (id, quantity, pig_breed_id, entry_date)
-- `pig_statuses`: Trạng thái heo (id, status_name: 'khỏe mạnh', 'ốm', 'chết', 'đã xuất')
-- `pig_breeds`: Giống heo (id, breed_name)
-- `pens`: Chuồng (id, name, capacity)
+### 1. Quản lý đàn heo (Bảng chính):
+- `pigs`: Thông tin cá thể heo
+  - `id`, `ear_tag_number`, `weight`
+  - `pig_batch_id` (FK), `pen_id` (FK), `pig_breed_id` (FK)
+  - `pig_status_id` (FK - Trạng thái chung: Khỏe, Ốm, Chết, Đã xuất...)
+  - `growth_stage` (ENUM: 'PIGLET', 'WEANER', 'GROWER', 'FINISHER')
+- `pig_statuses`: Danh mục trạng thái heo (`id`, `status_name`)
+- `pig_batches`: Lô heo (`id`, `batch_name`, `arrival_date`)
+- `pens`: Chuồng nuôi (`id`, `pen_name`, `pen_type_id`)
+- `pig_breeds`: Giống heo (`id`, `breed_name`)
 
-### Sức khỏe:
-- `disease_treatments`: Điều trị bệnh (pig_id, weight, symptom, disease_id, treatment_date)
-- `diseases`: Danh mục bệnh (id, name)
-- `vaccination_schedules`: Lịch tiêm phòng (id, name)
-- `vaccines`: Loại vaccine (id, name)
+### 2. Sức khỏe & Dịch bệnh:
+- `disease_treatments`: Đợt điều trị (theo chuồng)
+  - `id`, `pen_id`, `disease_id`, `symptom`
+  - `status` (ENUM `sick_group_status`: 'TREATING', 'FINISHED')
+- `pig_in_treatment`: Chi tiết heo đang điều trị
+  - `id`, `pig_id` (FK), `treatment_id` (FK)
+  - `status` (ENUM `pig_status`: 'SICK', 'RECOVERED', 'DEAD')
+- `diseases`: Danh mục bệnh (`id`, `name`)
+- `vaccination_schedules`: Lịch tiêm phòng (`id`, `pen_id`, `scheduled_date`, `status`)
+- `vaccines`: Vaccine (`id`, `vaccine_name`)
 
-### Tồn kho:
-- `materials`: Vật tư (id, name, quantity, price_unit, expiration_date, material_type_id)
-- `material_types`: Loại vật tư (id, name)
-- `feeds`: Thức ăn (id, name)
+### 3. Kho & Vật tư:
+- `products`: Sản phẩm/Vật tư (`id`, `name`, `code`, `category_id`, `unit_id`, `default_price`)
+- `inventory`: Tồn kho (`warehouse_id`, `product_id`, `quantity`)
+- `warehouses`: Kho (`id`, `name`, `warehouse_type`)
+  - `warehouse_type` (ENUM-like: 'MATERIAL', 'HARVEST', 'PRODUCT', 'OTHER')
+- `feeds`: Thức ăn (`id`, `name`)
 
-### Công việc:
-- `employees`: Nhân viên (id, name, phone, role)
-- `work_assignments`: Phân công (id, assign_date)
-- `tasks`: Công việc (assignment_id, pen_id, status, task_type, description)
+### 4. Công việc & Nhân sự:
+- `employees`: Nhân viên (`id`, `name`, `role`, `email`)
+- `assignments`: Phân công (`id`, `assignment_date`)
+- `assignment_details`: Chi tiết công việc
+  - `id`, `assignment_id`, `employee_id`, `pen_id`, `task_description`
+  - `status` (pending, completed...)
+  - `task_type` (other, feeding, cleaning...)
 
-### Tài chính:
-- `expenses`: Chi phí (category_id, amount, expense_date)
-- `expense_categories`: Loại chi phí (id, name)
-- `pig_shippings`: Xuất bán (id, shipping_date, total_weight, total_price)
+### 5. Tài chính:
+- `expenses`: Chi phí (`id`, `category_id`, `amount`, `created_at`, `payment_status`)
+- `expense_categories`: Loại chi phí (`id`, `name`)
+- `pig_shippings`: Xuất bán heo
+  - `id`, `export_date`, `total_amount`, `customer_name`
+  - `payment_status` (FK `pig_shipping_statuses`)
+
 """
 
 
@@ -80,20 +97,30 @@ Chỉ sử dụng câu lệnh SELECT. Không được INSERT, UPDATE, DELETE.
 
 Ví dụ câu hỏi và SQL tương ứng:
 
-1. "Có bao nhiêu con heo?"
-   SELECT COUNT(*) as total_pigs FROM pigs WHERE pig_status_id != (SELECT id FROM pig_statuses WHERE status_name = 'đã xuất')
+1. "Có bao nhiêu con heo thịt (Grower)?"
+   SELECT COUNT(*) as total_pigs 
+   FROM pigs 
+   WHERE growth_stage = 'GROWER' 
+   AND pig_status_id NOT IN (SELECT id FROM pig_statuses WHERE status_name ILIKE '%đã xuất%' OR status_name ILIKE '%chết%')
 
-2. "Heo nào đang bị ốm?"
-   SELECT p.ear_tag_number, p.weight, ps.status_name 
-   FROM pigs p 
-   JOIN pig_statuses ps ON p.pig_status_id = ps.id 
-   WHERE ps.status_name = 'ốm'
+2. "Heo nào đang điều trị bệnh?"
+   SELECT p.ear_tag_number, p.weight, d.name as disease_name, pit.status
+   FROM pigs p
+   JOIN pig_in_treatment pit ON p.id = pit.pig_id
+   JOIN disease_treatments dt ON pit.treatment_id = dt.id
+   JOIN diseases d ON dt.disease_id = d.id
+   WHERE pit.status = 'SICK'
 
-3. "Tồn kho cám còn bao nhiêu?"
-   SELECT name, quantity, price_unit FROM materials WHERE material_type_id = (SELECT id FROM material_types WHERE name ILIKE '%cám%' OR name ILIKE '%feed%')
+3. "Kiểm tra tồn kho thức ăn?"
+   SELECT p.name, i.quantity 
+   FROM products p 
+   JOIN inventory i ON p.id = i.product_id 
+   WHERE p.name ILIKE '%cám%' OR p.name ILIKE '%feed%'
 
-4. "Doanh thu tháng này?"
-   SELECT SUM(total_price) as revenue FROM pig_shippings WHERE EXTRACT(MONTH FROM shipping_date) = EXTRACT(MONTH FROM CURRENT_DATE)
+4. "Doanh thu xuất bán tháng này?"
+   SELECT SUM(total_amount) as revenue 
+   FROM pig_shippings 
+   WHERE EXTRACT(MONTH FROM export_date) = EXTRACT(MONTH FROM CURRENT_DATE)
 
 Args:
     sql_query: Câu lệnh SQL SELECT để truy vấn dữ liệu
