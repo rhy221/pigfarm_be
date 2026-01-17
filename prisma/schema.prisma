@@ -98,6 +98,7 @@ model disease_treatments {
   symptom           String?             @default("")
   disease_id        String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   status            sick_group_status?
+  end_date          DateTime?           @db.Timestamptz(6)
   diseases          diseases?           @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pens              pens?               @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pig_in_treatment  pig_in_treatment[]
@@ -246,6 +247,7 @@ model pens {
   feeding_schedule_details                     feeding_schedule_details[]
   herd_report_pens                             herd_report_pens[]
   pen_types                                    pen_types?                 @relation(fields: [pen_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pig_shipping_details                         pig_shipping_details[]
   pig_transfers_pig_transfers_new_pen_idTopens pig_transfers[]            @relation("pig_transfers_new_pen_idTopens")
   pig_transfers_pig_transfers_old_pen_idTopens pig_transfers[]            @relation("pig_transfers_old_pen_idTopens")
   pigs                                         pigs[]
@@ -270,6 +272,7 @@ model pig_shipping_details {
   total_weight      Float?              @default(0) @db.Real
   price_unit        Decimal?            @default(0) @db.Decimal
   amount            Decimal?            @default(0) @db.Decimal
+  pens              pens?               @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pig_shippings     pig_shippings?      @relation(fields: [pig_shipping_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   shipped_pig_items shipped_pig_items[]
 }
@@ -384,6 +387,7 @@ model vaccination_schedules {
   employee_id                  String?                        @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   scheduled_date               DateTime?                      @db.Date
   status                       String?                        @default("pending") @db.VarChar(20)
+  color                        String?                        @default("#3B82F6")
   vaccination_schedule_details vaccination_schedule_details[]
   employees                    employees?                     @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pens                         pens?                          @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -394,8 +398,13 @@ model vaccines {
   id                           String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at                   DateTime                       @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   vaccine_name                 String?                        @default("")
+  stage                        Int?                           @default(1)
+  days_old                     Int?                           @default(0)
+  dosage                       String?                        @default("")
+  description                  String?                        @default("")
   vaccination_schedule_details vaccination_schedule_details[]
   vaccination_templates        vaccination_templates[]
+  vaccine_report_details       vaccine_report_details[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -974,6 +983,27 @@ model vaccination_templates {
   vaccines   vaccines  @relation(fields: [vaccine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([days_old], map: "idx_vaccination_templates_days_old")
+}
+
+model vaccine_report_details {
+  id                      String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at              DateTime         @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  vaccine_id              String?          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  disease_id              String?          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  cost                    Decimal?         @default(0) @db.Decimal
+  total_vaccinated        Int?             @default(0)
+  post_vaccination_status String?          @default("")
+  effectiveness_rate      Float?           @default(0) @db.Real
+  vaccine_report_id       String?          @db.Uuid
+  diseases                diseases?        @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vaccines                vaccines?        @relation(fields: [vaccine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vaccine_reports         vaccine_reports? @relation(fields: [vaccine_report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model vaccine_reports {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  vaccine_report_details vaccine_report_details[]
 }
 
 enum material_categories {

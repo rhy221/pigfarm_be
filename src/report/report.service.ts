@@ -94,6 +94,10 @@ export class ReportService {
     };
   }
 
+  async getVaccinesList() {
+    return this.repo.getVaccines();
+  }
+
   async getExpenseReport(query: {
     month?: string;
     category?: string;
@@ -143,19 +147,33 @@ export class ReportService {
     const revenueItems = shippings.map((s) => ({
       id: s.id,
       date: s.created_at.toISOString().split('T')[0],
-      description: `Shipping to ${s.customer_name}`,
+      description: `Xuất bán: ${s.customer_name || 'Khách lẻ'}`,
       amount: Number(s.total_amount) || 0,
       type: 'revenue' as const,
     }));
 
+    // 1. Operational Expenses
     const expenses = await this.repo.findExpenses(startDate, endDate);
-    const expenseItems = expenses.map((e) => ({
+    const operationalExpenseItems = expenses.map((e) => ({
       id: e.id,
       date: e.created_at.toISOString().split('T')[0],
-      description: e.expense_categories?.name || 'Expense',
+      description: `Chi phí: ${e.expense_categories?.name || 'Khác'}`,
       amount: Number(e.amount) || 0,
       type: 'expense' as const,
     }));
+
+    // 2. Import Expenses (Stock Receipts)
+    const stockReceipts = await this.repo.findStockReceipts(startDate, endDate);
+    const importExpenseItems = stockReceipts.map((r) => ({
+      id: r.id,
+      date: r.receipt_date.toISOString().split('T')[0],
+      description: `Nhập kho: ${r.receipt_code} (${r.suppliers?.name || 'NCC lẻ'})`,
+      amount: Number(r.final_amount || r.total_amount) || 0,
+      type: 'expense' as const,
+    }));
+
+    // Combine Expenses
+    const expenseItems = [...operationalExpenseItems, ...importExpenseItems];
 
     const totalRevenue = revenueItems.reduce((s, r) => s + r.amount, 0);
     const totalExpense = expenseItems.reduce((s, e) => s + e.amount, 0);

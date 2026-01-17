@@ -90,7 +90,7 @@ export class ReportRepository {
     });
 
     // 5. Calculate Trends (Last 6 months)
-    const trends = [];
+    const trends: { month: string; value: number }[] = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date();
       d.setMonth(d.getMonth() - i);
@@ -167,6 +167,16 @@ export class ReportRepository {
     return this.prisma.pig_shippings.findMany({
       where: { created_at: { gte: startDate, lte: endDate } },
       include: { pig_shipping_details: true },
+    });
+  }
+
+  // Stock Receipts (Import Cost)
+  async findStockReceipts(startDate: Date, endDate: Date) {
+    return this.prisma.stock_receipts.findMany({
+      where: {
+        receipt_date: { gte: startDate, lte: endDate },
+      },
+      include: { suppliers: true },
     });
   }
 
@@ -334,8 +344,18 @@ export class ReportRepository {
           if (s.pens?.pigs) {
             for (const pig of s.pens.pigs) {
               const gotSick = pig.pig_in_treatment.some((t) => {
-                const treatDate = new Date(t.created_at);
-                const schedDate = s.scheduled_date ? new Date(s.scheduled_date) : new Date();
+                const treatment = t.disease_treatments;
+                if (!treatment) return false; // Safety check
+
+                const treatDate = new Date(treatment.created_at);
+                const schedDate = s.scheduled_date
+                  ? new Date(s.scheduled_date)
+                  : new Date();
+                
+                // Check if the disease matches the vaccine's target disease (if we knew it)
+                // For now, we assume any disease is bad, OR we could try to match names if available.
+                // Improving: check if disease_id matches what the vaccine prevents (if we had that link).
+                
                 return treatDate > schedDate;
               });
               if (gotSick) item.sick_count++;
@@ -352,5 +372,11 @@ export class ReportRepository {
           ? ((v.total_vaccinated - v.sick_count) / v.total_vaccinated) * 100
           : 100,
     }));
+  }
+
+  async getVaccines() {
+    return this.prisma.vaccines.findMany({
+      orderBy: { vaccine_name: 'asc' },
+    });
   }
 }

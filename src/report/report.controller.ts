@@ -27,6 +27,11 @@ export class ReportController {
     return this.reportService.getVaccineReport(query);
   }
 
+  @Get('vaccines-list')
+  getVaccinesList() {
+    return this.reportService.getVaccinesList();
+  }
+
   @Get('expenses')
   getExpenseReport(@Query() query: ExpenseReportQueryDto) {
     return this.reportService.getExpenseReport(query);
