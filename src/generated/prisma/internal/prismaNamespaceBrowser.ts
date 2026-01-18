@@ -742,7 +742,8 @@ export const Stock_issue_itemsScalarFieldEnum = {
   unit_cost: 'unit_cost',
   total_amount: 'total_amount',
   notes: 'notes',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  batch_id: 'batch_id'
 } as const
 
 export type Stock_issue_itemsScalarFieldEnum = (typeof Stock_issue_itemsScalarFieldEnum)[keyof typeof Stock_issue_itemsScalarFieldEnum]
@@ -780,9 +781,9 @@ export const Stock_receipt_itemsScalarFieldEnum = {
   tax_amount: 'tax_amount',
   total_amount: 'total_amount',
   expiry_date: 'expiry_date',
-  batch_number: 'batch_number',
   notes: 'notes',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  batch_id: 'batch_id'
 } as const
 
 export type Stock_receipt_itemsScalarFieldEnum = (typeof Stock_receipt_itemsScalarFieldEnum)[keyof typeof Stock_receipt_itemsScalarFieldEnum]
@@ -938,6 +939,18 @@ export const Warehouse_categoriesScalarFieldEnum = {
 export type Warehouse_categoriesScalarFieldEnum = (typeof Warehouse_categoriesScalarFieldEnum)[keyof typeof Warehouse_categoriesScalarFieldEnum]
 
 
+export const Chat_documentsScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  content: 'content',
+  chunk_index: 'chunk_index',
+  metadata: 'metadata',
+  created_at: 'created_at'
+} as const
+
+export type Chat_documentsScalarFieldEnum = (typeof Chat_documentsScalarFieldEnum)[keyof typeof Chat_documentsScalarFieldEnum]
+
+
 export const Pig_batchesScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
@@ -993,18 +1006,6 @@ export const Vaccination_templatesScalarFieldEnum = {
 } as const
 
 export type Vaccination_templatesScalarFieldEnum = (typeof Vaccination_templatesScalarFieldEnum)[keyof typeof Vaccination_templatesScalarFieldEnum]
-
-
-export const Chat_documentsScalarFieldEnum = {
-  id: 'id',
-  filename: 'filename',
-  content: 'content',
-  chunk_index: 'chunk_index',
-  metadata: 'metadata',
-  created_at: 'created_at'
-} as const
-
-export type Chat_documentsScalarFieldEnum = (typeof Chat_documentsScalarFieldEnum)[keyof typeof Chat_documentsScalarFieldEnum]
 
 
 export const Feeding_formulasScalarFieldEnum = {

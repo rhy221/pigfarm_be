@@ -5933,7 +5933,8 @@ export const Stock_issue_itemsScalarFieldEnum = {
   unit_cost: 'unit_cost',
   total_amount: 'total_amount',
   notes: 'notes',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  batch_id: 'batch_id'
 } as const
 
 export type Stock_issue_itemsScalarFieldEnum = (typeof Stock_issue_itemsScalarFieldEnum)[keyof typeof Stock_issue_itemsScalarFieldEnum]
@@ -5971,9 +5972,9 @@ export const Stock_receipt_itemsScalarFieldEnum = {
   tax_amount: 'tax_amount',
   total_amount: 'total_amount',
   expiry_date: 'expiry_date',
-  batch_number: 'batch_number',
   notes: 'notes',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  batch_id: 'batch_id'
 } as const
 
 export type Stock_receipt_itemsScalarFieldEnum = (typeof Stock_receipt_itemsScalarFieldEnum)[keyof typeof Stock_receipt_itemsScalarFieldEnum]
