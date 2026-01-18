@@ -107,12 +107,12 @@ export const ModelName = {
   units: 'units',
   users: 'users',
   warehouse_categories: 'warehouse_categories',
-  chat_documents: 'chat_documents',
   pig_batches: 'pig_batches',
   pig_in_treatment: 'pig_in_treatment',
   shipped_pig_items: 'shipped_pig_items',
   treatment_logs: 'treatment_logs',
   vaccination_templates: 'vaccination_templates',
+  chat_documents: 'chat_documents',
   feeding_formulas: 'feeding_formulas'
 } as const
 

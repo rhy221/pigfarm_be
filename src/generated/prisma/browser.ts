@@ -308,11 +308,6 @@ export type users = Prisma.usersModel
  */
 export type warehouse_categories = Prisma.warehouse_categoriesModel
 /**
- * Model chat_documents
- * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
- */
-export type chat_documents = Prisma.chat_documentsModel
-/**
  * Model pig_batches
  * 
  */
@@ -337,6 +332,11 @@ export type treatment_logs = Prisma.treatment_logsModel
  * 
  */
 export type vaccination_templates = Prisma.vaccination_templatesModel
+/**
+ * Model chat_documents
+ * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+ */
+export type chat_documents = Prisma.chat_documentsModel
 /**
  * Model feeding_formulas
  * 
