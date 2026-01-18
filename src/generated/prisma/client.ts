@@ -98,11 +98,6 @@ export type environment_log_details = Prisma.environment_log_detailsModel
  */
 export type environment_logs = Prisma.environment_logsModel
 /**
- * Model expenses
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type expenses = Prisma.expensesModel
-/**
  * Model feeding_schedule_details
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
@@ -218,16 +213,6 @@ export type vaccines = Prisma.vaccinesModel
  */
 export type work_shifts = Prisma.work_shiftsModel
 /**
- * Model expense_categories
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type expense_categories = Prisma.expense_categoriesModel
-/**
- * Model expense_entities
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type expense_entities = Prisma.expense_entitiesModel
-/**
  * Model warehouses
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
@@ -252,11 +237,6 @@ export type daily_cash_snapshots = Prisma.daily_cash_snapshotsModel
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type daily_inventory_snapshots = Prisma.daily_inventory_snapshotsModel
-/**
- * Model farm_members
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type farm_members = Prisma.farm_membersModel
 /**
  * Model inventory
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -382,3 +362,8 @@ export type vaccination_templates = Prisma.vaccination_templatesModel
  * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
  */
 export type chat_documents = Prisma.chat_documentsModel
+/**
+ * Model feeding_formulas
+ * 
+ */
+export type feeding_formulas = Prisma.feeding_formulasModel

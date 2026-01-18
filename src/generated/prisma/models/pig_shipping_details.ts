@@ -240,6 +240,7 @@ export type pig_shipping_detailsWhereInput = {
   total_weight?: Prisma.FloatNullableFilter<"pig_shipping_details"> | number | null
   price_unit?: Prisma.DecimalNullableFilter<"pig_shipping_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: Prisma.DecimalNullableFilter<"pig_shipping_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
   pig_shippings?: Prisma.XOR<Prisma.Pig_shippingsNullableScalarRelationFilter, Prisma.pig_shippingsWhereInput> | null
   shipped_pig_items?: Prisma.Shipped_pig_itemsListRelationFilter
 }
@@ -252,6 +253,7 @@ export type pig_shipping_detailsOrderByWithRelationInput = {
   total_weight?: Prisma.SortOrderInput | Prisma.SortOrder
   price_unit?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrderInput | Prisma.SortOrder
+  pens?: Prisma.pensOrderByWithRelationInput
   pig_shippings?: Prisma.pig_shippingsOrderByWithRelationInput
   shipped_pig_items?: Prisma.shipped_pig_itemsOrderByRelationAggregateInput
 }
@@ -267,6 +269,7 @@ export type pig_shipping_detailsWhereUniqueInput = Prisma.AtLeast<{
   total_weight?: Prisma.FloatNullableFilter<"pig_shipping_details"> | number | null
   price_unit?: Prisma.DecimalNullableFilter<"pig_shipping_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: Prisma.DecimalNullableFilter<"pig_shipping_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
   pig_shippings?: Prisma.XOR<Prisma.Pig_shippingsNullableScalarRelationFilter, Prisma.pig_shippingsWhereInput> | null
   shipped_pig_items?: Prisma.Shipped_pig_itemsListRelationFilter
 }, "id">
@@ -302,10 +305,10 @@ export type pig_shipping_detailsScalarWhereWithAggregatesInput = {
 export type pig_shipping_detailsCreateInput = {
   id?: string
   created_at?: Date | string
-  pen_id?: string | null
   total_weight?: number | null
   price_unit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pens?: Prisma.pensCreateNestedOneWithoutPig_shipping_detailsInput
   pig_shippings?: Prisma.pig_shippingsCreateNestedOneWithoutPig_shipping_detailsInput
   shipped_pig_items?: Prisma.shipped_pig_itemsCreateNestedManyWithoutPig_shipping_detailsInput
 }
@@ -324,10 +327,10 @@ export type pig_shipping_detailsUncheckedCreateInput = {
 export type pig_shipping_detailsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   price_unit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pens?: Prisma.pensUpdateOneWithoutPig_shipping_detailsNestedInput
   pig_shippings?: Prisma.pig_shippingsUpdateOneWithoutPig_shipping_detailsNestedInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUpdateManyWithoutPig_shipping_detailsNestedInput
 }
@@ -356,7 +359,6 @@ export type pig_shipping_detailsCreateManyInput = {
 export type pig_shipping_detailsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   price_unit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -370,6 +372,16 @@ export type pig_shipping_detailsUncheckedUpdateManyInput = {
   total_weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   price_unit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type Pig_shipping_detailsListRelationFilter = {
+  every?: Prisma.pig_shipping_detailsWhereInput
+  some?: Prisma.pig_shipping_detailsWhereInput
+  none?: Prisma.pig_shipping_detailsWhereInput
+}
+
+export type pig_shipping_detailsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type pig_shipping_detailsCountOrderByAggregateInput = {
@@ -414,19 +426,59 @@ export type pig_shipping_detailsSumOrderByAggregateInput = {
   amount?: Prisma.SortOrder
 }
 
-export type Pig_shipping_detailsListRelationFilter = {
-  every?: Prisma.pig_shipping_detailsWhereInput
-  some?: Prisma.pig_shipping_detailsWhereInput
-  none?: Prisma.pig_shipping_detailsWhereInput
-}
-
-export type pig_shipping_detailsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type Pig_shipping_detailsNullableScalarRelationFilter = {
   is?: Prisma.pig_shipping_detailsWhereInput | null
   isNot?: Prisma.pig_shipping_detailsWhereInput | null
+}
+
+export type pig_shipping_detailsCreateNestedManyWithoutPensInput = {
+  create?: Prisma.XOR<Prisma.pig_shipping_detailsCreateWithoutPensInput, Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput> | Prisma.pig_shipping_detailsCreateWithoutPensInput[] | Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput[]
+  connectOrCreate?: Prisma.pig_shipping_detailsCreateOrConnectWithoutPensInput | Prisma.pig_shipping_detailsCreateOrConnectWithoutPensInput[]
+  createMany?: Prisma.pig_shipping_detailsCreateManyPensInputEnvelope
+  connect?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+}
+
+export type pig_shipping_detailsUncheckedCreateNestedManyWithoutPensInput = {
+  create?: Prisma.XOR<Prisma.pig_shipping_detailsCreateWithoutPensInput, Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput> | Prisma.pig_shipping_detailsCreateWithoutPensInput[] | Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput[]
+  connectOrCreate?: Prisma.pig_shipping_detailsCreateOrConnectWithoutPensInput | Prisma.pig_shipping_detailsCreateOrConnectWithoutPensInput[]
+  createMany?: Prisma.pig_shipping_detailsCreateManyPensInputEnvelope
+  connect?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+}
+
+export type pig_shipping_detailsUpdateManyWithoutPensNestedInput = {
+  create?: Prisma.XOR<Prisma.pig_shipping_detailsCreateWithoutPensInput, Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput> | Prisma.pig_shipping_detailsCreateWithoutPensInput[] | Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput[]
+  connectOrCreate?: Prisma.pig_shipping_detailsCreateOrConnectWithoutPensInput | Prisma.pig_shipping_detailsCreateOrConnectWithoutPensInput[]
+  upsert?: Prisma.pig_shipping_detailsUpsertWithWhereUniqueWithoutPensInput | Prisma.pig_shipping_detailsUpsertWithWhereUniqueWithoutPensInput[]
+  createMany?: Prisma.pig_shipping_detailsCreateManyPensInputEnvelope
+  set?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+  disconnect?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+  delete?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+  connect?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+  update?: Prisma.pig_shipping_detailsUpdateWithWhereUniqueWithoutPensInput | Prisma.pig_shipping_detailsUpdateWithWhereUniqueWithoutPensInput[]
+  updateMany?: Prisma.pig_shipping_detailsUpdateManyWithWhereWithoutPensInput | Prisma.pig_shipping_detailsUpdateManyWithWhereWithoutPensInput[]
+  deleteMany?: Prisma.pig_shipping_detailsScalarWhereInput | Prisma.pig_shipping_detailsScalarWhereInput[]
+}
+
+export type pig_shipping_detailsUncheckedUpdateManyWithoutPensNestedInput = {
+  create?: Prisma.XOR<Prisma.pig_shipping_detailsCreateWithoutPensInput, Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput> | Prisma.pig_shipping_detailsCreateWithoutPensInput[] | Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput[]
+  connectOrCreate?: Prisma.pig_shipping_detailsCreateOrConnectWithoutPensInput | Prisma.pig_shipping_detailsCreateOrConnectWithoutPensInput[]
+  upsert?: Prisma.pig_shipping_detailsUpsertWithWhereUniqueWithoutPensInput | Prisma.pig_shipping_detailsUpsertWithWhereUniqueWithoutPensInput[]
+  createMany?: Prisma.pig_shipping_detailsCreateManyPensInputEnvelope
+  set?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+  disconnect?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+  delete?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+  connect?: Prisma.pig_shipping_detailsWhereUniqueInput | Prisma.pig_shipping_detailsWhereUniqueInput[]
+  update?: Prisma.pig_shipping_detailsUpdateWithWhereUniqueWithoutPensInput | Prisma.pig_shipping_detailsUpdateWithWhereUniqueWithoutPensInput[]
+  updateMany?: Prisma.pig_shipping_detailsUpdateManyWithWhereWithoutPensInput | Prisma.pig_shipping_detailsUpdateManyWithWhereWithoutPensInput[]
+  deleteMany?: Prisma.pig_shipping_detailsScalarWhereInput | Prisma.pig_shipping_detailsScalarWhereInput[]
+}
+
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type pig_shipping_detailsCreateNestedManyWithoutPig_shippingsInput = {
@@ -487,13 +539,72 @@ export type pig_shipping_detailsUpdateOneWithoutShipped_pig_itemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.pig_shipping_detailsUpdateToOneWithWhereWithoutShipped_pig_itemsInput, Prisma.pig_shipping_detailsUpdateWithoutShipped_pig_itemsInput>, Prisma.pig_shipping_detailsUncheckedUpdateWithoutShipped_pig_itemsInput>
 }
 
-export type pig_shipping_detailsCreateWithoutPig_shippingsInput = {
+export type pig_shipping_detailsCreateWithoutPensInput = {
   id?: string
   created_at?: Date | string
-  pen_id?: string | null
   total_weight?: number | null
   price_unit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pig_shippings?: Prisma.pig_shippingsCreateNestedOneWithoutPig_shipping_detailsInput
+  shipped_pig_items?: Prisma.shipped_pig_itemsCreateNestedManyWithoutPig_shipping_detailsInput
+}
+
+export type pig_shipping_detailsUncheckedCreateWithoutPensInput = {
+  id?: string
+  created_at?: Date | string
+  pig_shipping_id?: string | null
+  total_weight?: number | null
+  price_unit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPig_shipping_detailsInput
+}
+
+export type pig_shipping_detailsCreateOrConnectWithoutPensInput = {
+  where: Prisma.pig_shipping_detailsWhereUniqueInput
+  create: Prisma.XOR<Prisma.pig_shipping_detailsCreateWithoutPensInput, Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput>
+}
+
+export type pig_shipping_detailsCreateManyPensInputEnvelope = {
+  data: Prisma.pig_shipping_detailsCreateManyPensInput | Prisma.pig_shipping_detailsCreateManyPensInput[]
+  skipDuplicates?: boolean
+}
+
+export type pig_shipping_detailsUpsertWithWhereUniqueWithoutPensInput = {
+  where: Prisma.pig_shipping_detailsWhereUniqueInput
+  update: Prisma.XOR<Prisma.pig_shipping_detailsUpdateWithoutPensInput, Prisma.pig_shipping_detailsUncheckedUpdateWithoutPensInput>
+  create: Prisma.XOR<Prisma.pig_shipping_detailsCreateWithoutPensInput, Prisma.pig_shipping_detailsUncheckedCreateWithoutPensInput>
+}
+
+export type pig_shipping_detailsUpdateWithWhereUniqueWithoutPensInput = {
+  where: Prisma.pig_shipping_detailsWhereUniqueInput
+  data: Prisma.XOR<Prisma.pig_shipping_detailsUpdateWithoutPensInput, Prisma.pig_shipping_detailsUncheckedUpdateWithoutPensInput>
+}
+
+export type pig_shipping_detailsUpdateManyWithWhereWithoutPensInput = {
+  where: Prisma.pig_shipping_detailsScalarWhereInput
+  data: Prisma.XOR<Prisma.pig_shipping_detailsUpdateManyMutationInput, Prisma.pig_shipping_detailsUncheckedUpdateManyWithoutPensInput>
+}
+
+export type pig_shipping_detailsScalarWhereInput = {
+  AND?: Prisma.pig_shipping_detailsScalarWhereInput | Prisma.pig_shipping_detailsScalarWhereInput[]
+  OR?: Prisma.pig_shipping_detailsScalarWhereInput[]
+  NOT?: Prisma.pig_shipping_detailsScalarWhereInput | Prisma.pig_shipping_detailsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"pig_shipping_details"> | string
+  created_at?: Prisma.DateTimeFilter<"pig_shipping_details"> | Date | string
+  pig_shipping_id?: Prisma.UuidNullableFilter<"pig_shipping_details"> | string | null
+  pen_id?: Prisma.UuidNullableFilter<"pig_shipping_details"> | string | null
+  total_weight?: Prisma.FloatNullableFilter<"pig_shipping_details"> | number | null
+  price_unit?: Prisma.DecimalNullableFilter<"pig_shipping_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amount?: Prisma.DecimalNullableFilter<"pig_shipping_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type pig_shipping_detailsCreateWithoutPig_shippingsInput = {
+  id?: string
+  created_at?: Date | string
+  total_weight?: number | null
+  price_unit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pens?: Prisma.pensCreateNestedOneWithoutPig_shipping_detailsInput
   shipped_pig_items?: Prisma.shipped_pig_itemsCreateNestedManyWithoutPig_shipping_detailsInput
 }
 
@@ -533,26 +644,13 @@ export type pig_shipping_detailsUpdateManyWithWhereWithoutPig_shippingsInput = {
   data: Prisma.XOR<Prisma.pig_shipping_detailsUpdateManyMutationInput, Prisma.pig_shipping_detailsUncheckedUpdateManyWithoutPig_shippingsInput>
 }
 
-export type pig_shipping_detailsScalarWhereInput = {
-  AND?: Prisma.pig_shipping_detailsScalarWhereInput | Prisma.pig_shipping_detailsScalarWhereInput[]
-  OR?: Prisma.pig_shipping_detailsScalarWhereInput[]
-  NOT?: Prisma.pig_shipping_detailsScalarWhereInput | Prisma.pig_shipping_detailsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"pig_shipping_details"> | string
-  created_at?: Prisma.DateTimeFilter<"pig_shipping_details"> | Date | string
-  pig_shipping_id?: Prisma.UuidNullableFilter<"pig_shipping_details"> | string | null
-  pen_id?: Prisma.UuidNullableFilter<"pig_shipping_details"> | string | null
-  total_weight?: Prisma.FloatNullableFilter<"pig_shipping_details"> | number | null
-  price_unit?: Prisma.DecimalNullableFilter<"pig_shipping_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  amount?: Prisma.DecimalNullableFilter<"pig_shipping_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-}
-
 export type pig_shipping_detailsCreateWithoutShipped_pig_itemsInput = {
   id?: string
   created_at?: Date | string
-  pen_id?: string | null
   total_weight?: number | null
   price_unit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pens?: Prisma.pensCreateNestedOneWithoutPig_shipping_detailsInput
   pig_shippings?: Prisma.pig_shippingsCreateNestedOneWithoutPig_shipping_detailsInput
 }
 
@@ -585,10 +683,10 @@ export type pig_shipping_detailsUpdateToOneWithWhereWithoutShipped_pig_itemsInpu
 export type pig_shipping_detailsUpdateWithoutShipped_pig_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   price_unit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pens?: Prisma.pensUpdateOneWithoutPig_shipping_detailsNestedInput
   pig_shippings?: Prisma.pig_shippingsUpdateOneWithoutPig_shipping_detailsNestedInput
 }
 
@@ -597,6 +695,44 @@ export type pig_shipping_detailsUncheckedUpdateWithoutShipped_pig_itemsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pig_shipping_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price_unit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type pig_shipping_detailsCreateManyPensInput = {
+  id?: string
+  created_at?: Date | string
+  pig_shipping_id?: string | null
+  total_weight?: number | null
+  price_unit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type pig_shipping_detailsUpdateWithoutPensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  total_weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price_unit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pig_shippings?: Prisma.pig_shippingsUpdateOneWithoutPig_shipping_detailsNestedInput
+  shipped_pig_items?: Prisma.shipped_pig_itemsUpdateManyWithoutPig_shipping_detailsNestedInput
+}
+
+export type pig_shipping_detailsUncheckedUpdateWithoutPensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pig_shipping_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price_unit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPig_shipping_detailsNestedInput
+}
+
+export type pig_shipping_detailsUncheckedUpdateManyWithoutPensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pig_shipping_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   price_unit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -614,10 +750,10 @@ export type pig_shipping_detailsCreateManyPig_shippingsInput = {
 export type pig_shipping_detailsUpdateWithoutPig_shippingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   price_unit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pens?: Prisma.pensUpdateOneWithoutPig_shipping_detailsNestedInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUpdateManyWithoutPig_shipping_detailsNestedInput
 }
 
@@ -679,6 +815,7 @@ export type pig_shipping_detailsSelect<ExtArgs extends runtime.Types.Extensions.
   total_weight?: boolean
   price_unit?: boolean
   amount?: boolean
+  pens?: boolean | Prisma.pig_shipping_details$pensArgs<ExtArgs>
   pig_shippings?: boolean | Prisma.pig_shipping_details$pig_shippingsArgs<ExtArgs>
   shipped_pig_items?: boolean | Prisma.pig_shipping_details$shipped_pig_itemsArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_shipping_detailsCountOutputTypeDefaultArgs<ExtArgs>
@@ -692,6 +829,7 @@ export type pig_shipping_detailsSelectCreateManyAndReturn<ExtArgs extends runtim
   total_weight?: boolean
   price_unit?: boolean
   amount?: boolean
+  pens?: boolean | Prisma.pig_shipping_details$pensArgs<ExtArgs>
   pig_shippings?: boolean | Prisma.pig_shipping_details$pig_shippingsArgs<ExtArgs>
 }, ExtArgs["result"]["pig_shipping_details"]>
 
@@ -703,6 +841,7 @@ export type pig_shipping_detailsSelectUpdateManyAndReturn<ExtArgs extends runtim
   total_weight?: boolean
   price_unit?: boolean
   amount?: boolean
+  pens?: boolean | Prisma.pig_shipping_details$pensArgs<ExtArgs>
   pig_shippings?: boolean | Prisma.pig_shipping_details$pig_shippingsArgs<ExtArgs>
 }, ExtArgs["result"]["pig_shipping_details"]>
 
@@ -718,20 +857,24 @@ export type pig_shipping_detailsSelectScalar = {
 
 export type pig_shipping_detailsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "pig_shipping_id" | "pen_id" | "total_weight" | "price_unit" | "amount", ExtArgs["result"]["pig_shipping_details"]>
 export type pig_shipping_detailsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pens?: boolean | Prisma.pig_shipping_details$pensArgs<ExtArgs>
   pig_shippings?: boolean | Prisma.pig_shipping_details$pig_shippingsArgs<ExtArgs>
   shipped_pig_items?: boolean | Prisma.pig_shipping_details$shipped_pig_itemsArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_shipping_detailsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type pig_shipping_detailsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pens?: boolean | Prisma.pig_shipping_details$pensArgs<ExtArgs>
   pig_shippings?: boolean | Prisma.pig_shipping_details$pig_shippingsArgs<ExtArgs>
 }
 export type pig_shipping_detailsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pens?: boolean | Prisma.pig_shipping_details$pensArgs<ExtArgs>
   pig_shippings?: boolean | Prisma.pig_shipping_details$pig_shippingsArgs<ExtArgs>
 }
 
 export type $pig_shipping_detailsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "pig_shipping_details"
   objects: {
+    pens: Prisma.$pensPayload<ExtArgs> | null
     pig_shippings: Prisma.$pig_shippingsPayload<ExtArgs> | null
     shipped_pig_items: Prisma.$shipped_pig_itemsPayload<ExtArgs>[]
   }
@@ -1137,6 +1280,7 @@ readonly fields: pig_shipping_detailsFieldRefs;
  */
 export interface Prisma__pig_shipping_detailsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  pens<T extends Prisma.pig_shipping_details$pensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_shipping_details$pensArgs<ExtArgs>>): Prisma.Prisma__pensClient<runtime.Types.Result.GetResult<Prisma.$pensPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   pig_shippings<T extends Prisma.pig_shipping_details$pig_shippingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_shipping_details$pig_shippingsArgs<ExtArgs>>): Prisma.Prisma__pig_shippingsClient<runtime.Types.Result.GetResult<Prisma.$pig_shippingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   shipped_pig_items<T extends Prisma.pig_shipping_details$shipped_pig_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_shipping_details$shipped_pig_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$shipped_pig_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1568,6 +1712,25 @@ export type pig_shipping_detailsDeleteManyArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many pig_shipping_details to delete.
    */
   limit?: number
+}
+
+/**
+ * pig_shipping_details.pens
+ */
+export type pig_shipping_details$pensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the pens
+   */
+  select?: Prisma.pensSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the pens
+   */
+  omit?: Prisma.pensOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.pensInclude<ExtArgs> | null
+  where?: Prisma.pensWhereInput
 }
 
 /**

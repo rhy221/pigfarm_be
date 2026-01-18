@@ -60,7 +60,6 @@ export const ModelName = {
   employees: 'employees',
   environment_log_details: 'environment_log_details',
   environment_logs: 'environment_logs',
-  expenses: 'expenses',
   feeding_schedule_details: 'feeding_schedule_details',
   feeding_schedules: 'feeding_schedules',
   feeds: 'feeds',
@@ -84,14 +83,11 @@ export const ModelName = {
   vaccine_reports: 'vaccine_reports',
   vaccines: 'vaccines',
   work_shifts: 'work_shifts',
-  expense_categories: 'expense_categories',
-  expense_entities: 'expense_entities',
   warehouses: 'warehouses',
   cash_accounts: 'cash_accounts',
   customers: 'customers',
   daily_cash_snapshots: 'daily_cash_snapshots',
   daily_inventory_snapshots: 'daily_inventory_snapshots',
-  farm_members: 'farm_members',
   inventory: 'inventory',
   inventory_batches: 'inventory_batches',
   inventory_check_items: 'inventory_check_items',
@@ -116,7 +112,8 @@ export const ModelName = {
   shipped_pig_items: 'shipped_pig_items',
   treatment_logs: 'treatment_logs',
   vaccination_templates: 'vaccination_templates',
-  chat_documents: 'chat_documents'
+  chat_documents: 'chat_documents',
+  feeding_formulas: 'feeding_formulas'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -208,7 +205,8 @@ export const Disease_treatmentsScalarFieldEnum = {
   pen_id: 'pen_id',
   symptom: 'symptom',
   disease_id: 'disease_id',
-  status: 'status'
+  status: 'status',
+  end_date: 'end_date'
 } as const
 
 export type Disease_treatmentsScalarFieldEnum = (typeof Disease_treatmentsScalarFieldEnum)[keyof typeof Disease_treatmentsScalarFieldEnum]
@@ -256,18 +254,6 @@ export const Environment_logsScalarFieldEnum = {
 } as const
 
 export type Environment_logsScalarFieldEnum = (typeof Environment_logsScalarFieldEnum)[keyof typeof Environment_logsScalarFieldEnum]
-
-
-export const ExpensesScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  category_id: 'category_id',
-  amount: 'amount',
-  payment_status: 'payment_status',
-  cost_entity_id: 'cost_entity_id'
-} as const
-
-export type ExpensesScalarFieldEnum = (typeof ExpensesScalarFieldEnum)[keyof typeof ExpensesScalarFieldEnum]
 
 
 export const Feeding_schedule_detailsScalarFieldEnum = {
@@ -347,7 +333,8 @@ export const PensScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   pen_name: 'pen_name',
-  pen_type_id: 'pen_type_id'
+  pen_type_id: 'pen_type_id',
+  capacity: 'capacity'
 } as const
 
 export type PensScalarFieldEnum = (typeof PensScalarFieldEnum)[keyof typeof PensScalarFieldEnum]
@@ -529,24 +516,6 @@ export const Work_shiftsScalarFieldEnum = {
 export type Work_shiftsScalarFieldEnum = (typeof Work_shiftsScalarFieldEnum)[keyof typeof Work_shiftsScalarFieldEnum]
 
 
-export const Expense_categoriesScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  name: 'name'
-} as const
-
-export type Expense_categoriesScalarFieldEnum = (typeof Expense_categoriesScalarFieldEnum)[keyof typeof Expense_categoriesScalarFieldEnum]
-
-
-export const Expense_entitiesScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  name: 'name'
-} as const
-
-export type Expense_entitiesScalarFieldEnum = (typeof Expense_entitiesScalarFieldEnum)[keyof typeof Expense_entitiesScalarFieldEnum]
-
-
 export const WarehousesScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -625,16 +594,6 @@ export const Daily_inventory_snapshotsScalarFieldEnum = {
 } as const
 
 export type Daily_inventory_snapshotsScalarFieldEnum = (typeof Daily_inventory_snapshotsScalarFieldEnum)[keyof typeof Daily_inventory_snapshotsScalarFieldEnum]
-
-
-export const Farm_membersScalarFieldEnum = {
-  id: 'id',
-  user_id: 'user_id',
-  role: 'role',
-  joined_at: 'joined_at'
-} as const
-
-export type Farm_membersScalarFieldEnum = (typeof Farm_membersScalarFieldEnum)[keyof typeof Farm_membersScalarFieldEnum]
 
 
 export const InventoryScalarFieldEnum = {
@@ -1046,6 +1005,21 @@ export const Chat_documentsScalarFieldEnum = {
 } as const
 
 export type Chat_documentsScalarFieldEnum = (typeof Chat_documentsScalarFieldEnum)[keyof typeof Chat_documentsScalarFieldEnum]
+
+
+export const Feeding_formulasScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  name: 'name',
+  stage_name: 'stage_name',
+  start_day: 'start_day',
+  end_day: 'end_day',
+  amount_per_pig: 'amount_per_pig',
+  ingredients: 'ingredients',
+  is_active: 'is_active'
+} as const
+
+export type Feeding_formulasScalarFieldEnum = (typeof Feeding_formulasScalarFieldEnum)[keyof typeof Feeding_formulasScalarFieldEnum]
 
 
 export const SortOrder = {

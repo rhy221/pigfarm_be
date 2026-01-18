@@ -10,12 +10,12 @@
 */
 
 export const material_categories = {
-  FEED: 'FEED',
-  MEDICINE: 'MEDICINE',
-  VACCINE: 'VACCINE',
-  EQUIPMENT: 'EQUIPMENT',
-  CHEMICAL: 'CHEMICAL',
-  OTHER: 'OTHER'
+  feed: 'feed',
+  medicine: 'medicine',
+  vaccine: 'vaccine',
+  equipment: 'equipment',
+  harvest: 'harvest',
+  other: 'other'
 } as const
 
 export type material_categories = (typeof material_categories)[keyof typeof material_categories]

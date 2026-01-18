@@ -401,7 +401,6 @@ export const ModelName = {
   employees: 'employees',
   environment_log_details: 'environment_log_details',
   environment_logs: 'environment_logs',
-  expenses: 'expenses',
   feeding_schedule_details: 'feeding_schedule_details',
   feeding_schedules: 'feeding_schedules',
   feeds: 'feeds',
@@ -425,14 +424,11 @@ export const ModelName = {
   vaccine_reports: 'vaccine_reports',
   vaccines: 'vaccines',
   work_shifts: 'work_shifts',
-  expense_categories: 'expense_categories',
-  expense_entities: 'expense_entities',
   warehouses: 'warehouses',
   cash_accounts: 'cash_accounts',
   customers: 'customers',
   daily_cash_snapshots: 'daily_cash_snapshots',
   daily_inventory_snapshots: 'daily_inventory_snapshots',
-  farm_members: 'farm_members',
   inventory: 'inventory',
   inventory_batches: 'inventory_batches',
   inventory_check_items: 'inventory_check_items',
@@ -457,7 +453,8 @@ export const ModelName = {
   shipped_pig_items: 'shipped_pig_items',
   treatment_logs: 'treatment_logs',
   vaccination_templates: 'vaccination_templates',
-  chat_documents: 'chat_documents'
+  chat_documents: 'chat_documents',
+  feeding_formulas: 'feeding_formulas'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -473,7 +470,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "assignment_details" | "assignments" | "chemicals" | "cleaning_details" | "cleaning_methods" | "cleaning_schedules" | "disease_treatments" | "diseases" | "employees" | "environment_log_details" | "environment_logs" | "expenses" | "feeding_schedule_details" | "feeding_schedules" | "feeds" | "herd_report_pen_pigs" | "herd_report_pens" | "herd_reports" | "pen_types" | "pens" | "pig_breeds" | "pig_shipping_details" | "pig_shipping_statuses" | "pig_shippings" | "pig_statuses" | "pig_transfers" | "pigs" | "rearing_pens" | "treatment_details" | "vaccination_schedule_details" | "vaccination_schedules" | "vaccine_report_details" | "vaccine_reports" | "vaccines" | "work_shifts" | "expense_categories" | "expense_entities" | "warehouses" | "cash_accounts" | "customers" | "daily_cash_snapshots" | "daily_inventory_snapshots" | "farm_members" | "inventory" | "inventory_batches" | "inventory_check_items" | "inventory_checks" | "inventory_history" | "monthly_bill_records" | "monthly_bills" | "products" | "stock_issue_items" | "stock_issues" | "stock_receipt_items" | "stock_receipts" | "supplier_debts" | "suppliers" | "transaction_categories" | "transactions" | "units" | "users" | "warehouse_categories" | "pig_batches" | "pig_in_treatment" | "shipped_pig_items" | "treatment_logs" | "vaccination_templates" | "chat_documents"
+    modelProps: "assignment_details" | "assignments" | "chemicals" | "cleaning_details" | "cleaning_methods" | "cleaning_schedules" | "disease_treatments" | "diseases" | "employees" | "environment_log_details" | "environment_logs" | "feeding_schedule_details" | "feeding_schedules" | "feeds" | "herd_report_pen_pigs" | "herd_report_pens" | "herd_reports" | "pen_types" | "pens" | "pig_breeds" | "pig_shipping_details" | "pig_shipping_statuses" | "pig_shippings" | "pig_statuses" | "pig_transfers" | "pigs" | "rearing_pens" | "treatment_details" | "vaccination_schedule_details" | "vaccination_schedules" | "vaccine_report_details" | "vaccine_reports" | "vaccines" | "work_shifts" | "warehouses" | "cash_accounts" | "customers" | "daily_cash_snapshots" | "daily_inventory_snapshots" | "inventory" | "inventory_batches" | "inventory_check_items" | "inventory_checks" | "inventory_history" | "monthly_bill_records" | "monthly_bills" | "products" | "stock_issue_items" | "stock_issues" | "stock_receipt_items" | "stock_receipts" | "supplier_debts" | "suppliers" | "transaction_categories" | "transactions" | "units" | "users" | "warehouse_categories" | "pig_batches" | "pig_in_treatment" | "shipped_pig_items" | "treatment_logs" | "vaccination_templates" | "chat_documents" | "feeding_formulas"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1288,80 +1285,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.environment_logsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Environment_logsCountAggregateOutputType> | number
-        }
-      }
-    }
-    expenses: {
-      payload: Prisma.$expensesPayload<ExtArgs>
-      fields: Prisma.expensesFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.expensesFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.expensesFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload>
-        }
-        findFirst: {
-          args: Prisma.expensesFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.expensesFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload>
-        }
-        findMany: {
-          args: Prisma.expensesFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload>[]
-        }
-        create: {
-          args: Prisma.expensesCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload>
-        }
-        createMany: {
-          args: Prisma.expensesCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.expensesCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload>[]
-        }
-        delete: {
-          args: Prisma.expensesDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload>
-        }
-        update: {
-          args: Prisma.expensesUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload>
-        }
-        deleteMany: {
-          args: Prisma.expensesDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.expensesUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.expensesUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload>[]
-        }
-        upsert: {
-          args: Prisma.expensesUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expensesPayload>
-        }
-        aggregate: {
-          args: Prisma.ExpensesAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateExpenses>
-        }
-        groupBy: {
-          args: Prisma.expensesGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ExpensesGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.expensesCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ExpensesCountAggregateOutputType> | number
         }
       }
     }
@@ -3067,154 +2990,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    expense_categories: {
-      payload: Prisma.$expense_categoriesPayload<ExtArgs>
-      fields: Prisma.expense_categoriesFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.expense_categoriesFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.expense_categoriesFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload>
-        }
-        findFirst: {
-          args: Prisma.expense_categoriesFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.expense_categoriesFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload>
-        }
-        findMany: {
-          args: Prisma.expense_categoriesFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload>[]
-        }
-        create: {
-          args: Prisma.expense_categoriesCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload>
-        }
-        createMany: {
-          args: Prisma.expense_categoriesCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.expense_categoriesCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload>[]
-        }
-        delete: {
-          args: Prisma.expense_categoriesDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload>
-        }
-        update: {
-          args: Prisma.expense_categoriesUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload>
-        }
-        deleteMany: {
-          args: Prisma.expense_categoriesDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.expense_categoriesUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.expense_categoriesUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload>[]
-        }
-        upsert: {
-          args: Prisma.expense_categoriesUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_categoriesPayload>
-        }
-        aggregate: {
-          args: Prisma.Expense_categoriesAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateExpense_categories>
-        }
-        groupBy: {
-          args: Prisma.expense_categoriesGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Expense_categoriesGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.expense_categoriesCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Expense_categoriesCountAggregateOutputType> | number
-        }
-      }
-    }
-    expense_entities: {
-      payload: Prisma.$expense_entitiesPayload<ExtArgs>
-      fields: Prisma.expense_entitiesFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.expense_entitiesFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.expense_entitiesFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload>
-        }
-        findFirst: {
-          args: Prisma.expense_entitiesFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.expense_entitiesFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload>
-        }
-        findMany: {
-          args: Prisma.expense_entitiesFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload>[]
-        }
-        create: {
-          args: Prisma.expense_entitiesCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload>
-        }
-        createMany: {
-          args: Prisma.expense_entitiesCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.expense_entitiesCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload>[]
-        }
-        delete: {
-          args: Prisma.expense_entitiesDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload>
-        }
-        update: {
-          args: Prisma.expense_entitiesUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload>
-        }
-        deleteMany: {
-          args: Prisma.expense_entitiesDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.expense_entitiesUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.expense_entitiesUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload>[]
-        }
-        upsert: {
-          args: Prisma.expense_entitiesUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$expense_entitiesPayload>
-        }
-        aggregate: {
-          args: Prisma.Expense_entitiesAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateExpense_entities>
-        }
-        groupBy: {
-          args: Prisma.expense_entitiesGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Expense_entitiesGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.expense_entitiesCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Expense_entitiesCountAggregateOutputType> | number
-        }
-      }
-    }
     warehouses: {
       payload: Prisma.$warehousesPayload<ExtArgs>
       fields: Prisma.warehousesFieldRefs
@@ -3582,80 +3357,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.daily_inventory_snapshotsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Daily_inventory_snapshotsCountAggregateOutputType> | number
-        }
-      }
-    }
-    farm_members: {
-      payload: Prisma.$farm_membersPayload<ExtArgs>
-      fields: Prisma.farm_membersFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.farm_membersFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.farm_membersFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload>
-        }
-        findFirst: {
-          args: Prisma.farm_membersFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.farm_membersFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload>
-        }
-        findMany: {
-          args: Prisma.farm_membersFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload>[]
-        }
-        create: {
-          args: Prisma.farm_membersCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload>
-        }
-        createMany: {
-          args: Prisma.farm_membersCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.farm_membersCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload>[]
-        }
-        delete: {
-          args: Prisma.farm_membersDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload>
-        }
-        update: {
-          args: Prisma.farm_membersUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload>
-        }
-        deleteMany: {
-          args: Prisma.farm_membersDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.farm_membersUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.farm_membersUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload>[]
-        }
-        upsert: {
-          args: Prisma.farm_membersUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$farm_membersPayload>
-        }
-        aggregate: {
-          args: Prisma.Farm_membersAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateFarm_members>
-        }
-        groupBy: {
-          args: Prisma.farm_membersGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Farm_membersGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.farm_membersCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Farm_membersCountAggregateOutputType> | number
         }
       }
     }
@@ -5509,6 +5210,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    feeding_formulas: {
+      payload: Prisma.$feeding_formulasPayload<ExtArgs>
+      fields: Prisma.feeding_formulasFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.feeding_formulasFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.feeding_formulasFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload>
+        }
+        findFirst: {
+          args: Prisma.feeding_formulasFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.feeding_formulasFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload>
+        }
+        findMany: {
+          args: Prisma.feeding_formulasFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload>[]
+        }
+        create: {
+          args: Prisma.feeding_formulasCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload>
+        }
+        createMany: {
+          args: Prisma.feeding_formulasCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.feeding_formulasCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload>[]
+        }
+        delete: {
+          args: Prisma.feeding_formulasDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload>
+        }
+        update: {
+          args: Prisma.feeding_formulasUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload>
+        }
+        deleteMany: {
+          args: Prisma.feeding_formulasDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.feeding_formulasUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.feeding_formulasUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload>[]
+        }
+        upsert: {
+          args: Prisma.feeding_formulasUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formulasPayload>
+        }
+        aggregate: {
+          args: Prisma.Feeding_formulasAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFeeding_formulas>
+        }
+        groupBy: {
+          args: Prisma.feeding_formulasGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Feeding_formulasGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.feeding_formulasCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Feeding_formulasCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5621,7 +5396,8 @@ export const Disease_treatmentsScalarFieldEnum = {
   pen_id: 'pen_id',
   symptom: 'symptom',
   disease_id: 'disease_id',
-  status: 'status'
+  status: 'status',
+  end_date: 'end_date'
 } as const
 
 export type Disease_treatmentsScalarFieldEnum = (typeof Disease_treatmentsScalarFieldEnum)[keyof typeof Disease_treatmentsScalarFieldEnum]
@@ -5669,18 +5445,6 @@ export const Environment_logsScalarFieldEnum = {
 } as const
 
 export type Environment_logsScalarFieldEnum = (typeof Environment_logsScalarFieldEnum)[keyof typeof Environment_logsScalarFieldEnum]
-
-
-export const ExpensesScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  category_id: 'category_id',
-  amount: 'amount',
-  payment_status: 'payment_status',
-  cost_entity_id: 'cost_entity_id'
-} as const
-
-export type ExpensesScalarFieldEnum = (typeof ExpensesScalarFieldEnum)[keyof typeof ExpensesScalarFieldEnum]
 
 
 export const Feeding_schedule_detailsScalarFieldEnum = {
@@ -5760,7 +5524,8 @@ export const PensScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   pen_name: 'pen_name',
-  pen_type_id: 'pen_type_id'
+  pen_type_id: 'pen_type_id',
+  capacity: 'capacity'
 } as const
 
 export type PensScalarFieldEnum = (typeof PensScalarFieldEnum)[keyof typeof PensScalarFieldEnum]
@@ -5942,24 +5707,6 @@ export const Work_shiftsScalarFieldEnum = {
 export type Work_shiftsScalarFieldEnum = (typeof Work_shiftsScalarFieldEnum)[keyof typeof Work_shiftsScalarFieldEnum]
 
 
-export const Expense_categoriesScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  name: 'name'
-} as const
-
-export type Expense_categoriesScalarFieldEnum = (typeof Expense_categoriesScalarFieldEnum)[keyof typeof Expense_categoriesScalarFieldEnum]
-
-
-export const Expense_entitiesScalarFieldEnum = {
-  id: 'id',
-  created_at: 'created_at',
-  name: 'name'
-} as const
-
-export type Expense_entitiesScalarFieldEnum = (typeof Expense_entitiesScalarFieldEnum)[keyof typeof Expense_entitiesScalarFieldEnum]
-
-
 export const WarehousesScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -6038,16 +5785,6 @@ export const Daily_inventory_snapshotsScalarFieldEnum = {
 } as const
 
 export type Daily_inventory_snapshotsScalarFieldEnum = (typeof Daily_inventory_snapshotsScalarFieldEnum)[keyof typeof Daily_inventory_snapshotsScalarFieldEnum]
-
-
-export const Farm_membersScalarFieldEnum = {
-  id: 'id',
-  user_id: 'user_id',
-  role: 'role',
-  joined_at: 'joined_at'
-} as const
-
-export type Farm_membersScalarFieldEnum = (typeof Farm_membersScalarFieldEnum)[keyof typeof Farm_membersScalarFieldEnum]
 
 
 export const InventoryScalarFieldEnum = {
@@ -6461,6 +6198,21 @@ export const Chat_documentsScalarFieldEnum = {
 export type Chat_documentsScalarFieldEnum = (typeof Chat_documentsScalarFieldEnum)[keyof typeof Chat_documentsScalarFieldEnum]
 
 
+export const Feeding_formulasScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  name: 'name',
+  stage_name: 'stage_name',
+  start_day: 'start_day',
+  end_day: 'end_day',
+  amount_per_pig: 'amount_per_pig',
+  ingredients: 'ingredients',
+  is_active: 'is_active'
+} as const
+
+export type Feeding_formulasScalarFieldEnum = (typeof Feeding_formulasScalarFieldEnum)[keyof typeof Feeding_formulasScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -6565,20 +6317,6 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
- * Reference to a field of type 'Decimal'
- */
-export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
-
-/**
- * Reference to a field of type 'Decimal[]'
- */
-export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
-
-/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -6589,6 +6327,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 
@@ -6610,6 +6362,20 @@ export type ListEnumgrowth_stageFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'material_categories'
+ */
+export type Enummaterial_categoriesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'material_categories'>
+    
+
+
+/**
+ * Reference to a field of type 'material_categories[]'
+ */
+export type ListEnummaterial_categoriesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'material_categories[]'>
     
 
 
@@ -6752,7 +6518,6 @@ export type GlobalOmitConfig = {
   employees?: Prisma.employeesOmit
   environment_log_details?: Prisma.environment_log_detailsOmit
   environment_logs?: Prisma.environment_logsOmit
-  expenses?: Prisma.expensesOmit
   feeding_schedule_details?: Prisma.feeding_schedule_detailsOmit
   feeding_schedules?: Prisma.feeding_schedulesOmit
   feeds?: Prisma.feedsOmit
@@ -6776,14 +6541,11 @@ export type GlobalOmitConfig = {
   vaccine_reports?: Prisma.vaccine_reportsOmit
   vaccines?: Prisma.vaccinesOmit
   work_shifts?: Prisma.work_shiftsOmit
-  expense_categories?: Prisma.expense_categoriesOmit
-  expense_entities?: Prisma.expense_entitiesOmit
   warehouses?: Prisma.warehousesOmit
   cash_accounts?: Prisma.cash_accountsOmit
   customers?: Prisma.customersOmit
   daily_cash_snapshots?: Prisma.daily_cash_snapshotsOmit
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsOmit
-  farm_members?: Prisma.farm_membersOmit
   inventory?: Prisma.inventoryOmit
   inventory_batches?: Prisma.inventory_batchesOmit
   inventory_check_items?: Prisma.inventory_check_itemsOmit
@@ -6809,6 +6571,7 @@ export type GlobalOmitConfig = {
   treatment_logs?: Prisma.treatment_logsOmit
   vaccination_templates?: Prisma.vaccination_templatesOmit
   chat_documents?: Prisma.chat_documentsOmit
+  feeding_formulas?: Prisma.feeding_formulasOmit
 }
 
 /* Types for Logging */
