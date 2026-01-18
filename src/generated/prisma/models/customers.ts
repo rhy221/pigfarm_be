@@ -38,45 +38,39 @@ export type CustomersMinAggregateOutputType = {
   id: string | null
   code: string | null
   name: string | null
-  contact_person: string | null
   phone: string | null
-  email: string | null
-  address: string | null
-  tax_code: string | null
+  address_house_number: string | null
+  address_ward: string | null
+  address_city: string | null
   total_receivable: runtime.Decimal | null
   is_active: boolean | null
   created_at: Date | null
-  updated_at: Date | null
 }
 
 export type CustomersMaxAggregateOutputType = {
   id: string | null
   code: string | null
   name: string | null
-  contact_person: string | null
   phone: string | null
-  email: string | null
-  address: string | null
-  tax_code: string | null
+  address_house_number: string | null
+  address_ward: string | null
+  address_city: string | null
   total_receivable: runtime.Decimal | null
   is_active: boolean | null
   created_at: Date | null
-  updated_at: Date | null
 }
 
 export type CustomersCountAggregateOutputType = {
   id: number
   code: number
   name: number
-  contact_person: number
   phone: number
-  email: number
-  address: number
-  tax_code: number
+  address_house_number: number
+  address_ward: number
+  address_city: number
   total_receivable: number
   is_active: number
   created_at: number
-  updated_at: number
   _all: number
 }
 
@@ -93,45 +87,39 @@ export type CustomersMinAggregateInputType = {
   id?: true
   code?: true
   name?: true
-  contact_person?: true
   phone?: true
-  email?: true
-  address?: true
-  tax_code?: true
+  address_house_number?: true
+  address_ward?: true
+  address_city?: true
   total_receivable?: true
   is_active?: true
   created_at?: true
-  updated_at?: true
 }
 
 export type CustomersMaxAggregateInputType = {
   id?: true
   code?: true
   name?: true
-  contact_person?: true
   phone?: true
-  email?: true
-  address?: true
-  tax_code?: true
+  address_house_number?: true
+  address_ward?: true
+  address_city?: true
   total_receivable?: true
   is_active?: true
   created_at?: true
-  updated_at?: true
 }
 
 export type CustomersCountAggregateInputType = {
   id?: true
   code?: true
   name?: true
-  contact_person?: true
   phone?: true
-  email?: true
-  address?: true
-  tax_code?: true
+  address_house_number?: true
+  address_ward?: true
+  address_city?: true
   total_receivable?: true
   is_active?: true
   created_at?: true
-  updated_at?: true
   _all?: true
 }
 
@@ -225,15 +213,13 @@ export type CustomersGroupByOutputType = {
   id: string
   code: string | null
   name: string
-  contact_person: string | null
   phone: string | null
-  email: string | null
-  address: string | null
-  tax_code: string | null
+  address_house_number: string | null
+  address_ward: string | null
+  address_city: string | null
   total_receivable: runtime.Decimal | null
   is_active: boolean | null
   created_at: Date | null
-  updated_at: Date | null
   _count: CustomersCountAggregateOutputType | null
   _avg: CustomersAvgAggregateOutputType | null
   _sum: CustomersSumAggregateOutputType | null
@@ -263,30 +249,28 @@ export type customersWhereInput = {
   id?: Prisma.UuidFilter<"customers"> | string
   code?: Prisma.StringNullableFilter<"customers"> | string | null
   name?: Prisma.StringFilter<"customers"> | string
-  contact_person?: Prisma.StringNullableFilter<"customers"> | string | null
   phone?: Prisma.StringNullableFilter<"customers"> | string | null
-  email?: Prisma.StringNullableFilter<"customers"> | string | null
-  address?: Prisma.StringNullableFilter<"customers"> | string | null
-  tax_code?: Prisma.StringNullableFilter<"customers"> | string | null
+  address_house_number?: Prisma.StringNullableFilter<"customers"> | string | null
+  address_ward?: Prisma.StringNullableFilter<"customers"> | string | null
+  address_city?: Prisma.StringNullableFilter<"customers"> | string | null
   total_receivable?: Prisma.DecimalNullableFilter<"customers"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: Prisma.BoolNullableFilter<"customers"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
+  pig_shippings?: Prisma.Pig_shippingsListRelationFilter
 }
 
 export type customersOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
-  contact_person?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
-  email?: Prisma.SortOrderInput | Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
-  tax_code?: Prisma.SortOrderInput | Prisma.SortOrder
+  address_house_number?: Prisma.SortOrderInput | Prisma.SortOrder
+  address_ward?: Prisma.SortOrderInput | Prisma.SortOrder
+  address_city?: Prisma.SortOrderInput | Prisma.SortOrder
   total_receivable?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  pig_shippings?: Prisma.pig_shippingsOrderByRelationAggregateInput
 }
 
 export type customersWhereUniqueInput = Prisma.AtLeast<{
@@ -296,30 +280,27 @@ export type customersWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.customersWhereInput | Prisma.customersWhereInput[]
   code?: Prisma.StringNullableFilter<"customers"> | string | null
   name?: Prisma.StringFilter<"customers"> | string
-  contact_person?: Prisma.StringNullableFilter<"customers"> | string | null
   phone?: Prisma.StringNullableFilter<"customers"> | string | null
-  email?: Prisma.StringNullableFilter<"customers"> | string | null
-  address?: Prisma.StringNullableFilter<"customers"> | string | null
-  tax_code?: Prisma.StringNullableFilter<"customers"> | string | null
+  address_house_number?: Prisma.StringNullableFilter<"customers"> | string | null
+  address_ward?: Prisma.StringNullableFilter<"customers"> | string | null
+  address_city?: Prisma.StringNullableFilter<"customers"> | string | null
   total_receivable?: Prisma.DecimalNullableFilter<"customers"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: Prisma.BoolNullableFilter<"customers"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
+  pig_shippings?: Prisma.Pig_shippingsListRelationFilter
 }, "id">
 
 export type customersOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
-  contact_person?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
-  email?: Prisma.SortOrderInput | Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
-  tax_code?: Prisma.SortOrderInput | Prisma.SortOrder
+  address_house_number?: Prisma.SortOrderInput | Prisma.SortOrder
+  address_ward?: Prisma.SortOrderInput | Prisma.SortOrder
+  address_city?: Prisma.SortOrderInput | Prisma.SortOrder
   total_receivable?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.customersCountOrderByAggregateInput
   _avg?: Prisma.customersAvgOrderByAggregateInput
   _max?: Prisma.customersMaxOrderByAggregateInput
@@ -334,135 +315,126 @@ export type customersScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"customers"> | string
   code?: Prisma.StringNullableWithAggregatesFilter<"customers"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"customers"> | string
-  contact_person?: Prisma.StringNullableWithAggregatesFilter<"customers"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"customers"> | string | null
-  email?: Prisma.StringNullableWithAggregatesFilter<"customers"> | string | null
-  address?: Prisma.StringNullableWithAggregatesFilter<"customers"> | string | null
-  tax_code?: Prisma.StringNullableWithAggregatesFilter<"customers"> | string | null
+  address_house_number?: Prisma.StringNullableWithAggregatesFilter<"customers"> | string | null
+  address_ward?: Prisma.StringNullableWithAggregatesFilter<"customers"> | string | null
+  address_city?: Prisma.StringNullableWithAggregatesFilter<"customers"> | string | null
   total_receivable?: Prisma.DecimalNullableWithAggregatesFilter<"customers"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"customers"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"customers"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"customers"> | Date | string | null
 }
 
 export type customersCreateInput = {
   id?: string
   code?: string | null
   name: string
-  contact_person?: string | null
   phone?: string | null
-  email?: string | null
-  address?: string | null
-  tax_code?: string | null
+  address_house_number?: string | null
+  address_ward?: string | null
+  address_city?: string | null
   total_receivable?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  updated_at?: Date | string | null
+  pig_shippings?: Prisma.pig_shippingsCreateNestedManyWithoutCustomersInput
 }
 
 export type customersUncheckedCreateInput = {
   id?: string
   code?: string | null
   name: string
-  contact_person?: string | null
   phone?: string | null
-  email?: string | null
-  address?: string | null
-  tax_code?: string | null
+  address_house_number?: string | null
+  address_ward?: string | null
+  address_city?: string | null
   total_receivable?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  updated_at?: Date | string | null
+  pig_shippings?: Prisma.pig_shippingsUncheckedCreateNestedManyWithoutCustomersInput
 }
 
 export type customersUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_house_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_ward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_receivable?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pig_shippings?: Prisma.pig_shippingsUpdateManyWithoutCustomersNestedInput
 }
 
 export type customersUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_house_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_ward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_receivable?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pig_shippings?: Prisma.pig_shippingsUncheckedUpdateManyWithoutCustomersNestedInput
 }
 
 export type customersCreateManyInput = {
   id?: string
   code?: string | null
   name: string
-  contact_person?: string | null
   phone?: string | null
-  email?: string | null
-  address?: string | null
-  tax_code?: string | null
+  address_house_number?: string | null
+  address_ward?: string | null
+  address_city?: string | null
   total_receivable?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  updated_at?: Date | string | null
 }
 
 export type customersUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_house_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_ward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_receivable?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type customersUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_house_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_ward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_receivable?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type CustomersNullableScalarRelationFilter = {
+  is?: Prisma.customersWhereInput | null
+  isNot?: Prisma.customersWhereInput | null
 }
 
 export type customersCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  contact_person?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  email?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  tax_code?: Prisma.SortOrder
+  address_house_number?: Prisma.SortOrder
+  address_ward?: Prisma.SortOrder
+  address_city?: Prisma.SortOrder
   total_receivable?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
 }
 
 export type customersAvgOrderByAggregateInput = {
@@ -473,116 +445,225 @@ export type customersMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  contact_person?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  email?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  tax_code?: Prisma.SortOrder
+  address_house_number?: Prisma.SortOrder
+  address_ward?: Prisma.SortOrder
+  address_city?: Prisma.SortOrder
   total_receivable?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
 }
 
 export type customersMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  contact_person?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  email?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  tax_code?: Prisma.SortOrder
+  address_house_number?: Prisma.SortOrder
+  address_ward?: Prisma.SortOrder
+  address_city?: Prisma.SortOrder
   total_receivable?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
 }
 
 export type customersSumOrderByAggregateInput = {
   total_receivable?: Prisma.SortOrder
 }
 
+export type customersCreateNestedOneWithoutPig_shippingsInput = {
+  create?: Prisma.XOR<Prisma.customersCreateWithoutPig_shippingsInput, Prisma.customersUncheckedCreateWithoutPig_shippingsInput>
+  connectOrCreate?: Prisma.customersCreateOrConnectWithoutPig_shippingsInput
+  connect?: Prisma.customersWhereUniqueInput
+}
+
+export type customersUpdateOneWithoutPig_shippingsNestedInput = {
+  create?: Prisma.XOR<Prisma.customersCreateWithoutPig_shippingsInput, Prisma.customersUncheckedCreateWithoutPig_shippingsInput>
+  connectOrCreate?: Prisma.customersCreateOrConnectWithoutPig_shippingsInput
+  upsert?: Prisma.customersUpsertWithoutPig_shippingsInput
+  disconnect?: Prisma.customersWhereInput | boolean
+  delete?: Prisma.customersWhereInput | boolean
+  connect?: Prisma.customersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.customersUpdateToOneWithWhereWithoutPig_shippingsInput, Prisma.customersUpdateWithoutPig_shippingsInput>, Prisma.customersUncheckedUpdateWithoutPig_shippingsInput>
+}
+
+export type customersCreateWithoutPig_shippingsInput = {
+  id?: string
+  code?: string | null
+  name: string
+  phone?: string | null
+  address_house_number?: string | null
+  address_ward?: string | null
+  address_city?: string | null
+  total_receivable?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+}
+
+export type customersUncheckedCreateWithoutPig_shippingsInput = {
+  id?: string
+  code?: string | null
+  name: string
+  phone?: string | null
+  address_house_number?: string | null
+  address_ward?: string | null
+  address_city?: string | null
+  total_receivable?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+}
+
+export type customersCreateOrConnectWithoutPig_shippingsInput = {
+  where: Prisma.customersWhereUniqueInput
+  create: Prisma.XOR<Prisma.customersCreateWithoutPig_shippingsInput, Prisma.customersUncheckedCreateWithoutPig_shippingsInput>
+}
+
+export type customersUpsertWithoutPig_shippingsInput = {
+  update: Prisma.XOR<Prisma.customersUpdateWithoutPig_shippingsInput, Prisma.customersUncheckedUpdateWithoutPig_shippingsInput>
+  create: Prisma.XOR<Prisma.customersCreateWithoutPig_shippingsInput, Prisma.customersUncheckedCreateWithoutPig_shippingsInput>
+  where?: Prisma.customersWhereInput
+}
+
+export type customersUpdateToOneWithWhereWithoutPig_shippingsInput = {
+  where?: Prisma.customersWhereInput
+  data: Prisma.XOR<Prisma.customersUpdateWithoutPig_shippingsInput, Prisma.customersUncheckedUpdateWithoutPig_shippingsInput>
+}
+
+export type customersUpdateWithoutPig_shippingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_house_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_ward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_receivable?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type customersUncheckedUpdateWithoutPig_shippingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_house_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_ward?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_receivable?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+
+/**
+ * Count Type CustomersCountOutputType
+ */
+
+export type CustomersCountOutputType = {
+  pig_shippings: number
+}
+
+export type CustomersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pig_shippings?: boolean | CustomersCountOutputTypeCountPig_shippingsArgs
+}
+
+/**
+ * CustomersCountOutputType without action
+ */
+export type CustomersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CustomersCountOutputType
+   */
+  select?: Prisma.CustomersCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CustomersCountOutputType without action
+ */
+export type CustomersCountOutputTypeCountPig_shippingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.pig_shippingsWhereInput
+}
 
 
 export type customersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   code?: boolean
   name?: boolean
-  contact_person?: boolean
   phone?: boolean
-  email?: boolean
-  address?: boolean
-  tax_code?: boolean
+  address_house_number?: boolean
+  address_ward?: boolean
+  address_city?: boolean
   total_receivable?: boolean
   is_active?: boolean
   created_at?: boolean
-  updated_at?: boolean
+  pig_shippings?: boolean | Prisma.customers$pig_shippingsArgs<ExtArgs>
+  _count?: boolean | Prisma.CustomersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customers"]>
 
 export type customersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   code?: boolean
   name?: boolean
-  contact_person?: boolean
   phone?: boolean
-  email?: boolean
-  address?: boolean
-  tax_code?: boolean
+  address_house_number?: boolean
+  address_ward?: boolean
+  address_city?: boolean
   total_receivable?: boolean
   is_active?: boolean
   created_at?: boolean
-  updated_at?: boolean
 }, ExtArgs["result"]["customers"]>
 
 export type customersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   code?: boolean
   name?: boolean
-  contact_person?: boolean
   phone?: boolean
-  email?: boolean
-  address?: boolean
-  tax_code?: boolean
+  address_house_number?: boolean
+  address_ward?: boolean
+  address_city?: boolean
   total_receivable?: boolean
   is_active?: boolean
   created_at?: boolean
-  updated_at?: boolean
 }, ExtArgs["result"]["customers"]>
 
 export type customersSelectScalar = {
   id?: boolean
   code?: boolean
   name?: boolean
-  contact_person?: boolean
   phone?: boolean
-  email?: boolean
-  address?: boolean
-  tax_code?: boolean
+  address_house_number?: boolean
+  address_ward?: boolean
+  address_city?: boolean
   total_receivable?: boolean
   is_active?: boolean
   created_at?: boolean
-  updated_at?: boolean
 }
 
-export type customersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "contact_person" | "phone" | "email" | "address" | "tax_code" | "total_receivable" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["customers"]>
+export type customersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "phone" | "address_house_number" | "address_ward" | "address_city" | "total_receivable" | "is_active" | "created_at", ExtArgs["result"]["customers"]>
+export type customersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pig_shippings?: boolean | Prisma.customers$pig_shippingsArgs<ExtArgs>
+  _count?: boolean | Prisma.CustomersCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type customersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type customersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $customersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "customers"
-  objects: {}
+  objects: {
+    pig_shippings: Prisma.$pig_shippingsPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     code: string | null
     name: string
-    contact_person: string | null
     phone: string | null
-    email: string | null
-    address: string | null
-    tax_code: string | null
+    address_house_number: string | null
+    address_ward: string | null
+    address_city: string | null
     total_receivable: runtime.Decimal | null
     is_active: boolean | null
     created_at: Date | null
-    updated_at: Date | null
   }, ExtArgs["result"]["customers"]>
   composites: {}
 }
@@ -977,6 +1058,7 @@ readonly fields: customersFieldRefs;
  */
 export interface Prisma__customersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  pig_shippings<T extends Prisma.customers$pig_shippingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customers$pig_shippingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_shippingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1009,15 +1091,13 @@ export interface customersFieldRefs {
   readonly id: Prisma.FieldRef<"customers", 'String'>
   readonly code: Prisma.FieldRef<"customers", 'String'>
   readonly name: Prisma.FieldRef<"customers", 'String'>
-  readonly contact_person: Prisma.FieldRef<"customers", 'String'>
   readonly phone: Prisma.FieldRef<"customers", 'String'>
-  readonly email: Prisma.FieldRef<"customers", 'String'>
-  readonly address: Prisma.FieldRef<"customers", 'String'>
-  readonly tax_code: Prisma.FieldRef<"customers", 'String'>
+  readonly address_house_number: Prisma.FieldRef<"customers", 'String'>
+  readonly address_ward: Prisma.FieldRef<"customers", 'String'>
+  readonly address_city: Prisma.FieldRef<"customers", 'String'>
   readonly total_receivable: Prisma.FieldRef<"customers", 'Decimal'>
   readonly is_active: Prisma.FieldRef<"customers", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"customers", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"customers", 'DateTime'>
 }
     
 
@@ -1034,6 +1114,10 @@ export type customersFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the customers
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
   /**
    * Filter, which customers to fetch.
    */
@@ -1053,6 +1137,10 @@ export type customersFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
+  /**
    * Filter, which customers to fetch.
    */
   where: Prisma.customersWhereUniqueInput
@@ -1070,6 +1158,10 @@ export type customersFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the customers
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
   /**
    * Filter, which customers to fetch.
    */
@@ -1119,6 +1211,10 @@ export type customersFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
+  /**
    * Filter, which customers to fetch.
    */
   where?: Prisma.customersWhereInput
@@ -1167,6 +1263,10 @@ export type customersFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
+  /**
    * Filter, which customers to fetch.
    */
   where?: Prisma.customersWhereInput
@@ -1209,6 +1309,10 @@ export type customersCreateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the customers
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
   /**
    * The data needed to create a customers.
    */
@@ -1257,6 +1361,10 @@ export type customersUpdateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the customers
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
   /**
    * The data needed to update a customers.
    */
@@ -1324,6 +1432,10 @@ export type customersUpsertArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
+  /**
    * The filter to search for the customers to update in case it exists.
    */
   where: Prisma.customersWhereUniqueInput
@@ -1350,6 +1462,10 @@ export type customersDeleteArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
+  /**
    * Filter which customers to delete.
    */
   where: Prisma.customersWhereUniqueInput
@@ -1370,6 +1486,30 @@ export type customersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * customers.pig_shippings
+ */
+export type customers$pig_shippingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the pig_shippings
+   */
+  select?: Prisma.pig_shippingsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the pig_shippings
+   */
+  omit?: Prisma.pig_shippingsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.pig_shippingsInclude<ExtArgs> | null
+  where?: Prisma.pig_shippingsWhereInput
+  orderBy?: Prisma.pig_shippingsOrderByWithRelationInput | Prisma.pig_shippingsOrderByWithRelationInput[]
+  cursor?: Prisma.pig_shippingsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Pig_shippingsScalarFieldEnum | Prisma.Pig_shippingsScalarFieldEnum[]
+}
+
+/**
  * customers without action
  */
 export type customersDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1381,4 +1521,8 @@ export type customersDefaultArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the customers
    */
   omit?: Prisma.customersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
 }

@@ -28,7 +28,7 @@ export type Warehouse_categoriesMinAggregateOutputType = {
   id: string | null
   name: string | null
   description: string | null
-  type: string | null
+  type: $Enums.material_categories | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
@@ -38,7 +38,7 @@ export type Warehouse_categoriesMaxAggregateOutputType = {
   id: string | null
   name: string | null
   description: string | null
-  type: string | null
+  type: $Enums.material_categories | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
@@ -163,7 +163,7 @@ export type Warehouse_categoriesGroupByOutputType = {
   id: string
   name: string
   description: string | null
-  type: string
+  type: $Enums.material_categories
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
@@ -194,7 +194,7 @@ export type warehouse_categoriesWhereInput = {
   id?: Prisma.UuidFilter<"warehouse_categories"> | string
   name?: Prisma.StringFilter<"warehouse_categories"> | string
   description?: Prisma.StringNullableFilter<"warehouse_categories"> | string | null
-  type?: Prisma.StringFilter<"warehouse_categories"> | string
+  type?: Prisma.Enummaterial_categoriesFilter<"warehouse_categories"> | $Enums.material_categories
   is_active?: Prisma.BoolNullableFilter<"warehouse_categories"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"warehouse_categories"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"warehouse_categories"> | Date | string | null
@@ -219,7 +219,7 @@ export type warehouse_categoriesWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.warehouse_categoriesWhereInput | Prisma.warehouse_categoriesWhereInput[]
   name?: Prisma.StringFilter<"warehouse_categories"> | string
   description?: Prisma.StringNullableFilter<"warehouse_categories"> | string | null
-  type?: Prisma.StringFilter<"warehouse_categories"> | string
+  type?: Prisma.Enummaterial_categoriesFilter<"warehouse_categories"> | $Enums.material_categories
   is_active?: Prisma.BoolNullableFilter<"warehouse_categories"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"warehouse_categories"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"warehouse_categories"> | Date | string | null
@@ -246,7 +246,7 @@ export type warehouse_categoriesScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"warehouse_categories"> | string
   name?: Prisma.StringWithAggregatesFilter<"warehouse_categories"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"warehouse_categories"> | string | null
-  type?: Prisma.StringWithAggregatesFilter<"warehouse_categories"> | string
+  type?: Prisma.Enummaterial_categoriesWithAggregatesFilter<"warehouse_categories"> | $Enums.material_categories
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"warehouse_categories"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"warehouse_categories"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"warehouse_categories"> | Date | string | null
@@ -256,7 +256,7 @@ export type warehouse_categoriesCreateInput = {
   id?: string
   name: string
   description?: string | null
-  type: string
+  type: $Enums.material_categories
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
@@ -267,7 +267,7 @@ export type warehouse_categoriesUncheckedCreateInput = {
   id?: string
   name: string
   description?: string | null
-  type: string
+  type: $Enums.material_categories
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
@@ -278,7 +278,7 @@ export type warehouse_categoriesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enummaterial_categoriesFieldUpdateOperationsInput | $Enums.material_categories
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -289,7 +289,7 @@ export type warehouse_categoriesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enummaterial_categoriesFieldUpdateOperationsInput | $Enums.material_categories
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -300,7 +300,7 @@ export type warehouse_categoriesCreateManyInput = {
   id?: string
   name: string
   description?: string | null
-  type: string
+  type: $Enums.material_categories
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
@@ -310,7 +310,7 @@ export type warehouse_categoriesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enummaterial_categoriesFieldUpdateOperationsInput | $Enums.material_categories
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -320,7 +320,7 @@ export type warehouse_categoriesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enummaterial_categoriesFieldUpdateOperationsInput | $Enums.material_categories
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -377,11 +377,15 @@ export type warehouse_categoriesUpdateOneWithoutProductsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.warehouse_categoriesUpdateToOneWithWhereWithoutProductsInput, Prisma.warehouse_categoriesUpdateWithoutProductsInput>, Prisma.warehouse_categoriesUncheckedUpdateWithoutProductsInput>
 }
 
+export type Enummaterial_categoriesFieldUpdateOperationsInput = {
+  set?: $Enums.material_categories
+}
+
 export type warehouse_categoriesCreateWithoutProductsInput = {
   id?: string
   name: string
   description?: string | null
-  type: string
+  type: $Enums.material_categories
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
@@ -391,7 +395,7 @@ export type warehouse_categoriesUncheckedCreateWithoutProductsInput = {
   id?: string
   name: string
   description?: string | null
-  type: string
+  type: $Enums.material_categories
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
@@ -417,7 +421,7 @@ export type warehouse_categoriesUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enummaterial_categoriesFieldUpdateOperationsInput | $Enums.material_categories
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -427,7 +431,7 @@ export type warehouse_categoriesUncheckedUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.Enummaterial_categoriesFieldUpdateOperationsInput | $Enums.material_categories
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -523,7 +527,7 @@ export type $warehouse_categoriesPayload<ExtArgs extends runtime.Types.Extension
     id: string
     name: string
     description: string | null
-    type: string
+    type: $Enums.material_categories
     is_active: boolean | null
     created_at: Date | null
     updated_at: Date | null
@@ -954,7 +958,7 @@ export interface warehouse_categoriesFieldRefs {
   readonly id: Prisma.FieldRef<"warehouse_categories", 'String'>
   readonly name: Prisma.FieldRef<"warehouse_categories", 'String'>
   readonly description: Prisma.FieldRef<"warehouse_categories", 'String'>
-  readonly type: Prisma.FieldRef<"warehouse_categories", 'String'>
+  readonly type: Prisma.FieldRef<"warehouse_categories", 'material_categories'>
   readonly is_active: Prisma.FieldRef<"warehouse_categories", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"warehouse_categories", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"warehouse_categories", 'DateTime'>

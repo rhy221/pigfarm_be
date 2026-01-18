@@ -27,25 +27,25 @@ export type AggregatePig_transfers = {
 export type Pig_transfersMinAggregateOutputType = {
   id: string | null
   created_at: Date | null
-  pig_id: string | null
   old_pen_id: string | null
   new_pen_id: string | null
+  pig_id: string | null
 }
 
 export type Pig_transfersMaxAggregateOutputType = {
   id: string | null
   created_at: Date | null
-  pig_id: string | null
   old_pen_id: string | null
   new_pen_id: string | null
+  pig_id: string | null
 }
 
 export type Pig_transfersCountAggregateOutputType = {
   id: number
   created_at: number
-  pig_id: number
   old_pen_id: number
   new_pen_id: number
+  pig_id: number
   _all: number
 }
 
@@ -53,25 +53,25 @@ export type Pig_transfersCountAggregateOutputType = {
 export type Pig_transfersMinAggregateInputType = {
   id?: true
   created_at?: true
-  pig_id?: true
   old_pen_id?: true
   new_pen_id?: true
+  pig_id?: true
 }
 
 export type Pig_transfersMaxAggregateInputType = {
   id?: true
   created_at?: true
-  pig_id?: true
   old_pen_id?: true
   new_pen_id?: true
+  pig_id?: true
 }
 
 export type Pig_transfersCountAggregateInputType = {
   id?: true
   created_at?: true
-  pig_id?: true
   old_pen_id?: true
   new_pen_id?: true
+  pig_id?: true
   _all?: true
 }
 
@@ -150,9 +150,9 @@ export type pig_transfersGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type Pig_transfersGroupByOutputType = {
   id: string
   created_at: Date
-  pig_id: string | null
   old_pen_id: string | null
   new_pen_id: string | null
+  pig_id: string | null
   _count: Pig_transfersCountAggregateOutputType | null
   _min: Pig_transfersMinAggregateOutputType | null
   _max: Pig_transfersMaxAggregateOutputType | null
@@ -179,9 +179,9 @@ export type pig_transfersWhereInput = {
   NOT?: Prisma.pig_transfersWhereInput | Prisma.pig_transfersWhereInput[]
   id?: Prisma.UuidFilter<"pig_transfers"> | string
   created_at?: Prisma.DateTimeFilter<"pig_transfers"> | Date | string
-  pig_id?: Prisma.UuidNullableFilter<"pig_transfers"> | string | null
   old_pen_id?: Prisma.UuidNullableFilter<"pig_transfers"> | string | null
   new_pen_id?: Prisma.UuidNullableFilter<"pig_transfers"> | string | null
+  pig_id?: Prisma.StringNullableFilter<"pig_transfers"> | string | null
   pens_pig_transfers_new_pen_idTopens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
   pens_pig_transfers_old_pen_idTopens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
   pigs?: Prisma.XOR<Prisma.PigsNullableScalarRelationFilter, Prisma.pigsWhereInput> | null
@@ -190,9 +190,9 @@ export type pig_transfersWhereInput = {
 export type pig_transfersOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrderInput | Prisma.SortOrder
   old_pen_id?: Prisma.SortOrderInput | Prisma.SortOrder
   new_pen_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  pig_id?: Prisma.SortOrderInput | Prisma.SortOrder
   pens_pig_transfers_new_pen_idTopens?: Prisma.pensOrderByWithRelationInput
   pens_pig_transfers_old_pen_idTopens?: Prisma.pensOrderByWithRelationInput
   pigs?: Prisma.pigsOrderByWithRelationInput
@@ -204,9 +204,9 @@ export type pig_transfersWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.pig_transfersWhereInput[]
   NOT?: Prisma.pig_transfersWhereInput | Prisma.pig_transfersWhereInput[]
   created_at?: Prisma.DateTimeFilter<"pig_transfers"> | Date | string
-  pig_id?: Prisma.UuidNullableFilter<"pig_transfers"> | string | null
   old_pen_id?: Prisma.UuidNullableFilter<"pig_transfers"> | string | null
   new_pen_id?: Prisma.UuidNullableFilter<"pig_transfers"> | string | null
+  pig_id?: Prisma.StringNullableFilter<"pig_transfers"> | string | null
   pens_pig_transfers_new_pen_idTopens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
   pens_pig_transfers_old_pen_idTopens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
   pigs?: Prisma.XOR<Prisma.PigsNullableScalarRelationFilter, Prisma.pigsWhereInput> | null
@@ -215,9 +215,9 @@ export type pig_transfersWhereUniqueInput = Prisma.AtLeast<{
 export type pig_transfersOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrderInput | Prisma.SortOrder
   old_pen_id?: Prisma.SortOrderInput | Prisma.SortOrder
   new_pen_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  pig_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.pig_transfersCountOrderByAggregateInput
   _max?: Prisma.pig_transfersMaxOrderByAggregateInput
   _min?: Prisma.pig_transfersMinOrderByAggregateInput
@@ -229,9 +229,9 @@ export type pig_transfersScalarWhereWithAggregatesInput = {
   NOT?: Prisma.pig_transfersScalarWhereWithAggregatesInput | Prisma.pig_transfersScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"pig_transfers"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"pig_transfers"> | Date | string
-  pig_id?: Prisma.UuidNullableWithAggregatesFilter<"pig_transfers"> | string | null
   old_pen_id?: Prisma.UuidNullableWithAggregatesFilter<"pig_transfers"> | string | null
   new_pen_id?: Prisma.UuidNullableWithAggregatesFilter<"pig_transfers"> | string | null
+  pig_id?: Prisma.StringNullableWithAggregatesFilter<"pig_transfers"> | string | null
 }
 
 export type pig_transfersCreateInput = {
@@ -245,9 +245,9 @@ export type pig_transfersCreateInput = {
 export type pig_transfersUncheckedCreateInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   old_pen_id?: string | null
   new_pen_id?: string | null
+  pig_id?: string | null
 }
 
 export type pig_transfersUpdateInput = {
@@ -261,17 +261,17 @@ export type pig_transfersUpdateInput = {
 export type pig_transfersUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   old_pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   new_pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pig_transfersCreateManyInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   old_pen_id?: string | null
   new_pen_id?: string | null
+  pig_id?: string | null
 }
 
 export type pig_transfersUpdateManyMutationInput = {
@@ -282,9 +282,9 @@ export type pig_transfersUpdateManyMutationInput = {
 export type pig_transfersUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   old_pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   new_pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Pig_transfersListRelationFilter = {
@@ -300,25 +300,25 @@ export type pig_transfersOrderByRelationAggregateInput = {
 export type pig_transfersCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrder
   old_pen_id?: Prisma.SortOrder
   new_pen_id?: Prisma.SortOrder
+  pig_id?: Prisma.SortOrder
 }
 
 export type pig_transfersMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrder
   old_pen_id?: Prisma.SortOrder
   new_pen_id?: Prisma.SortOrder
+  pig_id?: Prisma.SortOrder
 }
 
 export type pig_transfersMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrder
   old_pen_id?: Prisma.SortOrder
   new_pen_id?: Prisma.SortOrder
+  pig_id?: Prisma.SortOrder
 }
 
 export type pig_transfersCreateNestedManyWithoutPens_pig_transfers_new_pen_idTopensInput = {
@@ -457,8 +457,8 @@ export type pig_transfersCreateWithoutPens_pig_transfers_new_pen_idTopensInput =
 export type pig_transfersUncheckedCreateWithoutPens_pig_transfers_new_pen_idTopensInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   old_pen_id?: string | null
+  pig_id?: string | null
 }
 
 export type pig_transfersCreateOrConnectWithoutPens_pig_transfers_new_pen_idTopensInput = {
@@ -481,8 +481,8 @@ export type pig_transfersCreateWithoutPens_pig_transfers_old_pen_idTopensInput =
 export type pig_transfersUncheckedCreateWithoutPens_pig_transfers_old_pen_idTopensInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   new_pen_id?: string | null
+  pig_id?: string | null
 }
 
 export type pig_transfersCreateOrConnectWithoutPens_pig_transfers_old_pen_idTopensInput = {
@@ -517,9 +517,9 @@ export type pig_transfersScalarWhereInput = {
   NOT?: Prisma.pig_transfersScalarWhereInput | Prisma.pig_transfersScalarWhereInput[]
   id?: Prisma.UuidFilter<"pig_transfers"> | string
   created_at?: Prisma.DateTimeFilter<"pig_transfers"> | Date | string
-  pig_id?: Prisma.UuidNullableFilter<"pig_transfers"> | string | null
   old_pen_id?: Prisma.UuidNullableFilter<"pig_transfers"> | string | null
   new_pen_id?: Prisma.UuidNullableFilter<"pig_transfers"> | string | null
+  pig_id?: Prisma.StringNullableFilter<"pig_transfers"> | string | null
 }
 
 export type pig_transfersUpsertWithWhereUniqueWithoutPens_pig_transfers_old_pen_idTopensInput = {
@@ -581,15 +581,15 @@ export type pig_transfersUpdateManyWithWhereWithoutPigsInput = {
 export type pig_transfersCreateManyPens_pig_transfers_new_pen_idTopensInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   old_pen_id?: string | null
+  pig_id?: string | null
 }
 
 export type pig_transfersCreateManyPens_pig_transfers_old_pen_idTopensInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   new_pen_id?: string | null
+  pig_id?: string | null
 }
 
 export type pig_transfersUpdateWithoutPens_pig_transfers_new_pen_idTopensInput = {
@@ -602,15 +602,15 @@ export type pig_transfersUpdateWithoutPens_pig_transfers_new_pen_idTopensInput =
 export type pig_transfersUncheckedUpdateWithoutPens_pig_transfers_new_pen_idTopensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   old_pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pig_transfersUncheckedUpdateManyWithoutPens_pig_transfers_new_pen_idTopensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   old_pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pig_transfersUpdateWithoutPens_pig_transfers_old_pen_idTopensInput = {
@@ -623,15 +623,15 @@ export type pig_transfersUpdateWithoutPens_pig_transfers_old_pen_idTopensInput =
 export type pig_transfersUncheckedUpdateWithoutPens_pig_transfers_old_pen_idTopensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   new_pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pig_transfersUncheckedUpdateManyWithoutPens_pig_transfers_old_pen_idTopensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   new_pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pig_transfersCreateManyPigsInput = {
@@ -667,9 +667,9 @@ export type pig_transfersUncheckedUpdateManyWithoutPigsInput = {
 export type pig_transfersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
-  pig_id?: boolean
   old_pen_id?: boolean
   new_pen_id?: boolean
+  pig_id?: boolean
   pens_pig_transfers_new_pen_idTopens?: boolean | Prisma.pig_transfers$pens_pig_transfers_new_pen_idTopensArgs<ExtArgs>
   pens_pig_transfers_old_pen_idTopens?: boolean | Prisma.pig_transfers$pens_pig_transfers_old_pen_idTopensArgs<ExtArgs>
   pigs?: boolean | Prisma.pig_transfers$pigsArgs<ExtArgs>
@@ -678,9 +678,9 @@ export type pig_transfersSelect<ExtArgs extends runtime.Types.Extensions.Interna
 export type pig_transfersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
-  pig_id?: boolean
   old_pen_id?: boolean
   new_pen_id?: boolean
+  pig_id?: boolean
   pens_pig_transfers_new_pen_idTopens?: boolean | Prisma.pig_transfers$pens_pig_transfers_new_pen_idTopensArgs<ExtArgs>
   pens_pig_transfers_old_pen_idTopens?: boolean | Prisma.pig_transfers$pens_pig_transfers_old_pen_idTopensArgs<ExtArgs>
   pigs?: boolean | Prisma.pig_transfers$pigsArgs<ExtArgs>
@@ -689,9 +689,9 @@ export type pig_transfersSelectCreateManyAndReturn<ExtArgs extends runtime.Types
 export type pig_transfersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
-  pig_id?: boolean
   old_pen_id?: boolean
   new_pen_id?: boolean
+  pig_id?: boolean
   pens_pig_transfers_new_pen_idTopens?: boolean | Prisma.pig_transfers$pens_pig_transfers_new_pen_idTopensArgs<ExtArgs>
   pens_pig_transfers_old_pen_idTopens?: boolean | Prisma.pig_transfers$pens_pig_transfers_old_pen_idTopensArgs<ExtArgs>
   pigs?: boolean | Prisma.pig_transfers$pigsArgs<ExtArgs>
@@ -700,12 +700,12 @@ export type pig_transfersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
 export type pig_transfersSelectScalar = {
   id?: boolean
   created_at?: boolean
-  pig_id?: boolean
   old_pen_id?: boolean
   new_pen_id?: boolean
+  pig_id?: boolean
 }
 
-export type pig_transfersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "pig_id" | "old_pen_id" | "new_pen_id", ExtArgs["result"]["pig_transfers"]>
+export type pig_transfersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "old_pen_id" | "new_pen_id" | "pig_id", ExtArgs["result"]["pig_transfers"]>
 export type pig_transfersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pens_pig_transfers_new_pen_idTopens?: boolean | Prisma.pig_transfers$pens_pig_transfers_new_pen_idTopensArgs<ExtArgs>
   pens_pig_transfers_old_pen_idTopens?: boolean | Prisma.pig_transfers$pens_pig_transfers_old_pen_idTopensArgs<ExtArgs>
@@ -732,9 +732,9 @@ export type $pig_transfersPayload<ExtArgs extends runtime.Types.Extensions.Inter
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     created_at: Date
-    pig_id: string | null
     old_pen_id: string | null
     new_pen_id: string | null
+    pig_id: string | null
   }, ExtArgs["result"]["pig_transfers"]>
   composites: {}
 }
@@ -1163,9 +1163,9 @@ export interface Prisma__pig_transfersClient<T, Null = never, ExtArgs extends ru
 export interface pig_transfersFieldRefs {
   readonly id: Prisma.FieldRef<"pig_transfers", 'String'>
   readonly created_at: Prisma.FieldRef<"pig_transfers", 'DateTime'>
-  readonly pig_id: Prisma.FieldRef<"pig_transfers", 'String'>
   readonly old_pen_id: Prisma.FieldRef<"pig_transfers", 'String'>
   readonly new_pen_id: Prisma.FieldRef<"pig_transfers", 'String'>
+  readonly pig_id: Prisma.FieldRef<"pig_transfers", 'String'>
 }
     
 

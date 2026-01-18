@@ -58,9 +58,9 @@ export type Stock_receipt_itemsMinAggregateOutputType = {
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   expiry_date: Date | null
-  batch_number: string | null
   notes: string | null
   created_at: Date | null
+  batch_id: string | null
 }
 
 export type Stock_receipt_itemsMaxAggregateOutputType = {
@@ -75,9 +75,9 @@ export type Stock_receipt_itemsMaxAggregateOutputType = {
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   expiry_date: Date | null
-  batch_number: string | null
   notes: string | null
   created_at: Date | null
+  batch_id: string | null
 }
 
 export type Stock_receipt_itemsCountAggregateOutputType = {
@@ -92,9 +92,9 @@ export type Stock_receipt_itemsCountAggregateOutputType = {
   tax_amount: number
   total_amount: number
   expiry_date: number
-  batch_number: number
   notes: number
   created_at: number
+  batch_id: number
   _all: number
 }
 
@@ -131,9 +131,9 @@ export type Stock_receipt_itemsMinAggregateInputType = {
   tax_amount?: true
   total_amount?: true
   expiry_date?: true
-  batch_number?: true
   notes?: true
   created_at?: true
+  batch_id?: true
 }
 
 export type Stock_receipt_itemsMaxAggregateInputType = {
@@ -148,9 +148,9 @@ export type Stock_receipt_itemsMaxAggregateInputType = {
   tax_amount?: true
   total_amount?: true
   expiry_date?: true
-  batch_number?: true
   notes?: true
   created_at?: true
+  batch_id?: true
 }
 
 export type Stock_receipt_itemsCountAggregateInputType = {
@@ -165,9 +165,9 @@ export type Stock_receipt_itemsCountAggregateInputType = {
   tax_amount?: true
   total_amount?: true
   expiry_date?: true
-  batch_number?: true
   notes?: true
   created_at?: true
+  batch_id?: true
   _all?: true
 }
 
@@ -269,9 +269,9 @@ export type Stock_receipt_itemsGroupByOutputType = {
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal
   expiry_date: Date | null
-  batch_number: string | null
   notes: string | null
   created_at: Date | null
+  batch_id: string | null
   _count: Stock_receipt_itemsCountAggregateOutputType | null
   _avg: Stock_receipt_itemsAvgAggregateOutputType | null
   _sum: Stock_receipt_itemsSumAggregateOutputType | null
@@ -309,10 +309,11 @@ export type stock_receipt_itemsWhereInput = {
   tax_amount?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.DateTimeNullableFilter<"stock_receipt_items"> | Date | string | null
-  batch_number?: Prisma.StringNullableFilter<"stock_receipt_items"> | string | null
   notes?: Prisma.StringNullableFilter<"stock_receipt_items"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"stock_receipt_items"> | Date | string | null
+  batch_id?: Prisma.UuidNullableFilter<"stock_receipt_items"> | string | null
   inventory_batches?: Prisma.Inventory_batchesListRelationFilter
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.XOR<Prisma.Inventory_batchesNullableScalarRelationFilter, Prisma.inventory_batchesWhereInput> | null
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
   stock_receipts?: Prisma.XOR<Prisma.Stock_receiptsScalarRelationFilter, Prisma.stock_receiptsWhereInput>
 }
@@ -329,10 +330,11 @@ export type stock_receipt_itemsOrderByWithRelationInput = {
   tax_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   expiry_date?: Prisma.SortOrderInput | Prisma.SortOrder
-  batch_number?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   inventory_batches?: Prisma.inventory_batchesOrderByRelationAggregateInput
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.inventory_batchesOrderByWithRelationInput
   products?: Prisma.productsOrderByWithRelationInput
   stock_receipts?: Prisma.stock_receiptsOrderByWithRelationInput
 }
@@ -352,10 +354,11 @@ export type stock_receipt_itemsWhereUniqueInput = Prisma.AtLeast<{
   tax_amount?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.DateTimeNullableFilter<"stock_receipt_items"> | Date | string | null
-  batch_number?: Prisma.StringNullableFilter<"stock_receipt_items"> | string | null
   notes?: Prisma.StringNullableFilter<"stock_receipt_items"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"stock_receipt_items"> | Date | string | null
+  batch_id?: Prisma.UuidNullableFilter<"stock_receipt_items"> | string | null
   inventory_batches?: Prisma.Inventory_batchesListRelationFilter
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.XOR<Prisma.Inventory_batchesNullableScalarRelationFilter, Prisma.inventory_batchesWhereInput> | null
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
   stock_receipts?: Prisma.XOR<Prisma.Stock_receiptsScalarRelationFilter, Prisma.stock_receiptsWhereInput>
 }, "id">
@@ -372,9 +375,9 @@ export type stock_receipt_itemsOrderByWithAggregationInput = {
   tax_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   expiry_date?: Prisma.SortOrderInput | Prisma.SortOrder
-  batch_number?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_receipt_itemsCountOrderByAggregateInput
   _avg?: Prisma.stock_receipt_itemsAvgOrderByAggregateInput
   _max?: Prisma.stock_receipt_itemsMaxOrderByAggregateInput
@@ -397,9 +400,9 @@ export type stock_receipt_itemsScalarWhereWithAggregatesInput = {
   tax_amount?: Prisma.DecimalNullableWithAggregatesFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalWithAggregatesFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_receipt_items"> | Date | string | null
-  batch_number?: Prisma.StringNullableWithAggregatesFilter<"stock_receipt_items"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"stock_receipt_items"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_receipt_items"> | Date | string | null
+  batch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_receipt_items"> | string | null
 }
 
 export type stock_receipt_itemsCreateInput = {
@@ -412,10 +415,10 @@ export type stock_receipt_itemsCreateInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutStock_receipt_itemsInput
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.inventory_batchesCreateNestedOneWithoutStock_receipt_items_stock_receipt_items_batch_idToinventory_batchesInput
   products: Prisma.productsCreateNestedOneWithoutStock_receipt_itemsInput
   stock_receipts: Prisma.stock_receiptsCreateNestedOneWithoutStock_receipt_itemsInput
 }
@@ -432,9 +435,9 @@ export type stock_receipt_itemsUncheckedCreateInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutStock_receipt_itemsInput
 }
 
@@ -448,10 +451,10 @@ export type stock_receipt_itemsUpdateInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutStock_receipt_itemsNestedInput
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.inventory_batchesUpdateOneWithoutStock_receipt_items_stock_receipt_items_batch_idToinventory_batchesNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutStock_receipt_itemsNestedInput
   stock_receipts?: Prisma.stock_receiptsUpdateOneRequiredWithoutStock_receipt_itemsNestedInput
 }
@@ -468,9 +471,9 @@ export type stock_receipt_itemsUncheckedUpdateInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutStock_receipt_itemsNestedInput
 }
 
@@ -486,9 +489,9 @@ export type stock_receipt_itemsCreateManyInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_receipt_itemsUpdateManyMutationInput = {
@@ -501,7 +504,6 @@ export type stock_receipt_itemsUpdateManyMutationInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -518,9 +520,9 @@ export type stock_receipt_itemsUncheckedUpdateManyInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Stock_receipt_itemsNullableScalarRelationFilter = {
@@ -550,9 +552,9 @@ export type stock_receipt_itemsCountOrderByAggregateInput = {
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   expiry_date?: Prisma.SortOrder
-  batch_number?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  batch_id?: Prisma.SortOrder
 }
 
 export type stock_receipt_itemsAvgOrderByAggregateInput = {
@@ -577,9 +579,9 @@ export type stock_receipt_itemsMaxOrderByAggregateInput = {
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   expiry_date?: Prisma.SortOrder
-  batch_number?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  batch_id?: Prisma.SortOrder
 }
 
 export type stock_receipt_itemsMinOrderByAggregateInput = {
@@ -594,9 +596,9 @@ export type stock_receipt_itemsMinOrderByAggregateInput = {
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   expiry_date?: Prisma.SortOrder
-  batch_number?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  batch_id?: Prisma.SortOrder
 }
 
 export type stock_receipt_itemsSumOrderByAggregateInput = {
@@ -615,6 +617,20 @@ export type stock_receipt_itemsCreateNestedOneWithoutInventory_batchesInput = {
   connect?: Prisma.stock_receipt_itemsWhereUniqueInput
 }
 
+export type stock_receipt_itemsCreateNestedManyWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  create?: Prisma.XOR<Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput, Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput> | Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[] | Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  connectOrCreate?: Prisma.stock_receipt_itemsCreateOrConnectWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsCreateOrConnectWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  createMany?: Prisma.stock_receipt_itemsCreateManyInventory_batches_stock_receipt_items_batch_idToinventory_batchesInputEnvelope
+  connect?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+}
+
+export type stock_receipt_itemsUncheckedCreateNestedManyWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  create?: Prisma.XOR<Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput, Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput> | Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[] | Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  connectOrCreate?: Prisma.stock_receipt_itemsCreateOrConnectWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsCreateOrConnectWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  createMany?: Prisma.stock_receipt_itemsCreateManyInventory_batches_stock_receipt_items_batch_idToinventory_batchesInputEnvelope
+  connect?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+}
+
 export type stock_receipt_itemsUpdateOneWithoutInventory_batchesNestedInput = {
   create?: Prisma.XOR<Prisma.stock_receipt_itemsCreateWithoutInventory_batchesInput, Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batchesInput>
   connectOrCreate?: Prisma.stock_receipt_itemsCreateOrConnectWithoutInventory_batchesInput
@@ -623,6 +639,34 @@ export type stock_receipt_itemsUpdateOneWithoutInventory_batchesNestedInput = {
   delete?: Prisma.stock_receipt_itemsWhereInput | boolean
   connect?: Prisma.stock_receipt_itemsWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.stock_receipt_itemsUpdateToOneWithWhereWithoutInventory_batchesInput, Prisma.stock_receipt_itemsUpdateWithoutInventory_batchesInput>, Prisma.stock_receipt_itemsUncheckedUpdateWithoutInventory_batchesInput>
+}
+
+export type stock_receipt_itemsUpdateManyWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput, Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput> | Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[] | Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  connectOrCreate?: Prisma.stock_receipt_itemsCreateOrConnectWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsCreateOrConnectWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  upsert?: Prisma.stock_receipt_itemsUpsertWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsUpsertWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  createMany?: Prisma.stock_receipt_itemsCreateManyInventory_batches_stock_receipt_items_batch_idToinventory_batchesInputEnvelope
+  set?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+  disconnect?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+  delete?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+  connect?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+  update?: Prisma.stock_receipt_itemsUpdateWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsUpdateWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  updateMany?: Prisma.stock_receipt_itemsUpdateManyWithWhereWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsUpdateManyWithWhereWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  deleteMany?: Prisma.stock_receipt_itemsScalarWhereInput | Prisma.stock_receipt_itemsScalarWhereInput[]
+}
+
+export type stock_receipt_itemsUncheckedUpdateManyWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput, Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput> | Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[] | Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  connectOrCreate?: Prisma.stock_receipt_itemsCreateOrConnectWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsCreateOrConnectWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  upsert?: Prisma.stock_receipt_itemsUpsertWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsUpsertWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  createMany?: Prisma.stock_receipt_itemsCreateManyInventory_batches_stock_receipt_items_batch_idToinventory_batchesInputEnvelope
+  set?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+  disconnect?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+  delete?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+  connect?: Prisma.stock_receipt_itemsWhereUniqueInput | Prisma.stock_receipt_itemsWhereUniqueInput[]
+  update?: Prisma.stock_receipt_itemsUpdateWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsUpdateWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  updateMany?: Prisma.stock_receipt_itemsUpdateManyWithWhereWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsUpdateManyWithWhereWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  deleteMany?: Prisma.stock_receipt_itemsScalarWhereInput | Prisma.stock_receipt_itemsScalarWhereInput[]
 }
 
 export type stock_receipt_itemsCreateNestedManyWithoutProductsInput = {
@@ -719,9 +763,9 @@ export type stock_receipt_itemsCreateWithoutInventory_batchesInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.inventory_batchesCreateNestedOneWithoutStock_receipt_items_stock_receipt_items_batch_idToinventory_batchesInput
   products: Prisma.productsCreateNestedOneWithoutStock_receipt_itemsInput
   stock_receipts: Prisma.stock_receiptsCreateNestedOneWithoutStock_receipt_itemsInput
 }
@@ -738,14 +782,58 @@ export type stock_receipt_itemsUncheckedCreateWithoutInventory_batchesInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_receipt_itemsCreateOrConnectWithoutInventory_batchesInput = {
   where: Prisma.stock_receipt_itemsWhereUniqueInput
   create: Prisma.XOR<Prisma.stock_receipt_itemsCreateWithoutInventory_batchesInput, Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batchesInput>
+}
+
+export type stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  id?: string
+  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiry_date?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string | null
+  inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutStock_receipt_itemsInput
+  products: Prisma.productsCreateNestedOneWithoutStock_receipt_itemsInput
+  stock_receipts: Prisma.stock_receiptsCreateNestedOneWithoutStock_receipt_itemsInput
+}
+
+export type stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  id?: string
+  receipt_id: string
+  product_id: string
+  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiry_date?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string | null
+  inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutStock_receipt_itemsInput
+}
+
+export type stock_receipt_itemsCreateOrConnectWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  where: Prisma.stock_receipt_itemsWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput, Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput>
+}
+
+export type stock_receipt_itemsCreateManyInventory_batches_stock_receipt_items_batch_idToinventory_batchesInputEnvelope = {
+  data: Prisma.stock_receipt_itemsCreateManyInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput | Prisma.stock_receipt_itemsCreateManyInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput[]
+  skipDuplicates?: boolean
 }
 
 export type stock_receipt_itemsUpsertWithoutInventory_batchesInput = {
@@ -769,9 +857,9 @@ export type stock_receipt_itemsUpdateWithoutInventory_batchesInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.inventory_batchesUpdateOneWithoutStock_receipt_items_stock_receipt_items_batch_idToinventory_batchesNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutStock_receipt_itemsNestedInput
   stock_receipts?: Prisma.stock_receiptsUpdateOneRequiredWithoutStock_receipt_itemsNestedInput
 }
@@ -788,9 +876,45 @@ export type stock_receipt_itemsUncheckedUpdateWithoutInventory_batchesInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_receipt_itemsUpsertWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  where: Prisma.stock_receipt_itemsWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_receipt_itemsUpdateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput, Prisma.stock_receipt_itemsUncheckedUpdateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput>
+  create: Prisma.XOR<Prisma.stock_receipt_itemsCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput, Prisma.stock_receipt_itemsUncheckedCreateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput>
+}
+
+export type stock_receipt_itemsUpdateWithWhereUniqueWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  where: Prisma.stock_receipt_itemsWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_receipt_itemsUpdateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput, Prisma.stock_receipt_itemsUncheckedUpdateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput>
+}
+
+export type stock_receipt_itemsUpdateManyWithWhereWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  where: Prisma.stock_receipt_itemsScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_receipt_itemsUpdateManyMutationInput, Prisma.stock_receipt_itemsUncheckedUpdateManyWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput>
+}
+
+export type stock_receipt_itemsScalarWhereInput = {
+  AND?: Prisma.stock_receipt_itemsScalarWhereInput | Prisma.stock_receipt_itemsScalarWhereInput[]
+  OR?: Prisma.stock_receipt_itemsScalarWhereInput[]
+  NOT?: Prisma.stock_receipt_itemsScalarWhereInput | Prisma.stock_receipt_itemsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"stock_receipt_items"> | string
+  receipt_id?: Prisma.UuidFilter<"stock_receipt_items"> | string
+  product_id?: Prisma.UuidFilter<"stock_receipt_items"> | string
+  quantity?: Prisma.DecimalFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_price?: Prisma.DecimalFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percent?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_percent?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.DecimalFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiry_date?: Prisma.DateTimeNullableFilter<"stock_receipt_items"> | Date | string | null
+  notes?: Prisma.StringNullableFilter<"stock_receipt_items"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"stock_receipt_items"> | Date | string | null
+  batch_id?: Prisma.UuidNullableFilter<"stock_receipt_items"> | string | null
 }
 
 export type stock_receipt_itemsCreateWithoutProductsInput = {
@@ -803,10 +927,10 @@ export type stock_receipt_itemsCreateWithoutProductsInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutStock_receipt_itemsInput
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.inventory_batchesCreateNestedOneWithoutStock_receipt_items_stock_receipt_items_batch_idToinventory_batchesInput
   stock_receipts: Prisma.stock_receiptsCreateNestedOneWithoutStock_receipt_itemsInput
 }
 
@@ -821,9 +945,9 @@ export type stock_receipt_itemsUncheckedCreateWithoutProductsInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutStock_receipt_itemsInput
 }
 
@@ -853,26 +977,6 @@ export type stock_receipt_itemsUpdateManyWithWhereWithoutProductsInput = {
   data: Prisma.XOR<Prisma.stock_receipt_itemsUpdateManyMutationInput, Prisma.stock_receipt_itemsUncheckedUpdateManyWithoutProductsInput>
 }
 
-export type stock_receipt_itemsScalarWhereInput = {
-  AND?: Prisma.stock_receipt_itemsScalarWhereInput | Prisma.stock_receipt_itemsScalarWhereInput[]
-  OR?: Prisma.stock_receipt_itemsScalarWhereInput[]
-  NOT?: Prisma.stock_receipt_itemsScalarWhereInput | Prisma.stock_receipt_itemsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"stock_receipt_items"> | string
-  receipt_id?: Prisma.UuidFilter<"stock_receipt_items"> | string
-  product_id?: Prisma.UuidFilter<"stock_receipt_items"> | string
-  quantity?: Prisma.DecimalFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_price?: Prisma.DecimalFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  discount_percent?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  discount_amount?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_percent?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax_amount?: Prisma.DecimalNullableFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_amount?: Prisma.DecimalFilter<"stock_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  expiry_date?: Prisma.DateTimeNullableFilter<"stock_receipt_items"> | Date | string | null
-  batch_number?: Prisma.StringNullableFilter<"stock_receipt_items"> | string | null
-  notes?: Prisma.StringNullableFilter<"stock_receipt_items"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"stock_receipt_items"> | Date | string | null
-}
-
 export type stock_receipt_itemsCreateWithoutStock_receiptsInput = {
   id?: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -883,10 +987,10 @@ export type stock_receipt_itemsCreateWithoutStock_receiptsInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutStock_receipt_itemsInput
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.inventory_batchesCreateNestedOneWithoutStock_receipt_items_stock_receipt_items_batch_idToinventory_batchesInput
   products: Prisma.productsCreateNestedOneWithoutStock_receipt_itemsInput
 }
 
@@ -901,9 +1005,9 @@ export type stock_receipt_itemsUncheckedCreateWithoutStock_receiptsInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutStock_receipt_itemsInput
 }
 
@@ -933,6 +1037,72 @@ export type stock_receipt_itemsUpdateManyWithWhereWithoutStock_receiptsInput = {
   data: Prisma.XOR<Prisma.stock_receipt_itemsUpdateManyMutationInput, Prisma.stock_receipt_itemsUncheckedUpdateManyWithoutStock_receiptsInput>
 }
 
+export type stock_receipt_itemsCreateManyInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  id?: string
+  receipt_id: string
+  product_id: string
+  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiry_date?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string | null
+}
+
+export type stock_receipt_itemsUpdateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutStock_receipt_itemsNestedInput
+  products?: Prisma.productsUpdateOneRequiredWithoutStock_receipt_itemsNestedInput
+  stock_receipts?: Prisma.stock_receiptsUpdateOneRequiredWithoutStock_receipt_itemsNestedInput
+}
+
+export type stock_receipt_itemsUncheckedUpdateWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutStock_receipt_itemsNestedInput
+}
+
+export type stock_receipt_itemsUncheckedUpdateManyWithoutInventory_batches_stock_receipt_items_batch_idToinventory_batchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 export type stock_receipt_itemsCreateManyProductsInput = {
   id?: string
   receipt_id: string
@@ -944,9 +1114,9 @@ export type stock_receipt_itemsCreateManyProductsInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_receipt_itemsUpdateWithoutProductsInput = {
@@ -959,10 +1129,10 @@ export type stock_receipt_itemsUpdateWithoutProductsInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutStock_receipt_itemsNestedInput
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.inventory_batchesUpdateOneWithoutStock_receipt_items_stock_receipt_items_batch_idToinventory_batchesNestedInput
   stock_receipts?: Prisma.stock_receiptsUpdateOneRequiredWithoutStock_receipt_itemsNestedInput
 }
 
@@ -977,9 +1147,9 @@ export type stock_receipt_itemsUncheckedUpdateWithoutProductsInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutStock_receipt_itemsNestedInput
 }
 
@@ -994,9 +1164,9 @@ export type stock_receipt_itemsUncheckedUpdateManyWithoutProductsInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_receipt_itemsCreateManyStock_receiptsInput = {
@@ -1010,9 +1180,9 @@ export type stock_receipt_itemsCreateManyStock_receiptsInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Date | string | null
-  batch_number?: string | null
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_receipt_itemsUpdateWithoutStock_receiptsInput = {
@@ -1025,10 +1195,10 @@ export type stock_receipt_itemsUpdateWithoutStock_receiptsInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutStock_receipt_itemsNestedInput
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: Prisma.inventory_batchesUpdateOneWithoutStock_receipt_items_stock_receipt_items_batch_idToinventory_batchesNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutStock_receipt_itemsNestedInput
 }
 
@@ -1043,9 +1213,9 @@ export type stock_receipt_itemsUncheckedUpdateWithoutStock_receiptsInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutStock_receipt_itemsNestedInput
 }
 
@@ -1060,9 +1230,9 @@ export type stock_receipt_itemsUncheckedUpdateManyWithoutStock_receiptsInput = {
   tax_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1108,10 +1278,11 @@ export type stock_receipt_itemsSelect<ExtArgs extends runtime.Types.Extensions.I
   tax_amount?: boolean
   total_amount?: boolean
   expiry_date?: boolean
-  batch_number?: boolean
   notes?: boolean
   created_at?: boolean
+  batch_id?: boolean
   inventory_batches?: boolean | Prisma.stock_receipt_items$inventory_batchesArgs<ExtArgs>
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: boolean | Prisma.stock_receipt_items$inventory_batches_stock_receipt_items_batch_idToinventory_batchesArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   stock_receipts?: boolean | Prisma.stock_receiptsDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.Stock_receipt_itemsCountOutputTypeDefaultArgs<ExtArgs>
@@ -1129,9 +1300,10 @@ export type stock_receipt_itemsSelectCreateManyAndReturn<ExtArgs extends runtime
   tax_amount?: boolean
   total_amount?: boolean
   expiry_date?: boolean
-  batch_number?: boolean
   notes?: boolean
   created_at?: boolean
+  batch_id?: boolean
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: boolean | Prisma.stock_receipt_items$inventory_batches_stock_receipt_items_batch_idToinventory_batchesArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   stock_receipts?: boolean | Prisma.stock_receiptsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_receipt_items"]>
@@ -1148,9 +1320,10 @@ export type stock_receipt_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime
   tax_amount?: boolean
   total_amount?: boolean
   expiry_date?: boolean
-  batch_number?: boolean
   notes?: boolean
   created_at?: boolean
+  batch_id?: boolean
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: boolean | Prisma.stock_receipt_items$inventory_batches_stock_receipt_items_batch_idToinventory_batchesArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   stock_receipts?: boolean | Prisma.stock_receiptsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_receipt_items"]>
@@ -1167,23 +1340,26 @@ export type stock_receipt_itemsSelectScalar = {
   tax_amount?: boolean
   total_amount?: boolean
   expiry_date?: boolean
-  batch_number?: boolean
   notes?: boolean
   created_at?: boolean
+  batch_id?: boolean
 }
 
-export type stock_receipt_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "receipt_id" | "product_id" | "quantity" | "unit_price" | "discount_percent" | "discount_amount" | "tax_percent" | "tax_amount" | "total_amount" | "expiry_date" | "batch_number" | "notes" | "created_at", ExtArgs["result"]["stock_receipt_items"]>
+export type stock_receipt_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "receipt_id" | "product_id" | "quantity" | "unit_price" | "discount_percent" | "discount_amount" | "tax_percent" | "tax_amount" | "total_amount" | "expiry_date" | "notes" | "created_at" | "batch_id", ExtArgs["result"]["stock_receipt_items"]>
 export type stock_receipt_itemsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   inventory_batches?: boolean | Prisma.stock_receipt_items$inventory_batchesArgs<ExtArgs>
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: boolean | Prisma.stock_receipt_items$inventory_batches_stock_receipt_items_batch_idToinventory_batchesArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   stock_receipts?: boolean | Prisma.stock_receiptsDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.Stock_receipt_itemsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type stock_receipt_itemsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: boolean | Prisma.stock_receipt_items$inventory_batches_stock_receipt_items_batch_idToinventory_batchesArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   stock_receipts?: boolean | Prisma.stock_receiptsDefaultArgs<ExtArgs>
 }
 export type stock_receipt_itemsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches?: boolean | Prisma.stock_receipt_items$inventory_batches_stock_receipt_items_batch_idToinventory_batchesArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   stock_receipts?: boolean | Prisma.stock_receiptsDefaultArgs<ExtArgs>
 }
@@ -1192,6 +1368,7 @@ export type $stock_receipt_itemsPayload<ExtArgs extends runtime.Types.Extensions
   name: "stock_receipt_items"
   objects: {
     inventory_batches: Prisma.$inventory_batchesPayload<ExtArgs>[]
+    inventory_batches_stock_receipt_items_batch_idToinventory_batches: Prisma.$inventory_batchesPayload<ExtArgs> | null
     products: Prisma.$productsPayload<ExtArgs>
     stock_receipts: Prisma.$stock_receiptsPayload<ExtArgs>
   }
@@ -1207,9 +1384,9 @@ export type $stock_receipt_itemsPayload<ExtArgs extends runtime.Types.Extensions
     tax_amount: runtime.Decimal | null
     total_amount: runtime.Decimal
     expiry_date: Date | null
-    batch_number: string | null
     notes: string | null
     created_at: Date | null
+    batch_id: string | null
   }, ExtArgs["result"]["stock_receipt_items"]>
   composites: {}
 }
@@ -1605,6 +1782,7 @@ readonly fields: stock_receipt_itemsFieldRefs;
 export interface Prisma__stock_receipt_itemsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   inventory_batches<T extends Prisma.stock_receipt_items$inventory_batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_receipt_items$inventory_batchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventory_batchesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inventory_batches_stock_receipt_items_batch_idToinventory_batches<T extends Prisma.stock_receipt_items$inventory_batches_stock_receipt_items_batch_idToinventory_batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_receipt_items$inventory_batches_stock_receipt_items_batch_idToinventory_batchesArgs<ExtArgs>>): Prisma.Prisma__inventory_batchesClient<runtime.Types.Result.GetResult<Prisma.$inventory_batchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   products<T extends Prisma.productsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.productsDefaultArgs<ExtArgs>>): Prisma.Prisma__productsClient<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   stock_receipts<T extends Prisma.stock_receiptsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_receiptsDefaultArgs<ExtArgs>>): Prisma.Prisma__stock_receiptsClient<runtime.Types.Result.GetResult<Prisma.$stock_receiptsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1647,9 +1825,9 @@ export interface stock_receipt_itemsFieldRefs {
   readonly tax_amount: Prisma.FieldRef<"stock_receipt_items", 'Decimal'>
   readonly total_amount: Prisma.FieldRef<"stock_receipt_items", 'Decimal'>
   readonly expiry_date: Prisma.FieldRef<"stock_receipt_items", 'DateTime'>
-  readonly batch_number: Prisma.FieldRef<"stock_receipt_items", 'String'>
   readonly notes: Prisma.FieldRef<"stock_receipt_items", 'String'>
   readonly created_at: Prisma.FieldRef<"stock_receipt_items", 'DateTime'>
+  readonly batch_id: Prisma.FieldRef<"stock_receipt_items", 'String'>
 }
     
 
@@ -2067,6 +2245,25 @@ export type stock_receipt_items$inventory_batchesArgs<ExtArgs extends runtime.Ty
   take?: number
   skip?: number
   distinct?: Prisma.Inventory_batchesScalarFieldEnum | Prisma.Inventory_batchesScalarFieldEnum[]
+}
+
+/**
+ * stock_receipt_items.inventory_batches_stock_receipt_items_batch_idToinventory_batches
+ */
+export type stock_receipt_items$inventory_batches_stock_receipt_items_batch_idToinventory_batchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the inventory_batches
+   */
+  select?: Prisma.inventory_batchesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the inventory_batches
+   */
+  omit?: Prisma.inventory_batchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.inventory_batchesInclude<ExtArgs> | null
+  where?: Prisma.inventory_batchesWhereInput
 }
 
 /**
