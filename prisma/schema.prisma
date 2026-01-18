@@ -153,18 +153,6 @@ model environment_logs {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model expenses {
-  id                 String              @id(map: "expenses_pkey1") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at         DateTime            @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  category_id        String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  amount             Decimal?            @db.Decimal
-  payment_status     String?             @default("")
-  cost_entity_id     String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  expense_categories expense_categories? @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  expense_entities   expense_entities?   @relation(fields: [cost_entity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model feeding_schedule_details {
   id                  String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at          DateTime           @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
@@ -418,22 +406,6 @@ model work_shifts {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model expense_categories {
-  id         String     @id(map: "expenses_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  name       String?    @default("")
-  expenses   expenses[]
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model expense_entities {
-  id         String     @id(map: "expense_objects_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  name       String?    @default("")
-  expenses   expenses[]
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model cash_accounts {
   id                   String                 @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name                 String                 @db.VarChar(255)
@@ -498,15 +470,6 @@ model daily_inventory_snapshots {
   warehouses        warehouses @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@unique([warehouse_id, product_id, snapshot_date])
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model farm_members {
-  id        String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  user_id   String    @db.Uuid
-  role      String?   @default("staff") @db.VarChar(50)
-  joined_at DateTime? @default(now()) @db.Timestamptz(6)
-  users     users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -886,7 +849,6 @@ model users {
   is_active                                            Boolean?            @default(true)
   created_at                                           DateTime?           @default(now()) @db.Timestamptz(6)
   updated_at                                           DateTime?           @default(now()) @db.Timestamptz(6)
-  farm_members                                         farm_members[]
   inventory_checks_inventory_checks_approved_byTousers inventory_checks[]  @relation("inventory_checks_approved_byTousers")
   inventory_checks_inventory_checks_created_byTousers  inventory_checks[]  @relation("inventory_checks_created_byTousers")
   inventory_history                                    inventory_history[]
@@ -900,13 +862,13 @@ model users {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model warehouse_categories {
-  id          String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name        String     @db.VarChar(255)
+  id          String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String              @db.VarChar(255)
   description String?
-  type        String     @db.VarChar(50)
-  is_active   Boolean?   @default(true)
-  created_at  DateTime?  @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime?  @default(now()) @db.Timestamptz(6)
+  type        material_categories
+  is_active   Boolean?            @default(true)
+  created_at  DateTime?           @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?           @default(now()) @db.Timestamptz(6)
   products    products[]
 }
 
@@ -1007,12 +969,12 @@ model vaccine_reports {
 }
 
 enum material_categories {
-  FEED
-  MEDICINE
-  VACCINE
-  EQUIPMENT
-  CHEMICAL
-  OTHER
+  feed
+  medicine
+  vaccine
+  equipment
+  harvest
+  other
 }
 
 enum warehouse_types {

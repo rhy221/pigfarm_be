@@ -13,8 +13,10 @@ export interface ProductSummary {
 export interface VaccineStats {
   vaccine_id: string;
   vaccine_name: string;
+  disease_name: string;
   total_vaccinated: number;
   cost: number;
+  sick_count: number;
   effectiveness_rate: number;
 }
 
@@ -97,7 +99,7 @@ export class ReportRepository {
       const monthStr = d.toISOString().slice(0, 7); // YYYY-MM
 
       // For a real trend, we would query daily_inventory_snapshots
-      // Since we might not have it populated, we'll sum current total value as a placeholder or 
+      // Since we might not have it populated, we'll sum current total value as a placeholder or
       // ideally query the snapshot table if it exists.
       const snapshot = await this.prisma.daily_inventory_snapshots.aggregate({
         where: {
@@ -138,27 +140,37 @@ export class ReportRepository {
     });
   }
 
-  // Expenses
-  async findExpenses(
+  // Transactions (replaced Expenses)
+  async findTransactions(
     startDate: Date,
     endDate: Date,
+    transactionType?: string,
     category?: string,
     status?: string,
   ) {
-    const where: {
-      created_at: { gte: Date; lte: Date };
-      expense_categories?: { name: string };
-      payment_status?: string;
-    } = {
-      created_at: { gte: startDate, lte: endDate },
+    const where: any = {
+      transaction_date: { gte: startDate, lte: endDate },
     };
-    if (category) where.expense_categories = { name: category };
-    if (status && status !== 'all') where.payment_status = status;
 
-    return this.prisma.expenses.findMany({
+    if (transactionType) {
+      where.transaction_type = transactionType;
+    }
+
+    if (category) {
+      where.transaction_categories = { name: category };
+    }
+
+    if (status && status !== 'all') {
+      where.status = status;
+    }
+
+    return this.prisma.transactions.findMany({
       where,
-      include: { expense_categories: true, expense_entities: true },
-      orderBy: { created_at: 'desc' },
+      include: {
+        transaction_categories: true,
+        cash_accounts: true,
+      },
+      orderBy: { transaction_date: 'desc' },
     });
   }
 
@@ -351,11 +363,11 @@ export class ReportRepository {
                 const schedDate = s.scheduled_date
                   ? new Date(s.scheduled_date)
                   : new Date();
-                
+
                 // Check if the disease matches the vaccine's target disease (if we knew it)
                 // For now, we assume any disease is bad, OR we could try to match names if available.
                 // Improving: check if disease_id matches what the vaccine prevents (if we had that link).
-                
+
                 return treatDate > schedDate;
               });
               if (gotSick) item.sick_count++;

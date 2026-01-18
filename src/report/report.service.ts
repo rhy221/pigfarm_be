@@ -108,31 +108,34 @@ export class ReportService {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0, 23, 59, 59);
 
-    const expenses = await this.repo.findExpenses(
+    const transactions = await this.repo.findTransactions(
       startDate,
       endDate,
+      'expense',
       query.category,
       query.status,
     );
-    const items = expenses.map((e) => ({
-      id: e.id,
-      receiptCode: '',
-      date: e.created_at.toISOString().split('T')[0],
-      category: e.expense_categories?.name || '',
-      amount: Number(e.amount) || 0,
-      paymentStatus: e.payment_status || 'unpaid',
+    const items = transactions.map((t) => ({
+      id: t.id,
+      transactionCode: t.transaction_code || '',
+      date: t.transaction_date.toISOString().split('T')[0],
+      category: t.transaction_categories?.name || 'Khác',
+      amount: Number(t.amount) || 0,
+      status: t.status || 'confirmed',
+      description: t.description || '',
+      contactName: t.contact_name || '',
     }));
 
     const total = items.reduce((s, e) => s + e.amount, 0);
-    const paid = items
-      .filter((e) => e.paymentStatus === 'paid')
+    const confirmed = items
+      .filter((e) => e.status === 'confirmed')
       .reduce((s, e) => s + e.amount, 0);
 
     return {
       month: targetMonth,
       totalExpense: total,
-      paidExpense: paid,
-      unpaidExpense: total - paid,
+      paidExpense: confirmed,
+      unpaidExpense: total - confirmed,
       expenses: items,
     };
   }
@@ -152,13 +155,18 @@ export class ReportService {
       type: 'revenue' as const,
     }));
 
-    // 1. Operational Expenses
-    const expenses = await this.repo.findExpenses(startDate, endDate);
-    const operationalExpenseItems = expenses.map((e) => ({
-      id: e.id,
-      date: e.created_at.toISOString().split('T')[0],
-      description: `Chi phí: ${e.expense_categories?.name || 'Khác'}`,
-      amount: Number(e.amount) || 0,
+    // 1. Operational Expenses from Transactions
+    const transactions = await this.repo.findTransactions(
+      startDate,
+      endDate,
+      'expense',
+    );
+    const operationalExpenseItems = transactions.map((t) => ({
+      id: t.id,
+      date: t.transaction_date.toISOString().split('T')[0],
+      description:
+        t.description || `Chi phí: ${t.transaction_categories?.name || 'Khác'}`,
+      amount: Number(t.amount) || 0,
       type: 'expense' as const,
     }));
 

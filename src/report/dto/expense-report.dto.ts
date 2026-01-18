@@ -16,11 +16,13 @@ export class ExpenseReportQueryDto {
 
 export class ExpenseItemDto {
   id: string;
-  receiptCode: string;
+  transactionCode: string;
   date: string;
   category: string;
   amount: number;
-  paymentStatus: string;
+  status: string;
+  description?: string;
+  contactName?: string;
 }
 
 export class ExpenseReportResponseDto {
