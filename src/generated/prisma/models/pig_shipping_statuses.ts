@@ -166,14 +166,14 @@ export type pig_shipping_statusesWhereInput = {
   id?: Prisma.UuidFilter<"pig_shipping_statuses"> | string
   created_at?: Prisma.DateTimeFilter<"pig_shipping_statuses"> | Date | string
   name?: Prisma.StringNullableFilter<"pig_shipping_statuses"> | string | null
-  pig_shipping_details?: Prisma.Pig_shipping_detailsListRelationFilter
+  pig_shippings?: Prisma.Pig_shippingsListRelationFilter
 }
 
 export type pig_shipping_statusesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
-  pig_shipping_details?: Prisma.pig_shipping_detailsOrderByRelationAggregateInput
+  pig_shippings?: Prisma.pig_shippingsOrderByRelationAggregateInput
 }
 
 export type pig_shipping_statusesWhereUniqueInput = Prisma.AtLeast<{
@@ -183,7 +183,7 @@ export type pig_shipping_statusesWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.pig_shipping_statusesWhereInput | Prisma.pig_shipping_statusesWhereInput[]
   created_at?: Prisma.DateTimeFilter<"pig_shipping_statuses"> | Date | string
   name?: Prisma.StringNullableFilter<"pig_shipping_statuses"> | string | null
-  pig_shipping_details?: Prisma.Pig_shipping_detailsListRelationFilter
+  pig_shippings?: Prisma.Pig_shippingsListRelationFilter
 }, "id">
 
 export type pig_shipping_statusesOrderByWithAggregationInput = {
@@ -208,28 +208,28 @@ export type pig_shipping_statusesCreateInput = {
   id?: string
   created_at?: Date | string
   name?: string | null
-  pig_shipping_details?: Prisma.pig_shipping_detailsCreateNestedManyWithoutPig_shipping_statusesInput
+  pig_shippings?: Prisma.pig_shippingsCreateNestedManyWithoutPig_shipping_statusesInput
 }
 
 export type pig_shipping_statusesUncheckedCreateInput = {
   id?: string
   created_at?: Date | string
   name?: string | null
-  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedCreateNestedManyWithoutPig_shipping_statusesInput
+  pig_shippings?: Prisma.pig_shippingsUncheckedCreateNestedManyWithoutPig_shipping_statusesInput
 }
 
 export type pig_shipping_statusesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pig_shipping_details?: Prisma.pig_shipping_detailsUpdateManyWithoutPig_shipping_statusesNestedInput
+  pig_shippings?: Prisma.pig_shippingsUpdateManyWithoutPig_shipping_statusesNestedInput
 }
 
 export type pig_shipping_statusesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedUpdateManyWithoutPig_shipping_statusesNestedInput
+  pig_shippings?: Prisma.pig_shippingsUncheckedUpdateManyWithoutPig_shipping_statusesNestedInput
 }
 
 export type pig_shipping_statusesCreateManyInput = {
@@ -250,11 +250,6 @@ export type pig_shipping_statusesUncheckedUpdateManyInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type Pig_shipping_statusesNullableScalarRelationFilter = {
-  is?: Prisma.pig_shipping_statusesWhereInput | null
-  isNot?: Prisma.pig_shipping_statusesWhereInput | null
-}
-
 export type pig_shipping_statusesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -273,57 +268,62 @@ export type pig_shipping_statusesMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
 }
 
-export type pig_shipping_statusesCreateNestedOneWithoutPig_shipping_detailsInput = {
-  create?: Prisma.XOR<Prisma.pig_shipping_statusesCreateWithoutPig_shipping_detailsInput, Prisma.pig_shipping_statusesUncheckedCreateWithoutPig_shipping_detailsInput>
-  connectOrCreate?: Prisma.pig_shipping_statusesCreateOrConnectWithoutPig_shipping_detailsInput
+export type Pig_shipping_statusesNullableScalarRelationFilter = {
+  is?: Prisma.pig_shipping_statusesWhereInput | null
+  isNot?: Prisma.pig_shipping_statusesWhereInput | null
+}
+
+export type pig_shipping_statusesCreateNestedOneWithoutPig_shippingsInput = {
+  create?: Prisma.XOR<Prisma.pig_shipping_statusesCreateWithoutPig_shippingsInput, Prisma.pig_shipping_statusesUncheckedCreateWithoutPig_shippingsInput>
+  connectOrCreate?: Prisma.pig_shipping_statusesCreateOrConnectWithoutPig_shippingsInput
   connect?: Prisma.pig_shipping_statusesWhereUniqueInput
 }
 
-export type pig_shipping_statusesUpdateOneWithoutPig_shipping_detailsNestedInput = {
-  create?: Prisma.XOR<Prisma.pig_shipping_statusesCreateWithoutPig_shipping_detailsInput, Prisma.pig_shipping_statusesUncheckedCreateWithoutPig_shipping_detailsInput>
-  connectOrCreate?: Prisma.pig_shipping_statusesCreateOrConnectWithoutPig_shipping_detailsInput
-  upsert?: Prisma.pig_shipping_statusesUpsertWithoutPig_shipping_detailsInput
+export type pig_shipping_statusesUpdateOneWithoutPig_shippingsNestedInput = {
+  create?: Prisma.XOR<Prisma.pig_shipping_statusesCreateWithoutPig_shippingsInput, Prisma.pig_shipping_statusesUncheckedCreateWithoutPig_shippingsInput>
+  connectOrCreate?: Prisma.pig_shipping_statusesCreateOrConnectWithoutPig_shippingsInput
+  upsert?: Prisma.pig_shipping_statusesUpsertWithoutPig_shippingsInput
   disconnect?: Prisma.pig_shipping_statusesWhereInput | boolean
   delete?: Prisma.pig_shipping_statusesWhereInput | boolean
   connect?: Prisma.pig_shipping_statusesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.pig_shipping_statusesUpdateToOneWithWhereWithoutPig_shipping_detailsInput, Prisma.pig_shipping_statusesUpdateWithoutPig_shipping_detailsInput>, Prisma.pig_shipping_statusesUncheckedUpdateWithoutPig_shipping_detailsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.pig_shipping_statusesUpdateToOneWithWhereWithoutPig_shippingsInput, Prisma.pig_shipping_statusesUpdateWithoutPig_shippingsInput>, Prisma.pig_shipping_statusesUncheckedUpdateWithoutPig_shippingsInput>
 }
 
-export type pig_shipping_statusesCreateWithoutPig_shipping_detailsInput = {
+export type pig_shipping_statusesCreateWithoutPig_shippingsInput = {
   id?: string
   created_at?: Date | string
   name?: string | null
 }
 
-export type pig_shipping_statusesUncheckedCreateWithoutPig_shipping_detailsInput = {
+export type pig_shipping_statusesUncheckedCreateWithoutPig_shippingsInput = {
   id?: string
   created_at?: Date | string
   name?: string | null
 }
 
-export type pig_shipping_statusesCreateOrConnectWithoutPig_shipping_detailsInput = {
+export type pig_shipping_statusesCreateOrConnectWithoutPig_shippingsInput = {
   where: Prisma.pig_shipping_statusesWhereUniqueInput
-  create: Prisma.XOR<Prisma.pig_shipping_statusesCreateWithoutPig_shipping_detailsInput, Prisma.pig_shipping_statusesUncheckedCreateWithoutPig_shipping_detailsInput>
+  create: Prisma.XOR<Prisma.pig_shipping_statusesCreateWithoutPig_shippingsInput, Prisma.pig_shipping_statusesUncheckedCreateWithoutPig_shippingsInput>
 }
 
-export type pig_shipping_statusesUpsertWithoutPig_shipping_detailsInput = {
-  update: Prisma.XOR<Prisma.pig_shipping_statusesUpdateWithoutPig_shipping_detailsInput, Prisma.pig_shipping_statusesUncheckedUpdateWithoutPig_shipping_detailsInput>
-  create: Prisma.XOR<Prisma.pig_shipping_statusesCreateWithoutPig_shipping_detailsInput, Prisma.pig_shipping_statusesUncheckedCreateWithoutPig_shipping_detailsInput>
+export type pig_shipping_statusesUpsertWithoutPig_shippingsInput = {
+  update: Prisma.XOR<Prisma.pig_shipping_statusesUpdateWithoutPig_shippingsInput, Prisma.pig_shipping_statusesUncheckedUpdateWithoutPig_shippingsInput>
+  create: Prisma.XOR<Prisma.pig_shipping_statusesCreateWithoutPig_shippingsInput, Prisma.pig_shipping_statusesUncheckedCreateWithoutPig_shippingsInput>
   where?: Prisma.pig_shipping_statusesWhereInput
 }
 
-export type pig_shipping_statusesUpdateToOneWithWhereWithoutPig_shipping_detailsInput = {
+export type pig_shipping_statusesUpdateToOneWithWhereWithoutPig_shippingsInput = {
   where?: Prisma.pig_shipping_statusesWhereInput
-  data: Prisma.XOR<Prisma.pig_shipping_statusesUpdateWithoutPig_shipping_detailsInput, Prisma.pig_shipping_statusesUncheckedUpdateWithoutPig_shipping_detailsInput>
+  data: Prisma.XOR<Prisma.pig_shipping_statusesUpdateWithoutPig_shippingsInput, Prisma.pig_shipping_statusesUncheckedUpdateWithoutPig_shippingsInput>
 }
 
-export type pig_shipping_statusesUpdateWithoutPig_shipping_detailsInput = {
+export type pig_shipping_statusesUpdateWithoutPig_shippingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type pig_shipping_statusesUncheckedUpdateWithoutPig_shipping_detailsInput = {
+export type pig_shipping_statusesUncheckedUpdateWithoutPig_shippingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -335,11 +335,11 @@ export type pig_shipping_statusesUncheckedUpdateWithoutPig_shipping_detailsInput
  */
 
 export type Pig_shipping_statusesCountOutputType = {
-  pig_shipping_details: number
+  pig_shippings: number
 }
 
 export type Pig_shipping_statusesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pig_shipping_details?: boolean | Pig_shipping_statusesCountOutputTypeCountPig_shipping_detailsArgs
+  pig_shippings?: boolean | Pig_shipping_statusesCountOutputTypeCountPig_shippingsArgs
 }
 
 /**
@@ -355,8 +355,8 @@ export type Pig_shipping_statusesCountOutputTypeDefaultArgs<ExtArgs extends runt
 /**
  * Pig_shipping_statusesCountOutputType without action
  */
-export type Pig_shipping_statusesCountOutputTypeCountPig_shipping_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.pig_shipping_detailsWhereInput
+export type Pig_shipping_statusesCountOutputTypeCountPig_shippingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.pig_shippingsWhereInput
 }
 
 
@@ -364,7 +364,7 @@ export type pig_shipping_statusesSelect<ExtArgs extends runtime.Types.Extensions
   id?: boolean
   created_at?: boolean
   name?: boolean
-  pig_shipping_details?: boolean | Prisma.pig_shipping_statuses$pig_shipping_detailsArgs<ExtArgs>
+  pig_shippings?: boolean | Prisma.pig_shipping_statuses$pig_shippingsArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_shipping_statusesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pig_shipping_statuses"]>
 
@@ -388,7 +388,7 @@ export type pig_shipping_statusesSelectScalar = {
 
 export type pig_shipping_statusesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "name", ExtArgs["result"]["pig_shipping_statuses"]>
 export type pig_shipping_statusesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pig_shipping_details?: boolean | Prisma.pig_shipping_statuses$pig_shipping_detailsArgs<ExtArgs>
+  pig_shippings?: boolean | Prisma.pig_shipping_statuses$pig_shippingsArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_shipping_statusesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type pig_shipping_statusesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -397,7 +397,7 @@ export type pig_shipping_statusesIncludeUpdateManyAndReturn<ExtArgs extends runt
 export type $pig_shipping_statusesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "pig_shipping_statuses"
   objects: {
-    pig_shipping_details: Prisma.$pig_shipping_detailsPayload<ExtArgs>[]
+    pig_shippings: Prisma.$pig_shippingsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -797,7 +797,7 @@ readonly fields: pig_shipping_statusesFieldRefs;
  */
 export interface Prisma__pig_shipping_statusesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  pig_shipping_details<T extends Prisma.pig_shipping_statuses$pig_shipping_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_shipping_statuses$pig_shipping_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_shipping_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pig_shippings<T extends Prisma.pig_shipping_statuses$pig_shippingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_shipping_statuses$pig_shippingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_shippingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1218,27 +1218,27 @@ export type pig_shipping_statusesDeleteManyArgs<ExtArgs extends runtime.Types.Ex
 }
 
 /**
- * pig_shipping_statuses.pig_shipping_details
+ * pig_shipping_statuses.pig_shippings
  */
-export type pig_shipping_statuses$pig_shipping_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type pig_shipping_statuses$pig_shippingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the pig_shipping_details
+   * Select specific fields to fetch from the pig_shippings
    */
-  select?: Prisma.pig_shipping_detailsSelect<ExtArgs> | null
+  select?: Prisma.pig_shippingsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the pig_shipping_details
+   * Omit specific fields from the pig_shippings
    */
-  omit?: Prisma.pig_shipping_detailsOmit<ExtArgs> | null
+  omit?: Prisma.pig_shippingsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.pig_shipping_detailsInclude<ExtArgs> | null
-  where?: Prisma.pig_shipping_detailsWhereInput
-  orderBy?: Prisma.pig_shipping_detailsOrderByWithRelationInput | Prisma.pig_shipping_detailsOrderByWithRelationInput[]
-  cursor?: Prisma.pig_shipping_detailsWhereUniqueInput
+  include?: Prisma.pig_shippingsInclude<ExtArgs> | null
+  where?: Prisma.pig_shippingsWhereInput
+  orderBy?: Prisma.pig_shippingsOrderByWithRelationInput | Prisma.pig_shippingsOrderByWithRelationInput[]
+  cursor?: Prisma.pig_shippingsWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.Pig_shipping_detailsScalarFieldEnum | Prisma.Pig_shipping_detailsScalarFieldEnum[]
+  distinct?: Prisma.Pig_shippingsScalarFieldEnum | Prisma.Pig_shippingsScalarFieldEnum[]
 }
 
 /**

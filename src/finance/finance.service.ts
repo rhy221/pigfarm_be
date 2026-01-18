@@ -26,7 +26,7 @@ import {
   TransactionType,
 } from './finance.dto';
 import {NamingUtils} from '../lib/utils';
-import { Prisma } from 'generated/prisma/client'
+import { Prisma } from '../generated/prisma/client'
 @Injectable()
 export class FinanceService {
   constructor(private prisma: PrismaService) {}
@@ -102,7 +102,6 @@ export class FinanceService {
         data: { is_default: false },
       });
     }
-
     return this.prisma.cash_accounts.create({
       data: {
         ...NamingUtils.toSnakeCase(dto),
@@ -124,7 +123,7 @@ export class FinanceService {
 
     return this.prisma.cash_accounts.update({
       where: { id },
-      data: dto,
+      data: NamingUtils.toSnakeCase(dto),
     });
   }
 
@@ -332,16 +331,18 @@ export class FinanceService {
     const supplier = await this.prisma.suppliers.findUnique({ where: { id: dto.supplierId } });
     if (!supplier) throw new NotFoundException('Không tìm thấy nhà cung cấp');
 
+    const paymentDate = new Date(dto.paymentDate);
+      const transactionCode = await this.generateTransactionCode(
+        TransactionType.EXPENSE,
+        paymentDate,
+      );
+
     return this.prisma.$transaction(async (tx) => {
       const category = await tx.transaction_categories.findFirst({
         where: { code: 'CP007', is_active: true },
       });
 
-      const paymentDate = new Date(dto.paymentDate);
-      const transactionCode = await this.generateTransactionCode(
-        TransactionType.EXPENSE,
-        paymentDate,
-      );
+      
 
       const transaction = await tx.transactions.create({
         data: {
@@ -390,22 +391,26 @@ export class FinanceService {
       });
 
       return transaction;
-    });
+    }, 
+  {
+  maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+  timeout: 10000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+});
   }
 
   // ============ CASH BOOK REPORT METHODS ============
   async getCashBookReport(dto: CashBookReportDto) {
     const { cashAccountId, fromDate, toDate } = dto;
 
-    const where: any = {
+    const where: Prisma.transactionsWhereInput = {
       status: 'confirmed',
-      isRecorded: true,
-      transactionDate: {
+      is_recorded: true,
+      transaction_date: {
         gte: new Date(fromDate),
         lte: new Date(toDate),
       },
     };
-    if (cashAccountId) where.cashAccountId = cashAccountId;
+    if (cashAccountId) where.cash_account_id = cashAccountId;
 
     const accounts = cashAccountId
       ? [await this.prisma.cash_accounts.findUnique({ where: { id: cashAccountId } })]
@@ -554,11 +559,11 @@ export class FinanceService {
 
   // ============ MONTHLY BILL METHODS ============
   async createMonthlyBill(dto: CreateMonthlyBillDto) {
-    return this.prisma.monthly_bills.create({ data: dto });
+    return this.prisma.monthly_bills.create({ data: NamingUtils.toSnakeCase(dto) });
   }
 
   async updateMonthlyBill(id: string, dto: UpdateMonthlyBillDto) {
-    return this.prisma.monthly_bills.update({ where: { id }, data: dto });
+    return this.prisma.monthly_bills.update({ where: { id }, data: NamingUtils.toSnakeCase(dto) });
   }
 
   async deleteMonthlyBill(id: string) {
@@ -729,9 +734,9 @@ export class FinanceService {
   }
 
   async getMonthlyBillRecords(query: MonthlyBillQueryDto) {
-    const where: any = {};
-    if (query.month) where.periodMonth = query.month;
-    if (query.year) where.periodYear = query.year;
+    const where: Prisma.monthly_bill_recordsWhereInput = {};
+    if (query.month) where.period_month = query.month;
+    if (query.year) where.period_year = query.year;
     if (query.status) where.status = query.status;
 
     return this.prisma.monthly_bill_records.findMany({
@@ -747,15 +752,15 @@ export class FinanceService {
       const count = await this.prisma.customers.count();
       dto.code = `KH${String(count + 1).padStart(4, '0')}`;
     }
-    return this.prisma.customers.create({ data: dto });
+    return this.prisma.customers.create({ data: NamingUtils.toSnakeCase(dto) });
   }
 
   async updateCustomer(id: string, dto: UpdateCustomerDto) {
-    return this.prisma.customers.update({ where: { id }, data: dto });
+    return this.prisma.customers.update({ where: { id }, data: NamingUtils.toSnakeCase(dto) });
   }
 
   async getCustomers(search?: string) {
-    const where: any = { isActive: true };
+    const where: any = { is_active: true };
     if (search) {
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },

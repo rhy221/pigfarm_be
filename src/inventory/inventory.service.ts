@@ -27,7 +27,7 @@ import {
   DocumentStatus,
 } from './inventory.dto';
 import {NamingUtils} from '../lib/utils';
-import { Prisma } from 'generated/prisma/client';
+import { Prisma } from '../generated/prisma/client';
 @Injectable()
 export class InventoryService {
   constructor(private prisma: PrismaService) {}
@@ -97,7 +97,7 @@ export class InventoryService {
     }
     return this.prisma.warehouses.update({
       where: { id },
-      data: dto,
+      data: NamingUtils.toSnakeCase(dto),
     });
   }
 
@@ -148,11 +148,11 @@ export class InventoryService {
 
   // ============ WAREHOUSE CATEGORY METHODS ============
   async createWarehouseCategory(dto: CreateWarehouseCategoryDto) {
-    return this.prisma.warehouse_categories.create({ data: dto });
+    return this.prisma.warehouse_categories.create({ data: NamingUtils.toSnakeCase(dto) });
   }
 
   async updateWarehouseCategory(id: string, dto: UpdateWarehouseCategoryDto) {
-    return this.prisma.warehouse_categories.update({ where: { id }, data: dto });
+    return this.prisma.warehouse_categories.update({ where: { id }, data: NamingUtils.toSnakeCase(dto) });
   }
 
   async getWarehouseCategories() {
@@ -164,11 +164,11 @@ export class InventoryService {
 
   // ============ UNIT METHODS ============
   async createUnit(dto: CreateUnitDto) {
-    return this.prisma.units.create({ data: dto });
+    return this.prisma.units.create({ data: NamingUtils.toSnakeCase(dto) });
   }
 
   async updateUnit(id: string, dto: UpdateUnitDto) {
-    return this.prisma.units.update({ where: { id }, data: dto });
+    return this.prisma.units.update({ where: { id }, data: NamingUtils.toSnakeCase(dto) });
   }
 
   async getUnits() {
@@ -205,9 +205,9 @@ export class InventoryService {
     });
   }
 
-  async getProducts(categoryId?: string, search?: string) {
+  async getProducts(categoryId?: string, search?: string, page = 1, limit = 20) {
+    const skip = (page - 1) * limit;
     const where: Prisma.productsWhereInput = {
-      
       is_active: true,
     };
     if (categoryId) where.category_id = categoryId;
@@ -217,11 +217,19 @@ export class InventoryService {
         { code: { contains: search, mode: 'insensitive' } },
       ];
     }
-    return this.prisma.products.findMany({
-      where,
-      include: { warehouse_categories: true, units: true },
-      orderBy: { name: 'asc' },
-    });
+
+    const [data, total] = await Promise.all([
+      this.prisma.products.findMany({
+        where,
+        include: { warehouse_categories: true, units: true },
+        orderBy: { name: 'asc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.products.count({ where }),
+    ]);
+
+    return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   async getProductById(id: string) {
@@ -384,15 +392,21 @@ export class InventoryService {
     const receiptDate = new Date(dto.receiptDate);
     const receiptCode = await this.generateDocumentCode( 'PN', receiptDate);
 
+    // Format date for batch number: YYYYMMDD
+    const dateStr = receiptDate.toISOString().slice(0, 10).replace(/-/g, '');
+
     // Calculate totals
     let totalAmount = 0;
-    const itemsData = dto.items.map((item) => {
+    const itemsData = dto.items.map((item, index) => {
       const itemTotal = item.quantity * item.unitPrice;
       const discountAmt = item.discountAmount || (itemTotal * (item.discountPercent || 0)) / 100;
       const afterDiscount = itemTotal - discountAmt;
       const taxAmt = item.taxAmount || (afterDiscount * (item.taxPercent || 0)) / 100;
       const finalTotal = afterDiscount + taxAmt;
       totalAmount += finalTotal;
+
+      // Auto-generate batch number if not provided
+      const batchNumber = item.batchNumber || `LOT-${dateStr}-${String(index + 1).padStart(3, '0')}`;
 
       return NamingUtils.toSnakeCase( {
         productId: item.productId,
@@ -404,7 +418,7 @@ export class InventoryService {
         taxAmount: taxAmt,
         totalAmount: finalTotal,
         expiryDate: item.expiryDate ? new Date(item.expiryDate) : null,
-        batchNumber: item.batchNumber,
+        batchNumber,
         notes: item.notes,
       });
     });
@@ -462,14 +476,21 @@ export class InventoryService {
     if (dto.items) {
       await this.prisma.stock_receipt_items.deleteMany({ where: { receipt_id: id } });
 
+      // Format date for batch number: YYYYMMDD
+      const receiptDate = dto.receiptDate ? new Date(dto.receiptDate) : receipt.receipt_date;
+      const dateStr = receiptDate.toISOString().slice(0, 10).replace(/-/g, '');
+
       let totalAmount = 0;
-      const itemsData = dto.items.map((item) => {
+      const itemsData = dto.items.map((item, index) => {
         const itemTotal = item.quantity * item.unitPrice;
         const discountAmt = item.discountAmount || (itemTotal * (item.discountPercent || 0)) / 100;
         const afterDiscount = itemTotal - discountAmt;
         const taxAmt = item.taxAmount || (afterDiscount * (item.taxPercent || 0)) / 100;
         const finalTotal = afterDiscount + taxAmt;
         totalAmount += finalTotal;
+
+        // Auto-generate batch number if not provided
+        const batchNumber = item.batchNumber || `LOT-${dateStr}-${String(index + 1).padStart(3, '0')}`;
 
         return NamingUtils.toSnakeCase( {
           receiptId: id,
@@ -482,7 +503,7 @@ export class InventoryService {
           taxAmount: taxAmt,
           totalAmount: finalTotal,
           expiryDate: item.expiryDate ? new Date(item.expiryDate) : null,
-          batchNumber: item.batchNumber,
+          batchNumber,
           notes: item.notes,
         });
       });
@@ -571,7 +592,7 @@ export class InventoryService {
         const newCost = newQty > 0
           ? ((currentQty * currentCost) + (Number(item.quantity) * Number(item.unit_price))) / newQty
           : Number(item.unit_price);
-        await tx.inventory.upsert({
+        const upsertedInventory = await tx.inventory.upsert({
           where: {
             warehouse_id_product_id: {
               warehouse_id: receipt.warehouse_id,
@@ -579,7 +600,6 @@ export class InventoryService {
             },
           },
           create: {
-       
             warehouse_id: receipt.warehouse_id,
             product_id: item.product_id,
             quantity: Number(item.quantity),
@@ -589,6 +609,23 @@ export class InventoryService {
             quantity: newQty,
             avg_cost: newCost,
             last_updated: new Date(),
+          },
+        });
+
+        // Create inventory batch for tracking lot/expiry
+        await tx.inventory_batches.create({
+          data: {
+            inventory_id: upsertedInventory.id,
+            warehouse_id: receipt.warehouse_id,
+            product_id: item.product_id,
+            receipt_item_id: item.id,
+            // batch_number: item.batch_number,
+            quantity: Number(item.quantity),
+            initial_quantity: Number(item.quantity),
+            unit_cost: Number(item.unit_price),
+            expiry_date: item.expiry_date,
+            received_date: receipt.receipt_date,
+            status: 'active',
           },
         });
 
@@ -748,13 +785,13 @@ export class InventoryService {
       const itemTotal = item.quantity * unitCost;
       totalAmount += itemTotal;
 
-      itemsData.push({
+      itemsData.push(NamingUtils.toSnakeCase({
         productId: item.productId,
         quantity: item.quantity,
         unitCost,
         totalAmount: itemTotal,
         notes: item.notes,
-      });
+      }));
     }
 
     return this.prisma.stock_issues.create({
@@ -969,7 +1006,7 @@ export class InventoryService {
       const difference = item.actualQuantity - systemQuantity;
       const differenceValue = difference * unitCost;
 
-      itemsData.push({
+      itemsData.push(NamingUtils.toSnakeCase({
         productId: item.productId,
         systemQuantity,
         actualQuantity: item.actualQuantity,
@@ -977,7 +1014,7 @@ export class InventoryService {
         unitCost,
         differenceValue,
         notes: item.notes,
-      });
+      }));
     }
 
     return this.prisma.inventory_checks.create({
@@ -1165,13 +1202,13 @@ export class InventoryService {
     const where: any = {
       status: 'active',
       quantity: { gt: 0 },
-      expiryDate: expiryDateFilter,
+      expiry_date: expiryDateFilter,
     };
 
-    if (warehouseId) where.warehouseId = warehouseId;
-    if (productId) where.productId = productId;
+    if (warehouseId) where.warehouse_id = warehouseId;
+    if (productId) where.product_id = productId;
     if (categoryId) {
-      where.product = { categoryId };
+      where.products = { category_id: categoryId };
     }
 
     const [batches, total] = await Promise.all([
@@ -1236,6 +1273,7 @@ export class InventoryService {
       data,
       total,
       page,
+      limit,
       totalPages: Math.ceil(total / limit),
     };
   }
