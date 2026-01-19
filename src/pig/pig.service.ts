@@ -195,22 +195,25 @@ export class PigService {
   }
 
   async getDashboardStats(): Promise<PigDashboardStatsDto> {
-    const activeBatches = await this.prisma.rearing_pens.findMany({
-      where: { quantity: { gt: 0 } },
+    // UPDATED: Query pens directly where current_quantity > 0
+    const activePensData = await this.prisma.pens.findMany({
+      where: { current_quantity: { gt: 0 } },
     });
 
-    const totalPigs = activeBatches.reduce((sum, batch) => sum + (batch.quantity || 0), 0);
-    
-    const activePensList = [...new Set(activeBatches.map((b) => b.pen_id))];
-    const activePensCount = activePensList.length;
+    // Sum active pigs from pens table
+    const totalPigs = activePensData.reduce((sum, pen) => sum + (pen.current_quantity || 0), 0);
+    const activePensCount = activePensData.length;
 
     const sevenDaysAgo = dayjs().subtract(7, 'day').toDate();
-    const newBatches = await this.prisma.rearing_pens.findMany({
+
+    // UPDATED: Count pigs directly via pig_batchs arrival date
+    const newPigsCount = await this.prisma.pigs.count({
       where: {
-        pig_batchs: { arrival_date: { gte: sevenDaysAgo } },
-      },
+        pig_batchs: {
+          arrival_date: { gte: sevenDaysAgo }
+        }
+      }
     });
-    const newPigsCount = newBatches.reduce((sum, batch) => sum + (batch.quantity || 0), 0);
 
     let overheatedCount = 0;
     let highHumidityCount = 0;
@@ -231,18 +234,14 @@ export class PigService {
   }
 
   async getPenList(): Promise<PenItemDto[]> {
+    // UPDATED: Get pens directly, trust current_quantity column
     const pens = await this.prisma.pens.findMany({
-      include: {
-        rearing_pens: {
-          where: { quantity: { gt: 0 } },
-          select: { quantity: true },
-        },
-      },
       orderBy: { pen_name: 'asc' } 
     });
 
     return pens.map((pen) => {
-      const currentPigs = pen.rearing_pens.reduce((sum, rp) => sum + (rp.quantity || 0), 0);
+      // UPDATED: Use current_quantity from pens table
+      const currentPigs = pen.current_quantity || 0;
 
       const env = this.simulateEnvironment();
 

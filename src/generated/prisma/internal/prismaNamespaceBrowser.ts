@@ -72,7 +72,6 @@ export const ModelName = {
   pig_statuses: 'pig_statuses',
   pig_transfers: 'pig_transfers',
   pigs: 'pigs',
-  rearing_pens: 'rearing_pens',
   treatment_details: 'treatment_details',
   vaccination_schedule_details: 'vaccination_schedule_details',
   vaccination_schedules: 'vaccination_schedules',
@@ -312,7 +311,8 @@ export const PensScalarFieldEnum = {
   created_at: 'created_at',
   pen_name: 'pen_name',
   pen_type_id: 'pen_type_id',
-  capacity: 'capacity'
+  capacity: 'capacity',
+  current_quantity: 'current_quantity'
 } as const
 
 export type PensScalarFieldEnum = (typeof PensScalarFieldEnum)[keyof typeof PensScalarFieldEnum]
@@ -398,16 +398,6 @@ export const PigsScalarFieldEnum = {
 } as const
 
 export type PigsScalarFieldEnum = (typeof PigsScalarFieldEnum)[keyof typeof PigsScalarFieldEnum]
-
-
-export const Rearing_pensScalarFieldEnum = {
-  created_at: 'created_at',
-  pen_id: 'pen_id',
-  batch_id: 'batch_id',
-  quantity: 'quantity'
-} as const
-
-export type Rearing_pensScalarFieldEnum = (typeof Rearing_pensScalarFieldEnum)[keyof typeof Rearing_pensScalarFieldEnum]
 
 
 export const Treatment_detailsScalarFieldEnum = {

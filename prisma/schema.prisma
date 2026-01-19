@@ -315,6 +315,7 @@ model pig_transfers {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model pigs {
   id                   String                 @id(map: "pig_pkey") @default(dbgenerated("uuid_generate_v4()"))
+  id                   String                 @id(map: "pig_pkey") @default(dbgenerated("uuid_generate_v4()"))
   created_at           DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   pig_batch_id         String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   weight               Float?                 @default(0) @db.Real
@@ -913,6 +914,26 @@ model shipped_pig_items {
   pig_shipping_details pig_shipping_details? @relation(fields: [shipping_detail_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model chat_documents {
+  id          Int                    @id @default(autoincrement())
+  filename    String                 @db.VarChar(255)
+  content     String
+  chunk_index Int
+  embedding   Unsupported("vector")?
+  metadata    Json?                  @default("{}")
+  created_at  DateTime?              @default(now()) @db.Timestamp(6)
+
+  @@index([content(ops: raw("gin_trgm_ops"))], map: "idx_chat_documents_content_trgm", type: Gin)
+  @@index([embedding], map: "idx_chat_documents_embedding")
+}
+
+model pig_batches {
+  id           String    @id(map: "pig_batchs_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at   DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  arrival_date DateTime? @db.Date
+  batch_name   String?
+  pigs         pigs[]
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model treatment_logs {
   id                 BigInt              @id @default(autoincrement())

@@ -651,38 +651,6 @@ export type disease_treatmentsUncheckedUpdateWithoutTreatmentDetailsInput = {
   treatment_logs?: Prisma.treatment_logsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
-export type disease_treatmentsCreateNestedOneWithoutPig_in_treatmentInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPig_in_treatmentInput, Prisma.disease_treatmentsUncheckedCreateWithoutPig_in_treatmentInput>
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutPig_in_treatmentInput
-  connect?: Prisma.disease_treatmentsWhereUniqueInput
-}
-
-export type disease_treatmentsUpdateOneWithoutPig_in_treatmentNestedInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPig_in_treatmentInput, Prisma.disease_treatmentsUncheckedCreateWithoutPig_in_treatmentInput>
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutPig_in_treatmentInput
-  upsert?: Prisma.disease_treatmentsUpsertWithoutPig_in_treatmentInput
-  disconnect?: Prisma.disease_treatmentsWhereInput | boolean
-  delete?: Prisma.disease_treatmentsWhereInput | boolean
-  connect?: Prisma.disease_treatmentsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.disease_treatmentsUpdateToOneWithWhereWithoutPig_in_treatmentInput, Prisma.disease_treatmentsUpdateWithoutPig_in_treatmentInput>, Prisma.disease_treatmentsUncheckedUpdateWithoutPig_in_treatmentInput>
-}
-
-export type disease_treatmentsCreateNestedOneWithoutTreatment_logsInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatment_logsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatment_logsInput>
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutTreatment_logsInput
-  connect?: Prisma.disease_treatmentsWhereUniqueInput
-}
-
-export type disease_treatmentsUpdateOneWithoutTreatment_logsNestedInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatment_logsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatment_logsInput>
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutTreatment_logsInput
-  upsert?: Prisma.disease_treatmentsUpsertWithoutTreatment_logsInput
-  disconnect?: Prisma.disease_treatmentsWhereInput | boolean
-  delete?: Prisma.disease_treatmentsWhereInput | boolean
-  connect?: Prisma.disease_treatmentsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.disease_treatmentsUpdateToOneWithWhereWithoutTreatment_logsInput, Prisma.disease_treatmentsUpdateWithoutTreatment_logsInput>, Prisma.disease_treatmentsUncheckedUpdateWithoutTreatment_logsInput>
-}
-
 export type disease_treatmentsCreateWithoutDiseasesInput = {
   id?: string
   created_at?: Date | string
