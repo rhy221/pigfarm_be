@@ -99,6 +99,12 @@ export class CreateCashAccountDto {
   @IsOptional()
   openingBalance?: number;
 
+  
+  @ApiPropertyOptional()
+  @IsNumber()
+  @IsOptional()
+  currentBalance?: number;
+
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()

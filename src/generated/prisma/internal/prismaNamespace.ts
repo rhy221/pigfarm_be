@@ -6373,6 +6373,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'sick_group_status'
+ */
+export type Enumsick_group_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'sick_group_status'>
+    
+
+
+/**
+ * Reference to a field of type 'sick_group_status[]'
+ */
+export type ListEnumsick_group_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'sick_group_status[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>

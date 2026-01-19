@@ -487,6 +487,22 @@ export type pensUpdateOneWithoutCleaning_detailsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.pensUpdateToOneWithWhereWithoutCleaning_detailsInput, Prisma.pensUpdateWithoutCleaning_detailsInput>, Prisma.pensUncheckedUpdateWithoutCleaning_detailsInput>
 }
 
+export type pensCreateNestedOneWithoutDisease_treatmentsInput = {
+  create?: Prisma.XOR<Prisma.pensCreateWithoutDisease_treatmentsInput, Prisma.pensUncheckedCreateWithoutDisease_treatmentsInput>
+  connectOrCreate?: Prisma.pensCreateOrConnectWithoutDisease_treatmentsInput
+  connect?: Prisma.pensWhereUniqueInput
+}
+
+export type pensUpdateOneWithoutDisease_treatmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.pensCreateWithoutDisease_treatmentsInput, Prisma.pensUncheckedCreateWithoutDisease_treatmentsInput>
+  connectOrCreate?: Prisma.pensCreateOrConnectWithoutDisease_treatmentsInput
+  upsert?: Prisma.pensUpsertWithoutDisease_treatmentsInput
+  disconnect?: Prisma.pensWhereInput | boolean
+  delete?: Prisma.pensWhereInput | boolean
+  connect?: Prisma.pensWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.pensUpdateToOneWithWhereWithoutDisease_treatmentsInput, Prisma.pensUpdateWithoutDisease_treatmentsInput>, Prisma.pensUncheckedUpdateWithoutDisease_treatmentsInput>
+}
+
 export type pensCreateNestedOneWithoutEnvironment_log_detailsInput = {
   create?: Prisma.XOR<Prisma.pensCreateWithoutEnvironment_log_detailsInput, Prisma.pensUncheckedCreateWithoutEnvironment_log_detailsInput>
   connectOrCreate?: Prisma.pensCreateOrConnectWithoutEnvironment_log_detailsInput
