@@ -2,22 +2,14 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Body,
   Patch,
   Param,
   Delete,
-} from '@nestjs/common';
-import { WorkShiftsService } from './work.service';
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
   Query,
 } from '@nestjs/common';
+import { WorkShiftsService } from './work.service';
 import { WorkService } from './work.service';
 import { CreateTaskDto, UpdateTaskDto, QueryTaskDto } from './dto';
 
@@ -38,7 +30,10 @@ export class WorkShiftsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data: any) {
+  update(
+    @Param('id') id: string,
+    @Body() data: { session?: string; start_time?: string; end_time?: string },
+  ) {
     return this.workShiftsService.update(id, data);
   }
 

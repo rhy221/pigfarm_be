@@ -7,10 +7,8 @@ import { WorkService } from './work.service';
 import { WorkRepository } from './work.repository';
 
 @Module({
-  controllers: [WorkShiftsController],
-  providers: [WorkShiftsService, PrismaService],
-  exports: [WorkShiftsService],
-  controllers: [WorkController],
-  providers: [WorkService, WorkRepository],
+  controllers: [WorkShiftsController, WorkController],
+  providers: [WorkShiftsService, WorkService, WorkRepository, PrismaService],
+  exports: [WorkShiftsService, WorkService],
 })
 export class WorkShiftsModule {}

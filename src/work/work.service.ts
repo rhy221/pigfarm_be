@@ -1,6 +1,9 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
 import { WorkRepository } from './work.repository';
 import { CreateTaskDto, UpdateTaskDto, QueryTaskDto } from './dto';
 import { Prisma } from '@prisma/client';
@@ -84,8 +87,15 @@ export class WorkShiftsService {
     });
   }
 
-  async update(id: string, data: any) {
-    const updateData: any = {};
+  async update(
+    id: string,
+    data: { session?: string; start_time?: string; end_time?: string },
+  ) {
+    const updateData: Partial<{
+      session: string;
+      start_time: string;
+      end_time: string;
+    }> = {};
 
     if (data.session !== undefined) updateData.session = data.session;
 
@@ -104,7 +114,10 @@ export class WorkShiftsService {
       });
       return result;
     } catch (error) {
-      console.error('Lỗi Supabase/Prisma:', error.message);
+      console.error(
+        'Lỗi Supabase/Prisma:',
+        error instanceof Error ? error.message : error,
+      );
       throw new BadRequestException(
         'Không thể cập nhật dữ liệu lên Supabase. Kiểm tra lại định dạng giờ.',
       );
