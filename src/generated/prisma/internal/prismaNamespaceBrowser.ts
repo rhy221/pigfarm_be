@@ -783,7 +783,7 @@ export const Stock_receipt_itemsScalarFieldEnum = {
   expiry_date: 'expiry_date',
   notes: 'notes',
   created_at: 'created_at',
-  batch_id: 'batch_id'
+  batch_number: 'batch_number'
 } as const
 
 export type Stock_receipt_itemsScalarFieldEnum = (typeof Stock_receipt_itemsScalarFieldEnum)[keyof typeof Stock_receipt_itemsScalarFieldEnum]

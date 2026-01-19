@@ -196,6 +196,15 @@ export class FinanceController {
     return this.financeService.getMonthlyBills();
   }
 
+  @Get('monthly-bills/summary')
+  @ApiOperation({ summary: 'Lấy tổng hợp hóa đơn tháng' })
+  async getMonthlyBillSummary(
+    @Query('month') month: number,
+    @Query('year') year: number,
+  ) {
+    return this.financeService.getMonthlyBillSummary(+month, +year);
+  }
+
   @Post('monthly-bills/records')
   @ApiOperation({ summary: 'Tạo bản ghi hóa đơn tháng' })
   async createMonthlyBillRecord(@Body() dto: CreateMonthlyBillRecordDto) {

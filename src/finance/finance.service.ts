@@ -730,7 +730,10 @@ export class FinanceService {
       });
 
       return transaction;
-    });
+    }, {
+  maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+  timeout: 10000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+});
   }
 
   async getMonthlyBillRecords(query: MonthlyBillQueryDto) {
@@ -744,6 +747,54 @@ export class FinanceService {
       include: { monthly_bills: { include: { transaction_categories: true } }, transactions: true },
       orderBy: [{ period_year: 'desc' }, { period_month: 'desc' }],
     });
+  }
+
+  async getMonthlyBillSummary(month: number, year: number) {
+    const today = new Date();
+
+    // Get all records for the specified month/year
+    const records = await this.prisma.monthly_bill_records.findMany({
+      where: {
+        period_month: month,
+        period_year: year,
+      },
+    });
+
+    let totalBills = records.length;
+    let paidCount = 0;
+    let pendingCount = 0;
+    let overdueCount = 0;
+    let totalAmount = 0;
+    let paidAmount = 0;
+    let pendingAmount = 0;
+
+    for (const record of records) {
+      const amount = Number(record.amount);
+      totalAmount += amount;
+
+      if (record.status === 'paid') {
+        paidCount++;
+        paidAmount += amount;
+      } else {
+        // Check if overdue
+        if (record.due_date && new Date(record.due_date) < today) {
+          overdueCount++;
+        } else {
+          pendingCount++;
+        }
+        pendingAmount += amount;
+      }
+    }
+
+    return {
+      totalBills,
+      paidCount,
+      pendingCount,
+      overdueCount,
+      totalAmount,
+      paidAmount,
+      pendingAmount,
+    };
   }
 
   // ============ CUSTOMER METHODS ============

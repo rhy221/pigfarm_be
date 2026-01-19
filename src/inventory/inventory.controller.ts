@@ -35,6 +35,7 @@ import {
   UpdateStockReceiptDto,
   ConfirmStockReceiptDto,
   CreateStockIssueDto,
+  UpdateStockIssueDto,
   CreateInventoryCheckDto,
   InventoryQueryDto,
   StockReceiptQueryDto,
@@ -268,6 +269,12 @@ export class InventoryController {
   @ApiOperation({ summary: 'Tạo phiếu xuất kho' })
   async createStockIssue(@Body() dto: CreateStockIssueDto, @Request() req: any) {
     return this.inventoryService.createStockIssue(dto, req.user?.id);
+  }
+
+  @Put('issues/:id')
+  @ApiOperation({ summary: 'Cập nhật phiếu xuất kho' })
+  async updateStockIssue(@Param('id') id: string, @Body() dto: UpdateStockIssueDto) {
+    return this.inventoryService.updateStockIssue(id, dto);
   }
 
   @Post('issues/:id/confirm')
