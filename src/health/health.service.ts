@@ -7,9 +7,13 @@ import {
   MarkVaccinatedDto, 
   UpdateScheduleDto, 
   VaccinationActionItem,
-  CreateTreatmentDto,
+} from './health.dto';
+
+import {
+    CreateTreatmentDto,
   AddTreatmentLogDto,
-  UpdatePigsStatusDto,} from './health.dto';
+  UpdatePigsStatusDto,
+} from './dto/health.dto'
 
 
 @Injectable()
