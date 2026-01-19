@@ -49,8 +49,8 @@ export class PigController {
     @Body() data: { breed_name: string },
   ) {
     return this.pigService.update(id, data);
-  } // ✅ THIẾU DẤU NÀY
-
+  }
+  
   @Get('stats')
   @ApiOperation({ summary: 'Lấy thống kê Dashboard (Số liệu môi trường là giả lập)' })
   @ApiResponse({ status: 200, type: PigDashboardStatsDto })
