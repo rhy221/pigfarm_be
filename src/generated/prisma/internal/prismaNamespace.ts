@@ -414,7 +414,6 @@ export const ModelName = {
   pig_statuses: 'pig_statuses',
   pig_transfers: 'pig_transfers',
   pigs: 'pigs',
-  rearing_pens: 'rearing_pens',
   treatment_details: 'treatment_details',
   vaccination_schedule_details: 'vaccination_schedule_details',
   vaccination_schedules: 'vaccination_schedules',
@@ -455,7 +454,8 @@ export const ModelName = {
   pig_batches: 'pig_batches',
   vaccination_templates: 'vaccination_templates',
   feeding_formulas: 'feeding_formulas',
-  user_group: 'user_group'
+  user_group: 'user_group',
+  access_control: 'access_control'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -471,7 +471,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "assignment_details" | "assignments" | "chemicals" | "cleaning_details" | "cleaning_methods" | "cleaning_schedules" | "employees" | "environment_log_details" | "environment_logs" | "feeding_schedule_details" | "feeding_schedules" | "feeds" | "herd_report_pen_pigs" | "herd_report_pens" | "herd_reports" | "pen_types" | "pens" | "pig_breeds" | "pig_shipping_details" | "pig_shipping_statuses" | "pig_shippings" | "pig_statuses" | "pig_transfers" | "pigs" | "rearing_pens" | "treatment_details" | "vaccination_schedule_details" | "vaccination_schedules" | "vaccine_report_details" | "vaccine_reports" | "vaccines" | "work_shifts" | "warehouses" | "cash_accounts" | "customers" | "daily_cash_snapshots" | "daily_inventory_snapshots" | "inventory" | "inventory_batches" | "inventory_check_items" | "inventory_checks" | "inventory_history" | "monthly_bill_records" | "monthly_bills" | "products" | "stock_issue_items" | "stock_issues" | "stock_receipt_items" | "stock_receipts" | "supplier_debts" | "suppliers" | "transaction_categories" | "transactions" | "units" | "users" | "warehouse_categories" | "diseases" | "disease_treatments" | "pig_in_treatment" | "treatment_logs" | "shipped_pig_items" | "chat_documents" | "pig_batches" | "vaccination_templates" | "feeding_formulas" | "user_group"
+    modelProps: "assignment_details" | "assignments" | "chemicals" | "cleaning_details" | "cleaning_methods" | "cleaning_schedules" | "employees" | "environment_log_details" | "environment_logs" | "feeding_schedule_details" | "feeding_schedules" | "feeds" | "herd_report_pen_pigs" | "herd_report_pens" | "herd_reports" | "pen_types" | "pens" | "pig_breeds" | "pig_shipping_details" | "pig_shipping_statuses" | "pig_shippings" | "pig_statuses" | "pig_transfers" | "pigs" | "treatment_details" | "vaccination_schedule_details" | "vaccination_schedules" | "vaccine_report_details" | "vaccine_reports" | "vaccines" | "work_shifts" | "warehouses" | "cash_accounts" | "customers" | "daily_cash_snapshots" | "daily_inventory_snapshots" | "inventory" | "inventory_batches" | "inventory_check_items" | "inventory_checks" | "inventory_history" | "monthly_bill_records" | "monthly_bills" | "products" | "stock_issue_items" | "stock_issues" | "stock_receipt_items" | "stock_receipts" | "supplier_debts" | "suppliers" | "transaction_categories" | "transactions" | "units" | "users" | "warehouse_categories" | "diseases" | "disease_treatments" | "pig_in_treatment" | "treatment_logs" | "shipped_pig_items" | "chat_documents" | "pig_batches" | "vaccination_templates" | "feeding_formulas" | "user_group" | "access_control"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2248,80 +2248,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.pigsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PigsCountAggregateOutputType> | number
-        }
-      }
-    }
-    rearing_pens: {
-      payload: Prisma.$rearing_pensPayload<ExtArgs>
-      fields: Prisma.rearing_pensFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.rearing_pensFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.rearing_pensFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload>
-        }
-        findFirst: {
-          args: Prisma.rearing_pensFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.rearing_pensFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload>
-        }
-        findMany: {
-          args: Prisma.rearing_pensFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload>[]
-        }
-        create: {
-          args: Prisma.rearing_pensCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload>
-        }
-        createMany: {
-          args: Prisma.rearing_pensCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.rearing_pensCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload>[]
-        }
-        delete: {
-          args: Prisma.rearing_pensDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload>
-        }
-        update: {
-          args: Prisma.rearing_pensUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload>
-        }
-        deleteMany: {
-          args: Prisma.rearing_pensDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.rearing_pensUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.rearing_pensUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload>[]
-        }
-        upsert: {
-          args: Prisma.rearing_pensUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$rearing_pensPayload>
-        }
-        aggregate: {
-          args: Prisma.Rearing_pensAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRearing_pens>
-        }
-        groupBy: {
-          args: Prisma.rearing_pensGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Rearing_pensGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.rearing_pensCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Rearing_pensCountAggregateOutputType> | number
         }
       }
     }
@@ -5359,6 +5285,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    access_control: {
+      payload: Prisma.$access_controlPayload<ExtArgs>
+      fields: Prisma.access_controlFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.access_controlFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.access_controlFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload>
+        }
+        findFirst: {
+          args: Prisma.access_controlFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.access_controlFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload>
+        }
+        findMany: {
+          args: Prisma.access_controlFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload>[]
+        }
+        create: {
+          args: Prisma.access_controlCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload>
+        }
+        createMany: {
+          args: Prisma.access_controlCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.access_controlCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload>[]
+        }
+        delete: {
+          args: Prisma.access_controlDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload>
+        }
+        update: {
+          args: Prisma.access_controlUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload>
+        }
+        deleteMany: {
+          args: Prisma.access_controlDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.access_controlUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.access_controlUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload>[]
+        }
+        upsert: {
+          args: Prisma.access_controlUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$access_controlPayload>
+        }
+        aggregate: {
+          args: Prisma.Access_controlAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAccess_control>
+        }
+        groupBy: {
+          args: Prisma.access_controlGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Access_controlGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.access_controlCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Access_controlCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5578,7 +5578,8 @@ export const PensScalarFieldEnum = {
   created_at: 'created_at',
   pen_name: 'pen_name',
   pen_type_id: 'pen_type_id',
-  capacity: 'capacity'
+  capacity: 'capacity',
+  current_quantity: 'current_quantity'
 } as const
 
 export type PensScalarFieldEnum = (typeof PensScalarFieldEnum)[keyof typeof PensScalarFieldEnum]
@@ -5664,16 +5665,6 @@ export const PigsScalarFieldEnum = {
 } as const
 
 export type PigsScalarFieldEnum = (typeof PigsScalarFieldEnum)[keyof typeof PigsScalarFieldEnum]
-
-
-export const Rearing_pensScalarFieldEnum = {
-  created_at: 'created_at',
-  pen_id: 'pen_id',
-  batch_id: 'batch_id',
-  quantity: 'quantity'
-} as const
-
-export type Rearing_pensScalarFieldEnum = (typeof Rearing_pensScalarFieldEnum)[keyof typeof Rearing_pensScalarFieldEnum]
 
 
 export const Treatment_detailsScalarFieldEnum = {
@@ -6289,12 +6280,22 @@ export type Feeding_formulasScalarFieldEnum = (typeof Feeding_formulasScalarFiel
 
 
 export const User_groupScalarFieldEnum = {
-  id: 'id',
   created_at: 'created_at',
-  name: 'name'
+  name: 'name',
+  id: 'id'
 } as const
 
 export type User_groupScalarFieldEnum = (typeof User_groupScalarFieldEnum)[keyof typeof User_groupScalarFieldEnum]
+
+
+export const Access_controlScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  role_id: 'role_id',
+  permissions: 'permissions'
+} as const
+
+export type Access_controlScalarFieldEnum = (typeof Access_controlScalarFieldEnum)[keyof typeof Access_controlScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -6436,20 +6437,6 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'BigInt'
- */
-export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt[]'
- */
-export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
-    
-
-
-/**
  * Reference to a field of type 'material_categories'
  */
 export type Enummaterial_categoriesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'material_categories'>
@@ -6474,6 +6461,20 @@ export type Enumsick_group_statusFieldRefInput<$PrismaModel> = FieldRefInputType
  * Reference to a field of type 'sick_group_status[]'
  */
 export type ListEnumsick_group_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'sick_group_status[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -6615,7 +6616,6 @@ export type GlobalOmitConfig = {
   pig_statuses?: Prisma.pig_statusesOmit
   pig_transfers?: Prisma.pig_transfersOmit
   pigs?: Prisma.pigsOmit
-  rearing_pens?: Prisma.rearing_pensOmit
   treatment_details?: Prisma.treatment_detailsOmit
   vaccination_schedule_details?: Prisma.vaccination_schedule_detailsOmit
   vaccination_schedules?: Prisma.vaccination_schedulesOmit
@@ -6657,6 +6657,7 @@ export type GlobalOmitConfig = {
   vaccination_templates?: Prisma.vaccination_templatesOmit
   feeding_formulas?: Prisma.feeding_formulasOmit
   user_group?: Prisma.user_groupOmit
+  access_control?: Prisma.access_controlOmit
 }
 
 /* Types for Logging */

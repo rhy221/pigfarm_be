@@ -53,28 +53,27 @@ export class WorkShiftsService {
 
   async update(id: string, data: any) {
     const updateData: any = {};
-
+    
     if (data.session !== undefined) updateData.session = data.session;
 
     if (data.start_time) {
-        updateData.start_time = `${data.start_time}:00+07`;
+      updateData.start_time = new Date(`1970-01-01T${data.start_time}:00Z`);
     }
     
     if (data.end_time) {
-        updateData.end_time = `${data.end_time}:00+07`;
+      updateData.end_time = new Date(`1970-01-01T${data.end_time}:00Z`);
     }
 
     try {
-        const result = await this.prisma.work_shifts.update({
+      return await this.prisma.work_shifts.update({
         where: { id },
         data: updateData,
-        });
-        return result;
+      });
     } catch (error) {
-        console.error('Lỗi Supabase/Prisma:', error.message);
-        throw new BadRequestException('Không thể cập nhật dữ liệu lên Supabase. Kiểm tra lại định dạng giờ.');
+      console.error('Update Error:', error.message);
+      throw new BadRequestException('Không thể cập nhật ca làm. Vui lòng kiểm tra lại định dạng dữ liệu.');
     }
-    }
+  }
 
   async removeMany(ids: string[]) {
     const inUse = await this.prisma.assignment_details.findFirst({

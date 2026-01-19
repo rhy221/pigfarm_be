@@ -73,7 +73,6 @@ export const ModelName = {
   pig_statuses: 'pig_statuses',
   pig_transfers: 'pig_transfers',
   pigs: 'pigs',
-  rearing_pens: 'rearing_pens',
   treatment_details: 'treatment_details',
   vaccination_schedule_details: 'vaccination_schedule_details',
   vaccination_schedules: 'vaccination_schedules',
@@ -114,7 +113,8 @@ export const ModelName = {
   pig_batches: 'pig_batches',
   vaccination_templates: 'vaccination_templates',
   feeding_formulas: 'feeding_formulas',
-  user_group: 'user_group'
+  user_group: 'user_group',
+  access_control: 'access_control'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -313,7 +313,8 @@ export const PensScalarFieldEnum = {
   created_at: 'created_at',
   pen_name: 'pen_name',
   pen_type_id: 'pen_type_id',
-  capacity: 'capacity'
+  capacity: 'capacity',
+  current_quantity: 'current_quantity'
 } as const
 
 export type PensScalarFieldEnum = (typeof PensScalarFieldEnum)[keyof typeof PensScalarFieldEnum]
@@ -399,16 +400,6 @@ export const PigsScalarFieldEnum = {
 } as const
 
 export type PigsScalarFieldEnum = (typeof PigsScalarFieldEnum)[keyof typeof PigsScalarFieldEnum]
-
-
-export const Rearing_pensScalarFieldEnum = {
-  created_at: 'created_at',
-  pen_id: 'pen_id',
-  batch_id: 'batch_id',
-  quantity: 'quantity'
-} as const
-
-export type Rearing_pensScalarFieldEnum = (typeof Rearing_pensScalarFieldEnum)[keyof typeof Rearing_pensScalarFieldEnum]
 
 
 export const Treatment_detailsScalarFieldEnum = {
@@ -1024,12 +1015,22 @@ export type Feeding_formulasScalarFieldEnum = (typeof Feeding_formulasScalarFiel
 
 
 export const User_groupScalarFieldEnum = {
-  id: 'id',
   created_at: 'created_at',
-  name: 'name'
+  name: 'name',
+  id: 'id'
 } as const
 
 export type User_groupScalarFieldEnum = (typeof User_groupScalarFieldEnum)[keyof typeof User_groupScalarFieldEnum]
+
+
+export const Access_controlScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  role_id: 'role_id',
+  permissions: 'permissions'
+} as const
+
+export type Access_controlScalarFieldEnum = (typeof Access_controlScalarFieldEnum)[keyof typeof Access_controlScalarFieldEnum]
 
 
 export const SortOrder = {
