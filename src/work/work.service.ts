@@ -6,7 +6,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { WorkRepository } from './work.repository';
 import { CreateTaskDto, UpdateTaskDto, QueryTaskDto } from './dto';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../generated/prisma/client';
 
 type AssignmentDetailWithRelations = Prisma.assignment_detailsGetPayload<{
   include: {

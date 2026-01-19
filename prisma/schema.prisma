@@ -1,25 +1,13 @@
 generator client {
-  provider = "prisma-client-js"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-}
-
-/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
-model chat_documents {
-  id          Int                    @id @default(autoincrement())
-  filename    String                 @db.VarChar(255)
-  content     String
-  chunk_index Int
-  embedding   Unsupported("vector")?
-  metadata    Json?                  @default("{}")
-  created_at  DateTime?              @default(now()) @db.Timestamp(6)
-
-  @@index([content(ops: raw("gin_trgm_ops"))], map: "idx_chat_documents_content_trgm", type: Gin)
-  @@index([embedding], map: "idx_chat_documents_embedding")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -88,31 +76,6 @@ model cleaning_schedules {
   created_at       DateTime           @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   cleaning_date    DateTime?          @db.Date
   cleaning_details cleaning_details[]
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model disease_treatments {
-  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at        DateTime            @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  pen_id            String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  symptom           String?             @default("")
-  disease_id        String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  status            sick_group_status?
-  end_date          DateTime?           @db.Timestamptz(6)
-  diseases          diseases?           @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  pens              pens?               @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  pig_in_treatment  pig_in_treatment[]
-  treatment_details treatment_details[]
-  treatment_logs    treatment_logs[]
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model diseases {
-  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  name                   String?                  @default("")
-  disease_treatments     disease_treatments[]
-  vaccine_report_details vaccine_report_details[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -315,7 +278,6 @@ model pig_transfers {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model pigs {
   id                   String                 @id(map: "pig_pkey") @default(dbgenerated("uuid_generate_v4()"))
-  id                   String                 @id(map: "pig_pkey") @default(dbgenerated("uuid_generate_v4()"))
   created_at           DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   pig_batch_id         String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   weight               Float?                 @default(0) @db.Real
@@ -325,7 +287,7 @@ model pigs {
   growth_stage         growth_stage?
   pig_breed_id         String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   herd_report_pen_pigs herd_report_pen_pigs[]
-  pig_in_treatment     pig_in_treatment[]
+  pigs_in_treatment    pig_in_treatment[]
   pig_transfers        pig_transfers[]
   pens                 pens?                  @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pig_pen_id_fkey")
   pig_batchs           pig_batches?           @relation(fields: [pig_batch_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pig_pig_batch_id_fkey")
@@ -372,6 +334,29 @@ model vaccination_schedules {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model vaccine_report_details {
+  id                      String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at              DateTime         @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  vaccine_id              String?          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  disease_id              String?          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  cost                    Decimal?         @default(0) @db.Decimal
+  total_vaccinated        Int?             @default(0)
+  post_vaccination_status String?          @default("")
+  effectiveness_rate      Float?           @default(0) @db.Real
+  vaccine_report_id       String?          @db.Uuid
+  diseases                diseases?        @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vaccines                vaccines?        @relation(fields: [vaccine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vaccine_reports         vaccine_reports? @relation(fields: [vaccine_report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model vaccine_reports {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  vaccine_report_details vaccine_report_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model vaccines {
   id                           String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at                   DateTime                       @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
@@ -393,6 +378,26 @@ model work_shifts {
   start_time         DateTime?            @default(now()) @db.Timetz(6)
   end_time           DateTime?            @default(now()) @db.Timetz(6)
   assignment_details assignment_details[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model warehouses {
+  id                        String                      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name                      String                      @db.VarChar(255)
+  location                  String?
+  description               String?
+  warehouse_type            String                      @db.VarChar(50)
+  is_default                Boolean?                    @default(false)
+  is_active                 Boolean?                    @default(true)
+  created_at                DateTime?                   @default(now()) @db.Timestamptz(6)
+  updated_at                DateTime?                   @default(now()) @db.Timestamptz(6)
+  daily_inventory_snapshots daily_inventory_snapshots[]
+  inventory                 inventory[]
+  inventory_batches         inventory_batches[]
+  inventory_checks          inventory_checks[]
+  inventory_history         inventory_history[]
+  stock_issues              stock_issues[]
+  stock_receipts            stock_receipts[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -865,35 +870,30 @@ model warehouse_categories {
   products    products[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model warehouses {
-  id                        String                      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name                      String                      @db.VarChar(255)
-  location                  String?
-  description               String?
-  warehouse_type            String                      @db.VarChar(50)
-  is_default                Boolean?                    @default(false)
-  is_active                 Boolean?                    @default(true)
-  created_at                DateTime?                   @default(now()) @db.Timestamptz(6)
-  updated_at                DateTime?                   @default(now()) @db.Timestamptz(6)
-  daily_inventory_snapshots daily_inventory_snapshots[]
-  inventory                 inventory[]
-  inventory_batches         inventory_batches[]
-  inventory_checks          inventory_checks[]
-  inventory_history         inventory_history[]
-  stock_issues              stock_issues[]
-  stock_receipts            stock_receipts[]
+model diseases {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  name                   String?                  @default("")
+  disease_treatments     disease_treatments[]
+  vaccine_report_details vaccine_report_details[]
 }
 
-model pig_batches {
-  id           String    @id(map: "pig_batchs_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at   DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  arrival_date DateTime? @db.Date
-  batch_name   String?
-  pigs         pigs[]
+model disease_treatments {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at        DateTime            @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  pen_id            String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  symptom           String?             @default("")
+  disease_id        String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  status            sick_group_status?
+  end_date          DateTime?           @db.Timestamptz(6)
+  diseases          diseases?           @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pens              pens?               @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pigs_in_treatment pig_in_treatment[]
+  treatmentDetails  treatment_details[]
+  treatment_logs    treatment_logs[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model pig_in_treatment {
   id                 BigInt              @id @default(autoincrement())
   created_at         DateTime            @default(now()) @db.Timestamptz(6)
@@ -901,6 +901,17 @@ model pig_in_treatment {
   treatment_id       String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   status             pig_status?
   pigs               pigs?               @relation(fields: [pig_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  disease_treatments disease_treatments? @relation(fields: [treatment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model treatment_logs {
+  id                 BigInt              @id @default(autoincrement())
+  created_at         DateTime            @default(now()) @db.Timestamptz(6)
+  date               DateTime?           @db.Date
+  medicine           String?
+  dosage             String?
+  condition          String?
+  treatment_id       String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   disease_treatments disease_treatments? @relation(fields: [treatment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -934,16 +945,6 @@ model pig_batches {
   arrival_date DateTime? @db.Date
   batch_name   String?
   pigs         pigs[]
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model treatment_logs {
-  id                 BigInt              @id @default(autoincrement())
-  created_at         DateTime            @default(now()) @db.Timestamptz(6)
-  date               DateTime?           @db.Date
-  medicine           String?
-  dosage             String?
-  condition          String?
-  treatment_id       String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  disease_treatments disease_treatments? @relation(fields: [treatment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model vaccination_templates {
@@ -957,27 +958,6 @@ model vaccination_templates {
   vaccines   vaccines  @relation(fields: [vaccine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([days_old], map: "idx_vaccination_templates_days_old")
-}
-
-model vaccine_report_details {
-  id                      String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at              DateTime         @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  vaccine_id              String?          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  disease_id              String?          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  cost                    Decimal?         @default(0) @db.Decimal
-  total_vaccinated        Int?             @default(0)
-  post_vaccination_status String?          @default("")
-  effectiveness_rate      Float?           @default(0) @db.Real
-  vaccine_report_id       String?          @db.Uuid
-  diseases                diseases?        @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  vaccines                vaccines?        @relation(fields: [vaccine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  vaccine_reports         vaccine_reports? @relation(fields: [vaccine_report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-model vaccine_reports {
-  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at             DateTime                 @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  vaccine_report_details vaccine_report_details[]
 }
 
 model feeding_formulas {
@@ -1016,11 +996,9 @@ enum warehouse_types {
   OTHER
 }
 
-enum growth_stage {
-  PIGLET
-  WEANER
-  GROWER
-  FINISHER
+enum sick_group_status {
+  TREATING
+  FINISHED
 }
 
 enum pig_status {
@@ -1029,7 +1007,9 @@ enum pig_status {
   DEAD
 }
 
-enum sick_group_status {
-  TREATING
-  FINISHED
+enum growth_stage {
+  PIGLET
+  WEANER
+  GROWER
+  FINISHER
 }

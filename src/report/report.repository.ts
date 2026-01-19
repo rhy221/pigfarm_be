@@ -312,7 +312,7 @@ export class ReportRepository {
           include: {
             pigs: {
               include: {
-                pig_in_treatment: {
+                pigs_in_treatment: {
                   include: {
                     disease_treatments: {
                       include: { diseases: true },
@@ -355,7 +355,7 @@ export class ReportRepository {
           // Effectiveness: Count pigs that got sick AFTER being vaccinated in this period
           if (s.pens?.pigs) {
             for (const pig of s.pens.pigs) {
-              const gotSick = pig.pig_in_treatment.some((t) => {
+              const gotSick = pig.pigs_in_treatment.some((t) => {
                 const treatment = t.disease_treatments;
                 if (!treatment) return false; // Safety check
 
