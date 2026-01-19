@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "C:\\Projects\\pigfarm_be\\src\\generated\\prisma",
+      "value": "E:\\pigfarm_be\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -38,7 +38,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Projects\\pigfarm_be\\prisma\\schema.prisma",
+    "sourceFilePath": "E:\\pigfarm_be\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
@@ -784,16 +784,6 @@ export interface PrismaClient<
   get warehouse_categories(): Prisma.warehouse_categoriesDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.chat_documents`: Exposes CRUD operations for the **chat_documents** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Chat_documents
-    * const chat_documents = await prisma.chat_documents.findMany()
-    * ```
-    */
-  get chat_documents(): Prisma.chat_documentsDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
    * `prisma.pig_batches`: Exposes CRUD operations for the **pig_batches** model.
     * Example usage:
     * ```ts
@@ -842,6 +832,16 @@ export interface PrismaClient<
     * ```
     */
   get vaccination_templates(): Prisma.vaccination_templatesDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.chat_documents`: Exposes CRUD operations for the **chat_documents** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Chat_documents
+    * const chat_documents = await prisma.chat_documents.findMany()
+    * ```
+    */
+  get chat_documents(): Prisma.chat_documentsDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
    * `prisma.feeding_formulas`: Exposes CRUD operations for the **feeding_formulas** model.
