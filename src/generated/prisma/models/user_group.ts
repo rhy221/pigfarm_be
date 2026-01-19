@@ -20,64 +20,46 @@ export type user_groupModel = runtime.Types.Result.DefaultSelection<Prisma.$user
 
 export type AggregateUser_group = {
   _count: User_groupCountAggregateOutputType | null
-  _avg: User_groupAvgAggregateOutputType | null
-  _sum: User_groupSumAggregateOutputType | null
   _min: User_groupMinAggregateOutputType | null
   _max: User_groupMaxAggregateOutputType | null
 }
 
-export type User_groupAvgAggregateOutputType = {
-  id: number | null
-}
-
-export type User_groupSumAggregateOutputType = {
-  id: bigint | null
-}
-
 export type User_groupMinAggregateOutputType = {
-  id: bigint | null
   created_at: Date | null
   name: string | null
+  id: string | null
 }
 
 export type User_groupMaxAggregateOutputType = {
-  id: bigint | null
   created_at: Date | null
   name: string | null
+  id: string | null
 }
 
 export type User_groupCountAggregateOutputType = {
-  id: number
   created_at: number
   name: number
+  id: number
   _all: number
 }
 
 
-export type User_groupAvgAggregateInputType = {
-  id?: true
-}
-
-export type User_groupSumAggregateInputType = {
-  id?: true
-}
-
 export type User_groupMinAggregateInputType = {
-  id?: true
   created_at?: true
   name?: true
+  id?: true
 }
 
 export type User_groupMaxAggregateInputType = {
-  id?: true
   created_at?: true
   name?: true
+  id?: true
 }
 
 export type User_groupCountAggregateInputType = {
-  id?: true
   created_at?: true
   name?: true
+  id?: true
   _all?: true
 }
 
@@ -119,18 +101,6 @@ export type User_groupAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: User_groupAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: User_groupSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: User_groupMinAggregateInputType
@@ -161,19 +131,15 @@ export type user_groupGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: User_groupCountAggregateInputType | true
-  _avg?: User_groupAvgAggregateInputType
-  _sum?: User_groupSumAggregateInputType
   _min?: User_groupMinAggregateInputType
   _max?: User_groupMaxAggregateInputType
 }
 
 export type User_groupGroupByOutputType = {
-  id: bigint
   created_at: Date
   name: string | null
+  id: string
   _count: User_groupCountAggregateOutputType | null
-  _avg: User_groupAvgAggregateOutputType | null
-  _sum: User_groupSumAggregateOutputType | null
   _min: User_groupMinAggregateOutputType | null
   _max: User_groupMaxAggregateOutputType | null
 }
@@ -197,21 +163,21 @@ export type user_groupWhereInput = {
   AND?: Prisma.user_groupWhereInput | Prisma.user_groupWhereInput[]
   OR?: Prisma.user_groupWhereInput[]
   NOT?: Prisma.user_groupWhereInput | Prisma.user_groupWhereInput[]
-  id?: Prisma.BigIntFilter<"user_group"> | bigint | number
   created_at?: Prisma.DateTimeFilter<"user_group"> | Date | string
   name?: Prisma.StringNullableFilter<"user_group"> | string | null
+  id?: Prisma.UuidFilter<"user_group"> | string
   users?: Prisma.UsersListRelationFilter
 }
 
 export type user_groupOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
   users?: Prisma.usersOrderByRelationAggregateInput
 }
 
 export type user_groupWhereUniqueInput = Prisma.AtLeast<{
-  id?: bigint | number
+  id?: string
   AND?: Prisma.user_groupWhereInput | Prisma.user_groupWhereInput[]
   OR?: Prisma.user_groupWhereInput[]
   NOT?: Prisma.user_groupWhereInput | Prisma.user_groupWhereInput[]
@@ -221,69 +187,67 @@ export type user_groupWhereUniqueInput = Prisma.AtLeast<{
 }, "id">
 
 export type user_groupOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
+  id?: Prisma.SortOrder
   _count?: Prisma.user_groupCountOrderByAggregateInput
-  _avg?: Prisma.user_groupAvgOrderByAggregateInput
   _max?: Prisma.user_groupMaxOrderByAggregateInput
   _min?: Prisma.user_groupMinOrderByAggregateInput
-  _sum?: Prisma.user_groupSumOrderByAggregateInput
 }
 
 export type user_groupScalarWhereWithAggregatesInput = {
   AND?: Prisma.user_groupScalarWhereWithAggregatesInput | Prisma.user_groupScalarWhereWithAggregatesInput[]
   OR?: Prisma.user_groupScalarWhereWithAggregatesInput[]
   NOT?: Prisma.user_groupScalarWhereWithAggregatesInput | Prisma.user_groupScalarWhereWithAggregatesInput[]
-  id?: Prisma.BigIntWithAggregatesFilter<"user_group"> | bigint | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"user_group"> | Date | string
   name?: Prisma.StringNullableWithAggregatesFilter<"user_group"> | string | null
+  id?: Prisma.UuidWithAggregatesFilter<"user_group"> | string
 }
 
 export type user_groupCreateInput = {
-  id?: bigint | number
   created_at?: Date | string
   name?: string | null
+  id?: string
   users?: Prisma.usersCreateNestedManyWithoutUser_groupInput
 }
 
 export type user_groupUncheckedCreateInput = {
-  id?: bigint | number
   created_at?: Date | string
   name?: string | null
+  id?: string
   users?: Prisma.usersUncheckedCreateNestedManyWithoutUser_groupInput
 }
 
 export type user_groupUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.usersUpdateManyWithoutUser_groupNestedInput
 }
 
 export type user_groupUncheckedUpdateInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   users?: Prisma.usersUncheckedUpdateManyWithoutUser_groupNestedInput
 }
 
 export type user_groupCreateManyInput = {
-  id?: bigint | number
   created_at?: Date | string
   name?: string | null
+  id?: string
 }
 
 export type user_groupUpdateManyMutationInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type user_groupUncheckedUpdateManyInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type User_groupNullableScalarRelationFilter = {
@@ -292,28 +256,20 @@ export type User_groupNullableScalarRelationFilter = {
 }
 
 export type user_groupCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-}
-
-export type user_groupAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
 export type user_groupMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  id?: Prisma.SortOrder
 }
 
 export type user_groupMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-}
-
-export type user_groupSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
@@ -334,15 +290,15 @@ export type user_groupUpdateOneWithoutUsersNestedInput = {
 }
 
 export type user_groupCreateWithoutUsersInput = {
-  id?: bigint | number
   created_at?: Date | string
   name?: string | null
+  id?: string
 }
 
 export type user_groupUncheckedCreateWithoutUsersInput = {
-  id?: bigint | number
   created_at?: Date | string
   name?: string | null
+  id?: string
 }
 
 export type user_groupCreateOrConnectWithoutUsersInput = {
@@ -362,15 +318,15 @@ export type user_groupUpdateToOneWithWhereWithoutUsersInput = {
 }
 
 export type user_groupUpdateWithoutUsersInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type user_groupUncheckedUpdateWithoutUsersInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -405,32 +361,32 @@ export type User_groupCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Type
 
 
 export type user_groupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   created_at?: boolean
   name?: boolean
+  id?: boolean
   users?: boolean | Prisma.user_group$usersArgs<ExtArgs>
   _count?: boolean | Prisma.User_groupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user_group"]>
 
 export type user_groupSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   created_at?: boolean
   name?: boolean
+  id?: boolean
 }, ExtArgs["result"]["user_group"]>
 
 export type user_groupSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   created_at?: boolean
   name?: boolean
+  id?: boolean
 }, ExtArgs["result"]["user_group"]>
 
 export type user_groupSelectScalar = {
-  id?: boolean
   created_at?: boolean
   name?: boolean
+  id?: boolean
 }
 
-export type user_groupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "name", ExtArgs["result"]["user_group"]>
+export type user_groupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"created_at" | "name" | "id", ExtArgs["result"]["user_group"]>
 export type user_groupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.user_group$usersArgs<ExtArgs>
   _count?: boolean | Prisma.User_groupCountOutputTypeDefaultArgs<ExtArgs>
@@ -444,9 +400,9 @@ export type $user_groupPayload<ExtArgs extends runtime.Types.Extensions.Internal
     users: Prisma.$usersPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: bigint
     created_at: Date
     name: string | null
+    id: string
   }, ExtArgs["result"]["user_group"]>
   composites: {}
 }
@@ -530,8 +486,8 @@ export interface user_groupDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * // Get first 10 User_groups
    * const user_groups = await prisma.user_group.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const user_groupWithIdOnly = await prisma.user_group.findMany({ select: { id: true } })
+   * // Only select the `created_at`
+   * const user_groupWithCreated_atOnly = await prisma.user_group.findMany({ select: { created_at: true } })
    * 
    */
   findMany<T extends user_groupFindManyArgs>(args?: Prisma.SelectSubset<T, user_groupFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_groupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -575,9 +531,9 @@ export interface user_groupDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Create many User_groups and only return the `id`
-   * const user_groupWithIdOnly = await prisma.user_group.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many User_groups and only return the `created_at`
+   * const user_groupWithCreated_atOnly = await prisma.user_group.createManyAndReturn({
+   *   select: { created_at: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -666,9 +622,9 @@ export interface user_groupDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Update zero or more User_groups and only return the `id`
-   * const user_groupWithIdOnly = await prisma.user_group.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more User_groups and only return the `created_at`
+   * const user_groupWithCreated_atOnly = await prisma.user_group.updateManyAndReturn({
+   *   select: { created_at: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -871,9 +827,9 @@ export interface Prisma__user_groupClient<T, Null = never, ExtArgs extends runti
  * Fields of the user_group model
  */
 export interface user_groupFieldRefs {
-  readonly id: Prisma.FieldRef<"user_group", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"user_group", 'DateTime'>
   readonly name: Prisma.FieldRef<"user_group", 'String'>
+  readonly id: Prisma.FieldRef<"user_group", 'String'>
 }
     
 

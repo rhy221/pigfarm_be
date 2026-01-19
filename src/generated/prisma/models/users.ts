@@ -20,18 +20,8 @@ export type usersModel = runtime.Types.Result.DefaultSelection<Prisma.$usersPayl
 
 export type AggregateUsers = {
   _count: UsersCountAggregateOutputType | null
-  _avg: UsersAvgAggregateOutputType | null
-  _sum: UsersSumAggregateOutputType | null
   _min: UsersMinAggregateOutputType | null
   _max: UsersMaxAggregateOutputType | null
-}
-
-export type UsersAvgAggregateOutputType = {
-  role_id: number | null
-}
-
-export type UsersSumAggregateOutputType = {
-  role_id: bigint | null
 }
 
 export type UsersMinAggregateOutputType = {
@@ -43,7 +33,7 @@ export type UsersMinAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  role_id: bigint | null
+  role_id: string | null
 }
 
 export type UsersMaxAggregateOutputType = {
@@ -55,7 +45,7 @@ export type UsersMaxAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  role_id: bigint | null
+  role_id: string | null
 }
 
 export type UsersCountAggregateOutputType = {
@@ -71,14 +61,6 @@ export type UsersCountAggregateOutputType = {
   _all: number
 }
 
-
-export type UsersAvgAggregateInputType = {
-  role_id?: true
-}
-
-export type UsersSumAggregateInputType = {
-  role_id?: true
-}
 
 export type UsersMinAggregateInputType = {
   id?: true
@@ -155,18 +137,6 @@ export type UsersAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: UsersAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: UsersSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: UsersMinAggregateInputType
@@ -197,8 +167,6 @@ export type usersGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: UsersCountAggregateInputType | true
-  _avg?: UsersAvgAggregateInputType
-  _sum?: UsersSumAggregateInputType
   _min?: UsersMinAggregateInputType
   _max?: UsersMaxAggregateInputType
 }
@@ -212,10 +180,8 @@ export type UsersGroupByOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  role_id: bigint | null
+  role_id: string | null
   _count: UsersCountAggregateOutputType | null
-  _avg: UsersAvgAggregateOutputType | null
-  _sum: UsersSumAggregateOutputType | null
   _min: UsersMinAggregateOutputType | null
   _max: UsersMaxAggregateOutputType | null
 }
@@ -247,7 +213,7 @@ export type usersWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"users"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
-  role_id?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
+  role_id?: Prisma.UuidNullableFilter<"users"> | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.Inventory_checksListRelationFilter
   inventory_checks_inventory_checks_created_byTousers?: Prisma.Inventory_checksListRelationFilter
   inventory_history?: Prisma.Inventory_historyListRelationFilter
@@ -294,7 +260,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   is_active?: Prisma.BoolNullableFilter<"users"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
-  role_id?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
+  role_id?: Prisma.UuidNullableFilter<"users"> | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.Inventory_checksListRelationFilter
   inventory_checks_inventory_checks_created_byTousers?: Prisma.Inventory_checksListRelationFilter
   inventory_history?: Prisma.Inventory_historyListRelationFilter
@@ -318,10 +284,8 @@ export type usersOrderByWithAggregationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   role_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.usersCountOrderByAggregateInput
-  _avg?: Prisma.usersAvgOrderByAggregateInput
   _max?: Prisma.usersMaxOrderByAggregateInput
   _min?: Prisma.usersMinOrderByAggregateInput
-  _sum?: Prisma.usersSumOrderByAggregateInput
 }
 
 export type usersScalarWhereWithAggregatesInput = {
@@ -336,7 +300,7 @@ export type usersScalarWhereWithAggregatesInput = {
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"users"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"users"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"users"> | Date | string | null
-  role_id?: Prisma.BigIntNullableWithAggregatesFilter<"users"> | bigint | number | null
+  role_id?: Prisma.UuidNullableWithAggregatesFilter<"users"> | string | null
 }
 
 export type usersCreateInput = {
@@ -369,7 +333,7 @@ export type usersUncheckedCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_approved_byTousersInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_created_byTousersInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutUsersInput
@@ -411,7 +375,7 @@ export type usersUncheckedUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_approved_byTousersNestedInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_created_byTousersNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutUsersNestedInput
@@ -432,7 +396,7 @@ export type usersCreateManyInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
 }
 
 export type usersUpdateManyMutationInput = {
@@ -455,7 +419,7 @@ export type usersUncheckedUpdateManyInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UsersNullableScalarRelationFilter = {
@@ -472,10 +436,6 @@ export type usersCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  role_id?: Prisma.SortOrder
-}
-
-export type usersAvgOrderByAggregateInput = {
   role_id?: Prisma.SortOrder
 }
 
@@ -500,10 +460,6 @@ export type usersMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  role_id?: Prisma.SortOrder
-}
-
-export type usersSumOrderByAggregateInput = {
   role_id?: Prisma.SortOrder
 }
 
@@ -661,14 +617,6 @@ export type usersUpdateOneWithoutTransactions_transactions_created_byTousersNest
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutTransactions_transactions_created_byTousersInput, Prisma.usersUpdateWithoutTransactions_transactions_created_byTousersInput>, Prisma.usersUncheckedUpdateWithoutTransactions_transactions_created_byTousersInput>
 }
 
-export type NullableBigIntFieldUpdateOperationsInput = {
-  set?: bigint | number | null
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
-}
-
 export type usersCreateNestedManyWithoutUser_groupInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutUser_groupInput, Prisma.usersUncheckedCreateWithoutUser_groupInput> | Prisma.usersCreateWithoutUser_groupInput[] | Prisma.usersUncheckedCreateWithoutUser_groupInput[]
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutUser_groupInput | Prisma.usersCreateOrConnectWithoutUser_groupInput[]
@@ -740,7 +688,7 @@ export type usersUncheckedCreateWithoutInventory_checks_inventory_checks_approve
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_created_byTousersInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutUsersInput
   stock_issues_stock_issues_approved_byTousers?: Prisma.stock_issuesUncheckedCreateNestedManyWithoutUsers_stock_issues_approved_byTousersInput
@@ -785,7 +733,7 @@ export type usersUncheckedCreateWithoutInventory_checks_inventory_checks_created
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_approved_byTousersInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutUsersInput
   stock_issues_stock_issues_approved_byTousers?: Prisma.stock_issuesUncheckedCreateNestedManyWithoutUsers_stock_issues_approved_byTousersInput
@@ -841,7 +789,7 @@ export type usersUncheckedUpdateWithoutInventory_checks_inventory_checks_approve
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_created_byTousersNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutUsersNestedInput
   stock_issues_stock_issues_approved_byTousers?: Prisma.stock_issuesUncheckedUpdateManyWithoutUsers_stock_issues_approved_byTousersNestedInput
@@ -892,7 +840,7 @@ export type usersUncheckedUpdateWithoutInventory_checks_inventory_checks_created
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_approved_byTousersNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutUsersNestedInput
   stock_issues_stock_issues_approved_byTousers?: Prisma.stock_issuesUncheckedUpdateManyWithoutUsers_stock_issues_approved_byTousersNestedInput
@@ -932,7 +880,7 @@ export type usersUncheckedCreateWithoutInventory_historyInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_approved_byTousersInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_created_byTousersInput
   stock_issues_stock_issues_approved_byTousers?: Prisma.stock_issuesUncheckedCreateNestedManyWithoutUsers_stock_issues_approved_byTousersInput
@@ -988,7 +936,7 @@ export type usersUncheckedUpdateWithoutInventory_historyInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_approved_byTousersNestedInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_created_byTousersNestedInput
   stock_issues_stock_issues_approved_byTousers?: Prisma.stock_issuesUncheckedUpdateManyWithoutUsers_stock_issues_approved_byTousersNestedInput
@@ -1028,7 +976,7 @@ export type usersUncheckedCreateWithoutStock_issues_stock_issues_approved_byTous
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_approved_byTousersInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_created_byTousersInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutUsersInput
@@ -1073,7 +1021,7 @@ export type usersUncheckedCreateWithoutStock_issues_stock_issues_created_byTouse
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_approved_byTousersInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_created_byTousersInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutUsersInput
@@ -1129,7 +1077,7 @@ export type usersUncheckedUpdateWithoutStock_issues_stock_issues_approved_byTous
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_approved_byTousersNestedInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_created_byTousersNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutUsersNestedInput
@@ -1180,7 +1128,7 @@ export type usersUncheckedUpdateWithoutStock_issues_stock_issues_created_byTouse
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_approved_byTousersNestedInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_created_byTousersNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutUsersNestedInput
@@ -1220,7 +1168,7 @@ export type usersUncheckedCreateWithoutStock_receipts_stock_receipts_approved_by
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_approved_byTousersInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_created_byTousersInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutUsersInput
@@ -1265,7 +1213,7 @@ export type usersUncheckedCreateWithoutStock_receipts_stock_receipts_created_byT
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_approved_byTousersInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_created_byTousersInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutUsersInput
@@ -1321,7 +1269,7 @@ export type usersUncheckedUpdateWithoutStock_receipts_stock_receipts_approved_by
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_approved_byTousersNestedInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_created_byTousersNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutUsersNestedInput
@@ -1372,7 +1320,7 @@ export type usersUncheckedUpdateWithoutStock_receipts_stock_receipts_created_byT
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_approved_byTousersNestedInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_created_byTousersNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutUsersNestedInput
@@ -1412,7 +1360,7 @@ export type usersUncheckedCreateWithoutTransactions_transactions_approved_byTous
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_approved_byTousersInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_created_byTousersInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutUsersInput
@@ -1457,7 +1405,7 @@ export type usersUncheckedCreateWithoutTransactions_transactions_created_byTouse
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  role_id?: bigint | number | null
+  role_id?: string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_approved_byTousersInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedCreateNestedManyWithoutUsers_inventory_checks_created_byTousersInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutUsersInput
@@ -1513,7 +1461,7 @@ export type usersUncheckedUpdateWithoutTransactions_transactions_approved_byTous
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_approved_byTousersNestedInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_created_byTousersNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutUsersNestedInput
@@ -1564,7 +1512,7 @@ export type usersUncheckedUpdateWithoutTransactions_transactions_created_byTouse
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inventory_checks_inventory_checks_approved_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_approved_byTousersNestedInput
   inventory_checks_inventory_checks_created_byTousers?: Prisma.inventory_checksUncheckedUpdateManyWithoutUsers_inventory_checks_created_byTousersNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutUsersNestedInput
@@ -1653,7 +1601,7 @@ export type usersScalarWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"users"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
-  role_id?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
+  role_id?: Prisma.UuidNullableFilter<"users"> | string | null
 }
 
 export type usersCreateManyUser_groupInput = {
@@ -1926,7 +1874,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     is_active: boolean | null
     created_at: Date | null
     updated_at: Date | null
-    role_id: bigint | null
+    role_id: string | null
   }, ExtArgs["result"]["users"]>
   composites: {}
 }
@@ -2368,7 +2316,7 @@ export interface usersFieldRefs {
   readonly is_active: Prisma.FieldRef<"users", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"users", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"users", 'DateTime'>
-  readonly role_id: Prisma.FieldRef<"users", 'BigInt'>
+  readonly role_id: Prisma.FieldRef<"users", 'String'>
 }
     
 
