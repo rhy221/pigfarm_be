@@ -619,7 +619,7 @@ export class InventoryService {
             warehouse_id: receipt.warehouse_id,
             product_id: item.product_id,
             receipt_item_id: item.id,
-            // batch_number: item.batch_number,
+            batch_number: item.batch_number,
             quantity: Number(item.quantity),
             initial_quantity: Number(item.quantity),
             unit_cost: Number(item.unit_price),
@@ -790,6 +790,7 @@ export class InventoryService {
         quantity: item.quantity,
         unitCost,
         totalAmount: itemTotal,
+        batchId: item.batchId,
         notes: item.notes,
       }));
     }
@@ -809,7 +810,93 @@ export class InventoryService {
         stock_issue_items: { create: itemsData },
       },
       include: {
-        stock_issue_items: { include: { products: { include: { units: true } } } },
+        stock_issue_items: { include: { products: { include: { units: true } }, inventory_batches: true } },
+        warehouses: true,
+      },
+    });
+  }
+
+  async updateStockIssue(id: string, dto: UpdateStockIssueDto) {
+    const issue = await this.prisma.stock_issues.findUnique({ where: { id } });
+    if (!issue) throw new NotFoundException('Không tìm thấy phiếu xuất kho');
+    if (issue.status === 'confirmed') {
+      throw new BadRequestException('Không thể sửa phiếu đã xác nhận');
+    }
+
+    // Delete old items and recreate
+    if (dto.items) {
+      await this.prisma.stock_issue_items.deleteMany({ where: { issue_id: id } });
+
+      const itemsData: any = [];
+      let totalAmount = 0;
+
+      for (const item of dto.items) {
+        const inventory = await this.prisma.inventory.findUnique({
+          where: {
+            warehouse_id_product_id: {
+              warehouse_id: dto.warehouseId || issue.warehouse_id,
+              product_id: item.productId,
+            },
+          },
+        });
+
+        if (!inventory || Number(inventory.quantity) < item.quantity) {
+          const product = await this.prisma.products.findUnique({ where: { id: item.productId } });
+          throw new BadRequestException(
+            `Sản phẩm "${product?.name || item.productId}" không đủ số lượng trong kho`
+          );
+        }
+
+        const unitCost = Number(inventory.avg_cost);
+        const itemTotal = item.quantity * unitCost;
+        totalAmount += itemTotal;
+
+        itemsData.push(NamingUtils.toSnakeCase({
+          issueId: id,
+          productId: item.productId,
+          quantity: item.quantity,
+          unitCost,
+          totalAmount: itemTotal,
+          batchId: item.batchId,
+          notes: item.notes,
+        }));
+      }
+
+      await this.prisma.stock_issue_items.createMany({ data: itemsData });
+
+      return this.prisma.stock_issues.update({
+        where: { id },
+        data: {
+          warehouse_id: dto.warehouseId,
+          issue_date: dto.issueDate ? new Date(dto.issueDate) : undefined,
+          issue_type: dto.issueType,
+          purpose: dto.purpose,
+          total_amount: totalAmount,
+          notes: dto.notes,
+          pig_batch_id: dto.pigBatchId,
+          updated_at: new Date(),
+        },
+        include: {
+          stock_issue_items: { include: { products: { include: { units: true } }, inventory_batches: true } },
+          warehouses: true,
+        },
+      });
+    }
+
+    // Update only issue header without items
+    return this.prisma.stock_issues.update({
+      where: { id },
+      data: {
+        warehouse_id: dto.warehouseId,
+        issue_date: dto.issueDate ? new Date(dto.issueDate) : undefined,
+        issue_type: dto.issueType,
+        purpose: dto.purpose,
+        notes: dto.notes,
+        pig_batch_id: dto.pigBatchId,
+        updated_at: new Date(),
+      },
+      include: {
+        stock_issue_items: { include: { products: { include: { units: true } }, inventory_batches: true } },
         warehouses: true,
       },
     });
@@ -859,6 +946,27 @@ export class InventoryService {
             last_updated: new Date(),
           },
         });
+
+        // Update inventory_batch quantity if batch_id is specified
+        if (item.batch_id) {
+          const batch = await tx.inventory_batches.findUnique({
+            where: { id: item.batch_id },
+          });
+
+          if (batch) {
+            const batchCurrentQty = Number(batch.quantity);
+            const batchNewQty = Math.max(0, batchCurrentQty - Number(item.quantity));
+
+            await tx.inventory_batches.update({
+              where: { id: item.batch_id },
+              data: {
+                quantity: batchNewQty,
+                status: batchNewQty <= 0 ? 'depleted' : 'active',
+                updated_at: new Date(),
+              },
+            });
+          }
+        }
 
         await tx.inventory_history.create({
           data: {
@@ -942,7 +1050,9 @@ export class InventoryService {
     const issue = await this.prisma.stock_issues.findUnique({
       where: { id },
       include: {
-        stock_issue_items: { include: { products: { include: { units: true, warehouse_categories: true } } } },
+        stock_issue_items: { include: {
+          inventory_batches: true, 
+          products: { include: { units: true, warehouse_categories: true } } } },
         warehouses: true,
         users_stock_issues_created_byTousers: { select: { id: true, full_name: true } },
         users_stock_issues_approved_byTousers: { select: { id: true, full_name: true } },
