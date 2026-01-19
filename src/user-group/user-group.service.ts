@@ -33,7 +33,7 @@ export class UserGroupService {
   async update(id: string, data: { name: string }) {
     try {
         const result = await this.prisma.user_group.update({
-        where: { id: BigInt(id) },
+        where: { id: id },
         data: { name: data.name },
         });
         return { ...result, id: result.id.toString() };
@@ -45,7 +45,7 @@ export class UserGroupService {
   async remove(id: string) {
     try {
       return await this.prisma.user_group.delete({
-        where: { id: BigInt(id) },
+        where: { id: id },
       });
     } catch (error) {
       throw new BadRequestException('Không thể xóa nhóm này.');

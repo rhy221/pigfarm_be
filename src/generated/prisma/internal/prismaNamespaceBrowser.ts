@@ -1014,9 +1014,9 @@ export type Feeding_formulasScalarFieldEnum = (typeof Feeding_formulasScalarFiel
 
 
 export const User_groupScalarFieldEnum = {
-  id: 'id',
   created_at: 'created_at',
-  name: 'name'
+  name: 'name',
+  id: 'id'
 } as const
 
 export type User_groupScalarFieldEnum = (typeof User_groupScalarFieldEnum)[keyof typeof User_groupScalarFieldEnum]

@@ -22,7 +22,7 @@ export class UsersService {
         email: data.email,
         password_hash: data.password_hash,
         phone: data.phone,
-        role_id: BigInt(data.role_id), 
+        role_id: String(data.role_id), 
         is_active: true,
       },
       include: { user_group: true },

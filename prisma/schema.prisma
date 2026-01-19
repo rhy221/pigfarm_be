@@ -845,7 +845,7 @@ model users {
   is_active                                            Boolean?            @default(true)
   created_at                                           DateTime?           @default(now()) @db.Timestamptz(6)
   updated_at                                           DateTime?           @default(now()) @db.Timestamptz(6)
-  role_id                                              BigInt?
+  role_id                                              String?             @db.Uuid
   inventory_checks_inventory_checks_approved_byTousers inventory_checks[]  @relation("inventory_checks_approved_byTousers")
   inventory_checks_inventory_checks_created_byTousers  inventory_checks[]  @relation("inventory_checks_created_byTousers")
   inventory_history                                    inventory_history[]
@@ -974,9 +974,9 @@ model feeding_formulas {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model user_group {
-  id         BigInt   @id @default(autoincrement())
   created_at DateTime @default(now()) @db.Timestamptz(6)
   name       String?
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   users      users[]
 }
 

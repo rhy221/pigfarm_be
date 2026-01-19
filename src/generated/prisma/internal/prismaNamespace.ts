@@ -6205,9 +6205,9 @@ export type Feeding_formulasScalarFieldEnum = (typeof Feeding_formulasScalarFiel
 
 
 export const User_groupScalarFieldEnum = {
-  id: 'id',
   created_at: 'created_at',
-  name: 'name'
+  name: 'name',
+  id: 'id'
 } as const
 
 export type User_groupScalarFieldEnum = (typeof User_groupScalarFieldEnum)[keyof typeof User_groupScalarFieldEnum]
@@ -6352,20 +6352,6 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'BigInt'
- */
-export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt[]'
- */
-export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
-    
-
-
-/**
  * Reference to a field of type 'material_categories'
  */
 export type Enummaterial_categoriesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'material_categories'>
@@ -6390,6 +6376,20 @@ export type Enumsick_group_statusFieldRefInput<$PrismaModel> = FieldRefInputType
  * Reference to a field of type 'sick_group_status[]'
  */
 export type ListEnumsick_group_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'sick_group_status[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
