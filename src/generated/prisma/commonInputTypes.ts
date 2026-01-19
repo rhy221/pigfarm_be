@@ -156,23 +156,6 @@ export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
-export type Enumsick_group_statusNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.sick_group_status | Prisma.Enumsick_group_statusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.sick_group_status[] | Prisma.ListEnumsick_group_statusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.sick_group_status[] | Prisma.ListEnumsick_group_statusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumsick_group_statusNullableFilter<$PrismaModel> | $Enums.sick_group_status | null
-}
-
-export type Enumsick_group_statusNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.sick_group_status | Prisma.Enumsick_group_statusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.sick_group_status[] | Prisma.ListEnumsick_group_statusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.sick_group_status[] | Prisma.ListEnumsick_group_statusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumsick_group_statusNullableWithAggregatesFilter<$PrismaModel> | $Enums.sick_group_status | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumsick_group_statusNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumsick_group_statusNullableFilter<$PrismaModel>
-}
-
 export type FloatNullableFilter<$PrismaModel = never> = {
   equals?: number | Prisma.FloatFieldRefInput<$PrismaModel> | null
   in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel> | null
@@ -692,23 +675,6 @@ export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumsick_group_statusNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.sick_group_status | Prisma.Enumsick_group_statusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.sick_group_status[] | Prisma.ListEnumsick_group_statusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.sick_group_status[] | Prisma.ListEnumsick_group_statusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumsick_group_statusNullableFilter<$PrismaModel> | $Enums.sick_group_status | null
-}
-
-export type NestedEnumsick_group_statusNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.sick_group_status | Prisma.Enumsick_group_statusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.sick_group_status[] | Prisma.ListEnumsick_group_statusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.sick_group_status[] | Prisma.ListEnumsick_group_statusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumsick_group_statusNullableWithAggregatesFilter<$PrismaModel> | $Enums.sick_group_status | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumsick_group_statusNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumsick_group_statusNullableFilter<$PrismaModel>
 }
 
 export type NestedFloatNullableFilter<$PrismaModel = never> = {

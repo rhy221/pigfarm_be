@@ -163,11 +163,6 @@ export type pig_transfers = Prisma.pig_transfersModel
  */
 export type pigs = Prisma.pigsModel
 /**
- * Model rearing_pens
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
- */
-export type rearing_pens = Prisma.rearing_pensModel
-/**
  * Model treatment_details
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
