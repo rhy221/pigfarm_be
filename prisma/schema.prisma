@@ -314,7 +314,7 @@ model pig_transfers {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model pigs {
-  id                   String                 @id(map: "pig_pkey") @default(dbgenerated("(nextval('pigs_id_seq'::regclass))::text"))
+  id                   String                 @id(map: "pig_pkey") @default(dbgenerated("uuid_generate_v4()"))
   created_at           DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   pig_batch_id         String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   weight               Float?                 @default(0) @db.Real
@@ -323,7 +323,6 @@ model pigs {
   ear_tag_number       String?                @default("")
   growth_stage         growth_stage?
   pig_breed_id         String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  pig_code             String?
   herd_report_pen_pigs herd_report_pen_pigs[]
   pig_in_treatment     pig_in_treatment[]
   pig_transfers        pig_transfers[]
