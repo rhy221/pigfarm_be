@@ -1,0 +1,49 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateUserDto } from './users.dto';
+
+@Injectable()
+export class UsersService {
+  constructor(private prisma: PrismaService) {}
+
+  async findAll() {
+    return this.prisma.users.findMany({
+      include: { 
+        user_group: true 
+      },
+      orderBy: { created_at: 'desc' },
+    });
+  }
+
+  async create(data: CreateUserDto) {
+    return this.prisma.users.create({
+      data: {
+        full_name: data.full_name,
+        email: data.email,
+        password_hash: data.password_hash,
+        phone: data.phone,
+        role_id: BigInt(data.role_id), 
+        is_active: true,
+      },
+      include: { user_group: true },
+    });
+  }
+
+  async removeMany(ids: string[]) {
+    return this.prisma.users.deleteMany({
+      where: { id: { in: ids } },
+    });
+  }
+
+  async update(id: string, data: any) {
+    const updateData = { ...data };
+    if (updateData.role_id) {
+      updateData.role_id = BigInt(updateData.role_id);
+    }
+    return this.prisma.users.update({
+      where: { id },
+      data: updateData,
+      include: { user_group: true },
+    });
+  }
+}

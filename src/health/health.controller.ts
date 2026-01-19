@@ -1,10 +1,32 @@
-import { Controller, Get, Post, Body, Param, Patch, ParseUUIDPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Patch,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { HealthService } from './health.service';
-import { CreateTreatmentDto, AddTreatmentLogDto, UpdatePigsStatusDto } from './dto/health.dto';
+import {
+  CreateTreatmentDto,
+  AddTreatmentLogDto,
+  UpdatePigsStatusDto,
+} from './dto/health.dto';
 
 @Controller('health')
 export class HealthController {
   constructor(private readonly healthService: HealthService) {}
+
+  @Get('pens')
+  getAllPens() {
+    return this.healthService.getAllPens();
+  }
+
+  @Get('pen-types')
+  getAllPenTypes() {
+    return this.healthService.getAllPenTypes();
+  }
 
   @Get('active')
   getActiveTreatments() {
@@ -27,7 +49,10 @@ export class HealthController {
   }
 
   @Post(':id/logs')
-  addLog(@Param('id', ParseUUIDPipe) id: string, @Body() dto: AddTreatmentLogDto) {
+  addLog(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: AddTreatmentLogDto,
+  ) {
     return this.healthService.addLog(id, dto);
   }
 
@@ -40,4 +65,18 @@ export class HealthController {
   transferRecovered(@Body() dto: UpdatePigsStatusDto) {
     return this.healthService.transferRecovered(dto);
   }
+
+  @Patch(':id')
+  updateTreatment(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: { symptom?: string }
+  ) {
+    return this.healthService.updateTreatment(id, dto);
+  }
+
+  @Patch('logs/:id')
+  updateLog(@Param('id') id: string, @Body() dto: any) {
+    return this.healthService.updateLog(id, dto);
+  }
+  
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -6,22 +6,19 @@ export class PigService {
   constructor(private prisma: PrismaService) {}
 
   async findByPen(penId: string) {
-    const healthyStatus = await (this.prisma as any).pig_statuses.findFirst({
-      where: {
-        status_name: {
-          contains: 'Khoẻ',
-          mode: 'insensitive',
-        },
-      },
-    });
-
     return (this.prisma as any).pigs.findMany({
-      where: {
+      where: { 
         pen_id: penId,
-        pig_status_id: healthyStatus?.id,
+        pig_statuses: {
+          status_name: {
+            contains: 'Khoẻ',
+            mode: 'insensitive'
+          }
+        }
       },
-      include: {
+      include: { 
         pig_breeds: true,
+        pig_statuses: true 
       },
     });
   }
@@ -60,52 +57,118 @@ export class PigService {
   }
 
   async getExportProposals() {
-    const today = new Date();
+  const today = new Date();
 
-    const allPens = await (this.prisma as any).pens.findMany({
-      include: {
-        pigs: {
-          include: {
-            pig_batchs: true,
-            pig_breeds: true,
-          },
+  const allPens = await (this.prisma as any).pens.findMany({
+    include: {
+      pigs: {
+        include: {
+          pig_batchs: true,
+          pig_breeds: true,
         },
       },
-    });
+    },
+  });
 
-    return allPens
-      .map((pen) => {
-        if (!pen.pigs.length) return null;
+  return allPens
+    .map((pen) => {
+      if (!pen.pigs.length) return null;
 
-        const firstPig = pen.pigs[0];
-        const arrivalDate = firstPig?.pig_batchs?.arrival_date;
-        const breedName = firstPig?.pig_breeds?.breed_name || "N/A"; 
-        const quantity = pen.pigs.length;
+      const firstPig = pen.pigs[0];
+      const arrivalDate = firstPig?.pig_batchs?.arrival_date;
+      const breedName = firstPig?.pig_breeds?.breed_name || "N/A"; 
+      const quantity = pen.pigs.length;
 
-        if (!arrivalDate) return null;
+      if (!arrivalDate) return null;
 
-        const expectedDate = new Date(arrivalDate);
-        expectedDate.setDate(expectedDate.getDate() + 180);
+      const expectedDate = new Date(arrivalDate);
+      expectedDate.setDate(expectedDate.getDate() + 150); 
 
-        const notificationDate = new Date(expectedDate);
-        notificationDate.setDate(notificationDate.getDate() - 30);
+      const notificationDate = new Date(expectedDate);
+      notificationDate.setDate(notificationDate.getDate() - 45);
 
-        const rawWeight = pen.pigs.reduce((sum, pig) => sum + (pig.weight || 0), 0);
-        const totalWeight = Math.round(rawWeight * 10) / 10;
+      const rawWeight = pen.pigs.reduce((sum, pig) => sum + (pig.weight || 0), 0);
+      const totalWeight = Math.round(rawWeight * 10) / 10;
 
-        return {
-          pen_name: pen.pen_name,
-          quantity: quantity,    
-          breed: breedName,
-          total_weight: totalWeight, 
-          arrival_date: arrivalDate,
-          expected_date: expectedDate,
-          notification_date: notificationDate,
-          current_price: 60000,
+      return {
+        pen_name: pen.pen_name,
+        quantity: quantity,    
+        breed: breedName,
+        total_weight: totalWeight, 
+        arrival_date: arrivalDate,
+        expected_date: expectedDate,
+        notification_date: notificationDate,
+        current_price: 60000,
         };
       })
       .filter((item) => {
         return item !== null && today >= item.notification_date;
       });
+  }
+
+  async findAllBreeds() {
+    const breeds = await this.prisma.pig_breeds.findMany({
+      include: {
+        _count: {
+          select: { pigs: true }, 
+        },
+      },
+      orderBy: { breed_name: 'asc' },
+    });
+
+    return breeds.map((b) => ({
+      id: b.id,
+      breed_name: b.breed_name,
+      hasPigs: b._count.pigs > 0, 
+    }));
+  }
+
+  async createBreed(data: { breed_name: string }) {
+    const existing = await this.prisma.pig_breeds.findFirst({
+      where: { breed_name: data.breed_name },
+    });
+
+    if (existing) {
+      throw new BadRequestException('Giống heo này đã tồn tại trong hệ thống');
+    }
+
+    return this.prisma.pig_breeds.create({
+      data: { breed_name: data.breed_name },
+    });
+  }
+
+  async removeBreeds(ids: string[]) {
+    const breedsInUse = await this.prisma.pig_breeds.findMany({
+      where: {
+        id: { in: ids },
+        pigs: { some: {} },
+      },
+      select: { breed_name: true },
+    });
+
+    if (breedsInUse.length > 0) {
+      const names = breedsInUse.map((b) => b.breed_name).join(', ');
+      throw new BadRequestException(
+        `Không thể xóa giống heo: [${names}] vì đang có heo thuộc giống này.`,
+      );
+    }
+
+    return this.prisma.pig_breeds.deleteMany({
+      where: { id: { in: ids } },
+    });
+  }
+
+  async update(id: string, data: { breed_name: string }) {
+    try {
+      return await this.prisma.pig_breeds.update({
+        where: { id },
+        data: {
+          breed_name: data.breed_name,
+        },
+      });
+    } catch (error) {
+      console.error("Lỗi Prisma (Breeds):", error.message);
+      throw new BadRequestException("Không thể cập nhật giống heo");
+    }
   }
 }

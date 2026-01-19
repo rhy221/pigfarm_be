@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Delete, Post, Body, Patch } from '@nestjs/common';
 import { PigService } from './pig.service';
 
-@Controller('pigs')
+@Controller('pig')
 export class PigController {
   constructor(private readonly pigService: PigService) {}
 
@@ -23,5 +23,28 @@ export class PigController {
   @Get('pen/:penId/arrival-date')
   async getArrivalDate(@Param('penId') penId: string) {
     return this.pigService.getArrivalDateByPen(penId);
+  }
+
+  @Get('breeds')
+  findAllBreeds() {
+    return this.pigService.findAllBreeds();
+  }
+
+  @Post('breeds')
+  createBreed(@Body() data: { breed_name: string }) {
+    return this.pigService.createBreed(data);
+  }
+
+  @Delete('breeds')
+  removeBreeds(@Body() data: { ids: string[] }) {
+    return this.pigService.removeBreeds(data.ids);
+  }
+
+  @Patch('breeds/:id')
+  update(
+    @Param('id') id: string,
+    @Body() data: { breed_name: string },
+  ) {
+    return this.pigService.update(id, data);
   }
 }

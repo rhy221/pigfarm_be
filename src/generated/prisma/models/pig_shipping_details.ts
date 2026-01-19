@@ -473,6 +473,14 @@ export type pig_shipping_detailsUncheckedUpdateManyWithoutPensNestedInput = {
   deleteMany?: Prisma.pig_shipping_detailsScalarWhereInput | Prisma.pig_shipping_detailsScalarWhereInput[]
 }
 
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
 export type pig_shipping_detailsCreateNestedManyWithoutPig_shippingsInput = {
   create?: Prisma.XOR<Prisma.pig_shipping_detailsCreateWithoutPig_shippingsInput, Prisma.pig_shipping_detailsUncheckedCreateWithoutPig_shippingsInput> | Prisma.pig_shipping_detailsCreateWithoutPig_shippingsInput[] | Prisma.pig_shipping_detailsUncheckedCreateWithoutPig_shippingsInput[]
   connectOrCreate?: Prisma.pig_shipping_detailsCreateOrConnectWithoutPig_shippingsInput | Prisma.pig_shipping_detailsCreateOrConnectWithoutPig_shippingsInput[]

@@ -18,7 +18,7 @@ export class CreateTreatmentDto {
   symptom?: string;
 
   @IsArray()
-  @IsUUID('all', { each: true })
+  @IsString({ each: true })
   pig_ids: string[];
 }
 
@@ -41,9 +41,14 @@ export class AddTreatmentLogDto {
 
 export class UpdatePigsStatusDto {
   @IsArray()
-  @IsUUID('all', { each: true })
+  @IsString({ each: true })
   pig_ids: string[];
 
+  @IsOptional()
   @IsEnum(PigStatus)
-  status: PigStatus;
+  status?: PigStatus;
+
+  @IsOptional()
+  @IsString()
+  target_pen_id?: string;
 }

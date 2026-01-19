@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { WorkController } from './work.controller';
-import { WorkService } from './work.service';
+import { WorkShiftsService } from './work.service';
+import { WorkShiftsController } from './work.controller';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-  controllers: [WorkController],
-  providers: [WorkService]
+  controllers: [WorkShiftsController],
+  providers: [WorkShiftsService, PrismaService],
+  exports: [WorkShiftsService],
 })
-export class WorkModule {}
+export class WorkShiftsModule {}
