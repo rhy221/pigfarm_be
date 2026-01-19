@@ -31,16 +31,21 @@ export class FeedingService {
   }
 
   async getFeedingPlan(batchId: string, selectedStageId?: string) {
+    // UPDATED: Removed rearing_pens include
     const batch = await this.prisma.pig_batches.findUnique({
       where: { id: batchId },
-      include: {
-        rearing_pens: {
-            include: { pens: true }
-        }
-      }
     });
 
     if (!batch) throw new NotFoundException('Không tìm thấy lứa heo');
+
+    // UPDATED: Find pens containing pigs of this batch
+    const batchPens = await this.prisma.pens.findMany({
+        where: {
+            pigs: {
+                some: { pig_batch_id: batchId }
+            }
+        }
+    });
 
     const today = dayjs();
     const arrival = dayjs(batch.arrival_date);
@@ -104,15 +109,17 @@ export class FeedingService {
             f => f.start_day === targetStage.startDay && f.end_day === targetStage.endDay
         );
 
-        for (const rearingPen of batch.rearing_pens) {
-            const pigCount = rearingPen.quantity || 0;
+        // UPDATED: Iterate over pens directly
+        for (const pen of batchPens) {
+            // Using current_quantity from pens table
+            const pigCount = pen.current_quantity || 0;
             if (pigCount <= 0) continue;
 
             for (const formula of applicableFormulas) {
                 const totalKg = (formula.amount_per_pig * pigCount) / 1000;
 
                 details.push({
-                    penName: rearingPen.pens?.pen_name || 'Unknown',
+                    penName: pen.pen_name || 'Unknown',
                     formulaName: formula.name,
                     ingredients: formula.ingredients,
                     pigCount: pigCount,
