@@ -238,10 +238,14 @@ export class HealthService {
       include: { vaccines: true },
     });
 
-    const activePens = await this.prisma.rearing_pens.findMany({
+    // UPDATED: Query pens directly instead of rearing_pens
+    const activePens = await this.prisma.pens.findMany({
+      where: { current_quantity: { gt: 0 } },
       include: {
-        pens: true,
-        pig_batchs: true, 
+        pigs: {
+          select: { pig_batchs: true },
+          take: 1, // Assume all pigs in one pen belong to the same batch
+        },
       },
     });
 
@@ -283,9 +287,11 @@ export class HealthService {
     });
 
     for (const pen of activePens) {
-      if (!pen.pig_batchs?.arrival_date) continue;
+      // UPDATED: Get batch info from the pigs relation
+      const batch = pen.pigs?.[0]?.pig_batchs;
+      if (!batch?.arrival_date) continue;
 
-      const batchDate = dayjs(pen.pig_batchs.arrival_date);
+      const batchDate = dayjs(batch.arrival_date);
 
       for (const tpl of templates) {
         const targetDate = batchDate.add(tpl.days_old, 'day');
@@ -426,10 +432,14 @@ export class HealthService {
 
     const templates = await this.prisma.vaccination_templates.findMany({ include: { vaccines: true } });
     
-    const activePens = await this.prisma.rearing_pens.findMany({
+    // UPDATED: Query pens directly
+    const activePens = await this.prisma.pens.findMany({
+        where: { current_quantity: { gt: 0 } },
         include: { 
-            pens: true, 
-            pig_batchs: true 
+            pigs: {
+              select: { pig_batchs: true },
+              take: 1
+            } 
         } 
     });
 
@@ -480,9 +490,10 @@ export class HealthService {
 
     // Bước B: Lịch dự kiến
     for (const pen of activePens) {
-
-        if (!pen.pig_batchs?.arrival_date) continue;
-        const batchDate = dayjs(pen.pig_batchs.arrival_date);
+        // UPDATED: Get batch info from pigs
+        const batch = pen.pigs?.[0]?.pig_batchs;
+        if (!batch?.arrival_date) continue;
+        const batchDate = dayjs(batch.arrival_date);
 
         for (const tpl of templates) {
             const calculatedDate = batchDate.add(tpl.days_old, 'day');
@@ -490,7 +501,7 @@ export class HealthService {
             if (calculatedDate.isSame(targetDate, 'day')) {
                 const key = `${tpl.vaccine_id}_${tpl.stage}`;
                 const group = groupedResult.get(key);
-                const alreadyScheduled = group?.pens.some(p => p.penName === pen.pens?.pen_name);
+                const alreadyScheduled = group?.pens.some(p => p.penName === pen.pen_name);
 
                 if (!alreadyScheduled) {
                     const vName = tpl.vaccines?.vaccine_name || 'Unknown';
@@ -498,8 +509,8 @@ export class HealthService {
                     addToGroup(key, vName, tpl.stage || 1, {
                         scheduleId: null,
                         templateId: tpl.id,
-                        penId: pen.pen_id,
-                        penName: pen.pens?.pen_name,
+                        penId: pen.id, // UPDATED: pen.id directly
+                        penName: pen.pen_name, // UPDATED: pen.pen_name directly
                         status: 'forecast',
                         isReal: false
                     });

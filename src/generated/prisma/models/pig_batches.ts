@@ -175,7 +175,6 @@ export type pig_batchesWhereInput = {
   arrival_date?: Prisma.DateTimeNullableFilter<"pig_batches"> | Date | string | null
   batch_name?: Prisma.StringNullableFilter<"pig_batches"> | string | null
   pigs?: Prisma.PigsListRelationFilter
-  rearing_pens?: Prisma.Rearing_pensListRelationFilter
 }
 
 export type pig_batchesOrderByWithRelationInput = {
@@ -184,7 +183,6 @@ export type pig_batchesOrderByWithRelationInput = {
   arrival_date?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_name?: Prisma.SortOrderInput | Prisma.SortOrder
   pigs?: Prisma.pigsOrderByRelationAggregateInput
-  rearing_pens?: Prisma.rearing_pensOrderByRelationAggregateInput
 }
 
 export type pig_batchesWhereUniqueInput = Prisma.AtLeast<{
@@ -196,7 +194,6 @@ export type pig_batchesWhereUniqueInput = Prisma.AtLeast<{
   arrival_date?: Prisma.DateTimeNullableFilter<"pig_batches"> | Date | string | null
   batch_name?: Prisma.StringNullableFilter<"pig_batches"> | string | null
   pigs?: Prisma.PigsListRelationFilter
-  rearing_pens?: Prisma.Rearing_pensListRelationFilter
 }, "id">
 
 export type pig_batchesOrderByWithAggregationInput = {
@@ -225,7 +222,6 @@ export type pig_batchesCreateInput = {
   arrival_date?: Date | string | null
   batch_name?: string | null
   pigs?: Prisma.pigsCreateNestedManyWithoutPig_batchsInput
-  rearing_pens?: Prisma.rearing_pensCreateNestedManyWithoutPig_batchsInput
 }
 
 export type pig_batchesUncheckedCreateInput = {
@@ -234,7 +230,6 @@ export type pig_batchesUncheckedCreateInput = {
   arrival_date?: Date | string | null
   batch_name?: string | null
   pigs?: Prisma.pigsUncheckedCreateNestedManyWithoutPig_batchsInput
-  rearing_pens?: Prisma.rearing_pensUncheckedCreateNestedManyWithoutPig_batchsInput
 }
 
 export type pig_batchesUpdateInput = {
@@ -243,7 +238,6 @@ export type pig_batchesUpdateInput = {
   arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pigs?: Prisma.pigsUpdateManyWithoutPig_batchsNestedInput
-  rearing_pens?: Prisma.rearing_pensUpdateManyWithoutPig_batchsNestedInput
 }
 
 export type pig_batchesUncheckedUpdateInput = {
@@ -252,7 +246,6 @@ export type pig_batchesUncheckedUpdateInput = {
   arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pigs?: Prisma.pigsUncheckedUpdateManyWithoutPig_batchsNestedInput
-  rearing_pens?: Prisma.rearing_pensUncheckedUpdateManyWithoutPig_batchsNestedInput
 }
 
 export type pig_batchesCreateManyInput = {
@@ -279,11 +272,6 @@ export type pig_batchesUncheckedUpdateManyInput = {
 export type Pig_batchesNullableScalarRelationFilter = {
   is?: Prisma.pig_batchesWhereInput | null
   isNot?: Prisma.pig_batchesWhereInput | null
-}
-
-export type Pig_batchesScalarRelationFilter = {
-  is?: Prisma.pig_batchesWhereInput
-  isNot?: Prisma.pig_batchesWhereInput
 }
 
 export type pig_batchesCountOrderByAggregateInput = {
@@ -323,26 +311,11 @@ export type pig_batchesUpdateOneWithoutPigsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.pig_batchesUpdateToOneWithWhereWithoutPigsInput, Prisma.pig_batchesUpdateWithoutPigsInput>, Prisma.pig_batchesUncheckedUpdateWithoutPigsInput>
 }
 
-export type pig_batchesCreateNestedOneWithoutRearing_pensInput = {
-  create?: Prisma.XOR<Prisma.pig_batchesCreateWithoutRearing_pensInput, Prisma.pig_batchesUncheckedCreateWithoutRearing_pensInput>
-  connectOrCreate?: Prisma.pig_batchesCreateOrConnectWithoutRearing_pensInput
-  connect?: Prisma.pig_batchesWhereUniqueInput
-}
-
-export type pig_batchesUpdateOneRequiredWithoutRearing_pensNestedInput = {
-  create?: Prisma.XOR<Prisma.pig_batchesCreateWithoutRearing_pensInput, Prisma.pig_batchesUncheckedCreateWithoutRearing_pensInput>
-  connectOrCreate?: Prisma.pig_batchesCreateOrConnectWithoutRearing_pensInput
-  upsert?: Prisma.pig_batchesUpsertWithoutRearing_pensInput
-  connect?: Prisma.pig_batchesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.pig_batchesUpdateToOneWithWhereWithoutRearing_pensInput, Prisma.pig_batchesUpdateWithoutRearing_pensInput>, Prisma.pig_batchesUncheckedUpdateWithoutRearing_pensInput>
-}
-
 export type pig_batchesCreateWithoutPigsInput = {
   id?: string
   created_at?: Date | string
   arrival_date?: Date | string | null
   batch_name?: string | null
-  rearing_pens?: Prisma.rearing_pensCreateNestedManyWithoutPig_batchsInput
 }
 
 export type pig_batchesUncheckedCreateWithoutPigsInput = {
@@ -350,7 +323,6 @@ export type pig_batchesUncheckedCreateWithoutPigsInput = {
   created_at?: Date | string
   arrival_date?: Date | string | null
   batch_name?: string | null
-  rearing_pens?: Prisma.rearing_pensUncheckedCreateNestedManyWithoutPig_batchsInput
 }
 
 export type pig_batchesCreateOrConnectWithoutPigsInput = {
@@ -374,7 +346,6 @@ export type pig_batchesUpdateWithoutPigsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rearing_pens?: Prisma.rearing_pensUpdateManyWithoutPig_batchsNestedInput
 }
 
 export type pig_batchesUncheckedUpdateWithoutPigsInput = {
@@ -382,55 +353,6 @@ export type pig_batchesUncheckedUpdateWithoutPigsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rearing_pens?: Prisma.rearing_pensUncheckedUpdateManyWithoutPig_batchsNestedInput
-}
-
-export type pig_batchesCreateWithoutRearing_pensInput = {
-  id?: string
-  created_at?: Date | string
-  arrival_date?: Date | string | null
-  batch_name?: string | null
-  pigs?: Prisma.pigsCreateNestedManyWithoutPig_batchsInput
-}
-
-export type pig_batchesUncheckedCreateWithoutRearing_pensInput = {
-  id?: string
-  created_at?: Date | string
-  arrival_date?: Date | string | null
-  batch_name?: string | null
-  pigs?: Prisma.pigsUncheckedCreateNestedManyWithoutPig_batchsInput
-}
-
-export type pig_batchesCreateOrConnectWithoutRearing_pensInput = {
-  where: Prisma.pig_batchesWhereUniqueInput
-  create: Prisma.XOR<Prisma.pig_batchesCreateWithoutRearing_pensInput, Prisma.pig_batchesUncheckedCreateWithoutRearing_pensInput>
-}
-
-export type pig_batchesUpsertWithoutRearing_pensInput = {
-  update: Prisma.XOR<Prisma.pig_batchesUpdateWithoutRearing_pensInput, Prisma.pig_batchesUncheckedUpdateWithoutRearing_pensInput>
-  create: Prisma.XOR<Prisma.pig_batchesCreateWithoutRearing_pensInput, Prisma.pig_batchesUncheckedCreateWithoutRearing_pensInput>
-  where?: Prisma.pig_batchesWhereInput
-}
-
-export type pig_batchesUpdateToOneWithWhereWithoutRearing_pensInput = {
-  where?: Prisma.pig_batchesWhereInput
-  data: Prisma.XOR<Prisma.pig_batchesUpdateWithoutRearing_pensInput, Prisma.pig_batchesUncheckedUpdateWithoutRearing_pensInput>
-}
-
-export type pig_batchesUpdateWithoutRearing_pensInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pigs?: Prisma.pigsUpdateManyWithoutPig_batchsNestedInput
-}
-
-export type pig_batchesUncheckedUpdateWithoutRearing_pensInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pigs?: Prisma.pigsUncheckedUpdateManyWithoutPig_batchsNestedInput
 }
 
 
@@ -440,12 +362,10 @@ export type pig_batchesUncheckedUpdateWithoutRearing_pensInput = {
 
 export type Pig_batchesCountOutputType = {
   pigs: number
-  rearing_pens: number
 }
 
 export type Pig_batchesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pigs?: boolean | Pig_batchesCountOutputTypeCountPigsArgs
-  rearing_pens?: boolean | Pig_batchesCountOutputTypeCountRearing_pensArgs
 }
 
 /**
@@ -465,13 +385,6 @@ export type Pig_batchesCountOutputTypeCountPigsArgs<ExtArgs extends runtime.Type
   where?: Prisma.pigsWhereInput
 }
 
-/**
- * Pig_batchesCountOutputType without action
- */
-export type Pig_batchesCountOutputTypeCountRearing_pensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.rearing_pensWhereInput
-}
-
 
 export type pig_batchesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -479,7 +392,6 @@ export type pig_batchesSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   arrival_date?: boolean
   batch_name?: boolean
   pigs?: boolean | Prisma.pig_batches$pigsArgs<ExtArgs>
-  rearing_pens?: boolean | Prisma.pig_batches$rearing_pensArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_batchesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pig_batches"]>
 
@@ -507,7 +419,6 @@ export type pig_batchesSelectScalar = {
 export type pig_batchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "arrival_date" | "batch_name", ExtArgs["result"]["pig_batches"]>
 export type pig_batchesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pigs?: boolean | Prisma.pig_batches$pigsArgs<ExtArgs>
-  rearing_pens?: boolean | Prisma.pig_batches$rearing_pensArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_batchesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type pig_batchesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -517,7 +428,6 @@ export type $pig_batchesPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "pig_batches"
   objects: {
     pigs: Prisma.$pigsPayload<ExtArgs>[]
-    rearing_pens: Prisma.$rearing_pensPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -919,7 +829,6 @@ readonly fields: pig_batchesFieldRefs;
 export interface Prisma__pig_batchesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   pigs<T extends Prisma.pig_batches$pigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_batches$pigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pigsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  rearing_pens<T extends Prisma.pig_batches$rearing_pensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_batches$rearing_pensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$rearing_pensPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1362,30 +1271,6 @@ export type pig_batches$pigsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.PigsScalarFieldEnum | Prisma.PigsScalarFieldEnum[]
-}
-
-/**
- * pig_batches.rearing_pens
- */
-export type pig_batches$rearing_pensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the rearing_pens
-   */
-  select?: Prisma.rearing_pensSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the rearing_pens
-   */
-  omit?: Prisma.rearing_pensOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.rearing_pensInclude<ExtArgs> | null
-  where?: Prisma.rearing_pensWhereInput
-  orderBy?: Prisma.rearing_pensOrderByWithRelationInput | Prisma.rearing_pensOrderByWithRelationInput[]
-  cursor?: Prisma.rearing_pensWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Rearing_pensScalarFieldEnum | Prisma.Rearing_pensScalarFieldEnum[]
 }
 
 /**
