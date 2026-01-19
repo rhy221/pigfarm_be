@@ -249,7 +249,7 @@ export type pigsWhereInput = {
   growth_stage?: Prisma.Enumgrowth_stageNullableFilter<"pigs"> | $Enums.growth_stage | null
   pig_breed_id?: Prisma.UuidNullableFilter<"pigs"> | string | null
   herd_report_pen_pigs?: Prisma.Herd_report_pen_pigsListRelationFilter
-  pig_in_treatment?: Prisma.Pig_in_treatmentListRelationFilter
+  pigs_in_treatment?: Prisma.Pig_in_treatmentListRelationFilter
   pig_transfers?: Prisma.Pig_transfersListRelationFilter
   pens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
   pig_batchs?: Prisma.XOR<Prisma.Pig_batchesNullableScalarRelationFilter, Prisma.pig_batchesWhereInput> | null
@@ -269,7 +269,7 @@ export type pigsOrderByWithRelationInput = {
   growth_stage?: Prisma.SortOrderInput | Prisma.SortOrder
   pig_breed_id?: Prisma.SortOrderInput | Prisma.SortOrder
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsOrderByRelationAggregateInput
-  pig_in_treatment?: Prisma.pig_in_treatmentOrderByRelationAggregateInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentOrderByRelationAggregateInput
   pig_transfers?: Prisma.pig_transfersOrderByRelationAggregateInput
   pens?: Prisma.pensOrderByWithRelationInput
   pig_batchs?: Prisma.pig_batchesOrderByWithRelationInput
@@ -292,7 +292,7 @@ export type pigsWhereUniqueInput = Prisma.AtLeast<{
   growth_stage?: Prisma.Enumgrowth_stageNullableFilter<"pigs"> | $Enums.growth_stage | null
   pig_breed_id?: Prisma.UuidNullableFilter<"pigs"> | string | null
   herd_report_pen_pigs?: Prisma.Herd_report_pen_pigsListRelationFilter
-  pig_in_treatment?: Prisma.Pig_in_treatmentListRelationFilter
+  pigs_in_treatment?: Prisma.Pig_in_treatmentListRelationFilter
   pig_transfers?: Prisma.Pig_transfersListRelationFilter
   pens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
   pig_batchs?: Prisma.XOR<Prisma.Pig_batchesNullableScalarRelationFilter, Prisma.pig_batchesWhereInput> | null
@@ -340,7 +340,7 @@ export type pigsCreateInput = {
   ear_tag_number?: string | null
   growth_stage?: $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
   pens?: Prisma.pensCreateNestedOneWithoutPigsInput
   pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
@@ -360,7 +360,7 @@ export type pigsUncheckedCreateInput = {
   growth_stage?: $Enums.growth_stage | null
   pig_breed_id?: string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPigsInput
 }
@@ -372,7 +372,7 @@ export type pigsUpdateInput = {
   ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
   pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
   pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
@@ -392,7 +392,7 @@ export type pigsUncheckedUpdateInput = {
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPigsNestedInput
 }
@@ -650,6 +650,38 @@ export type NullableEnumgrowth_stageFieldUpdateOperationsInput = {
   set?: $Enums.growth_stage | null
 }
 
+export type pigsCreateNestedOneWithoutPigs_in_treatmentInput = {
+  create?: Prisma.XOR<Prisma.pigsCreateWithoutPigs_in_treatmentInput, Prisma.pigsUncheckedCreateWithoutPigs_in_treatmentInput>
+  connectOrCreate?: Prisma.pigsCreateOrConnectWithoutPigs_in_treatmentInput
+  connect?: Prisma.pigsWhereUniqueInput
+}
+
+export type pigsUpdateOneWithoutPigs_in_treatmentNestedInput = {
+  create?: Prisma.XOR<Prisma.pigsCreateWithoutPigs_in_treatmentInput, Prisma.pigsUncheckedCreateWithoutPigs_in_treatmentInput>
+  connectOrCreate?: Prisma.pigsCreateOrConnectWithoutPigs_in_treatmentInput
+  upsert?: Prisma.pigsUpsertWithoutPigs_in_treatmentInput
+  disconnect?: Prisma.pigsWhereInput | boolean
+  delete?: Prisma.pigsWhereInput | boolean
+  connect?: Prisma.pigsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.pigsUpdateToOneWithWhereWithoutPigs_in_treatmentInput, Prisma.pigsUpdateWithoutPigs_in_treatmentInput>, Prisma.pigsUncheckedUpdateWithoutPigs_in_treatmentInput>
+}
+
+export type pigsCreateNestedOneWithoutShipped_pig_itemsInput = {
+  create?: Prisma.XOR<Prisma.pigsCreateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedCreateWithoutShipped_pig_itemsInput>
+  connectOrCreate?: Prisma.pigsCreateOrConnectWithoutShipped_pig_itemsInput
+  connect?: Prisma.pigsWhereUniqueInput
+}
+
+export type pigsUpdateOneWithoutShipped_pig_itemsNestedInput = {
+  create?: Prisma.XOR<Prisma.pigsCreateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedCreateWithoutShipped_pig_itemsInput>
+  connectOrCreate?: Prisma.pigsCreateOrConnectWithoutShipped_pig_itemsInput
+  upsert?: Prisma.pigsUpsertWithoutShipped_pig_itemsInput
+  disconnect?: Prisma.pigsWhereInput | boolean
+  delete?: Prisma.pigsWhereInput | boolean
+  connect?: Prisma.pigsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.pigsUpdateToOneWithWhereWithoutShipped_pig_itemsInput, Prisma.pigsUpdateWithoutShipped_pig_itemsInput>, Prisma.pigsUncheckedUpdateWithoutShipped_pig_itemsInput>
+}
+
 export type pigsCreateNestedManyWithoutPig_batchsInput = {
   create?: Prisma.XOR<Prisma.pigsCreateWithoutPig_batchsInput, Prisma.pigsUncheckedCreateWithoutPig_batchsInput> | Prisma.pigsCreateWithoutPig_batchsInput[] | Prisma.pigsUncheckedCreateWithoutPig_batchsInput[]
   connectOrCreate?: Prisma.pigsCreateOrConnectWithoutPig_batchsInput | Prisma.pigsCreateOrConnectWithoutPig_batchsInput[]
@@ -692,45 +724,13 @@ export type pigsUncheckedUpdateManyWithoutPig_batchsNestedInput = {
   deleteMany?: Prisma.pigsScalarWhereInput | Prisma.pigsScalarWhereInput[]
 }
 
-export type pigsCreateNestedOneWithoutPig_in_treatmentInput = {
-  create?: Prisma.XOR<Prisma.pigsCreateWithoutPig_in_treatmentInput, Prisma.pigsUncheckedCreateWithoutPig_in_treatmentInput>
-  connectOrCreate?: Prisma.pigsCreateOrConnectWithoutPig_in_treatmentInput
-  connect?: Prisma.pigsWhereUniqueInput
-}
-
-export type pigsUpdateOneWithoutPig_in_treatmentNestedInput = {
-  create?: Prisma.XOR<Prisma.pigsCreateWithoutPig_in_treatmentInput, Prisma.pigsUncheckedCreateWithoutPig_in_treatmentInput>
-  connectOrCreate?: Prisma.pigsCreateOrConnectWithoutPig_in_treatmentInput
-  upsert?: Prisma.pigsUpsertWithoutPig_in_treatmentInput
-  disconnect?: Prisma.pigsWhereInput | boolean
-  delete?: Prisma.pigsWhereInput | boolean
-  connect?: Prisma.pigsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.pigsUpdateToOneWithWhereWithoutPig_in_treatmentInput, Prisma.pigsUpdateWithoutPig_in_treatmentInput>, Prisma.pigsUncheckedUpdateWithoutPig_in_treatmentInput>
-}
-
-export type pigsCreateNestedOneWithoutShipped_pig_itemsInput = {
-  create?: Prisma.XOR<Prisma.pigsCreateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedCreateWithoutShipped_pig_itemsInput>
-  connectOrCreate?: Prisma.pigsCreateOrConnectWithoutShipped_pig_itemsInput
-  connect?: Prisma.pigsWhereUniqueInput
-}
-
-export type pigsUpdateOneWithoutShipped_pig_itemsNestedInput = {
-  create?: Prisma.XOR<Prisma.pigsCreateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedCreateWithoutShipped_pig_itemsInput>
-  connectOrCreate?: Prisma.pigsCreateOrConnectWithoutShipped_pig_itemsInput
-  upsert?: Prisma.pigsUpsertWithoutShipped_pig_itemsInput
-  disconnect?: Prisma.pigsWhereInput | boolean
-  delete?: Prisma.pigsWhereInput | boolean
-  connect?: Prisma.pigsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.pigsUpdateToOneWithWhereWithoutShipped_pig_itemsInput, Prisma.pigsUpdateWithoutShipped_pig_itemsInput>, Prisma.pigsUncheckedUpdateWithoutShipped_pig_itemsInput>
-}
-
 export type pigsCreateWithoutHerd_report_pen_pigsInput = {
   id?: string
   created_at?: Date | string
   weight?: number | null
   ear_tag_number?: string | null
   growth_stage?: $Enums.growth_stage | null
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
   pens?: Prisma.pensCreateNestedOneWithoutPigsInput
   pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
@@ -749,7 +749,7 @@ export type pigsUncheckedCreateWithoutHerd_report_pen_pigsInput = {
   ear_tag_number?: string | null
   growth_stage?: $Enums.growth_stage | null
   pig_breed_id?: string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPigsInput
 }
@@ -776,7 +776,7 @@ export type pigsUpdateWithoutHerd_report_pen_pigsInput = {
   weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
   pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
   pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
@@ -795,7 +795,7 @@ export type pigsUncheckedUpdateWithoutHerd_report_pen_pigsInput = {
   ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPigsNestedInput
 }
@@ -807,7 +807,7 @@ export type pigsCreateWithoutPensInput = {
   ear_tag_number?: string | null
   growth_stage?: $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
   pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
   pig_statuses?: Prisma.pig_statusesCreateNestedOneWithoutPigsInput
@@ -825,7 +825,7 @@ export type pigsUncheckedCreateWithoutPensInput = {
   growth_stage?: $Enums.growth_stage | null
   pig_breed_id?: string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPigsInput
 }
@@ -878,7 +878,7 @@ export type pigsCreateWithoutPig_breedsInput = {
   ear_tag_number?: string | null
   growth_stage?: $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
   pens?: Prisma.pensCreateNestedOneWithoutPigsInput
   pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
@@ -896,7 +896,7 @@ export type pigsUncheckedCreateWithoutPig_breedsInput = {
   ear_tag_number?: string | null
   growth_stage?: $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPigsInput
 }
@@ -934,7 +934,7 @@ export type pigsCreateWithoutPig_statusesInput = {
   ear_tag_number?: string | null
   growth_stage?: $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
   pens?: Prisma.pensCreateNestedOneWithoutPigsInput
   pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
@@ -952,7 +952,7 @@ export type pigsUncheckedCreateWithoutPig_statusesInput = {
   growth_stage?: $Enums.growth_stage | null
   pig_breed_id?: string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPigsInput
 }
@@ -990,7 +990,7 @@ export type pigsCreateWithoutPig_transfersInput = {
   ear_tag_number?: string | null
   growth_stage?: $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
   pens?: Prisma.pensCreateNestedOneWithoutPigsInput
   pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
   pig_statuses?: Prisma.pig_statusesCreateNestedOneWithoutPigsInput
@@ -1009,7 +1009,7 @@ export type pigsUncheckedCreateWithoutPig_transfersInput = {
   growth_stage?: $Enums.growth_stage | null
   pig_breed_id?: string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPigsInput
 }
 
@@ -1036,7 +1036,7 @@ export type pigsUpdateWithoutPig_transfersInput = {
   ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
   pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
   pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
   pig_statuses?: Prisma.pig_statusesUpdateOneWithoutPigsNestedInput
@@ -1055,8 +1055,160 @@ export type pigsUncheckedUpdateWithoutPig_transfersInput = {
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPigsNestedInput
+}
+
+export type pigsCreateWithoutPigs_in_treatmentInput = {
+  id?: string
+  created_at?: Date | string
+  weight?: number | null
+  ear_tag_number?: string | null
+  growth_stage?: $Enums.growth_stage | null
+  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
+  pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
+  pens?: Prisma.pensCreateNestedOneWithoutPigsInput
+  pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
+  pig_statuses?: Prisma.pig_statusesCreateNestedOneWithoutPigsInput
+  pig_breeds?: Prisma.pig_breedsCreateNestedOneWithoutPigsInput
+  shipped_pig_items?: Prisma.shipped_pig_itemsCreateNestedManyWithoutPigsInput
+}
+
+export type pigsUncheckedCreateWithoutPigs_in_treatmentInput = {
+  id?: string
+  created_at?: Date | string
+  pig_batch_id?: string | null
+  weight?: number | null
+  pen_id?: string | null
+  pig_status_id?: string | null
+  ear_tag_number?: string | null
+  growth_stage?: $Enums.growth_stage | null
+  pig_breed_id?: string | null
+  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
+  pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
+  shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPigsInput
+}
+
+export type pigsCreateOrConnectWithoutPigs_in_treatmentInput = {
+  where: Prisma.pigsWhereUniqueInput
+  create: Prisma.XOR<Prisma.pigsCreateWithoutPigs_in_treatmentInput, Prisma.pigsUncheckedCreateWithoutPigs_in_treatmentInput>
+}
+
+export type pigsUpsertWithoutPigs_in_treatmentInput = {
+  update: Prisma.XOR<Prisma.pigsUpdateWithoutPigs_in_treatmentInput, Prisma.pigsUncheckedUpdateWithoutPigs_in_treatmentInput>
+  create: Prisma.XOR<Prisma.pigsCreateWithoutPigs_in_treatmentInput, Prisma.pigsUncheckedCreateWithoutPigs_in_treatmentInput>
+  where?: Prisma.pigsWhereInput
+}
+
+export type pigsUpdateToOneWithWhereWithoutPigs_in_treatmentInput = {
+  where?: Prisma.pigsWhereInput
+  data: Prisma.XOR<Prisma.pigsUpdateWithoutPigs_in_treatmentInput, Prisma.pigsUncheckedUpdateWithoutPigs_in_treatmentInput>
+}
+
+export type pigsUpdateWithoutPigs_in_treatmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
+  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
+  pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
+  pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
+  pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
+  pig_statuses?: Prisma.pig_statusesUpdateOneWithoutPigsNestedInput
+  pig_breeds?: Prisma.pig_breedsUpdateOneWithoutPigsNestedInput
+  shipped_pig_items?: Prisma.shipped_pig_itemsUpdateManyWithoutPigsNestedInput
+}
+
+export type pigsUncheckedUpdateWithoutPigs_in_treatmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pig_batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_status_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
+  pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
+  pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
+  shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPigsNestedInput
+}
+
+export type pigsCreateWithoutShipped_pig_itemsInput = {
+  id?: string
+  created_at?: Date | string
+  weight?: number | null
+  ear_tag_number?: string | null
+  growth_stage?: $Enums.growth_stage | null
+  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
+  pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
+  pens?: Prisma.pensCreateNestedOneWithoutPigsInput
+  pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
+  pig_statuses?: Prisma.pig_statusesCreateNestedOneWithoutPigsInput
+  pig_breeds?: Prisma.pig_breedsCreateNestedOneWithoutPigsInput
+}
+
+export type pigsUncheckedCreateWithoutShipped_pig_itemsInput = {
+  id?: string
+  created_at?: Date | string
+  pig_batch_id?: string | null
+  weight?: number | null
+  pen_id?: string | null
+  pig_status_id?: string | null
+  ear_tag_number?: string | null
+  growth_stage?: $Enums.growth_stage | null
+  pig_breed_id?: string | null
+  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
+  pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
+}
+
+export type pigsCreateOrConnectWithoutShipped_pig_itemsInput = {
+  where: Prisma.pigsWhereUniqueInput
+  create: Prisma.XOR<Prisma.pigsCreateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedCreateWithoutShipped_pig_itemsInput>
+}
+
+export type pigsUpsertWithoutShipped_pig_itemsInput = {
+  update: Prisma.XOR<Prisma.pigsUpdateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedUpdateWithoutShipped_pig_itemsInput>
+  create: Prisma.XOR<Prisma.pigsCreateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedCreateWithoutShipped_pig_itemsInput>
+  where?: Prisma.pigsWhereInput
+}
+
+export type pigsUpdateToOneWithWhereWithoutShipped_pig_itemsInput = {
+  where?: Prisma.pigsWhereInput
+  data: Prisma.XOR<Prisma.pigsUpdateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedUpdateWithoutShipped_pig_itemsInput>
+}
+
+export type pigsUpdateWithoutShipped_pig_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
+  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
+  pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
+  pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
+  pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
+  pig_statuses?: Prisma.pig_statusesUpdateOneWithoutPigsNestedInput
+  pig_breeds?: Prisma.pig_breedsUpdateOneWithoutPigsNestedInput
+}
+
+export type pigsUncheckedUpdateWithoutShipped_pig_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pig_batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_status_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
+  pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
+  pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
 }
 
 export type pigsCreateWithoutPig_batchsInput = {
@@ -1066,7 +1218,7 @@ export type pigsCreateWithoutPig_batchsInput = {
   ear_tag_number?: string | null
   growth_stage?: $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
   pens?: Prisma.pensCreateNestedOneWithoutPigsInput
   pig_statuses?: Prisma.pig_statusesCreateNestedOneWithoutPigsInput
@@ -1084,7 +1236,7 @@ export type pigsUncheckedCreateWithoutPig_batchsInput = {
   growth_stage?: $Enums.growth_stage | null
   pig_breed_id?: string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
   pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPigsInput
 }
@@ -1115,158 +1267,6 @@ export type pigsUpdateManyWithWhereWithoutPig_batchsInput = {
   data: Prisma.XOR<Prisma.pigsUpdateManyMutationInput, Prisma.pigsUncheckedUpdateManyWithoutPig_batchsInput>
 }
 
-export type pigsCreateWithoutPig_in_treatmentInput = {
-  id?: string
-  created_at?: Date | string
-  weight?: number | null
-  ear_tag_number?: string | null
-  growth_stage?: $Enums.growth_stage | null
-  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
-  pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
-  pens?: Prisma.pensCreateNestedOneWithoutPigsInput
-  pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
-  pig_statuses?: Prisma.pig_statusesCreateNestedOneWithoutPigsInput
-  pig_breeds?: Prisma.pig_breedsCreateNestedOneWithoutPigsInput
-  shipped_pig_items?: Prisma.shipped_pig_itemsCreateNestedManyWithoutPigsInput
-}
-
-export type pigsUncheckedCreateWithoutPig_in_treatmentInput = {
-  id?: string
-  created_at?: Date | string
-  pig_batch_id?: string | null
-  weight?: number | null
-  pen_id?: string | null
-  pig_status_id?: string | null
-  ear_tag_number?: string | null
-  growth_stage?: $Enums.growth_stage | null
-  pig_breed_id?: string | null
-  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
-  pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
-  shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedCreateNestedManyWithoutPigsInput
-}
-
-export type pigsCreateOrConnectWithoutPig_in_treatmentInput = {
-  where: Prisma.pigsWhereUniqueInput
-  create: Prisma.XOR<Prisma.pigsCreateWithoutPig_in_treatmentInput, Prisma.pigsUncheckedCreateWithoutPig_in_treatmentInput>
-}
-
-export type pigsUpsertWithoutPig_in_treatmentInput = {
-  update: Prisma.XOR<Prisma.pigsUpdateWithoutPig_in_treatmentInput, Prisma.pigsUncheckedUpdateWithoutPig_in_treatmentInput>
-  create: Prisma.XOR<Prisma.pigsCreateWithoutPig_in_treatmentInput, Prisma.pigsUncheckedCreateWithoutPig_in_treatmentInput>
-  where?: Prisma.pigsWhereInput
-}
-
-export type pigsUpdateToOneWithWhereWithoutPig_in_treatmentInput = {
-  where?: Prisma.pigsWhereInput
-  data: Prisma.XOR<Prisma.pigsUpdateWithoutPig_in_treatmentInput, Prisma.pigsUncheckedUpdateWithoutPig_in_treatmentInput>
-}
-
-export type pigsUpdateWithoutPig_in_treatmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
-  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
-  pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
-  pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
-  pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
-  pig_statuses?: Prisma.pig_statusesUpdateOneWithoutPigsNestedInput
-  pig_breeds?: Prisma.pig_breedsUpdateOneWithoutPigsNestedInput
-  shipped_pig_items?: Prisma.shipped_pig_itemsUpdateManyWithoutPigsNestedInput
-}
-
-export type pigsUncheckedUpdateWithoutPig_in_treatmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pig_status_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
-  pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
-  pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
-  shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPigsNestedInput
-}
-
-export type pigsCreateWithoutShipped_pig_itemsInput = {
-  id?: string
-  created_at?: Date | string
-  weight?: number | null
-  ear_tag_number?: string | null
-  growth_stage?: $Enums.growth_stage | null
-  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutPigsInput
-  pig_transfers?: Prisma.pig_transfersCreateNestedManyWithoutPigsInput
-  pens?: Prisma.pensCreateNestedOneWithoutPigsInput
-  pig_batchs?: Prisma.pig_batchesCreateNestedOneWithoutPigsInput
-  pig_statuses?: Prisma.pig_statusesCreateNestedOneWithoutPigsInput
-  pig_breeds?: Prisma.pig_breedsCreateNestedOneWithoutPigsInput
-}
-
-export type pigsUncheckedCreateWithoutShipped_pig_itemsInput = {
-  id?: string
-  created_at?: Date | string
-  pig_batch_id?: string | null
-  weight?: number | null
-  pen_id?: string | null
-  pig_status_id?: string | null
-  ear_tag_number?: string | null
-  growth_stage?: $Enums.growth_stage | null
-  pig_breed_id?: string | null
-  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedCreateNestedManyWithoutPigsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutPigsInput
-  pig_transfers?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPigsInput
-}
-
-export type pigsCreateOrConnectWithoutShipped_pig_itemsInput = {
-  where: Prisma.pigsWhereUniqueInput
-  create: Prisma.XOR<Prisma.pigsCreateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedCreateWithoutShipped_pig_itemsInput>
-}
-
-export type pigsUpsertWithoutShipped_pig_itemsInput = {
-  update: Prisma.XOR<Prisma.pigsUpdateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedUpdateWithoutShipped_pig_itemsInput>
-  create: Prisma.XOR<Prisma.pigsCreateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedCreateWithoutShipped_pig_itemsInput>
-  where?: Prisma.pigsWhereInput
-}
-
-export type pigsUpdateToOneWithWhereWithoutShipped_pig_itemsInput = {
-  where?: Prisma.pigsWhereInput
-  data: Prisma.XOR<Prisma.pigsUpdateWithoutShipped_pig_itemsInput, Prisma.pigsUncheckedUpdateWithoutShipped_pig_itemsInput>
-}
-
-export type pigsUpdateWithoutShipped_pig_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
-  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
-  pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
-  pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
-  pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
-  pig_statuses?: Prisma.pig_statusesUpdateOneWithoutPigsNestedInput
-  pig_breeds?: Prisma.pig_breedsUpdateOneWithoutPigsNestedInput
-}
-
-export type pigsUncheckedUpdateWithoutShipped_pig_itemsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pig_status_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
-  pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
-  pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
-}
-
 export type pigsCreateManyPensInput = {
   id?: string
   created_at?: Date | string
@@ -1285,7 +1285,7 @@ export type pigsUpdateWithoutPensInput = {
   ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
   pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
   pig_statuses?: Prisma.pig_statusesUpdateOneWithoutPigsNestedInput
@@ -1303,7 +1303,7 @@ export type pigsUncheckedUpdateWithoutPensInput = {
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPigsNestedInput
 }
@@ -1337,7 +1337,7 @@ export type pigsUpdateWithoutPig_breedsInput = {
   ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
   pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
   pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
@@ -1355,7 +1355,7 @@ export type pigsUncheckedUpdateWithoutPig_breedsInput = {
   ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPigsNestedInput
 }
@@ -1389,7 +1389,7 @@ export type pigsUpdateWithoutPig_statusesInput = {
   ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
   pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
   pig_batchs?: Prisma.pig_batchesUpdateOneWithoutPigsNestedInput
@@ -1407,7 +1407,7 @@ export type pigsUncheckedUpdateWithoutPig_statusesInput = {
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPigsNestedInput
 }
@@ -1441,7 +1441,7 @@ export type pigsUpdateWithoutPig_batchsInput = {
   ear_tag_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUpdateManyWithoutPigsNestedInput
   pens?: Prisma.pensUpdateOneWithoutPigsNestedInput
   pig_statuses?: Prisma.pig_statusesUpdateOneWithoutPigsNestedInput
@@ -1459,7 +1459,7 @@ export type pigsUncheckedUpdateWithoutPig_batchsInput = {
   growth_stage?: Prisma.NullableEnumgrowth_stageFieldUpdateOperationsInput | $Enums.growth_stage | null
   pig_breed_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   herd_report_pen_pigs?: Prisma.herd_report_pen_pigsUncheckedUpdateManyWithoutPigsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutPigsNestedInput
   pig_transfers?: Prisma.pig_transfersUncheckedUpdateManyWithoutPigsNestedInput
   shipped_pig_items?: Prisma.shipped_pig_itemsUncheckedUpdateManyWithoutPigsNestedInput
 }
@@ -1482,14 +1482,14 @@ export type pigsUncheckedUpdateManyWithoutPig_batchsInput = {
 
 export type PigsCountOutputType = {
   herd_report_pen_pigs: number
-  pig_in_treatment: number
+  pigs_in_treatment: number
   pig_transfers: number
   shipped_pig_items: number
 }
 
 export type PigsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   herd_report_pen_pigs?: boolean | PigsCountOutputTypeCountHerd_report_pen_pigsArgs
-  pig_in_treatment?: boolean | PigsCountOutputTypeCountPig_in_treatmentArgs
+  pigs_in_treatment?: boolean | PigsCountOutputTypeCountPigs_in_treatmentArgs
   pig_transfers?: boolean | PigsCountOutputTypeCountPig_transfersArgs
   shipped_pig_items?: boolean | PigsCountOutputTypeCountShipped_pig_itemsArgs
 }
@@ -1514,7 +1514,7 @@ export type PigsCountOutputTypeCountHerd_report_pen_pigsArgs<ExtArgs extends run
 /**
  * PigsCountOutputType without action
  */
-export type PigsCountOutputTypeCountPig_in_treatmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PigsCountOutputTypeCountPigs_in_treatmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.pig_in_treatmentWhereInput
 }
 
@@ -1544,7 +1544,7 @@ export type pigsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   growth_stage?: boolean
   pig_breed_id?: boolean
   herd_report_pen_pigs?: boolean | Prisma.pigs$herd_report_pen_pigsArgs<ExtArgs>
-  pig_in_treatment?: boolean | Prisma.pigs$pig_in_treatmentArgs<ExtArgs>
+  pigs_in_treatment?: boolean | Prisma.pigs$pigs_in_treatmentArgs<ExtArgs>
   pig_transfers?: boolean | Prisma.pigs$pig_transfersArgs<ExtArgs>
   pens?: boolean | Prisma.pigs$pensArgs<ExtArgs>
   pig_batchs?: boolean | Prisma.pigs$pig_batchsArgs<ExtArgs>
@@ -1601,7 +1601,7 @@ export type pigsSelectScalar = {
 export type pigsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "pig_batch_id" | "weight" | "pen_id" | "pig_status_id" | "ear_tag_number" | "growth_stage" | "pig_breed_id", ExtArgs["result"]["pigs"]>
 export type pigsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   herd_report_pen_pigs?: boolean | Prisma.pigs$herd_report_pen_pigsArgs<ExtArgs>
-  pig_in_treatment?: boolean | Prisma.pigs$pig_in_treatmentArgs<ExtArgs>
+  pigs_in_treatment?: boolean | Prisma.pigs$pigs_in_treatmentArgs<ExtArgs>
   pig_transfers?: boolean | Prisma.pigs$pig_transfersArgs<ExtArgs>
   pens?: boolean | Prisma.pigs$pensArgs<ExtArgs>
   pig_batchs?: boolean | Prisma.pigs$pig_batchsArgs<ExtArgs>
@@ -1627,7 +1627,7 @@ export type $pigsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "pigs"
   objects: {
     herd_report_pen_pigs: Prisma.$herd_report_pen_pigsPayload<ExtArgs>[]
-    pig_in_treatment: Prisma.$pig_in_treatmentPayload<ExtArgs>[]
+    pigs_in_treatment: Prisma.$pig_in_treatmentPayload<ExtArgs>[]
     pig_transfers: Prisma.$pig_transfersPayload<ExtArgs>[]
     pens: Prisma.$pensPayload<ExtArgs> | null
     pig_batchs: Prisma.$pig_batchesPayload<ExtArgs> | null
@@ -2040,7 +2040,7 @@ readonly fields: pigsFieldRefs;
 export interface Prisma__pigsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   herd_report_pen_pigs<T extends Prisma.pigs$herd_report_pen_pigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pigs$herd_report_pen_pigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$herd_report_pen_pigsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  pig_in_treatment<T extends Prisma.pigs$pig_in_treatmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pigs$pig_in_treatmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_in_treatmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pigs_in_treatment<T extends Prisma.pigs$pigs_in_treatmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pigs$pigs_in_treatmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_in_treatmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pig_transfers<T extends Prisma.pigs$pig_transfersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pigs$pig_transfersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_transfersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pens<T extends Prisma.pigs$pensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pigs$pensArgs<ExtArgs>>): Prisma.Prisma__pensClient<runtime.Types.Result.GetResult<Prisma.$pensPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   pig_batchs<T extends Prisma.pigs$pig_batchsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pigs$pig_batchsArgs<ExtArgs>>): Prisma.Prisma__pig_batchesClient<runtime.Types.Result.GetResult<Prisma.$pig_batchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2505,9 +2505,9 @@ export type pigs$herd_report_pen_pigsArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * pigs.pig_in_treatment
+ * pigs.pigs_in_treatment
  */
-export type pigs$pig_in_treatmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type pigs$pigs_in_treatmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the pig_in_treatment
    */

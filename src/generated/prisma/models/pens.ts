@@ -687,6 +687,22 @@ export type pensUpdateOneWithoutVaccination_schedulesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.pensUpdateToOneWithWhereWithoutVaccination_schedulesInput, Prisma.pensUpdateWithoutVaccination_schedulesInput>, Prisma.pensUncheckedUpdateWithoutVaccination_schedulesInput>
 }
 
+export type pensCreateNestedOneWithoutDisease_treatmentsInput = {
+  create?: Prisma.XOR<Prisma.pensCreateWithoutDisease_treatmentsInput, Prisma.pensUncheckedCreateWithoutDisease_treatmentsInput>
+  connectOrCreate?: Prisma.pensCreateOrConnectWithoutDisease_treatmentsInput
+  connect?: Prisma.pensWhereUniqueInput
+}
+
+export type pensUpdateOneWithoutDisease_treatmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.pensCreateWithoutDisease_treatmentsInput, Prisma.pensUncheckedCreateWithoutDisease_treatmentsInput>
+  connectOrCreate?: Prisma.pensCreateOrConnectWithoutDisease_treatmentsInput
+  upsert?: Prisma.pensUpsertWithoutDisease_treatmentsInput
+  disconnect?: Prisma.pensWhereInput | boolean
+  delete?: Prisma.pensWhereInput | boolean
+  connect?: Prisma.pensWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.pensUpdateToOneWithWhereWithoutDisease_treatmentsInput, Prisma.pensUpdateWithoutDisease_treatmentsInput>, Prisma.pensUncheckedUpdateWithoutDisease_treatmentsInput>
+}
+
 export type pensCreateWithoutAssignment_detailsInput = {
   id?: string
   created_at?: Date | string
@@ -860,98 +876,6 @@ export type pensUncheckedUpdateWithoutCleaning_detailsInput = {
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   assignment_details?: Prisma.assignment_detailsUncheckedUpdateManyWithoutPensNestedInput
   disease_treatments?: Prisma.disease_treatmentsUncheckedUpdateManyWithoutPensNestedInput
-  environment_log_details?: Prisma.environment_log_detailsUncheckedUpdateManyWithoutPensNestedInput
-  feeding_schedule_details?: Prisma.feeding_schedule_detailsUncheckedUpdateManyWithoutPensNestedInput
-  herd_report_pens?: Prisma.herd_report_pensUncheckedUpdateManyWithoutPensNestedInput
-  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedUpdateManyWithoutPensNestedInput
-  pig_transfers_pig_transfers_new_pen_idTopens?: Prisma.pig_transfersUncheckedUpdateManyWithoutPens_pig_transfers_new_pen_idTopensNestedInput
-  pig_transfers_pig_transfers_old_pen_idTopens?: Prisma.pig_transfersUncheckedUpdateManyWithoutPens_pig_transfers_old_pen_idTopensNestedInput
-  pigs?: Prisma.pigsUncheckedUpdateManyWithoutPensNestedInput
-  rearing_pens?: Prisma.rearing_pensUncheckedUpdateManyWithoutPensNestedInput
-  vaccination_schedules?: Prisma.vaccination_schedulesUncheckedUpdateManyWithoutPensNestedInput
-}
-
-export type pensCreateWithoutDisease_treatmentsInput = {
-  id?: string
-  created_at?: Date | string
-  pen_name?: string | null
-  capacity?: number | null
-  assignment_details?: Prisma.assignment_detailsCreateNestedManyWithoutPensInput
-  cleaning_details?: Prisma.cleaning_detailsCreateNestedManyWithoutPensInput
-  environment_log_details?: Prisma.environment_log_detailsCreateNestedManyWithoutPensInput
-  feeding_schedule_details?: Prisma.feeding_schedule_detailsCreateNestedManyWithoutPensInput
-  herd_report_pens?: Prisma.herd_report_pensCreateNestedManyWithoutPensInput
-  pen_types?: Prisma.pen_typesCreateNestedOneWithoutPensInput
-  pig_shipping_details?: Prisma.pig_shipping_detailsCreateNestedManyWithoutPensInput
-  pig_transfers_pig_transfers_new_pen_idTopens?: Prisma.pig_transfersCreateNestedManyWithoutPens_pig_transfers_new_pen_idTopensInput
-  pig_transfers_pig_transfers_old_pen_idTopens?: Prisma.pig_transfersCreateNestedManyWithoutPens_pig_transfers_old_pen_idTopensInput
-  pigs?: Prisma.pigsCreateNestedManyWithoutPensInput
-  rearing_pens?: Prisma.rearing_pensCreateNestedManyWithoutPensInput
-  vaccination_schedules?: Prisma.vaccination_schedulesCreateNestedManyWithoutPensInput
-}
-
-export type pensUncheckedCreateWithoutDisease_treatmentsInput = {
-  id?: string
-  created_at?: Date | string
-  pen_name?: string | null
-  pen_type_id?: string | null
-  capacity?: number | null
-  assignment_details?: Prisma.assignment_detailsUncheckedCreateNestedManyWithoutPensInput
-  cleaning_details?: Prisma.cleaning_detailsUncheckedCreateNestedManyWithoutPensInput
-  environment_log_details?: Prisma.environment_log_detailsUncheckedCreateNestedManyWithoutPensInput
-  feeding_schedule_details?: Prisma.feeding_schedule_detailsUncheckedCreateNestedManyWithoutPensInput
-  herd_report_pens?: Prisma.herd_report_pensUncheckedCreateNestedManyWithoutPensInput
-  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedCreateNestedManyWithoutPensInput
-  pig_transfers_pig_transfers_new_pen_idTopens?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPens_pig_transfers_new_pen_idTopensInput
-  pig_transfers_pig_transfers_old_pen_idTopens?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPens_pig_transfers_old_pen_idTopensInput
-  pigs?: Prisma.pigsUncheckedCreateNestedManyWithoutPensInput
-  rearing_pens?: Prisma.rearing_pensUncheckedCreateNestedManyWithoutPensInput
-  vaccination_schedules?: Prisma.vaccination_schedulesUncheckedCreateNestedManyWithoutPensInput
-}
-
-export type pensCreateOrConnectWithoutDisease_treatmentsInput = {
-  where: Prisma.pensWhereUniqueInput
-  create: Prisma.XOR<Prisma.pensCreateWithoutDisease_treatmentsInput, Prisma.pensUncheckedCreateWithoutDisease_treatmentsInput>
-}
-
-export type pensUpsertWithoutDisease_treatmentsInput = {
-  update: Prisma.XOR<Prisma.pensUpdateWithoutDisease_treatmentsInput, Prisma.pensUncheckedUpdateWithoutDisease_treatmentsInput>
-  create: Prisma.XOR<Prisma.pensCreateWithoutDisease_treatmentsInput, Prisma.pensUncheckedCreateWithoutDisease_treatmentsInput>
-  where?: Prisma.pensWhereInput
-}
-
-export type pensUpdateToOneWithWhereWithoutDisease_treatmentsInput = {
-  where?: Prisma.pensWhereInput
-  data: Prisma.XOR<Prisma.pensUpdateWithoutDisease_treatmentsInput, Prisma.pensUncheckedUpdateWithoutDisease_treatmentsInput>
-}
-
-export type pensUpdateWithoutDisease_treatmentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pen_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  assignment_details?: Prisma.assignment_detailsUpdateManyWithoutPensNestedInput
-  cleaning_details?: Prisma.cleaning_detailsUpdateManyWithoutPensNestedInput
-  environment_log_details?: Prisma.environment_log_detailsUpdateManyWithoutPensNestedInput
-  feeding_schedule_details?: Prisma.feeding_schedule_detailsUpdateManyWithoutPensNestedInput
-  herd_report_pens?: Prisma.herd_report_pensUpdateManyWithoutPensNestedInput
-  pen_types?: Prisma.pen_typesUpdateOneWithoutPensNestedInput
-  pig_shipping_details?: Prisma.pig_shipping_detailsUpdateManyWithoutPensNestedInput
-  pig_transfers_pig_transfers_new_pen_idTopens?: Prisma.pig_transfersUpdateManyWithoutPens_pig_transfers_new_pen_idTopensNestedInput
-  pig_transfers_pig_transfers_old_pen_idTopens?: Prisma.pig_transfersUpdateManyWithoutPens_pig_transfers_old_pen_idTopensNestedInput
-  pigs?: Prisma.pigsUpdateManyWithoutPensNestedInput
-  rearing_pens?: Prisma.rearing_pensUpdateManyWithoutPensNestedInput
-  vaccination_schedules?: Prisma.vaccination_schedulesUpdateManyWithoutPensNestedInput
-}
-
-export type pensUncheckedUpdateWithoutDisease_treatmentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pen_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pen_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  assignment_details?: Prisma.assignment_detailsUncheckedUpdateManyWithoutPensNestedInput
-  cleaning_details?: Prisma.cleaning_detailsUncheckedUpdateManyWithoutPensNestedInput
   environment_log_details?: Prisma.environment_log_detailsUncheckedUpdateManyWithoutPensNestedInput
   feeding_schedule_details?: Prisma.feeding_schedule_detailsUncheckedUpdateManyWithoutPensNestedInput
   herd_report_pens?: Prisma.herd_report_pensUncheckedUpdateManyWithoutPensNestedInput
@@ -1864,6 +1788,98 @@ export type pensUncheckedUpdateWithoutVaccination_schedulesInput = {
   pig_transfers_pig_transfers_old_pen_idTopens?: Prisma.pig_transfersUncheckedUpdateManyWithoutPens_pig_transfers_old_pen_idTopensNestedInput
   pigs?: Prisma.pigsUncheckedUpdateManyWithoutPensNestedInput
   rearing_pens?: Prisma.rearing_pensUncheckedUpdateManyWithoutPensNestedInput
+}
+
+export type pensCreateWithoutDisease_treatmentsInput = {
+  id?: string
+  created_at?: Date | string
+  pen_name?: string | null
+  capacity?: number | null
+  assignment_details?: Prisma.assignment_detailsCreateNestedManyWithoutPensInput
+  cleaning_details?: Prisma.cleaning_detailsCreateNestedManyWithoutPensInput
+  environment_log_details?: Prisma.environment_log_detailsCreateNestedManyWithoutPensInput
+  feeding_schedule_details?: Prisma.feeding_schedule_detailsCreateNestedManyWithoutPensInput
+  herd_report_pens?: Prisma.herd_report_pensCreateNestedManyWithoutPensInput
+  pen_types?: Prisma.pen_typesCreateNestedOneWithoutPensInput
+  pig_shipping_details?: Prisma.pig_shipping_detailsCreateNestedManyWithoutPensInput
+  pig_transfers_pig_transfers_new_pen_idTopens?: Prisma.pig_transfersCreateNestedManyWithoutPens_pig_transfers_new_pen_idTopensInput
+  pig_transfers_pig_transfers_old_pen_idTopens?: Prisma.pig_transfersCreateNestedManyWithoutPens_pig_transfers_old_pen_idTopensInput
+  pigs?: Prisma.pigsCreateNestedManyWithoutPensInput
+  rearing_pens?: Prisma.rearing_pensCreateNestedManyWithoutPensInput
+  vaccination_schedules?: Prisma.vaccination_schedulesCreateNestedManyWithoutPensInput
+}
+
+export type pensUncheckedCreateWithoutDisease_treatmentsInput = {
+  id?: string
+  created_at?: Date | string
+  pen_name?: string | null
+  pen_type_id?: string | null
+  capacity?: number | null
+  assignment_details?: Prisma.assignment_detailsUncheckedCreateNestedManyWithoutPensInput
+  cleaning_details?: Prisma.cleaning_detailsUncheckedCreateNestedManyWithoutPensInput
+  environment_log_details?: Prisma.environment_log_detailsUncheckedCreateNestedManyWithoutPensInput
+  feeding_schedule_details?: Prisma.feeding_schedule_detailsUncheckedCreateNestedManyWithoutPensInput
+  herd_report_pens?: Prisma.herd_report_pensUncheckedCreateNestedManyWithoutPensInput
+  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedCreateNestedManyWithoutPensInput
+  pig_transfers_pig_transfers_new_pen_idTopens?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPens_pig_transfers_new_pen_idTopensInput
+  pig_transfers_pig_transfers_old_pen_idTopens?: Prisma.pig_transfersUncheckedCreateNestedManyWithoutPens_pig_transfers_old_pen_idTopensInput
+  pigs?: Prisma.pigsUncheckedCreateNestedManyWithoutPensInput
+  rearing_pens?: Prisma.rearing_pensUncheckedCreateNestedManyWithoutPensInput
+  vaccination_schedules?: Prisma.vaccination_schedulesUncheckedCreateNestedManyWithoutPensInput
+}
+
+export type pensCreateOrConnectWithoutDisease_treatmentsInput = {
+  where: Prisma.pensWhereUniqueInput
+  create: Prisma.XOR<Prisma.pensCreateWithoutDisease_treatmentsInput, Prisma.pensUncheckedCreateWithoutDisease_treatmentsInput>
+}
+
+export type pensUpsertWithoutDisease_treatmentsInput = {
+  update: Prisma.XOR<Prisma.pensUpdateWithoutDisease_treatmentsInput, Prisma.pensUncheckedUpdateWithoutDisease_treatmentsInput>
+  create: Prisma.XOR<Prisma.pensCreateWithoutDisease_treatmentsInput, Prisma.pensUncheckedCreateWithoutDisease_treatmentsInput>
+  where?: Prisma.pensWhereInput
+}
+
+export type pensUpdateToOneWithWhereWithoutDisease_treatmentsInput = {
+  where?: Prisma.pensWhereInput
+  data: Prisma.XOR<Prisma.pensUpdateWithoutDisease_treatmentsInput, Prisma.pensUncheckedUpdateWithoutDisease_treatmentsInput>
+}
+
+export type pensUpdateWithoutDisease_treatmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pen_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  assignment_details?: Prisma.assignment_detailsUpdateManyWithoutPensNestedInput
+  cleaning_details?: Prisma.cleaning_detailsUpdateManyWithoutPensNestedInput
+  environment_log_details?: Prisma.environment_log_detailsUpdateManyWithoutPensNestedInput
+  feeding_schedule_details?: Prisma.feeding_schedule_detailsUpdateManyWithoutPensNestedInput
+  herd_report_pens?: Prisma.herd_report_pensUpdateManyWithoutPensNestedInput
+  pen_types?: Prisma.pen_typesUpdateOneWithoutPensNestedInput
+  pig_shipping_details?: Prisma.pig_shipping_detailsUpdateManyWithoutPensNestedInput
+  pig_transfers_pig_transfers_new_pen_idTopens?: Prisma.pig_transfersUpdateManyWithoutPens_pig_transfers_new_pen_idTopensNestedInput
+  pig_transfers_pig_transfers_old_pen_idTopens?: Prisma.pig_transfersUpdateManyWithoutPens_pig_transfers_old_pen_idTopensNestedInput
+  pigs?: Prisma.pigsUpdateManyWithoutPensNestedInput
+  rearing_pens?: Prisma.rearing_pensUpdateManyWithoutPensNestedInput
+  vaccination_schedules?: Prisma.vaccination_schedulesUpdateManyWithoutPensNestedInput
+}
+
+export type pensUncheckedUpdateWithoutDisease_treatmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pen_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pen_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  assignment_details?: Prisma.assignment_detailsUncheckedUpdateManyWithoutPensNestedInput
+  cleaning_details?: Prisma.cleaning_detailsUncheckedUpdateManyWithoutPensNestedInput
+  environment_log_details?: Prisma.environment_log_detailsUncheckedUpdateManyWithoutPensNestedInput
+  feeding_schedule_details?: Prisma.feeding_schedule_detailsUncheckedUpdateManyWithoutPensNestedInput
+  herd_report_pens?: Prisma.herd_report_pensUncheckedUpdateManyWithoutPensNestedInput
+  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedUpdateManyWithoutPensNestedInput
+  pig_transfers_pig_transfers_new_pen_idTopens?: Prisma.pig_transfersUncheckedUpdateManyWithoutPens_pig_transfers_new_pen_idTopensNestedInput
+  pig_transfers_pig_transfers_old_pen_idTopens?: Prisma.pig_transfersUncheckedUpdateManyWithoutPens_pig_transfers_old_pen_idTopensNestedInput
+  pigs?: Prisma.pigsUncheckedUpdateManyWithoutPensNestedInput
+  rearing_pens?: Prisma.rearing_pensUncheckedUpdateManyWithoutPensNestedInput
+  vaccination_schedules?: Prisma.vaccination_schedulesUncheckedUpdateManyWithoutPensNestedInput
 }
 
 export type pensCreateManyPen_typesInput = {

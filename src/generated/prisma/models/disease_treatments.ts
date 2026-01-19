@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model disease_treatments
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type disease_treatmentsModel = runtime.Types.Result.DefaultSelection<Prisma.$disease_treatmentsPayload>
 
@@ -200,8 +200,8 @@ export type disease_treatmentsWhereInput = {
   end_date?: Prisma.DateTimeNullableFilter<"disease_treatments"> | Date | string | null
   diseases?: Prisma.XOR<Prisma.DiseasesNullableScalarRelationFilter, Prisma.diseasesWhereInput> | null
   pens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
-  pig_in_treatment?: Prisma.Pig_in_treatmentListRelationFilter
-  treatment_details?: Prisma.Treatment_detailsListRelationFilter
+  pigs_in_treatment?: Prisma.Pig_in_treatmentListRelationFilter
+  treatmentDetails?: Prisma.Treatment_detailsListRelationFilter
   treatment_logs?: Prisma.Treatment_logsListRelationFilter
 }
 
@@ -215,8 +215,8 @@ export type disease_treatmentsOrderByWithRelationInput = {
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   diseases?: Prisma.diseasesOrderByWithRelationInput
   pens?: Prisma.pensOrderByWithRelationInput
-  pig_in_treatment?: Prisma.pig_in_treatmentOrderByRelationAggregateInput
-  treatment_details?: Prisma.treatment_detailsOrderByRelationAggregateInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentOrderByRelationAggregateInput
+  treatmentDetails?: Prisma.treatment_detailsOrderByRelationAggregateInput
   treatment_logs?: Prisma.treatment_logsOrderByRelationAggregateInput
 }
 
@@ -233,8 +233,8 @@ export type disease_treatmentsWhereUniqueInput = Prisma.AtLeast<{
   end_date?: Prisma.DateTimeNullableFilter<"disease_treatments"> | Date | string | null
   diseases?: Prisma.XOR<Prisma.DiseasesNullableScalarRelationFilter, Prisma.diseasesWhereInput> | null
   pens?: Prisma.XOR<Prisma.PensNullableScalarRelationFilter, Prisma.pensWhereInput> | null
-  pig_in_treatment?: Prisma.Pig_in_treatmentListRelationFilter
-  treatment_details?: Prisma.Treatment_detailsListRelationFilter
+  pigs_in_treatment?: Prisma.Pig_in_treatmentListRelationFilter
+  treatmentDetails?: Prisma.Treatment_detailsListRelationFilter
   treatment_logs?: Prisma.Treatment_logsListRelationFilter
 }, "id">
 
@@ -272,8 +272,8 @@ export type disease_treatmentsCreateInput = {
   end_date?: Date | string | null
   diseases?: Prisma.diseasesCreateNestedOneWithoutDisease_treatmentsInput
   pens?: Prisma.pensCreateNestedOneWithoutDisease_treatmentsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_details?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
   treatment_logs?: Prisma.treatment_logsCreateNestedManyWithoutDisease_treatmentsInput
 }
 
@@ -285,8 +285,8 @@ export type disease_treatmentsUncheckedCreateInput = {
   disease_id?: string | null
   status?: $Enums.sick_group_status | null
   end_date?: Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_details?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
   treatment_logs?: Prisma.treatment_logsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
 }
 
@@ -298,8 +298,8 @@ export type disease_treatmentsUpdateInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   diseases?: Prisma.diseasesUpdateOneWithoutDisease_treatmentsNestedInput
   pens?: Prisma.pensUpdateOneWithoutDisease_treatmentsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_details?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
   treatment_logs?: Prisma.treatment_logsUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
@@ -311,8 +311,8 @@ export type disease_treatmentsUncheckedUpdateInput = {
   disease_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_details?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
   treatment_logs?: Prisma.treatment_logsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
@@ -344,6 +344,21 @@ export type disease_treatmentsUncheckedUpdateManyInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type Disease_treatmentsListRelationFilter = {
+  every?: Prisma.disease_treatmentsWhereInput
+  some?: Prisma.disease_treatmentsWhereInput
+  none?: Prisma.disease_treatmentsWhereInput
+}
+
+export type disease_treatmentsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type Disease_treatmentsNullableScalarRelationFilter = {
+  is?: Prisma.disease_treatmentsWhereInput | null
+  isNot?: Prisma.disease_treatmentsWhereInput | null
+}
+
 export type disease_treatmentsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -372,67 +387,6 @@ export type disease_treatmentsMinOrderByAggregateInput = {
   disease_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
-}
-
-export type Disease_treatmentsListRelationFilter = {
-  every?: Prisma.disease_treatmentsWhereInput
-  some?: Prisma.disease_treatmentsWhereInput
-  none?: Prisma.disease_treatmentsWhereInput
-}
-
-export type disease_treatmentsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
-export type Disease_treatmentsNullableScalarRelationFilter = {
-  is?: Prisma.disease_treatmentsWhereInput | null
-  isNot?: Prisma.disease_treatmentsWhereInput | null
-}
-
-export type NullableEnumsick_group_statusFieldUpdateOperationsInput = {
-  set?: $Enums.sick_group_status | null
-}
-
-export type disease_treatmentsCreateNestedManyWithoutDiseasesInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutDiseasesInput, Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput> | Prisma.disease_treatmentsCreateWithoutDiseasesInput[] | Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput[]
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput | Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput[]
-  createMany?: Prisma.disease_treatmentsCreateManyDiseasesInputEnvelope
-  connect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-}
-
-export type disease_treatmentsUncheckedCreateNestedManyWithoutDiseasesInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutDiseasesInput, Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput> | Prisma.disease_treatmentsCreateWithoutDiseasesInput[] | Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput[]
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput | Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput[]
-  createMany?: Prisma.disease_treatmentsCreateManyDiseasesInputEnvelope
-  connect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-}
-
-export type disease_treatmentsUpdateManyWithoutDiseasesNestedInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutDiseasesInput, Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput> | Prisma.disease_treatmentsCreateWithoutDiseasesInput[] | Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput[]
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput | Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput[]
-  upsert?: Prisma.disease_treatmentsUpsertWithWhereUniqueWithoutDiseasesInput | Prisma.disease_treatmentsUpsertWithWhereUniqueWithoutDiseasesInput[]
-  createMany?: Prisma.disease_treatmentsCreateManyDiseasesInputEnvelope
-  set?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-  disconnect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-  delete?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-  connect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-  update?: Prisma.disease_treatmentsUpdateWithWhereUniqueWithoutDiseasesInput | Prisma.disease_treatmentsUpdateWithWhereUniqueWithoutDiseasesInput[]
-  updateMany?: Prisma.disease_treatmentsUpdateManyWithWhereWithoutDiseasesInput | Prisma.disease_treatmentsUpdateManyWithWhereWithoutDiseasesInput[]
-  deleteMany?: Prisma.disease_treatmentsScalarWhereInput | Prisma.disease_treatmentsScalarWhereInput[]
-}
-
-export type disease_treatmentsUncheckedUpdateManyWithoutDiseasesNestedInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutDiseasesInput, Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput> | Prisma.disease_treatmentsCreateWithoutDiseasesInput[] | Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput[]
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput | Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput[]
-  upsert?: Prisma.disease_treatmentsUpsertWithWhereUniqueWithoutDiseasesInput | Prisma.disease_treatmentsUpsertWithWhereUniqueWithoutDiseasesInput[]
-  createMany?: Prisma.disease_treatmentsCreateManyDiseasesInputEnvelope
-  set?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-  disconnect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-  delete?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-  connect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
-  update?: Prisma.disease_treatmentsUpdateWithWhereUniqueWithoutDiseasesInput | Prisma.disease_treatmentsUpdateWithWhereUniqueWithoutDiseasesInput[]
-  updateMany?: Prisma.disease_treatmentsUpdateManyWithWhereWithoutDiseasesInput | Prisma.disease_treatmentsUpdateManyWithWhereWithoutDiseasesInput[]
-  deleteMany?: Prisma.disease_treatmentsScalarWhereInput | Prisma.disease_treatmentsScalarWhereInput[]
 }
 
 export type disease_treatmentsCreateNestedManyWithoutPensInput = {
@@ -477,20 +431,225 @@ export type disease_treatmentsUncheckedUpdateManyWithoutPensNestedInput = {
   deleteMany?: Prisma.disease_treatmentsScalarWhereInput | Prisma.disease_treatmentsScalarWhereInput[]
 }
 
-export type disease_treatmentsCreateNestedOneWithoutTreatment_detailsInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatment_detailsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatment_detailsInput>
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutTreatment_detailsInput
+export type disease_treatmentsCreateNestedOneWithoutTreatmentDetailsInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatmentDetailsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatmentDetailsInput>
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutTreatmentDetailsInput
   connect?: Prisma.disease_treatmentsWhereUniqueInput
 }
 
-export type disease_treatmentsUpdateOneWithoutTreatment_detailsNestedInput = {
-  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatment_detailsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatment_detailsInput>
-  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutTreatment_detailsInput
-  upsert?: Prisma.disease_treatmentsUpsertWithoutTreatment_detailsInput
+export type disease_treatmentsUpdateOneWithoutTreatmentDetailsNestedInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatmentDetailsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatmentDetailsInput>
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutTreatmentDetailsInput
+  upsert?: Prisma.disease_treatmentsUpsertWithoutTreatmentDetailsInput
   disconnect?: Prisma.disease_treatmentsWhereInput | boolean
   delete?: Prisma.disease_treatmentsWhereInput | boolean
   connect?: Prisma.disease_treatmentsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.disease_treatmentsUpdateToOneWithWhereWithoutTreatment_detailsInput, Prisma.disease_treatmentsUpdateWithoutTreatment_detailsInput>, Prisma.disease_treatmentsUncheckedUpdateWithoutTreatment_detailsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.disease_treatmentsUpdateToOneWithWhereWithoutTreatmentDetailsInput, Prisma.disease_treatmentsUpdateWithoutTreatmentDetailsInput>, Prisma.disease_treatmentsUncheckedUpdateWithoutTreatmentDetailsInput>
+}
+
+export type disease_treatmentsCreateNestedManyWithoutDiseasesInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutDiseasesInput, Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput> | Prisma.disease_treatmentsCreateWithoutDiseasesInput[] | Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput[]
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput | Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput[]
+  createMany?: Prisma.disease_treatmentsCreateManyDiseasesInputEnvelope
+  connect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+}
+
+export type disease_treatmentsUncheckedCreateNestedManyWithoutDiseasesInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutDiseasesInput, Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput> | Prisma.disease_treatmentsCreateWithoutDiseasesInput[] | Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput[]
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput | Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput[]
+  createMany?: Prisma.disease_treatmentsCreateManyDiseasesInputEnvelope
+  connect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+}
+
+export type disease_treatmentsUpdateManyWithoutDiseasesNestedInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutDiseasesInput, Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput> | Prisma.disease_treatmentsCreateWithoutDiseasesInput[] | Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput[]
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput | Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput[]
+  upsert?: Prisma.disease_treatmentsUpsertWithWhereUniqueWithoutDiseasesInput | Prisma.disease_treatmentsUpsertWithWhereUniqueWithoutDiseasesInput[]
+  createMany?: Prisma.disease_treatmentsCreateManyDiseasesInputEnvelope
+  set?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+  disconnect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+  delete?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+  connect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+  update?: Prisma.disease_treatmentsUpdateWithWhereUniqueWithoutDiseasesInput | Prisma.disease_treatmentsUpdateWithWhereUniqueWithoutDiseasesInput[]
+  updateMany?: Prisma.disease_treatmentsUpdateManyWithWhereWithoutDiseasesInput | Prisma.disease_treatmentsUpdateManyWithWhereWithoutDiseasesInput[]
+  deleteMany?: Prisma.disease_treatmentsScalarWhereInput | Prisma.disease_treatmentsScalarWhereInput[]
+}
+
+export type disease_treatmentsUncheckedUpdateManyWithoutDiseasesNestedInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutDiseasesInput, Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput> | Prisma.disease_treatmentsCreateWithoutDiseasesInput[] | Prisma.disease_treatmentsUncheckedCreateWithoutDiseasesInput[]
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput | Prisma.disease_treatmentsCreateOrConnectWithoutDiseasesInput[]
+  upsert?: Prisma.disease_treatmentsUpsertWithWhereUniqueWithoutDiseasesInput | Prisma.disease_treatmentsUpsertWithWhereUniqueWithoutDiseasesInput[]
+  createMany?: Prisma.disease_treatmentsCreateManyDiseasesInputEnvelope
+  set?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+  disconnect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+  delete?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+  connect?: Prisma.disease_treatmentsWhereUniqueInput | Prisma.disease_treatmentsWhereUniqueInput[]
+  update?: Prisma.disease_treatmentsUpdateWithWhereUniqueWithoutDiseasesInput | Prisma.disease_treatmentsUpdateWithWhereUniqueWithoutDiseasesInput[]
+  updateMany?: Prisma.disease_treatmentsUpdateManyWithWhereWithoutDiseasesInput | Prisma.disease_treatmentsUpdateManyWithWhereWithoutDiseasesInput[]
+  deleteMany?: Prisma.disease_treatmentsScalarWhereInput | Prisma.disease_treatmentsScalarWhereInput[]
+}
+
+export type NullableEnumsick_group_statusFieldUpdateOperationsInput = {
+  set?: $Enums.sick_group_status | null
+}
+
+export type disease_treatmentsCreateNestedOneWithoutPigs_in_treatmentInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPigs_in_treatmentInput, Prisma.disease_treatmentsUncheckedCreateWithoutPigs_in_treatmentInput>
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutPigs_in_treatmentInput
+  connect?: Prisma.disease_treatmentsWhereUniqueInput
+}
+
+export type disease_treatmentsUpdateOneWithoutPigs_in_treatmentNestedInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPigs_in_treatmentInput, Prisma.disease_treatmentsUncheckedCreateWithoutPigs_in_treatmentInput>
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutPigs_in_treatmentInput
+  upsert?: Prisma.disease_treatmentsUpsertWithoutPigs_in_treatmentInput
+  disconnect?: Prisma.disease_treatmentsWhereInput | boolean
+  delete?: Prisma.disease_treatmentsWhereInput | boolean
+  connect?: Prisma.disease_treatmentsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.disease_treatmentsUpdateToOneWithWhereWithoutPigs_in_treatmentInput, Prisma.disease_treatmentsUpdateWithoutPigs_in_treatmentInput>, Prisma.disease_treatmentsUncheckedUpdateWithoutPigs_in_treatmentInput>
+}
+
+export type disease_treatmentsCreateNestedOneWithoutTreatment_logsInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatment_logsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatment_logsInput>
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutTreatment_logsInput
+  connect?: Prisma.disease_treatmentsWhereUniqueInput
+}
+
+export type disease_treatmentsUpdateOneWithoutTreatment_logsNestedInput = {
+  create?: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatment_logsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatment_logsInput>
+  connectOrCreate?: Prisma.disease_treatmentsCreateOrConnectWithoutTreatment_logsInput
+  upsert?: Prisma.disease_treatmentsUpsertWithoutTreatment_logsInput
+  disconnect?: Prisma.disease_treatmentsWhereInput | boolean
+  delete?: Prisma.disease_treatmentsWhereInput | boolean
+  connect?: Prisma.disease_treatmentsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.disease_treatmentsUpdateToOneWithWhereWithoutTreatment_logsInput, Prisma.disease_treatmentsUpdateWithoutTreatment_logsInput>, Prisma.disease_treatmentsUncheckedUpdateWithoutTreatment_logsInput>
+}
+
+export type disease_treatmentsCreateWithoutPensInput = {
+  id?: string
+  created_at?: Date | string
+  symptom?: string | null
+  status?: $Enums.sick_group_status | null
+  end_date?: Date | string | null
+  diseases?: Prisma.diseasesCreateNestedOneWithoutDisease_treatmentsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
+  treatment_logs?: Prisma.treatment_logsCreateNestedManyWithoutDisease_treatmentsInput
+}
+
+export type disease_treatmentsUncheckedCreateWithoutPensInput = {
+  id?: string
+  created_at?: Date | string
+  symptom?: string | null
+  disease_id?: string | null
+  status?: $Enums.sick_group_status | null
+  end_date?: Date | string | null
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  treatment_logs?: Prisma.treatment_logsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+}
+
+export type disease_treatmentsCreateOrConnectWithoutPensInput = {
+  where: Prisma.disease_treatmentsWhereUniqueInput
+  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPensInput, Prisma.disease_treatmentsUncheckedCreateWithoutPensInput>
+}
+
+export type disease_treatmentsCreateManyPensInputEnvelope = {
+  data: Prisma.disease_treatmentsCreateManyPensInput | Prisma.disease_treatmentsCreateManyPensInput[]
+  skipDuplicates?: boolean
+}
+
+export type disease_treatmentsUpsertWithWhereUniqueWithoutPensInput = {
+  where: Prisma.disease_treatmentsWhereUniqueInput
+  update: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutPensInput, Prisma.disease_treatmentsUncheckedUpdateWithoutPensInput>
+  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPensInput, Prisma.disease_treatmentsUncheckedCreateWithoutPensInput>
+}
+
+export type disease_treatmentsUpdateWithWhereUniqueWithoutPensInput = {
+  where: Prisma.disease_treatmentsWhereUniqueInput
+  data: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutPensInput, Prisma.disease_treatmentsUncheckedUpdateWithoutPensInput>
+}
+
+export type disease_treatmentsUpdateManyWithWhereWithoutPensInput = {
+  where: Prisma.disease_treatmentsScalarWhereInput
+  data: Prisma.XOR<Prisma.disease_treatmentsUpdateManyMutationInput, Prisma.disease_treatmentsUncheckedUpdateManyWithoutPensInput>
+}
+
+export type disease_treatmentsScalarWhereInput = {
+  AND?: Prisma.disease_treatmentsScalarWhereInput | Prisma.disease_treatmentsScalarWhereInput[]
+  OR?: Prisma.disease_treatmentsScalarWhereInput[]
+  NOT?: Prisma.disease_treatmentsScalarWhereInput | Prisma.disease_treatmentsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"disease_treatments"> | string
+  created_at?: Prisma.DateTimeFilter<"disease_treatments"> | Date | string
+  pen_id?: Prisma.UuidNullableFilter<"disease_treatments"> | string | null
+  symptom?: Prisma.StringNullableFilter<"disease_treatments"> | string | null
+  disease_id?: Prisma.UuidNullableFilter<"disease_treatments"> | string | null
+  status?: Prisma.Enumsick_group_statusNullableFilter<"disease_treatments"> | $Enums.sick_group_status | null
+  end_date?: Prisma.DateTimeNullableFilter<"disease_treatments"> | Date | string | null
+}
+
+export type disease_treatmentsCreateWithoutTreatmentDetailsInput = {
+  id?: string
+  created_at?: Date | string
+  symptom?: string | null
+  status?: $Enums.sick_group_status | null
+  end_date?: Date | string | null
+  diseases?: Prisma.diseasesCreateNestedOneWithoutDisease_treatmentsInput
+  pens?: Prisma.pensCreateNestedOneWithoutDisease_treatmentsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
+  treatment_logs?: Prisma.treatment_logsCreateNestedManyWithoutDisease_treatmentsInput
+}
+
+export type disease_treatmentsUncheckedCreateWithoutTreatmentDetailsInput = {
+  id?: string
+  created_at?: Date | string
+  pen_id?: string | null
+  symptom?: string | null
+  disease_id?: string | null
+  status?: $Enums.sick_group_status | null
+  end_date?: Date | string | null
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  treatment_logs?: Prisma.treatment_logsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+}
+
+export type disease_treatmentsCreateOrConnectWithoutTreatmentDetailsInput = {
+  where: Prisma.disease_treatmentsWhereUniqueInput
+  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatmentDetailsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatmentDetailsInput>
+}
+
+export type disease_treatmentsUpsertWithoutTreatmentDetailsInput = {
+  update: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutTreatmentDetailsInput, Prisma.disease_treatmentsUncheckedUpdateWithoutTreatmentDetailsInput>
+  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatmentDetailsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatmentDetailsInput>
+  where?: Prisma.disease_treatmentsWhereInput
+}
+
+export type disease_treatmentsUpdateToOneWithWhereWithoutTreatmentDetailsInput = {
+  where?: Prisma.disease_treatmentsWhereInput
+  data: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutTreatmentDetailsInput, Prisma.disease_treatmentsUncheckedUpdateWithoutTreatmentDetailsInput>
+}
+
+export type disease_treatmentsUpdateWithoutTreatmentDetailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  diseases?: Prisma.diseasesUpdateOneWithoutDisease_treatmentsNestedInput
+  pens?: Prisma.pensUpdateOneWithoutDisease_treatmentsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
+  treatment_logs?: Prisma.treatment_logsUpdateManyWithoutDisease_treatmentsNestedInput
+}
+
+export type disease_treatmentsUncheckedUpdateWithoutTreatmentDetailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disease_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+  treatment_logs?: Prisma.treatment_logsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
 export type disease_treatmentsCreateNestedOneWithoutPig_in_treatmentInput = {
@@ -532,8 +691,8 @@ export type disease_treatmentsCreateWithoutDiseasesInput = {
   status?: $Enums.sick_group_status | null
   end_date?: Date | string | null
   pens?: Prisma.pensCreateNestedOneWithoutDisease_treatmentsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_details?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
   treatment_logs?: Prisma.treatment_logsCreateNestedManyWithoutDisease_treatmentsInput
 }
 
@@ -544,8 +703,8 @@ export type disease_treatmentsUncheckedCreateWithoutDiseasesInput = {
   symptom?: string | null
   status?: $Enums.sick_group_status | null
   end_date?: Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_details?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
   treatment_logs?: Prisma.treatment_logsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
 }
 
@@ -575,70 +734,7 @@ export type disease_treatmentsUpdateManyWithWhereWithoutDiseasesInput = {
   data: Prisma.XOR<Prisma.disease_treatmentsUpdateManyMutationInput, Prisma.disease_treatmentsUncheckedUpdateManyWithoutDiseasesInput>
 }
 
-export type disease_treatmentsScalarWhereInput = {
-  AND?: Prisma.disease_treatmentsScalarWhereInput | Prisma.disease_treatmentsScalarWhereInput[]
-  OR?: Prisma.disease_treatmentsScalarWhereInput[]
-  NOT?: Prisma.disease_treatmentsScalarWhereInput | Prisma.disease_treatmentsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"disease_treatments"> | string
-  created_at?: Prisma.DateTimeFilter<"disease_treatments"> | Date | string
-  pen_id?: Prisma.UuidNullableFilter<"disease_treatments"> | string | null
-  symptom?: Prisma.StringNullableFilter<"disease_treatments"> | string | null
-  disease_id?: Prisma.UuidNullableFilter<"disease_treatments"> | string | null
-  status?: Prisma.Enumsick_group_statusNullableFilter<"disease_treatments"> | $Enums.sick_group_status | null
-  end_date?: Prisma.DateTimeNullableFilter<"disease_treatments"> | Date | string | null
-}
-
-export type disease_treatmentsCreateWithoutPensInput = {
-  id?: string
-  created_at?: Date | string
-  symptom?: string | null
-  status?: $Enums.sick_group_status | null
-  end_date?: Date | string | null
-  diseases?: Prisma.diseasesCreateNestedOneWithoutDisease_treatmentsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_details?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_logs?: Prisma.treatment_logsCreateNestedManyWithoutDisease_treatmentsInput
-}
-
-export type disease_treatmentsUncheckedCreateWithoutPensInput = {
-  id?: string
-  created_at?: Date | string
-  symptom?: string | null
-  disease_id?: string | null
-  status?: $Enums.sick_group_status | null
-  end_date?: Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_details?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_logs?: Prisma.treatment_logsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
-}
-
-export type disease_treatmentsCreateOrConnectWithoutPensInput = {
-  where: Prisma.disease_treatmentsWhereUniqueInput
-  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPensInput, Prisma.disease_treatmentsUncheckedCreateWithoutPensInput>
-}
-
-export type disease_treatmentsCreateManyPensInputEnvelope = {
-  data: Prisma.disease_treatmentsCreateManyPensInput | Prisma.disease_treatmentsCreateManyPensInput[]
-  skipDuplicates?: boolean
-}
-
-export type disease_treatmentsUpsertWithWhereUniqueWithoutPensInput = {
-  where: Prisma.disease_treatmentsWhereUniqueInput
-  update: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutPensInput, Prisma.disease_treatmentsUncheckedUpdateWithoutPensInput>
-  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPensInput, Prisma.disease_treatmentsUncheckedCreateWithoutPensInput>
-}
-
-export type disease_treatmentsUpdateWithWhereUniqueWithoutPensInput = {
-  where: Prisma.disease_treatmentsWhereUniqueInput
-  data: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutPensInput, Prisma.disease_treatmentsUncheckedUpdateWithoutPensInput>
-}
-
-export type disease_treatmentsUpdateManyWithWhereWithoutPensInput = {
-  where: Prisma.disease_treatmentsScalarWhereInput
-  data: Prisma.XOR<Prisma.disease_treatmentsUpdateManyMutationInput, Prisma.disease_treatmentsUncheckedUpdateManyWithoutPensInput>
-}
-
-export type disease_treatmentsCreateWithoutTreatment_detailsInput = {
+export type disease_treatmentsCreateWithoutPigs_in_treatmentInput = {
   id?: string
   created_at?: Date | string
   symptom?: string | null
@@ -646,11 +742,11 @@ export type disease_treatmentsCreateWithoutTreatment_detailsInput = {
   end_date?: Date | string | null
   diseases?: Prisma.diseasesCreateNestedOneWithoutDisease_treatmentsInput
   pens?: Prisma.pensCreateNestedOneWithoutDisease_treatmentsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
   treatment_logs?: Prisma.treatment_logsCreateNestedManyWithoutDisease_treatmentsInput
 }
 
-export type disease_treatmentsUncheckedCreateWithoutTreatment_detailsInput = {
+export type disease_treatmentsUncheckedCreateWithoutPigs_in_treatmentInput = {
   id?: string
   created_at?: Date | string
   pen_id?: string | null
@@ -658,27 +754,27 @@ export type disease_treatmentsUncheckedCreateWithoutTreatment_detailsInput = {
   disease_id?: string | null
   status?: $Enums.sick_group_status | null
   end_date?: Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
   treatment_logs?: Prisma.treatment_logsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
 }
 
-export type disease_treatmentsCreateOrConnectWithoutTreatment_detailsInput = {
+export type disease_treatmentsCreateOrConnectWithoutPigs_in_treatmentInput = {
   where: Prisma.disease_treatmentsWhereUniqueInput
-  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatment_detailsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatment_detailsInput>
+  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPigs_in_treatmentInput, Prisma.disease_treatmentsUncheckedCreateWithoutPigs_in_treatmentInput>
 }
 
-export type disease_treatmentsUpsertWithoutTreatment_detailsInput = {
-  update: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutTreatment_detailsInput, Prisma.disease_treatmentsUncheckedUpdateWithoutTreatment_detailsInput>
-  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutTreatment_detailsInput, Prisma.disease_treatmentsUncheckedCreateWithoutTreatment_detailsInput>
+export type disease_treatmentsUpsertWithoutPigs_in_treatmentInput = {
+  update: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutPigs_in_treatmentInput, Prisma.disease_treatmentsUncheckedUpdateWithoutPigs_in_treatmentInput>
+  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPigs_in_treatmentInput, Prisma.disease_treatmentsUncheckedCreateWithoutPigs_in_treatmentInput>
   where?: Prisma.disease_treatmentsWhereInput
 }
 
-export type disease_treatmentsUpdateToOneWithWhereWithoutTreatment_detailsInput = {
+export type disease_treatmentsUpdateToOneWithWhereWithoutPigs_in_treatmentInput = {
   where?: Prisma.disease_treatmentsWhereInput
-  data: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutTreatment_detailsInput, Prisma.disease_treatmentsUncheckedUpdateWithoutTreatment_detailsInput>
+  data: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutPigs_in_treatmentInput, Prisma.disease_treatmentsUncheckedUpdateWithoutPigs_in_treatmentInput>
 }
 
-export type disease_treatmentsUpdateWithoutTreatment_detailsInput = {
+export type disease_treatmentsUpdateWithoutPigs_in_treatmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -686,11 +782,11 @@ export type disease_treatmentsUpdateWithoutTreatment_detailsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   diseases?: Prisma.diseasesUpdateOneWithoutDisease_treatmentsNestedInput
   pens?: Prisma.pensUpdateOneWithoutDisease_treatmentsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
   treatment_logs?: Prisma.treatment_logsUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
-export type disease_treatmentsUncheckedUpdateWithoutTreatment_detailsInput = {
+export type disease_treatmentsUncheckedUpdateWithoutPigs_in_treatmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -698,71 +794,7 @@ export type disease_treatmentsUncheckedUpdateWithoutTreatment_detailsInput = {
   disease_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_logs?: Prisma.treatment_logsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
-}
-
-export type disease_treatmentsCreateWithoutPig_in_treatmentInput = {
-  id?: string
-  created_at?: Date | string
-  symptom?: string | null
-  status?: $Enums.sick_group_status | null
-  end_date?: Date | string | null
-  diseases?: Prisma.diseasesCreateNestedOneWithoutDisease_treatmentsInput
-  pens?: Prisma.pensCreateNestedOneWithoutDisease_treatmentsInput
-  treatment_details?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_logs?: Prisma.treatment_logsCreateNestedManyWithoutDisease_treatmentsInput
-}
-
-export type disease_treatmentsUncheckedCreateWithoutPig_in_treatmentInput = {
-  id?: string
-  created_at?: Date | string
-  pen_id?: string | null
-  symptom?: string | null
-  disease_id?: string | null
-  status?: $Enums.sick_group_status | null
-  end_date?: Date | string | null
-  treatment_details?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_logs?: Prisma.treatment_logsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
-}
-
-export type disease_treatmentsCreateOrConnectWithoutPig_in_treatmentInput = {
-  where: Prisma.disease_treatmentsWhereUniqueInput
-  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPig_in_treatmentInput, Prisma.disease_treatmentsUncheckedCreateWithoutPig_in_treatmentInput>
-}
-
-export type disease_treatmentsUpsertWithoutPig_in_treatmentInput = {
-  update: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutPig_in_treatmentInput, Prisma.disease_treatmentsUncheckedUpdateWithoutPig_in_treatmentInput>
-  create: Prisma.XOR<Prisma.disease_treatmentsCreateWithoutPig_in_treatmentInput, Prisma.disease_treatmentsUncheckedCreateWithoutPig_in_treatmentInput>
-  where?: Prisma.disease_treatmentsWhereInput
-}
-
-export type disease_treatmentsUpdateToOneWithWhereWithoutPig_in_treatmentInput = {
-  where?: Prisma.disease_treatmentsWhereInput
-  data: Prisma.XOR<Prisma.disease_treatmentsUpdateWithoutPig_in_treatmentInput, Prisma.disease_treatmentsUncheckedUpdateWithoutPig_in_treatmentInput>
-}
-
-export type disease_treatmentsUpdateWithoutPig_in_treatmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  diseases?: Prisma.diseasesUpdateOneWithoutDisease_treatmentsNestedInput
-  pens?: Prisma.pensUpdateOneWithoutDisease_treatmentsNestedInput
-  treatment_details?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_logs?: Prisma.treatment_logsUpdateManyWithoutDisease_treatmentsNestedInput
-}
-
-export type disease_treatmentsUncheckedUpdateWithoutPig_in_treatmentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  disease_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  treatment_details?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
   treatment_logs?: Prisma.treatment_logsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
@@ -774,8 +806,8 @@ export type disease_treatmentsCreateWithoutTreatment_logsInput = {
   end_date?: Date | string | null
   diseases?: Prisma.diseasesCreateNestedOneWithoutDisease_treatmentsInput
   pens?: Prisma.pensCreateNestedOneWithoutDisease_treatmentsInput
-  pig_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_details?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput
 }
 
 export type disease_treatmentsUncheckedCreateWithoutTreatment_logsInput = {
@@ -786,8 +818,8 @@ export type disease_treatmentsUncheckedCreateWithoutTreatment_logsInput = {
   disease_id?: string | null
   status?: $Enums.sick_group_status | null
   end_date?: Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
-  treatment_details?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedCreateNestedManyWithoutDisease_treatmentsInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedCreateNestedManyWithoutDisease_treatmentsInput
 }
 
 export type disease_treatmentsCreateOrConnectWithoutTreatment_logsInput = {
@@ -814,8 +846,8 @@ export type disease_treatmentsUpdateWithoutTreatment_logsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   diseases?: Prisma.diseasesUpdateOneWithoutDisease_treatmentsNestedInput
   pens?: Prisma.pensUpdateOneWithoutDisease_treatmentsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_details?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
 export type disease_treatmentsUncheckedUpdateWithoutTreatment_logsInput = {
@@ -826,50 +858,8 @@ export type disease_treatmentsUncheckedUpdateWithoutTreatment_logsInput = {
   disease_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_details?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
-}
-
-export type disease_treatmentsCreateManyDiseasesInput = {
-  id?: string
-  created_at?: Date | string
-  pen_id?: string | null
-  symptom?: string | null
-  status?: $Enums.sick_group_status | null
-  end_date?: Date | string | null
-}
-
-export type disease_treatmentsUpdateWithoutDiseasesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  pens?: Prisma.pensUpdateOneWithoutDisease_treatmentsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_details?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_logs?: Prisma.treatment_logsUpdateManyWithoutDisease_treatmentsNestedInput
-}
-
-export type disease_treatmentsUncheckedUpdateWithoutDiseasesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_details?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_logs?: Prisma.treatment_logsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
-}
-
-export type disease_treatmentsUncheckedUpdateManyWithoutDiseasesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
 export type disease_treatmentsCreateManyPensInput = {
@@ -888,8 +878,8 @@ export type disease_treatmentsUpdateWithoutPensInput = {
   status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   diseases?: Prisma.diseasesUpdateOneWithoutDisease_treatmentsNestedInput
-  pig_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_details?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
   treatment_logs?: Prisma.treatment_logsUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
@@ -900,8 +890,8 @@ export type disease_treatmentsUncheckedUpdateWithoutPensInput = {
   disease_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  pig_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
-  treatment_details?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
   treatment_logs?: Prisma.treatment_logsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
 }
 
@@ -914,20 +904,62 @@ export type disease_treatmentsUncheckedUpdateManyWithoutPensInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type disease_treatmentsCreateManyDiseasesInput = {
+  id?: string
+  created_at?: Date | string
+  pen_id?: string | null
+  symptom?: string | null
+  status?: $Enums.sick_group_status | null
+  end_date?: Date | string | null
+}
+
+export type disease_treatmentsUpdateWithoutDiseasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pens?: Prisma.pensUpdateOneWithoutDisease_treatmentsNestedInput
+  pigs_in_treatment?: Prisma.pig_in_treatmentUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUpdateManyWithoutDisease_treatmentsNestedInput
+  treatment_logs?: Prisma.treatment_logsUpdateManyWithoutDisease_treatmentsNestedInput
+}
+
+export type disease_treatmentsUncheckedUpdateWithoutDiseasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pigs_in_treatment?: Prisma.pig_in_treatmentUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+  treatmentDetails?: Prisma.treatment_detailsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+  treatment_logs?: Prisma.treatment_logsUncheckedUpdateManyWithoutDisease_treatmentsNestedInput
+}
+
+export type disease_treatmentsUncheckedUpdateManyWithoutDiseasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pen_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  symptom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumsick_group_statusFieldUpdateOperationsInput | $Enums.sick_group_status | null
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 
 /**
  * Count Type Disease_treatmentsCountOutputType
  */
 
 export type Disease_treatmentsCountOutputType = {
-  pig_in_treatment: number
-  treatment_details: number
+  pigs_in_treatment: number
+  treatmentDetails: number
   treatment_logs: number
 }
 
 export type Disease_treatmentsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  pig_in_treatment?: boolean | Disease_treatmentsCountOutputTypeCountPig_in_treatmentArgs
-  treatment_details?: boolean | Disease_treatmentsCountOutputTypeCountTreatment_detailsArgs
+  pigs_in_treatment?: boolean | Disease_treatmentsCountOutputTypeCountPigs_in_treatmentArgs
+  treatmentDetails?: boolean | Disease_treatmentsCountOutputTypeCountTreatmentDetailsArgs
   treatment_logs?: boolean | Disease_treatmentsCountOutputTypeCountTreatment_logsArgs
 }
 
@@ -944,14 +976,14 @@ export type Disease_treatmentsCountOutputTypeDefaultArgs<ExtArgs extends runtime
 /**
  * Disease_treatmentsCountOutputType without action
  */
-export type Disease_treatmentsCountOutputTypeCountPig_in_treatmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Disease_treatmentsCountOutputTypeCountPigs_in_treatmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.pig_in_treatmentWhereInput
 }
 
 /**
  * Disease_treatmentsCountOutputType without action
  */
-export type Disease_treatmentsCountOutputTypeCountTreatment_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Disease_treatmentsCountOutputTypeCountTreatmentDetailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.treatment_detailsWhereInput
 }
 
@@ -973,8 +1005,8 @@ export type disease_treatmentsSelect<ExtArgs extends runtime.Types.Extensions.In
   end_date?: boolean
   diseases?: boolean | Prisma.disease_treatments$diseasesArgs<ExtArgs>
   pens?: boolean | Prisma.disease_treatments$pensArgs<ExtArgs>
-  pig_in_treatment?: boolean | Prisma.disease_treatments$pig_in_treatmentArgs<ExtArgs>
-  treatment_details?: boolean | Prisma.disease_treatments$treatment_detailsArgs<ExtArgs>
+  pigs_in_treatment?: boolean | Prisma.disease_treatments$pigs_in_treatmentArgs<ExtArgs>
+  treatmentDetails?: boolean | Prisma.disease_treatments$treatmentDetailsArgs<ExtArgs>
   treatment_logs?: boolean | Prisma.disease_treatments$treatment_logsArgs<ExtArgs>
   _count?: boolean | Prisma.Disease_treatmentsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["disease_treatments"]>
@@ -1017,8 +1049,8 @@ export type disease_treatmentsOmit<ExtArgs extends runtime.Types.Extensions.Inte
 export type disease_treatmentsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   diseases?: boolean | Prisma.disease_treatments$diseasesArgs<ExtArgs>
   pens?: boolean | Prisma.disease_treatments$pensArgs<ExtArgs>
-  pig_in_treatment?: boolean | Prisma.disease_treatments$pig_in_treatmentArgs<ExtArgs>
-  treatment_details?: boolean | Prisma.disease_treatments$treatment_detailsArgs<ExtArgs>
+  pigs_in_treatment?: boolean | Prisma.disease_treatments$pigs_in_treatmentArgs<ExtArgs>
+  treatmentDetails?: boolean | Prisma.disease_treatments$treatmentDetailsArgs<ExtArgs>
   treatment_logs?: boolean | Prisma.disease_treatments$treatment_logsArgs<ExtArgs>
   _count?: boolean | Prisma.Disease_treatmentsCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1036,8 +1068,8 @@ export type $disease_treatmentsPayload<ExtArgs extends runtime.Types.Extensions.
   objects: {
     diseases: Prisma.$diseasesPayload<ExtArgs> | null
     pens: Prisma.$pensPayload<ExtArgs> | null
-    pig_in_treatment: Prisma.$pig_in_treatmentPayload<ExtArgs>[]
-    treatment_details: Prisma.$treatment_detailsPayload<ExtArgs>[]
+    pigs_in_treatment: Prisma.$pig_in_treatmentPayload<ExtArgs>[]
+    treatmentDetails: Prisma.$treatment_detailsPayload<ExtArgs>[]
     treatment_logs: Prisma.$treatment_logsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1444,8 +1476,8 @@ export interface Prisma__disease_treatmentsClient<T, Null = never, ExtArgs exten
   readonly [Symbol.toStringTag]: "PrismaPromise"
   diseases<T extends Prisma.disease_treatments$diseasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.disease_treatments$diseasesArgs<ExtArgs>>): Prisma.Prisma__diseasesClient<runtime.Types.Result.GetResult<Prisma.$diseasesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   pens<T extends Prisma.disease_treatments$pensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.disease_treatments$pensArgs<ExtArgs>>): Prisma.Prisma__pensClient<runtime.Types.Result.GetResult<Prisma.$pensPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  pig_in_treatment<T extends Prisma.disease_treatments$pig_in_treatmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.disease_treatments$pig_in_treatmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_in_treatmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  treatment_details<T extends Prisma.disease_treatments$treatment_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.disease_treatments$treatment_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$treatment_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pigs_in_treatment<T extends Prisma.disease_treatments$pigs_in_treatmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.disease_treatments$pigs_in_treatmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_in_treatmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  treatmentDetails<T extends Prisma.disease_treatments$treatmentDetailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.disease_treatments$treatmentDetailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$treatment_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   treatment_logs<T extends Prisma.disease_treatments$treatment_logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.disease_treatments$treatment_logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$treatment_logsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1917,9 +1949,9 @@ export type disease_treatments$pensArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * disease_treatments.pig_in_treatment
+ * disease_treatments.pigs_in_treatment
  */
-export type disease_treatments$pig_in_treatmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type disease_treatments$pigs_in_treatmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the pig_in_treatment
    */
@@ -1941,9 +1973,9 @@ export type disease_treatments$pig_in_treatmentArgs<ExtArgs extends runtime.Type
 }
 
 /**
- * disease_treatments.treatment_details
+ * disease_treatments.treatmentDetails
  */
-export type disease_treatments$treatment_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type disease_treatments$treatmentDetailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the treatment_details
    */
