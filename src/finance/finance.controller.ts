@@ -14,9 +14,11 @@ import {
   Request,
   HttpCode,
   HttpStatus,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FinanceService } from './finance.service';
+import { ResponseTransformInterceptor } from '../lib/response-transform.interceptor';
 import {
   CreateTransactionCategoryDto,
   UpdateTransactionCategoryDto,
@@ -38,10 +40,9 @@ import {
   MonthlyBillQueryDto,
   TransactionType,
 } from './finance.dto';
-import { NamingUtils } from 'src/lib/utils';
-
 @ApiTags('Finance - Quản lý chi phí / Sổ quỹ')
 @Controller('api/finance')
+@UseInterceptors(ResponseTransformInterceptor)
 export class FinanceController {
   constructor(private readonly financeService: FinanceService) {}
 
@@ -78,9 +79,7 @@ export class FinanceController {
   @Post('accounts')
   @ApiOperation({ summary: 'Tạo tài khoản quỹ' })
   async createCashAccount(@Body() dto: CreateCashAccountDto) {
-    return NamingUtils.toCamelCase(
-      await this.financeService.createCashAccount(dto),
-    );
+    return this.financeService.createCashAccount(dto);
   }
 
   @Put('accounts/:id')
@@ -102,7 +101,7 @@ export class FinanceController {
   @Get('accounts')
   @ApiOperation({ summary: 'Lấy danh sách tài khoản quỹ' })
   async getCashAccounts() {
-    return NamingUtils.toCamelCase(await this.financeService.getCashAccounts());
+    return this.financeService.getCashAccounts();
   }
 
   @Get('accounts/:id')
@@ -211,6 +210,15 @@ export class FinanceController {
   @ApiOperation({ summary: 'Lấy danh sách hóa đơn tháng' })
   async getMonthlyBills() {
     return this.financeService.getMonthlyBills();
+  }
+
+  @Get('monthly-bills/summary')
+  @ApiOperation({ summary: 'Lấy tổng hợp hóa đơn tháng' })
+  async getMonthlyBillSummary(
+    @Query('month') month: number,
+    @Query('year') year: number,
+  ) {
+    return this.financeService.getMonthlyBillSummary(+month, +year);
   }
 
   @Post('monthly-bills/records')

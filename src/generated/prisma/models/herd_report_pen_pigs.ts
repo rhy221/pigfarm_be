@@ -36,25 +36,25 @@ export type Herd_report_pen_pigsSumAggregateOutputType = {
 export type Herd_report_pen_pigsMinAggregateOutputType = {
   id: string | null
   created_at: Date | null
-  pig_id: string | null
   weight: number | null
   status_id: string | null
+  pig_id: string | null
 }
 
 export type Herd_report_pen_pigsMaxAggregateOutputType = {
   id: string | null
   created_at: Date | null
-  pig_id: string | null
   weight: number | null
   status_id: string | null
+  pig_id: string | null
 }
 
 export type Herd_report_pen_pigsCountAggregateOutputType = {
   id: number
   created_at: number
-  pig_id: number
   weight: number
   status_id: number
+  pig_id: number
   _all: number
 }
 
@@ -70,25 +70,25 @@ export type Herd_report_pen_pigsSumAggregateInputType = {
 export type Herd_report_pen_pigsMinAggregateInputType = {
   id?: true
   created_at?: true
-  pig_id?: true
   weight?: true
   status_id?: true
+  pig_id?: true
 }
 
 export type Herd_report_pen_pigsMaxAggregateInputType = {
   id?: true
   created_at?: true
-  pig_id?: true
   weight?: true
   status_id?: true
+  pig_id?: true
 }
 
 export type Herd_report_pen_pigsCountAggregateInputType = {
   id?: true
   created_at?: true
-  pig_id?: true
   weight?: true
   status_id?: true
+  pig_id?: true
   _all?: true
 }
 
@@ -181,9 +181,9 @@ export type herd_report_pen_pigsGroupByArgs<ExtArgs extends runtime.Types.Extens
 export type Herd_report_pen_pigsGroupByOutputType = {
   id: string
   created_at: Date
-  pig_id: string | null
   weight: number | null
   status_id: string | null
+  pig_id: string | null
   _count: Herd_report_pen_pigsCountAggregateOutputType | null
   _avg: Herd_report_pen_pigsAvgAggregateOutputType | null
   _sum: Herd_report_pen_pigsSumAggregateOutputType | null
@@ -212,9 +212,9 @@ export type herd_report_pen_pigsWhereInput = {
   NOT?: Prisma.herd_report_pen_pigsWhereInput | Prisma.herd_report_pen_pigsWhereInput[]
   id?: Prisma.UuidFilter<"herd_report_pen_pigs"> | string
   created_at?: Prisma.DateTimeFilter<"herd_report_pen_pigs"> | Date | string
-  pig_id?: Prisma.UuidNullableFilter<"herd_report_pen_pigs"> | string | null
   weight?: Prisma.FloatNullableFilter<"herd_report_pen_pigs"> | number | null
   status_id?: Prisma.UuidNullableFilter<"herd_report_pen_pigs"> | string | null
+  pig_id?: Prisma.StringNullableFilter<"herd_report_pen_pigs"> | string | null
   pigs?: Prisma.XOR<Prisma.PigsNullableScalarRelationFilter, Prisma.pigsWhereInput> | null
   pig_statuses?: Prisma.XOR<Prisma.Pig_statusesNullableScalarRelationFilter, Prisma.pig_statusesWhereInput> | null
 }
@@ -222,9 +222,9 @@ export type herd_report_pen_pigsWhereInput = {
 export type herd_report_pen_pigsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrderInput | Prisma.SortOrder
   weight?: Prisma.SortOrderInput | Prisma.SortOrder
   status_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  pig_id?: Prisma.SortOrderInput | Prisma.SortOrder
   pigs?: Prisma.pigsOrderByWithRelationInput
   pig_statuses?: Prisma.pig_statusesOrderByWithRelationInput
 }
@@ -235,9 +235,9 @@ export type herd_report_pen_pigsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.herd_report_pen_pigsWhereInput[]
   NOT?: Prisma.herd_report_pen_pigsWhereInput | Prisma.herd_report_pen_pigsWhereInput[]
   created_at?: Prisma.DateTimeFilter<"herd_report_pen_pigs"> | Date | string
-  pig_id?: Prisma.UuidNullableFilter<"herd_report_pen_pigs"> | string | null
   weight?: Prisma.FloatNullableFilter<"herd_report_pen_pigs"> | number | null
   status_id?: Prisma.UuidNullableFilter<"herd_report_pen_pigs"> | string | null
+  pig_id?: Prisma.StringNullableFilter<"herd_report_pen_pigs"> | string | null
   pigs?: Prisma.XOR<Prisma.PigsNullableScalarRelationFilter, Prisma.pigsWhereInput> | null
   pig_statuses?: Prisma.XOR<Prisma.Pig_statusesNullableScalarRelationFilter, Prisma.pig_statusesWhereInput> | null
 }, "id">
@@ -245,9 +245,9 @@ export type herd_report_pen_pigsWhereUniqueInput = Prisma.AtLeast<{
 export type herd_report_pen_pigsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrderInput | Prisma.SortOrder
   weight?: Prisma.SortOrderInput | Prisma.SortOrder
   status_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  pig_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.herd_report_pen_pigsCountOrderByAggregateInput
   _avg?: Prisma.herd_report_pen_pigsAvgOrderByAggregateInput
   _max?: Prisma.herd_report_pen_pigsMaxOrderByAggregateInput
@@ -261,9 +261,9 @@ export type herd_report_pen_pigsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.herd_report_pen_pigsScalarWhereWithAggregatesInput | Prisma.herd_report_pen_pigsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"herd_report_pen_pigs"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"herd_report_pen_pigs"> | Date | string
-  pig_id?: Prisma.UuidNullableWithAggregatesFilter<"herd_report_pen_pigs"> | string | null
   weight?: Prisma.FloatNullableWithAggregatesFilter<"herd_report_pen_pigs"> | number | null
   status_id?: Prisma.UuidNullableWithAggregatesFilter<"herd_report_pen_pigs"> | string | null
+  pig_id?: Prisma.StringNullableWithAggregatesFilter<"herd_report_pen_pigs"> | string | null
 }
 
 export type herd_report_pen_pigsCreateInput = {
@@ -277,9 +277,9 @@ export type herd_report_pen_pigsCreateInput = {
 export type herd_report_pen_pigsUncheckedCreateInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   weight?: number | null
   status_id?: string | null
+  pig_id?: string | null
 }
 
 export type herd_report_pen_pigsUpdateInput = {
@@ -293,17 +293,17 @@ export type herd_report_pen_pigsUpdateInput = {
 export type herd_report_pen_pigsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type herd_report_pen_pigsCreateManyInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   weight?: number | null
   status_id?: string | null
+  pig_id?: string | null
 }
 
 export type herd_report_pen_pigsUpdateManyMutationInput = {
@@ -315,17 +315,17 @@ export type herd_report_pen_pigsUpdateManyMutationInput = {
 export type herd_report_pen_pigsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type herd_report_pen_pigsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   status_id?: Prisma.SortOrder
+  pig_id?: Prisma.SortOrder
 }
 
 export type herd_report_pen_pigsAvgOrderByAggregateInput = {
@@ -335,17 +335,17 @@ export type herd_report_pen_pigsAvgOrderByAggregateInput = {
 export type herd_report_pen_pigsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   status_id?: Prisma.SortOrder
+  pig_id?: Prisma.SortOrder
 }
 
 export type herd_report_pen_pigsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  pig_id?: Prisma.SortOrder
   weight?: Prisma.SortOrder
   status_id?: Prisma.SortOrder
+  pig_id?: Prisma.SortOrder
 }
 
 export type herd_report_pen_pigsSumOrderByAggregateInput = {
@@ -456,8 +456,8 @@ export type herd_report_pen_pigsCreateWithoutPig_statusesInput = {
 export type herd_report_pen_pigsUncheckedCreateWithoutPig_statusesInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   weight?: number | null
+  pig_id?: string | null
 }
 
 export type herd_report_pen_pigsCreateOrConnectWithoutPig_statusesInput = {
@@ -492,9 +492,9 @@ export type herd_report_pen_pigsScalarWhereInput = {
   NOT?: Prisma.herd_report_pen_pigsScalarWhereInput | Prisma.herd_report_pen_pigsScalarWhereInput[]
   id?: Prisma.UuidFilter<"herd_report_pen_pigs"> | string
   created_at?: Prisma.DateTimeFilter<"herd_report_pen_pigs"> | Date | string
-  pig_id?: Prisma.UuidNullableFilter<"herd_report_pen_pigs"> | string | null
   weight?: Prisma.FloatNullableFilter<"herd_report_pen_pigs"> | number | null
   status_id?: Prisma.UuidNullableFilter<"herd_report_pen_pigs"> | string | null
+  pig_id?: Prisma.StringNullableFilter<"herd_report_pen_pigs"> | string | null
 }
 
 export type herd_report_pen_pigsCreateWithoutPigsInput = {
@@ -540,8 +540,8 @@ export type herd_report_pen_pigsUpdateManyWithWhereWithoutPigsInput = {
 export type herd_report_pen_pigsCreateManyPig_statusesInput = {
   id?: string
   created_at?: Date | string
-  pig_id?: string | null
   weight?: number | null
+  pig_id?: string | null
 }
 
 export type herd_report_pen_pigsUpdateWithoutPig_statusesInput = {
@@ -554,15 +554,15 @@ export type herd_report_pen_pigsUpdateWithoutPig_statusesInput = {
 export type herd_report_pen_pigsUncheckedUpdateWithoutPig_statusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type herd_report_pen_pigsUncheckedUpdateManyWithoutPig_statusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   weight?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  pig_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type herd_report_pen_pigsCreateManyPigsInput = {
@@ -598,9 +598,9 @@ export type herd_report_pen_pigsUncheckedUpdateManyWithoutPigsInput = {
 export type herd_report_pen_pigsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
-  pig_id?: boolean
   weight?: boolean
   status_id?: boolean
+  pig_id?: boolean
   pigs?: boolean | Prisma.herd_report_pen_pigs$pigsArgs<ExtArgs>
   pig_statuses?: boolean | Prisma.herd_report_pen_pigs$pig_statusesArgs<ExtArgs>
 }, ExtArgs["result"]["herd_report_pen_pigs"]>
@@ -608,9 +608,9 @@ export type herd_report_pen_pigsSelect<ExtArgs extends runtime.Types.Extensions.
 export type herd_report_pen_pigsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
-  pig_id?: boolean
   weight?: boolean
   status_id?: boolean
+  pig_id?: boolean
   pigs?: boolean | Prisma.herd_report_pen_pigs$pigsArgs<ExtArgs>
   pig_statuses?: boolean | Prisma.herd_report_pen_pigs$pig_statusesArgs<ExtArgs>
 }, ExtArgs["result"]["herd_report_pen_pigs"]>
@@ -618,9 +618,9 @@ export type herd_report_pen_pigsSelectCreateManyAndReturn<ExtArgs extends runtim
 export type herd_report_pen_pigsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
-  pig_id?: boolean
   weight?: boolean
   status_id?: boolean
+  pig_id?: boolean
   pigs?: boolean | Prisma.herd_report_pen_pigs$pigsArgs<ExtArgs>
   pig_statuses?: boolean | Prisma.herd_report_pen_pigs$pig_statusesArgs<ExtArgs>
 }, ExtArgs["result"]["herd_report_pen_pigs"]>
@@ -628,12 +628,12 @@ export type herd_report_pen_pigsSelectUpdateManyAndReturn<ExtArgs extends runtim
 export type herd_report_pen_pigsSelectScalar = {
   id?: boolean
   created_at?: boolean
-  pig_id?: boolean
   weight?: boolean
   status_id?: boolean
+  pig_id?: boolean
 }
 
-export type herd_report_pen_pigsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "pig_id" | "weight" | "status_id", ExtArgs["result"]["herd_report_pen_pigs"]>
+export type herd_report_pen_pigsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "weight" | "status_id" | "pig_id", ExtArgs["result"]["herd_report_pen_pigs"]>
 export type herd_report_pen_pigsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pigs?: boolean | Prisma.herd_report_pen_pigs$pigsArgs<ExtArgs>
   pig_statuses?: boolean | Prisma.herd_report_pen_pigs$pig_statusesArgs<ExtArgs>
@@ -656,9 +656,9 @@ export type $herd_report_pen_pigsPayload<ExtArgs extends runtime.Types.Extension
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     created_at: Date
-    pig_id: string | null
     weight: number | null
     status_id: string | null
+    pig_id: string | null
   }, ExtArgs["result"]["herd_report_pen_pigs"]>
   composites: {}
 }
@@ -1086,9 +1086,9 @@ export interface Prisma__herd_report_pen_pigsClient<T, Null = never, ExtArgs ext
 export interface herd_report_pen_pigsFieldRefs {
   readonly id: Prisma.FieldRef<"herd_report_pen_pigs", 'String'>
   readonly created_at: Prisma.FieldRef<"herd_report_pen_pigs", 'DateTime'>
-  readonly pig_id: Prisma.FieldRef<"herd_report_pen_pigs", 'String'>
   readonly weight: Prisma.FieldRef<"herd_report_pen_pigs", 'Float'>
   readonly status_id: Prisma.FieldRef<"herd_report_pen_pigs", 'String'>
+  readonly pig_id: Prisma.FieldRef<"herd_report_pen_pigs", 'String'>
 }
     
 

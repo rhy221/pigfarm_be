@@ -46,6 +46,7 @@ export type Stock_issue_itemsMinAggregateOutputType = {
   total_amount: runtime.Decimal | null
   notes: string | null
   created_at: Date | null
+  batch_id: string | null
 }
 
 export type Stock_issue_itemsMaxAggregateOutputType = {
@@ -57,6 +58,7 @@ export type Stock_issue_itemsMaxAggregateOutputType = {
   total_amount: runtime.Decimal | null
   notes: string | null
   created_at: Date | null
+  batch_id: string | null
 }
 
 export type Stock_issue_itemsCountAggregateOutputType = {
@@ -68,6 +70,7 @@ export type Stock_issue_itemsCountAggregateOutputType = {
   total_amount: number
   notes: number
   created_at: number
+  batch_id: number
   _all: number
 }
 
@@ -93,6 +96,7 @@ export type Stock_issue_itemsMinAggregateInputType = {
   total_amount?: true
   notes?: true
   created_at?: true
+  batch_id?: true
 }
 
 export type Stock_issue_itemsMaxAggregateInputType = {
@@ -104,6 +108,7 @@ export type Stock_issue_itemsMaxAggregateInputType = {
   total_amount?: true
   notes?: true
   created_at?: true
+  batch_id?: true
 }
 
 export type Stock_issue_itemsCountAggregateInputType = {
@@ -115,6 +120,7 @@ export type Stock_issue_itemsCountAggregateInputType = {
   total_amount?: true
   notes?: true
   created_at?: true
+  batch_id?: true
   _all?: true
 }
 
@@ -213,6 +219,7 @@ export type Stock_issue_itemsGroupByOutputType = {
   total_amount: runtime.Decimal
   notes: string | null
   created_at: Date | null
+  batch_id: string | null
   _count: Stock_issue_itemsCountAggregateOutputType | null
   _avg: Stock_issue_itemsAvgAggregateOutputType | null
   _sum: Stock_issue_itemsSumAggregateOutputType | null
@@ -247,6 +254,8 @@ export type stock_issue_itemsWhereInput = {
   total_amount?: Prisma.DecimalFilter<"stock_issue_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.StringNullableFilter<"stock_issue_items"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"stock_issue_items"> | Date | string | null
+  batch_id?: Prisma.UuidNullableFilter<"stock_issue_items"> | string | null
+  inventory_batches?: Prisma.XOR<Prisma.Inventory_batchesNullableScalarRelationFilter, Prisma.inventory_batchesWhereInput> | null
   stock_issues?: Prisma.XOR<Prisma.Stock_issuesScalarRelationFilter, Prisma.stock_issuesWhereInput>
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
 }
@@ -260,6 +269,8 @@ export type stock_issue_itemsOrderByWithRelationInput = {
   total_amount?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  inventory_batches?: Prisma.inventory_batchesOrderByWithRelationInput
   stock_issues?: Prisma.stock_issuesOrderByWithRelationInput
   products?: Prisma.productsOrderByWithRelationInput
 }
@@ -276,6 +287,8 @@ export type stock_issue_itemsWhereUniqueInput = Prisma.AtLeast<{
   total_amount?: Prisma.DecimalFilter<"stock_issue_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.StringNullableFilter<"stock_issue_items"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"stock_issue_items"> | Date | string | null
+  batch_id?: Prisma.UuidNullableFilter<"stock_issue_items"> | string | null
+  inventory_batches?: Prisma.XOR<Prisma.Inventory_batchesNullableScalarRelationFilter, Prisma.inventory_batchesWhereInput> | null
   stock_issues?: Prisma.XOR<Prisma.Stock_issuesScalarRelationFilter, Prisma.stock_issuesWhereInput>
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
 }, "id">
@@ -289,6 +302,7 @@ export type stock_issue_itemsOrderByWithAggregationInput = {
   total_amount?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_issue_itemsCountOrderByAggregateInput
   _avg?: Prisma.stock_issue_itemsAvgOrderByAggregateInput
   _max?: Prisma.stock_issue_itemsMaxOrderByAggregateInput
@@ -308,6 +322,7 @@ export type stock_issue_itemsScalarWhereWithAggregatesInput = {
   total_amount?: Prisma.DecimalWithAggregatesFilter<"stock_issue_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"stock_issue_items"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_issue_items"> | Date | string | null
+  batch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_issue_items"> | string | null
 }
 
 export type stock_issue_itemsCreateInput = {
@@ -317,6 +332,7 @@ export type stock_issue_itemsCreateInput = {
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   created_at?: Date | string | null
+  inventory_batches?: Prisma.inventory_batchesCreateNestedOneWithoutStock_issue_itemsInput
   stock_issues: Prisma.stock_issuesCreateNestedOneWithoutStock_issue_itemsInput
   products: Prisma.productsCreateNestedOneWithoutStock_issue_itemsInput
 }
@@ -330,6 +346,7 @@ export type stock_issue_itemsUncheckedCreateInput = {
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_issue_itemsUpdateInput = {
@@ -339,6 +356,7 @@ export type stock_issue_itemsUpdateInput = {
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  inventory_batches?: Prisma.inventory_batchesUpdateOneWithoutStock_issue_itemsNestedInput
   stock_issues?: Prisma.stock_issuesUpdateOneRequiredWithoutStock_issue_itemsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutStock_issue_itemsNestedInput
 }
@@ -352,6 +370,7 @@ export type stock_issue_itemsUncheckedUpdateInput = {
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_issue_itemsCreateManyInput = {
@@ -363,6 +382,7 @@ export type stock_issue_itemsCreateManyInput = {
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_issue_itemsUpdateManyMutationInput = {
@@ -383,6 +403,7 @@ export type stock_issue_itemsUncheckedUpdateManyInput = {
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Stock_issue_itemsListRelationFilter = {
@@ -404,6 +425,7 @@ export type stock_issue_itemsCountOrderByAggregateInput = {
   total_amount?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  batch_id?: Prisma.SortOrder
 }
 
 export type stock_issue_itemsAvgOrderByAggregateInput = {
@@ -421,6 +443,7 @@ export type stock_issue_itemsMaxOrderByAggregateInput = {
   total_amount?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  batch_id?: Prisma.SortOrder
 }
 
 export type stock_issue_itemsMinOrderByAggregateInput = {
@@ -432,12 +455,55 @@ export type stock_issue_itemsMinOrderByAggregateInput = {
   total_amount?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  batch_id?: Prisma.SortOrder
 }
 
 export type stock_issue_itemsSumOrderByAggregateInput = {
   quantity?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
+}
+
+export type stock_issue_itemsCreateNestedManyWithoutInventory_batchesInput = {
+  create?: Prisma.XOR<Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput, Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput> | Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput[] | Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput[]
+  connectOrCreate?: Prisma.stock_issue_itemsCreateOrConnectWithoutInventory_batchesInput | Prisma.stock_issue_itemsCreateOrConnectWithoutInventory_batchesInput[]
+  createMany?: Prisma.stock_issue_itemsCreateManyInventory_batchesInputEnvelope
+  connect?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+}
+
+export type stock_issue_itemsUncheckedCreateNestedManyWithoutInventory_batchesInput = {
+  create?: Prisma.XOR<Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput, Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput> | Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput[] | Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput[]
+  connectOrCreate?: Prisma.stock_issue_itemsCreateOrConnectWithoutInventory_batchesInput | Prisma.stock_issue_itemsCreateOrConnectWithoutInventory_batchesInput[]
+  createMany?: Prisma.stock_issue_itemsCreateManyInventory_batchesInputEnvelope
+  connect?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+}
+
+export type stock_issue_itemsUpdateManyWithoutInventory_batchesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput, Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput> | Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput[] | Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput[]
+  connectOrCreate?: Prisma.stock_issue_itemsCreateOrConnectWithoutInventory_batchesInput | Prisma.stock_issue_itemsCreateOrConnectWithoutInventory_batchesInput[]
+  upsert?: Prisma.stock_issue_itemsUpsertWithWhereUniqueWithoutInventory_batchesInput | Prisma.stock_issue_itemsUpsertWithWhereUniqueWithoutInventory_batchesInput[]
+  createMany?: Prisma.stock_issue_itemsCreateManyInventory_batchesInputEnvelope
+  set?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+  disconnect?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+  delete?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+  connect?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+  update?: Prisma.stock_issue_itemsUpdateWithWhereUniqueWithoutInventory_batchesInput | Prisma.stock_issue_itemsUpdateWithWhereUniqueWithoutInventory_batchesInput[]
+  updateMany?: Prisma.stock_issue_itemsUpdateManyWithWhereWithoutInventory_batchesInput | Prisma.stock_issue_itemsUpdateManyWithWhereWithoutInventory_batchesInput[]
+  deleteMany?: Prisma.stock_issue_itemsScalarWhereInput | Prisma.stock_issue_itemsScalarWhereInput[]
+}
+
+export type stock_issue_itemsUncheckedUpdateManyWithoutInventory_batchesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput, Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput> | Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput[] | Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput[]
+  connectOrCreate?: Prisma.stock_issue_itemsCreateOrConnectWithoutInventory_batchesInput | Prisma.stock_issue_itemsCreateOrConnectWithoutInventory_batchesInput[]
+  upsert?: Prisma.stock_issue_itemsUpsertWithWhereUniqueWithoutInventory_batchesInput | Prisma.stock_issue_itemsUpsertWithWhereUniqueWithoutInventory_batchesInput[]
+  createMany?: Prisma.stock_issue_itemsCreateManyInventory_batchesInputEnvelope
+  set?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+  disconnect?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+  delete?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+  connect?: Prisma.stock_issue_itemsWhereUniqueInput | Prisma.stock_issue_itemsWhereUniqueInput[]
+  update?: Prisma.stock_issue_itemsUpdateWithWhereUniqueWithoutInventory_batchesInput | Prisma.stock_issue_itemsUpdateWithWhereUniqueWithoutInventory_batchesInput[]
+  updateMany?: Prisma.stock_issue_itemsUpdateManyWithWhereWithoutInventory_batchesInput | Prisma.stock_issue_itemsUpdateManyWithWhereWithoutInventory_batchesInput[]
+  deleteMany?: Prisma.stock_issue_itemsScalarWhereInput | Prisma.stock_issue_itemsScalarWhereInput[]
 }
 
 export type stock_issue_itemsCreateNestedManyWithoutProductsInput = {
@@ -524,6 +590,69 @@ export type stock_issue_itemsUncheckedUpdateManyWithoutStock_issuesNestedInput =
   deleteMany?: Prisma.stock_issue_itemsScalarWhereInput | Prisma.stock_issue_itemsScalarWhereInput[]
 }
 
+export type stock_issue_itemsCreateWithoutInventory_batchesInput = {
+  id?: string
+  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  created_at?: Date | string | null
+  stock_issues: Prisma.stock_issuesCreateNestedOneWithoutStock_issue_itemsInput
+  products: Prisma.productsCreateNestedOneWithoutStock_issue_itemsInput
+}
+
+export type stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput = {
+  id?: string
+  issue_id: string
+  product_id: string
+  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  created_at?: Date | string | null
+}
+
+export type stock_issue_itemsCreateOrConnectWithoutInventory_batchesInput = {
+  where: Prisma.stock_issue_itemsWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput, Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput>
+}
+
+export type stock_issue_itemsCreateManyInventory_batchesInputEnvelope = {
+  data: Prisma.stock_issue_itemsCreateManyInventory_batchesInput | Prisma.stock_issue_itemsCreateManyInventory_batchesInput[]
+  skipDuplicates?: boolean
+}
+
+export type stock_issue_itemsUpsertWithWhereUniqueWithoutInventory_batchesInput = {
+  where: Prisma.stock_issue_itemsWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_issue_itemsUpdateWithoutInventory_batchesInput, Prisma.stock_issue_itemsUncheckedUpdateWithoutInventory_batchesInput>
+  create: Prisma.XOR<Prisma.stock_issue_itemsCreateWithoutInventory_batchesInput, Prisma.stock_issue_itemsUncheckedCreateWithoutInventory_batchesInput>
+}
+
+export type stock_issue_itemsUpdateWithWhereUniqueWithoutInventory_batchesInput = {
+  where: Prisma.stock_issue_itemsWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_issue_itemsUpdateWithoutInventory_batchesInput, Prisma.stock_issue_itemsUncheckedUpdateWithoutInventory_batchesInput>
+}
+
+export type stock_issue_itemsUpdateManyWithWhereWithoutInventory_batchesInput = {
+  where: Prisma.stock_issue_itemsScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_issue_itemsUpdateManyMutationInput, Prisma.stock_issue_itemsUncheckedUpdateManyWithoutInventory_batchesInput>
+}
+
+export type stock_issue_itemsScalarWhereInput = {
+  AND?: Prisma.stock_issue_itemsScalarWhereInput | Prisma.stock_issue_itemsScalarWhereInput[]
+  OR?: Prisma.stock_issue_itemsScalarWhereInput[]
+  NOT?: Prisma.stock_issue_itemsScalarWhereInput | Prisma.stock_issue_itemsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"stock_issue_items"> | string
+  issue_id?: Prisma.UuidFilter<"stock_issue_items"> | string
+  product_id?: Prisma.UuidFilter<"stock_issue_items"> | string
+  quantity?: Prisma.DecimalFilter<"stock_issue_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFilter<"stock_issue_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFilter<"stock_issue_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.StringNullableFilter<"stock_issue_items"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"stock_issue_items"> | Date | string | null
+  batch_id?: Prisma.UuidNullableFilter<"stock_issue_items"> | string | null
+}
+
 export type stock_issue_itemsCreateWithoutProductsInput = {
   id?: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -531,6 +660,7 @@ export type stock_issue_itemsCreateWithoutProductsInput = {
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   created_at?: Date | string | null
+  inventory_batches?: Prisma.inventory_batchesCreateNestedOneWithoutStock_issue_itemsInput
   stock_issues: Prisma.stock_issuesCreateNestedOneWithoutStock_issue_itemsInput
 }
 
@@ -542,6 +672,7 @@ export type stock_issue_itemsUncheckedCreateWithoutProductsInput = {
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_issue_itemsCreateOrConnectWithoutProductsInput = {
@@ -570,20 +701,6 @@ export type stock_issue_itemsUpdateManyWithWhereWithoutProductsInput = {
   data: Prisma.XOR<Prisma.stock_issue_itemsUpdateManyMutationInput, Prisma.stock_issue_itemsUncheckedUpdateManyWithoutProductsInput>
 }
 
-export type stock_issue_itemsScalarWhereInput = {
-  AND?: Prisma.stock_issue_itemsScalarWhereInput | Prisma.stock_issue_itemsScalarWhereInput[]
-  OR?: Prisma.stock_issue_itemsScalarWhereInput[]
-  NOT?: Prisma.stock_issue_itemsScalarWhereInput | Prisma.stock_issue_itemsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"stock_issue_items"> | string
-  issue_id?: Prisma.UuidFilter<"stock_issue_items"> | string
-  product_id?: Prisma.UuidFilter<"stock_issue_items"> | string
-  quantity?: Prisma.DecimalFilter<"stock_issue_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  unit_cost?: Prisma.DecimalFilter<"stock_issue_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  total_amount?: Prisma.DecimalFilter<"stock_issue_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  notes?: Prisma.StringNullableFilter<"stock_issue_items"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"stock_issue_items"> | Date | string | null
-}
-
 export type stock_issue_itemsCreateWithoutStock_issuesInput = {
   id?: string
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -591,6 +708,7 @@ export type stock_issue_itemsCreateWithoutStock_issuesInput = {
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   created_at?: Date | string | null
+  inventory_batches?: Prisma.inventory_batchesCreateNestedOneWithoutStock_issue_itemsInput
   products: Prisma.productsCreateNestedOneWithoutStock_issue_itemsInput
 }
 
@@ -602,6 +720,7 @@ export type stock_issue_itemsUncheckedCreateWithoutStock_issuesInput = {
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_issue_itemsCreateOrConnectWithoutStock_issuesInput = {
@@ -630,6 +749,50 @@ export type stock_issue_itemsUpdateManyWithWhereWithoutStock_issuesInput = {
   data: Prisma.XOR<Prisma.stock_issue_itemsUpdateManyMutationInput, Prisma.stock_issue_itemsUncheckedUpdateManyWithoutStock_issuesInput>
 }
 
+export type stock_issue_itemsCreateManyInventory_batchesInput = {
+  id?: string
+  issue_id: string
+  product_id: string
+  quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  created_at?: Date | string | null
+}
+
+export type stock_issue_itemsUpdateWithoutInventory_batchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stock_issues?: Prisma.stock_issuesUpdateOneRequiredWithoutStock_issue_itemsNestedInput
+  products?: Prisma.productsUpdateOneRequiredWithoutStock_issue_itemsNestedInput
+}
+
+export type stock_issue_itemsUncheckedUpdateWithoutInventory_batchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  issue_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type stock_issue_itemsUncheckedUpdateManyWithoutInventory_batchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  issue_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 export type stock_issue_itemsCreateManyProductsInput = {
   id?: string
   issue_id: string
@@ -638,6 +801,7 @@ export type stock_issue_itemsCreateManyProductsInput = {
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_issue_itemsUpdateWithoutProductsInput = {
@@ -647,6 +811,7 @@ export type stock_issue_itemsUpdateWithoutProductsInput = {
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  inventory_batches?: Prisma.inventory_batchesUpdateOneWithoutStock_issue_itemsNestedInput
   stock_issues?: Prisma.stock_issuesUpdateOneRequiredWithoutStock_issue_itemsNestedInput
 }
 
@@ -658,6 +823,7 @@ export type stock_issue_itemsUncheckedUpdateWithoutProductsInput = {
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_issue_itemsUncheckedUpdateManyWithoutProductsInput = {
@@ -668,6 +834,7 @@ export type stock_issue_itemsUncheckedUpdateManyWithoutProductsInput = {
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_issue_itemsCreateManyStock_issuesInput = {
@@ -678,6 +845,7 @@ export type stock_issue_itemsCreateManyStock_issuesInput = {
   total_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: string | null
   created_at?: Date | string | null
+  batch_id?: string | null
 }
 
 export type stock_issue_itemsUpdateWithoutStock_issuesInput = {
@@ -687,6 +855,7 @@ export type stock_issue_itemsUpdateWithoutStock_issuesInput = {
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  inventory_batches?: Prisma.inventory_batchesUpdateOneWithoutStock_issue_itemsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutStock_issue_itemsNestedInput
 }
 
@@ -698,6 +867,7 @@ export type stock_issue_itemsUncheckedUpdateWithoutStock_issuesInput = {
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_issue_itemsUncheckedUpdateManyWithoutStock_issuesInput = {
@@ -708,6 +878,7 @@ export type stock_issue_itemsUncheckedUpdateManyWithoutStock_issuesInput = {
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -721,6 +892,8 @@ export type stock_issue_itemsSelect<ExtArgs extends runtime.Types.Extensions.Int
   total_amount?: boolean
   notes?: boolean
   created_at?: boolean
+  batch_id?: boolean
+  inventory_batches?: boolean | Prisma.stock_issue_items$inventory_batchesArgs<ExtArgs>
   stock_issues?: boolean | Prisma.stock_issuesDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_issue_items"]>
@@ -734,6 +907,8 @@ export type stock_issue_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.T
   total_amount?: boolean
   notes?: boolean
   created_at?: boolean
+  batch_id?: boolean
+  inventory_batches?: boolean | Prisma.stock_issue_items$inventory_batchesArgs<ExtArgs>
   stock_issues?: boolean | Prisma.stock_issuesDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_issue_items"]>
@@ -747,6 +922,8 @@ export type stock_issue_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   total_amount?: boolean
   notes?: boolean
   created_at?: boolean
+  batch_id?: boolean
+  inventory_batches?: boolean | Prisma.stock_issue_items$inventory_batchesArgs<ExtArgs>
   stock_issues?: boolean | Prisma.stock_issuesDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_issue_items"]>
@@ -760,18 +937,22 @@ export type stock_issue_itemsSelectScalar = {
   total_amount?: boolean
   notes?: boolean
   created_at?: boolean
+  batch_id?: boolean
 }
 
-export type stock_issue_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "issue_id" | "product_id" | "quantity" | "unit_cost" | "total_amount" | "notes" | "created_at", ExtArgs["result"]["stock_issue_items"]>
+export type stock_issue_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "issue_id" | "product_id" | "quantity" | "unit_cost" | "total_amount" | "notes" | "created_at" | "batch_id", ExtArgs["result"]["stock_issue_items"]>
 export type stock_issue_itemsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  inventory_batches?: boolean | Prisma.stock_issue_items$inventory_batchesArgs<ExtArgs>
   stock_issues?: boolean | Prisma.stock_issuesDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
 }
 export type stock_issue_itemsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  inventory_batches?: boolean | Prisma.stock_issue_items$inventory_batchesArgs<ExtArgs>
   stock_issues?: boolean | Prisma.stock_issuesDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
 }
 export type stock_issue_itemsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  inventory_batches?: boolean | Prisma.stock_issue_items$inventory_batchesArgs<ExtArgs>
   stock_issues?: boolean | Prisma.stock_issuesDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
 }
@@ -779,6 +960,7 @@ export type stock_issue_itemsIncludeUpdateManyAndReturn<ExtArgs extends runtime.
 export type $stock_issue_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_issue_items"
   objects: {
+    inventory_batches: Prisma.$inventory_batchesPayload<ExtArgs> | null
     stock_issues: Prisma.$stock_issuesPayload<ExtArgs>
     products: Prisma.$productsPayload<ExtArgs>
   }
@@ -791,6 +973,7 @@ export type $stock_issue_itemsPayload<ExtArgs extends runtime.Types.Extensions.I
     total_amount: runtime.Decimal
     notes: string | null
     created_at: Date | null
+    batch_id: string | null
   }, ExtArgs["result"]["stock_issue_items"]>
   composites: {}
 }
@@ -1185,6 +1368,7 @@ readonly fields: stock_issue_itemsFieldRefs;
  */
 export interface Prisma__stock_issue_itemsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  inventory_batches<T extends Prisma.stock_issue_items$inventory_batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_issue_items$inventory_batchesArgs<ExtArgs>>): Prisma.Prisma__inventory_batchesClient<runtime.Types.Result.GetResult<Prisma.$inventory_batchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   stock_issues<T extends Prisma.stock_issuesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_issuesDefaultArgs<ExtArgs>>): Prisma.Prisma__stock_issuesClient<runtime.Types.Result.GetResult<Prisma.$stock_issuesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   products<T extends Prisma.productsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.productsDefaultArgs<ExtArgs>>): Prisma.Prisma__productsClient<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1224,6 +1408,7 @@ export interface stock_issue_itemsFieldRefs {
   readonly total_amount: Prisma.FieldRef<"stock_issue_items", 'Decimal'>
   readonly notes: Prisma.FieldRef<"stock_issue_items", 'String'>
   readonly created_at: Prisma.FieldRef<"stock_issue_items", 'DateTime'>
+  readonly batch_id: Prisma.FieldRef<"stock_issue_items", 'String'>
 }
     
 
@@ -1617,6 +1802,25 @@ export type stock_issue_itemsDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many stock_issue_items to delete.
    */
   limit?: number
+}
+
+/**
+ * stock_issue_items.inventory_batches
+ */
+export type stock_issue_items$inventory_batchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the inventory_batches
+   */
+  select?: Prisma.inventory_batchesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the inventory_batches
+   */
+  omit?: Prisma.inventory_batchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.inventory_batchesInclude<ExtArgs> | null
+  where?: Prisma.inventory_batchesWhereInput
 }
 
 /**

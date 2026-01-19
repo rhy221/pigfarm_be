@@ -281,7 +281,7 @@ export type treatment_detailsCreateInput = {
   medicine?: string | null
   dosage?: number | null
   condition?: string | null
-  disease_treatments?: Prisma.disease_treatmentsCreateNestedOneWithoutTreatment_detailsInput
+  disease_treatments?: Prisma.disease_treatmentsCreateNestedOneWithoutTreatmentDetailsInput
 }
 
 export type treatment_detailsUncheckedCreateInput = {
@@ -299,7 +299,7 @@ export type treatment_detailsUpdateInput = {
   medicine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dosage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  disease_treatments?: Prisma.disease_treatmentsUpdateOneWithoutTreatment_detailsNestedInput
+  disease_treatments?: Prisma.disease_treatmentsUpdateOneWithoutTreatmentDetailsNestedInput
 }
 
 export type treatment_detailsUncheckedUpdateInput = {
@@ -337,16 +337,6 @@ export type treatment_detailsUncheckedUpdateManyInput = {
   condition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type Treatment_detailsListRelationFilter = {
-  every?: Prisma.treatment_detailsWhereInput
-  some?: Prisma.treatment_detailsWhereInput
-  none?: Prisma.treatment_detailsWhereInput
-}
-
-export type treatment_detailsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type treatment_detailsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -380,6 +370,16 @@ export type treatment_detailsMinOrderByAggregateInput = {
 
 export type treatment_detailsSumOrderByAggregateInput = {
   dosage?: Prisma.SortOrder
+}
+
+export type Treatment_detailsListRelationFilter = {
+  every?: Prisma.treatment_detailsWhereInput
+  some?: Prisma.treatment_detailsWhereInput
+  none?: Prisma.treatment_detailsWhereInput
+}
+
+export type treatment_detailsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type treatment_detailsCreateNestedManyWithoutDisease_treatmentsInput = {

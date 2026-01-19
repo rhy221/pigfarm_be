@@ -36,28 +36,40 @@ export type Pig_shippingsSumAggregateOutputType = {
 export type Pig_shippingsMinAggregateOutputType = {
   id: string | null
   created_at: Date | null
+  receipt_code: string | null
+  export_date: Date | null
+  customer_id: string | null
   customer_name: string | null
-  address: string | null
   phone_number: string | null
+  full_address: string | null
   total_amount: runtime.Decimal | null
+  payment_status: string | null
 }
 
 export type Pig_shippingsMaxAggregateOutputType = {
   id: string | null
   created_at: Date | null
+  receipt_code: string | null
+  export_date: Date | null
+  customer_id: string | null
   customer_name: string | null
-  address: string | null
   phone_number: string | null
+  full_address: string | null
   total_amount: runtime.Decimal | null
+  payment_status: string | null
 }
 
 export type Pig_shippingsCountAggregateOutputType = {
   id: number
   created_at: number
+  receipt_code: number
+  export_date: number
+  customer_id: number
   customer_name: number
-  address: number
   phone_number: number
+  full_address: number
   total_amount: number
+  payment_status: number
   _all: number
 }
 
@@ -73,28 +85,40 @@ export type Pig_shippingsSumAggregateInputType = {
 export type Pig_shippingsMinAggregateInputType = {
   id?: true
   created_at?: true
+  receipt_code?: true
+  export_date?: true
+  customer_id?: true
   customer_name?: true
-  address?: true
   phone_number?: true
+  full_address?: true
   total_amount?: true
+  payment_status?: true
 }
 
 export type Pig_shippingsMaxAggregateInputType = {
   id?: true
   created_at?: true
+  receipt_code?: true
+  export_date?: true
+  customer_id?: true
   customer_name?: true
-  address?: true
   phone_number?: true
+  full_address?: true
   total_amount?: true
+  payment_status?: true
 }
 
 export type Pig_shippingsCountAggregateInputType = {
   id?: true
   created_at?: true
+  receipt_code?: true
+  export_date?: true
+  customer_id?: true
   customer_name?: true
-  address?: true
   phone_number?: true
+  full_address?: true
   total_amount?: true
+  payment_status?: true
   _all?: true
 }
 
@@ -187,10 +211,14 @@ export type pig_shippingsGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type Pig_shippingsGroupByOutputType = {
   id: string
   created_at: Date
+  receipt_code: string | null
+  export_date: Date | null
+  customer_id: string | null
   customer_name: string | null
-  address: string | null
   phone_number: string | null
+  full_address: string | null
   total_amount: runtime.Decimal | null
+  payment_status: string | null
   _count: Pig_shippingsCountAggregateOutputType | null
   _avg: Pig_shippingsAvgAggregateOutputType | null
   _sum: Pig_shippingsSumAggregateOutputType | null
@@ -219,21 +247,33 @@ export type pig_shippingsWhereInput = {
   NOT?: Prisma.pig_shippingsWhereInput | Prisma.pig_shippingsWhereInput[]
   id?: Prisma.UuidFilter<"pig_shippings"> | string
   created_at?: Prisma.DateTimeFilter<"pig_shippings"> | Date | string
+  receipt_code?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
+  export_date?: Prisma.DateTimeNullableFilter<"pig_shippings"> | Date | string | null
+  customer_id?: Prisma.UuidNullableFilter<"pig_shippings"> | string | null
   customer_name?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
-  address?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
   phone_number?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
+  full_address?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
   total_amount?: Prisma.DecimalNullableFilter<"pig_shippings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.UuidNullableFilter<"pig_shippings"> | string | null
   pig_shipping_details?: Prisma.Pig_shipping_detailsListRelationFilter
+  customers?: Prisma.XOR<Prisma.CustomersNullableScalarRelationFilter, Prisma.customersWhereInput> | null
+  pig_shipping_statuses?: Prisma.XOR<Prisma.Pig_shipping_statusesNullableScalarRelationFilter, Prisma.pig_shipping_statusesWhereInput> | null
 }
 
 export type pig_shippingsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  receipt_code?: Prisma.SortOrderInput | Prisma.SortOrder
+  export_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_name?: Prisma.SortOrderInput | Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
   phone_number?: Prisma.SortOrderInput | Prisma.SortOrder
+  full_address?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrderInput | Prisma.SortOrder
+  payment_status?: Prisma.SortOrderInput | Prisma.SortOrder
   pig_shipping_details?: Prisma.pig_shipping_detailsOrderByRelationAggregateInput
+  customers?: Prisma.customersOrderByWithRelationInput
+  pig_shipping_statuses?: Prisma.pig_shipping_statusesOrderByWithRelationInput
 }
 
 export type pig_shippingsWhereUniqueInput = Prisma.AtLeast<{
@@ -242,20 +282,30 @@ export type pig_shippingsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.pig_shippingsWhereInput[]
   NOT?: Prisma.pig_shippingsWhereInput | Prisma.pig_shippingsWhereInput[]
   created_at?: Prisma.DateTimeFilter<"pig_shippings"> | Date | string
+  receipt_code?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
+  export_date?: Prisma.DateTimeNullableFilter<"pig_shippings"> | Date | string | null
+  customer_id?: Prisma.UuidNullableFilter<"pig_shippings"> | string | null
   customer_name?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
-  address?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
   phone_number?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
+  full_address?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
   total_amount?: Prisma.DecimalNullableFilter<"pig_shippings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.UuidNullableFilter<"pig_shippings"> | string | null
   pig_shipping_details?: Prisma.Pig_shipping_detailsListRelationFilter
+  customers?: Prisma.XOR<Prisma.CustomersNullableScalarRelationFilter, Prisma.customersWhereInput> | null
+  pig_shipping_statuses?: Prisma.XOR<Prisma.Pig_shipping_statusesNullableScalarRelationFilter, Prisma.pig_shipping_statusesWhereInput> | null
 }, "id">
 
 export type pig_shippingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  receipt_code?: Prisma.SortOrderInput | Prisma.SortOrder
+  export_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_name?: Prisma.SortOrderInput | Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
   phone_number?: Prisma.SortOrderInput | Prisma.SortOrder
+  full_address?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrderInput | Prisma.SortOrder
+  payment_status?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.pig_shippingsCountOrderByAggregateInput
   _avg?: Prisma.pig_shippingsAvgOrderByAggregateInput
   _max?: Prisma.pig_shippingsMaxOrderByAggregateInput
@@ -269,77 +319,107 @@ export type pig_shippingsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.pig_shippingsScalarWhereWithAggregatesInput | Prisma.pig_shippingsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"pig_shippings"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"pig_shippings"> | Date | string
+  receipt_code?: Prisma.StringNullableWithAggregatesFilter<"pig_shippings"> | string | null
+  export_date?: Prisma.DateTimeNullableWithAggregatesFilter<"pig_shippings"> | Date | string | null
+  customer_id?: Prisma.UuidNullableWithAggregatesFilter<"pig_shippings"> | string | null
   customer_name?: Prisma.StringNullableWithAggregatesFilter<"pig_shippings"> | string | null
-  address?: Prisma.StringNullableWithAggregatesFilter<"pig_shippings"> | string | null
   phone_number?: Prisma.StringNullableWithAggregatesFilter<"pig_shippings"> | string | null
+  full_address?: Prisma.StringNullableWithAggregatesFilter<"pig_shippings"> | string | null
   total_amount?: Prisma.DecimalNullableWithAggregatesFilter<"pig_shippings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.UuidNullableWithAggregatesFilter<"pig_shippings"> | string | null
 }
 
 export type pig_shippingsCreateInput = {
   id?: string
   created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
   customer_name?: string | null
-  address?: string | null
   phone_number?: string | null
+  full_address?: string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   pig_shipping_details?: Prisma.pig_shipping_detailsCreateNestedManyWithoutPig_shippingsInput
+  customers?: Prisma.customersCreateNestedOneWithoutPig_shippingsInput
+  pig_shipping_statuses?: Prisma.pig_shipping_statusesCreateNestedOneWithoutPig_shippingsInput
 }
 
 export type pig_shippingsUncheckedCreateInput = {
   id?: string
   created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
+  customer_id?: string | null
   customer_name?: string | null
-  address?: string | null
   phone_number?: string | null
+  full_address?: string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: string | null
   pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedCreateNestedManyWithoutPig_shippingsInput
 }
 
 export type pig_shippingsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   pig_shipping_details?: Prisma.pig_shipping_detailsUpdateManyWithoutPig_shippingsNestedInput
+  customers?: Prisma.customersUpdateOneWithoutPig_shippingsNestedInput
+  pig_shipping_statuses?: Prisma.pig_shipping_statusesUpdateOneWithoutPig_shippingsNestedInput
 }
 
 export type pig_shippingsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedUpdateManyWithoutPig_shippingsNestedInput
 }
 
 export type pig_shippingsCreateManyInput = {
   id?: string
   created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
+  customer_id?: string | null
   customer_name?: string | null
-  address?: string | null
   phone_number?: string | null
+  full_address?: string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: string | null
 }
 
 export type pig_shippingsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type pig_shippingsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Pig_shippingsNullableScalarRelationFilter = {
@@ -347,13 +427,27 @@ export type Pig_shippingsNullableScalarRelationFilter = {
   isNot?: Prisma.pig_shippingsWhereInput | null
 }
 
+export type Pig_shippingsListRelationFilter = {
+  every?: Prisma.pig_shippingsWhereInput
+  some?: Prisma.pig_shippingsWhereInput
+  none?: Prisma.pig_shippingsWhereInput
+}
+
+export type pig_shippingsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type pig_shippingsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  receipt_code?: Prisma.SortOrder
+  export_date?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   customer_name?: Prisma.SortOrder
-  address?: Prisma.SortOrder
   phone_number?: Prisma.SortOrder
+  full_address?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
+  payment_status?: Prisma.SortOrder
 }
 
 export type pig_shippingsAvgOrderByAggregateInput = {
@@ -363,19 +457,27 @@ export type pig_shippingsAvgOrderByAggregateInput = {
 export type pig_shippingsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  receipt_code?: Prisma.SortOrder
+  export_date?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   customer_name?: Prisma.SortOrder
-  address?: Prisma.SortOrder
   phone_number?: Prisma.SortOrder
+  full_address?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
+  payment_status?: Prisma.SortOrder
 }
 
 export type pig_shippingsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  receipt_code?: Prisma.SortOrder
+  export_date?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   customer_name?: Prisma.SortOrder
-  address?: Prisma.SortOrder
   phone_number?: Prisma.SortOrder
+  full_address?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
+  payment_status?: Prisma.SortOrder
 }
 
 export type pig_shippingsSumOrderByAggregateInput = {
@@ -398,22 +500,114 @@ export type pig_shippingsUpdateOneWithoutPig_shipping_detailsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.pig_shippingsUpdateToOneWithWhereWithoutPig_shipping_detailsInput, Prisma.pig_shippingsUpdateWithoutPig_shipping_detailsInput>, Prisma.pig_shippingsUncheckedUpdateWithoutPig_shipping_detailsInput>
 }
 
+export type pig_shippingsCreateNestedManyWithoutPig_shipping_statusesInput = {
+  create?: Prisma.XOR<Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput, Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput> | Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput[] | Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput[]
+  connectOrCreate?: Prisma.pig_shippingsCreateOrConnectWithoutPig_shipping_statusesInput | Prisma.pig_shippingsCreateOrConnectWithoutPig_shipping_statusesInput[]
+  createMany?: Prisma.pig_shippingsCreateManyPig_shipping_statusesInputEnvelope
+  connect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+}
+
+export type pig_shippingsUncheckedCreateNestedManyWithoutPig_shipping_statusesInput = {
+  create?: Prisma.XOR<Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput, Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput> | Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput[] | Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput[]
+  connectOrCreate?: Prisma.pig_shippingsCreateOrConnectWithoutPig_shipping_statusesInput | Prisma.pig_shippingsCreateOrConnectWithoutPig_shipping_statusesInput[]
+  createMany?: Prisma.pig_shippingsCreateManyPig_shipping_statusesInputEnvelope
+  connect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+}
+
+export type pig_shippingsUpdateManyWithoutPig_shipping_statusesNestedInput = {
+  create?: Prisma.XOR<Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput, Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput> | Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput[] | Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput[]
+  connectOrCreate?: Prisma.pig_shippingsCreateOrConnectWithoutPig_shipping_statusesInput | Prisma.pig_shippingsCreateOrConnectWithoutPig_shipping_statusesInput[]
+  upsert?: Prisma.pig_shippingsUpsertWithWhereUniqueWithoutPig_shipping_statusesInput | Prisma.pig_shippingsUpsertWithWhereUniqueWithoutPig_shipping_statusesInput[]
+  createMany?: Prisma.pig_shippingsCreateManyPig_shipping_statusesInputEnvelope
+  set?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  disconnect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  delete?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  connect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  update?: Prisma.pig_shippingsUpdateWithWhereUniqueWithoutPig_shipping_statusesInput | Prisma.pig_shippingsUpdateWithWhereUniqueWithoutPig_shipping_statusesInput[]
+  updateMany?: Prisma.pig_shippingsUpdateManyWithWhereWithoutPig_shipping_statusesInput | Prisma.pig_shippingsUpdateManyWithWhereWithoutPig_shipping_statusesInput[]
+  deleteMany?: Prisma.pig_shippingsScalarWhereInput | Prisma.pig_shippingsScalarWhereInput[]
+}
+
+export type pig_shippingsUncheckedUpdateManyWithoutPig_shipping_statusesNestedInput = {
+  create?: Prisma.XOR<Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput, Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput> | Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput[] | Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput[]
+  connectOrCreate?: Prisma.pig_shippingsCreateOrConnectWithoutPig_shipping_statusesInput | Prisma.pig_shippingsCreateOrConnectWithoutPig_shipping_statusesInput[]
+  upsert?: Prisma.pig_shippingsUpsertWithWhereUniqueWithoutPig_shipping_statusesInput | Prisma.pig_shippingsUpsertWithWhereUniqueWithoutPig_shipping_statusesInput[]
+  createMany?: Prisma.pig_shippingsCreateManyPig_shipping_statusesInputEnvelope
+  set?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  disconnect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  delete?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  connect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  update?: Prisma.pig_shippingsUpdateWithWhereUniqueWithoutPig_shipping_statusesInput | Prisma.pig_shippingsUpdateWithWhereUniqueWithoutPig_shipping_statusesInput[]
+  updateMany?: Prisma.pig_shippingsUpdateManyWithWhereWithoutPig_shipping_statusesInput | Prisma.pig_shippingsUpdateManyWithWhereWithoutPig_shipping_statusesInput[]
+  deleteMany?: Prisma.pig_shippingsScalarWhereInput | Prisma.pig_shippingsScalarWhereInput[]
+}
+
+export type pig_shippingsCreateNestedManyWithoutCustomersInput = {
+  create?: Prisma.XOR<Prisma.pig_shippingsCreateWithoutCustomersInput, Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput> | Prisma.pig_shippingsCreateWithoutCustomersInput[] | Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput[]
+  connectOrCreate?: Prisma.pig_shippingsCreateOrConnectWithoutCustomersInput | Prisma.pig_shippingsCreateOrConnectWithoutCustomersInput[]
+  createMany?: Prisma.pig_shippingsCreateManyCustomersInputEnvelope
+  connect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+}
+
+export type pig_shippingsUncheckedCreateNestedManyWithoutCustomersInput = {
+  create?: Prisma.XOR<Prisma.pig_shippingsCreateWithoutCustomersInput, Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput> | Prisma.pig_shippingsCreateWithoutCustomersInput[] | Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput[]
+  connectOrCreate?: Prisma.pig_shippingsCreateOrConnectWithoutCustomersInput | Prisma.pig_shippingsCreateOrConnectWithoutCustomersInput[]
+  createMany?: Prisma.pig_shippingsCreateManyCustomersInputEnvelope
+  connect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+}
+
+export type pig_shippingsUpdateManyWithoutCustomersNestedInput = {
+  create?: Prisma.XOR<Prisma.pig_shippingsCreateWithoutCustomersInput, Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput> | Prisma.pig_shippingsCreateWithoutCustomersInput[] | Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput[]
+  connectOrCreate?: Prisma.pig_shippingsCreateOrConnectWithoutCustomersInput | Prisma.pig_shippingsCreateOrConnectWithoutCustomersInput[]
+  upsert?: Prisma.pig_shippingsUpsertWithWhereUniqueWithoutCustomersInput | Prisma.pig_shippingsUpsertWithWhereUniqueWithoutCustomersInput[]
+  createMany?: Prisma.pig_shippingsCreateManyCustomersInputEnvelope
+  set?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  disconnect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  delete?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  connect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  update?: Prisma.pig_shippingsUpdateWithWhereUniqueWithoutCustomersInput | Prisma.pig_shippingsUpdateWithWhereUniqueWithoutCustomersInput[]
+  updateMany?: Prisma.pig_shippingsUpdateManyWithWhereWithoutCustomersInput | Prisma.pig_shippingsUpdateManyWithWhereWithoutCustomersInput[]
+  deleteMany?: Prisma.pig_shippingsScalarWhereInput | Prisma.pig_shippingsScalarWhereInput[]
+}
+
+export type pig_shippingsUncheckedUpdateManyWithoutCustomersNestedInput = {
+  create?: Prisma.XOR<Prisma.pig_shippingsCreateWithoutCustomersInput, Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput> | Prisma.pig_shippingsCreateWithoutCustomersInput[] | Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput[]
+  connectOrCreate?: Prisma.pig_shippingsCreateOrConnectWithoutCustomersInput | Prisma.pig_shippingsCreateOrConnectWithoutCustomersInput[]
+  upsert?: Prisma.pig_shippingsUpsertWithWhereUniqueWithoutCustomersInput | Prisma.pig_shippingsUpsertWithWhereUniqueWithoutCustomersInput[]
+  createMany?: Prisma.pig_shippingsCreateManyCustomersInputEnvelope
+  set?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  disconnect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  delete?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  connect?: Prisma.pig_shippingsWhereUniqueInput | Prisma.pig_shippingsWhereUniqueInput[]
+  update?: Prisma.pig_shippingsUpdateWithWhereUniqueWithoutCustomersInput | Prisma.pig_shippingsUpdateWithWhereUniqueWithoutCustomersInput[]
+  updateMany?: Prisma.pig_shippingsUpdateManyWithWhereWithoutCustomersInput | Prisma.pig_shippingsUpdateManyWithWhereWithoutCustomersInput[]
+  deleteMany?: Prisma.pig_shippingsScalarWhereInput | Prisma.pig_shippingsScalarWhereInput[]
+}
+
 export type pig_shippingsCreateWithoutPig_shipping_detailsInput = {
   id?: string
   created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
   customer_name?: string | null
-  address?: string | null
   phone_number?: string | null
+  full_address?: string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  customers?: Prisma.customersCreateNestedOneWithoutPig_shippingsInput
+  pig_shipping_statuses?: Prisma.pig_shipping_statusesCreateNestedOneWithoutPig_shippingsInput
 }
 
 export type pig_shippingsUncheckedCreateWithoutPig_shipping_detailsInput = {
   id?: string
   created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
+  customer_id?: string | null
   customer_name?: string | null
-  address?: string | null
   phone_number?: string | null
+  full_address?: string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: string | null
 }
 
 export type pig_shippingsCreateOrConnectWithoutPig_shipping_detailsInput = {
@@ -435,19 +629,247 @@ export type pig_shippingsUpdateToOneWithWhereWithoutPig_shipping_detailsInput = 
 export type pig_shippingsUpdateWithoutPig_shipping_detailsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  customers?: Prisma.customersUpdateOneWithoutPig_shippingsNestedInput
+  pig_shipping_statuses?: Prisma.pig_shipping_statusesUpdateOneWithoutPig_shippingsNestedInput
 }
 
 export type pig_shippingsUncheckedUpdateWithoutPig_shipping_detailsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type pig_shippingsCreateWithoutPig_shipping_statusesInput = {
+  id?: string
+  created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
+  customer_name?: string | null
+  phone_number?: string | null
+  full_address?: string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pig_shipping_details?: Prisma.pig_shipping_detailsCreateNestedManyWithoutPig_shippingsInput
+  customers?: Prisma.customersCreateNestedOneWithoutPig_shippingsInput
+}
+
+export type pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput = {
+  id?: string
+  created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
+  customer_id?: string | null
+  customer_name?: string | null
+  phone_number?: string | null
+  full_address?: string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedCreateNestedManyWithoutPig_shippingsInput
+}
+
+export type pig_shippingsCreateOrConnectWithoutPig_shipping_statusesInput = {
+  where: Prisma.pig_shippingsWhereUniqueInput
+  create: Prisma.XOR<Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput, Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput>
+}
+
+export type pig_shippingsCreateManyPig_shipping_statusesInputEnvelope = {
+  data: Prisma.pig_shippingsCreateManyPig_shipping_statusesInput | Prisma.pig_shippingsCreateManyPig_shipping_statusesInput[]
+  skipDuplicates?: boolean
+}
+
+export type pig_shippingsUpsertWithWhereUniqueWithoutPig_shipping_statusesInput = {
+  where: Prisma.pig_shippingsWhereUniqueInput
+  update: Prisma.XOR<Prisma.pig_shippingsUpdateWithoutPig_shipping_statusesInput, Prisma.pig_shippingsUncheckedUpdateWithoutPig_shipping_statusesInput>
+  create: Prisma.XOR<Prisma.pig_shippingsCreateWithoutPig_shipping_statusesInput, Prisma.pig_shippingsUncheckedCreateWithoutPig_shipping_statusesInput>
+}
+
+export type pig_shippingsUpdateWithWhereUniqueWithoutPig_shipping_statusesInput = {
+  where: Prisma.pig_shippingsWhereUniqueInput
+  data: Prisma.XOR<Prisma.pig_shippingsUpdateWithoutPig_shipping_statusesInput, Prisma.pig_shippingsUncheckedUpdateWithoutPig_shipping_statusesInput>
+}
+
+export type pig_shippingsUpdateManyWithWhereWithoutPig_shipping_statusesInput = {
+  where: Prisma.pig_shippingsScalarWhereInput
+  data: Prisma.XOR<Prisma.pig_shippingsUpdateManyMutationInput, Prisma.pig_shippingsUncheckedUpdateManyWithoutPig_shipping_statusesInput>
+}
+
+export type pig_shippingsScalarWhereInput = {
+  AND?: Prisma.pig_shippingsScalarWhereInput | Prisma.pig_shippingsScalarWhereInput[]
+  OR?: Prisma.pig_shippingsScalarWhereInput[]
+  NOT?: Prisma.pig_shippingsScalarWhereInput | Prisma.pig_shippingsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"pig_shippings"> | string
+  created_at?: Prisma.DateTimeFilter<"pig_shippings"> | Date | string
+  receipt_code?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
+  export_date?: Prisma.DateTimeNullableFilter<"pig_shippings"> | Date | string | null
+  customer_id?: Prisma.UuidNullableFilter<"pig_shippings"> | string | null
+  customer_name?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
+  phone_number?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
+  full_address?: Prisma.StringNullableFilter<"pig_shippings"> | string | null
+  total_amount?: Prisma.DecimalNullableFilter<"pig_shippings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.UuidNullableFilter<"pig_shippings"> | string | null
+}
+
+export type pig_shippingsCreateWithoutCustomersInput = {
+  id?: string
+  created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
+  customer_name?: string | null
+  phone_number?: string | null
+  full_address?: string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pig_shipping_details?: Prisma.pig_shipping_detailsCreateNestedManyWithoutPig_shippingsInput
+  pig_shipping_statuses?: Prisma.pig_shipping_statusesCreateNestedOneWithoutPig_shippingsInput
+}
+
+export type pig_shippingsUncheckedCreateWithoutCustomersInput = {
+  id?: string
+  created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
+  customer_name?: string | null
+  phone_number?: string | null
+  full_address?: string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: string | null
+  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedCreateNestedManyWithoutPig_shippingsInput
+}
+
+export type pig_shippingsCreateOrConnectWithoutCustomersInput = {
+  where: Prisma.pig_shippingsWhereUniqueInput
+  create: Prisma.XOR<Prisma.pig_shippingsCreateWithoutCustomersInput, Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput>
+}
+
+export type pig_shippingsCreateManyCustomersInputEnvelope = {
+  data: Prisma.pig_shippingsCreateManyCustomersInput | Prisma.pig_shippingsCreateManyCustomersInput[]
+  skipDuplicates?: boolean
+}
+
+export type pig_shippingsUpsertWithWhereUniqueWithoutCustomersInput = {
+  where: Prisma.pig_shippingsWhereUniqueInput
+  update: Prisma.XOR<Prisma.pig_shippingsUpdateWithoutCustomersInput, Prisma.pig_shippingsUncheckedUpdateWithoutCustomersInput>
+  create: Prisma.XOR<Prisma.pig_shippingsCreateWithoutCustomersInput, Prisma.pig_shippingsUncheckedCreateWithoutCustomersInput>
+}
+
+export type pig_shippingsUpdateWithWhereUniqueWithoutCustomersInput = {
+  where: Prisma.pig_shippingsWhereUniqueInput
+  data: Prisma.XOR<Prisma.pig_shippingsUpdateWithoutCustomersInput, Prisma.pig_shippingsUncheckedUpdateWithoutCustomersInput>
+}
+
+export type pig_shippingsUpdateManyWithWhereWithoutCustomersInput = {
+  where: Prisma.pig_shippingsScalarWhereInput
+  data: Prisma.XOR<Prisma.pig_shippingsUpdateManyMutationInput, Prisma.pig_shippingsUncheckedUpdateManyWithoutCustomersInput>
+}
+
+export type pig_shippingsCreateManyPig_shipping_statusesInput = {
+  id?: string
+  created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
+  customer_id?: string | null
+  customer_name?: string | null
+  phone_number?: string | null
+  full_address?: string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type pig_shippingsUpdateWithoutPig_shipping_statusesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pig_shipping_details?: Prisma.pig_shipping_detailsUpdateManyWithoutPig_shippingsNestedInput
+  customers?: Prisma.customersUpdateOneWithoutPig_shippingsNestedInput
+}
+
+export type pig_shippingsUncheckedUpdateWithoutPig_shipping_statusesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedUpdateManyWithoutPig_shippingsNestedInput
+}
+
+export type pig_shippingsUncheckedUpdateManyWithoutPig_shipping_statusesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type pig_shippingsCreateManyCustomersInput = {
+  id?: string
+  created_at?: Date | string
+  receipt_code?: string | null
+  export_date?: Date | string | null
+  customer_name?: string | null
+  phone_number?: string | null
+  full_address?: string | null
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: string | null
+}
+
+export type pig_shippingsUpdateWithoutCustomersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pig_shipping_details?: Prisma.pig_shipping_detailsUpdateManyWithoutPig_shippingsNestedInput
+  pig_shipping_statuses?: Prisma.pig_shipping_statusesUpdateOneWithoutPig_shippingsNestedInput
+}
+
+export type pig_shippingsUncheckedUpdateWithoutCustomersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_shipping_details?: Prisma.pig_shipping_detailsUncheckedUpdateManyWithoutPig_shippingsNestedInput
+}
+
+export type pig_shippingsUncheckedUpdateManyWithoutCustomersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receipt_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  export_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  payment_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -484,61 +906,97 @@ export type Pig_shippingsCountOutputTypeCountPig_shipping_detailsArgs<ExtArgs ex
 export type pig_shippingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
+  receipt_code?: boolean
+  export_date?: boolean
+  customer_id?: boolean
   customer_name?: boolean
-  address?: boolean
   phone_number?: boolean
+  full_address?: boolean
   total_amount?: boolean
+  payment_status?: boolean
   pig_shipping_details?: boolean | Prisma.pig_shippings$pig_shipping_detailsArgs<ExtArgs>
+  customers?: boolean | Prisma.pig_shippings$customersArgs<ExtArgs>
+  pig_shipping_statuses?: boolean | Prisma.pig_shippings$pig_shipping_statusesArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_shippingsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pig_shippings"]>
 
 export type pig_shippingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
+  receipt_code?: boolean
+  export_date?: boolean
+  customer_id?: boolean
   customer_name?: boolean
-  address?: boolean
   phone_number?: boolean
+  full_address?: boolean
   total_amount?: boolean
+  payment_status?: boolean
+  customers?: boolean | Prisma.pig_shippings$customersArgs<ExtArgs>
+  pig_shipping_statuses?: boolean | Prisma.pig_shippings$pig_shipping_statusesArgs<ExtArgs>
 }, ExtArgs["result"]["pig_shippings"]>
 
 export type pig_shippingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
+  receipt_code?: boolean
+  export_date?: boolean
+  customer_id?: boolean
   customer_name?: boolean
-  address?: boolean
   phone_number?: boolean
+  full_address?: boolean
   total_amount?: boolean
+  payment_status?: boolean
+  customers?: boolean | Prisma.pig_shippings$customersArgs<ExtArgs>
+  pig_shipping_statuses?: boolean | Prisma.pig_shippings$pig_shipping_statusesArgs<ExtArgs>
 }, ExtArgs["result"]["pig_shippings"]>
 
 export type pig_shippingsSelectScalar = {
   id?: boolean
   created_at?: boolean
+  receipt_code?: boolean
+  export_date?: boolean
+  customer_id?: boolean
   customer_name?: boolean
-  address?: boolean
   phone_number?: boolean
+  full_address?: boolean
   total_amount?: boolean
+  payment_status?: boolean
 }
 
-export type pig_shippingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "customer_name" | "address" | "phone_number" | "total_amount", ExtArgs["result"]["pig_shippings"]>
+export type pig_shippingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "receipt_code" | "export_date" | "customer_id" | "customer_name" | "phone_number" | "full_address" | "total_amount" | "payment_status", ExtArgs["result"]["pig_shippings"]>
 export type pig_shippingsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pig_shipping_details?: boolean | Prisma.pig_shippings$pig_shipping_detailsArgs<ExtArgs>
+  customers?: boolean | Prisma.pig_shippings$customersArgs<ExtArgs>
+  pig_shipping_statuses?: boolean | Prisma.pig_shippings$pig_shipping_statusesArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_shippingsCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type pig_shippingsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type pig_shippingsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type pig_shippingsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  customers?: boolean | Prisma.pig_shippings$customersArgs<ExtArgs>
+  pig_shipping_statuses?: boolean | Prisma.pig_shippings$pig_shipping_statusesArgs<ExtArgs>
+}
+export type pig_shippingsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  customers?: boolean | Prisma.pig_shippings$customersArgs<ExtArgs>
+  pig_shipping_statuses?: boolean | Prisma.pig_shippings$pig_shipping_statusesArgs<ExtArgs>
+}
 
 export type $pig_shippingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "pig_shippings"
   objects: {
     pig_shipping_details: Prisma.$pig_shipping_detailsPayload<ExtArgs>[]
+    customers: Prisma.$customersPayload<ExtArgs> | null
+    pig_shipping_statuses: Prisma.$pig_shipping_statusesPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     created_at: Date
+    receipt_code: string | null
+    export_date: Date | null
+    customer_id: string | null
     customer_name: string | null
-    address: string | null
     phone_number: string | null
+    full_address: string | null
     total_amount: runtime.Decimal | null
+    payment_status: string | null
   }, ExtArgs["result"]["pig_shippings"]>
   composites: {}
 }
@@ -934,6 +1392,8 @@ readonly fields: pig_shippingsFieldRefs;
 export interface Prisma__pig_shippingsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   pig_shipping_details<T extends Prisma.pig_shippings$pig_shipping_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_shippings$pig_shipping_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_shipping_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  customers<T extends Prisma.pig_shippings$customersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_shippings$customersArgs<ExtArgs>>): Prisma.Prisma__customersClient<runtime.Types.Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  pig_shipping_statuses<T extends Prisma.pig_shippings$pig_shipping_statusesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_shippings$pig_shipping_statusesArgs<ExtArgs>>): Prisma.Prisma__pig_shipping_statusesClient<runtime.Types.Result.GetResult<Prisma.$pig_shipping_statusesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -965,10 +1425,14 @@ export interface Prisma__pig_shippingsClient<T, Null = never, ExtArgs extends ru
 export interface pig_shippingsFieldRefs {
   readonly id: Prisma.FieldRef<"pig_shippings", 'String'>
   readonly created_at: Prisma.FieldRef<"pig_shippings", 'DateTime'>
+  readonly receipt_code: Prisma.FieldRef<"pig_shippings", 'String'>
+  readonly export_date: Prisma.FieldRef<"pig_shippings", 'DateTime'>
+  readonly customer_id: Prisma.FieldRef<"pig_shippings", 'String'>
   readonly customer_name: Prisma.FieldRef<"pig_shippings", 'String'>
-  readonly address: Prisma.FieldRef<"pig_shippings", 'String'>
   readonly phone_number: Prisma.FieldRef<"pig_shippings", 'String'>
+  readonly full_address: Prisma.FieldRef<"pig_shippings", 'String'>
   readonly total_amount: Prisma.FieldRef<"pig_shippings", 'Decimal'>
+  readonly payment_status: Prisma.FieldRef<"pig_shippings", 'String'>
 }
     
 
@@ -1218,6 +1682,10 @@ export type pig_shippingsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    */
   data: Prisma.pig_shippingsCreateManyInput | Prisma.pig_shippingsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.pig_shippingsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1288,6 +1756,10 @@ export type pig_shippingsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * Limit how many pig_shippings to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.pig_shippingsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1378,6 +1850,44 @@ export type pig_shippings$pig_shipping_detailsArgs<ExtArgs extends runtime.Types
   take?: number
   skip?: number
   distinct?: Prisma.Pig_shipping_detailsScalarFieldEnum | Prisma.Pig_shipping_detailsScalarFieldEnum[]
+}
+
+/**
+ * pig_shippings.customers
+ */
+export type pig_shippings$customersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the customers
+   */
+  select?: Prisma.customersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the customers
+   */
+  omit?: Prisma.customersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customersInclude<ExtArgs> | null
+  where?: Prisma.customersWhereInput
+}
+
+/**
+ * pig_shippings.pig_shipping_statuses
+ */
+export type pig_shippings$pig_shipping_statusesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the pig_shipping_statuses
+   */
+  select?: Prisma.pig_shipping_statusesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the pig_shipping_statuses
+   */
+  omit?: Prisma.pig_shipping_statusesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.pig_shipping_statusesInclude<ExtArgs> | null
+  where?: Prisma.pig_shipping_statusesWhereInput
 }
 
 /**

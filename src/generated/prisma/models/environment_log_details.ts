@@ -528,6 +528,14 @@ export type environment_log_detailsUncheckedUpdateManyWithoutEmployeesNestedInpu
   deleteMany?: Prisma.environment_log_detailsScalarWhereInput | Prisma.environment_log_detailsScalarWhereInput[]
 }
 
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type environment_log_detailsCreateNestedManyWithoutEnvironment_logsInput = {
   create?: Prisma.XOR<Prisma.environment_log_detailsCreateWithoutEnvironment_logsInput, Prisma.environment_log_detailsUncheckedCreateWithoutEnvironment_logsInput> | Prisma.environment_log_detailsCreateWithoutEnvironment_logsInput[] | Prisma.environment_log_detailsUncheckedCreateWithoutEnvironment_logsInput[]
   connectOrCreate?: Prisma.environment_log_detailsCreateOrConnectWithoutEnvironment_logsInput | Prisma.environment_log_detailsCreateOrConnectWithoutEnvironment_logsInput[]

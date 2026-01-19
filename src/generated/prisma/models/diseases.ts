@@ -13,7 +13,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model diseases
- * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * 
  */
 export type diseasesModel = runtime.Types.Result.DefaultSelection<Prisma.$diseasesPayload>
 
@@ -279,22 +279,6 @@ export type diseasesMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
 }
 
-export type diseasesCreateNestedOneWithoutDisease_treatmentsInput = {
-  create?: Prisma.XOR<Prisma.diseasesCreateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedCreateWithoutDisease_treatmentsInput>
-  connectOrCreate?: Prisma.diseasesCreateOrConnectWithoutDisease_treatmentsInput
-  connect?: Prisma.diseasesWhereUniqueInput
-}
-
-export type diseasesUpdateOneWithoutDisease_treatmentsNestedInput = {
-  create?: Prisma.XOR<Prisma.diseasesCreateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedCreateWithoutDisease_treatmentsInput>
-  connectOrCreate?: Prisma.diseasesCreateOrConnectWithoutDisease_treatmentsInput
-  upsert?: Prisma.diseasesUpsertWithoutDisease_treatmentsInput
-  disconnect?: Prisma.diseasesWhereInput | boolean
-  delete?: Prisma.diseasesWhereInput | boolean
-  connect?: Prisma.diseasesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.diseasesUpdateToOneWithWhereWithoutDisease_treatmentsInput, Prisma.diseasesUpdateWithoutDisease_treatmentsInput>, Prisma.diseasesUncheckedUpdateWithoutDisease_treatmentsInput>
-}
-
 export type diseasesCreateNestedOneWithoutVaccine_report_detailsInput = {
   create?: Prisma.XOR<Prisma.diseasesCreateWithoutVaccine_report_detailsInput, Prisma.diseasesUncheckedCreateWithoutVaccine_report_detailsInput>
   connectOrCreate?: Prisma.diseasesCreateOrConnectWithoutVaccine_report_detailsInput
@@ -311,48 +295,20 @@ export type diseasesUpdateOneWithoutVaccine_report_detailsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.diseasesUpdateToOneWithWhereWithoutVaccine_report_detailsInput, Prisma.diseasesUpdateWithoutVaccine_report_detailsInput>, Prisma.diseasesUncheckedUpdateWithoutVaccine_report_detailsInput>
 }
 
-export type diseasesCreateWithoutDisease_treatmentsInput = {
-  id?: string
-  created_at?: Date | string
-  name?: string | null
-  vaccine_report_details?: Prisma.vaccine_report_detailsCreateNestedManyWithoutDiseasesInput
+export type diseasesCreateNestedOneWithoutDisease_treatmentsInput = {
+  create?: Prisma.XOR<Prisma.diseasesCreateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedCreateWithoutDisease_treatmentsInput>
+  connectOrCreate?: Prisma.diseasesCreateOrConnectWithoutDisease_treatmentsInput
+  connect?: Prisma.diseasesWhereUniqueInput
 }
 
-export type diseasesUncheckedCreateWithoutDisease_treatmentsInput = {
-  id?: string
-  created_at?: Date | string
-  name?: string | null
-  vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedCreateNestedManyWithoutDiseasesInput
-}
-
-export type diseasesCreateOrConnectWithoutDisease_treatmentsInput = {
-  where: Prisma.diseasesWhereUniqueInput
-  create: Prisma.XOR<Prisma.diseasesCreateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedCreateWithoutDisease_treatmentsInput>
-}
-
-export type diseasesUpsertWithoutDisease_treatmentsInput = {
-  update: Prisma.XOR<Prisma.diseasesUpdateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedUpdateWithoutDisease_treatmentsInput>
-  create: Prisma.XOR<Prisma.diseasesCreateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedCreateWithoutDisease_treatmentsInput>
-  where?: Prisma.diseasesWhereInput
-}
-
-export type diseasesUpdateToOneWithWhereWithoutDisease_treatmentsInput = {
-  where?: Prisma.diseasesWhereInput
-  data: Prisma.XOR<Prisma.diseasesUpdateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedUpdateWithoutDisease_treatmentsInput>
-}
-
-export type diseasesUpdateWithoutDisease_treatmentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  vaccine_report_details?: Prisma.vaccine_report_detailsUpdateManyWithoutDiseasesNestedInput
-}
-
-export type diseasesUncheckedUpdateWithoutDisease_treatmentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedUpdateManyWithoutDiseasesNestedInput
+export type diseasesUpdateOneWithoutDisease_treatmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.diseasesCreateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedCreateWithoutDisease_treatmentsInput>
+  connectOrCreate?: Prisma.diseasesCreateOrConnectWithoutDisease_treatmentsInput
+  upsert?: Prisma.diseasesUpsertWithoutDisease_treatmentsInput
+  disconnect?: Prisma.diseasesWhereInput | boolean
+  delete?: Prisma.diseasesWhereInput | boolean
+  connect?: Prisma.diseasesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.diseasesUpdateToOneWithWhereWithoutDisease_treatmentsInput, Prisma.diseasesUpdateWithoutDisease_treatmentsInput>, Prisma.diseasesUncheckedUpdateWithoutDisease_treatmentsInput>
 }
 
 export type diseasesCreateWithoutVaccine_report_detailsInput = {
@@ -397,6 +353,50 @@ export type diseasesUncheckedUpdateWithoutVaccine_report_detailsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   disease_treatments?: Prisma.disease_treatmentsUncheckedUpdateManyWithoutDiseasesNestedInput
+}
+
+export type diseasesCreateWithoutDisease_treatmentsInput = {
+  id?: string
+  created_at?: Date | string
+  name?: string | null
+  vaccine_report_details?: Prisma.vaccine_report_detailsCreateNestedManyWithoutDiseasesInput
+}
+
+export type diseasesUncheckedCreateWithoutDisease_treatmentsInput = {
+  id?: string
+  created_at?: Date | string
+  name?: string | null
+  vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedCreateNestedManyWithoutDiseasesInput
+}
+
+export type diseasesCreateOrConnectWithoutDisease_treatmentsInput = {
+  where: Prisma.diseasesWhereUniqueInput
+  create: Prisma.XOR<Prisma.diseasesCreateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedCreateWithoutDisease_treatmentsInput>
+}
+
+export type diseasesUpsertWithoutDisease_treatmentsInput = {
+  update: Prisma.XOR<Prisma.diseasesUpdateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedUpdateWithoutDisease_treatmentsInput>
+  create: Prisma.XOR<Prisma.diseasesCreateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedCreateWithoutDisease_treatmentsInput>
+  where?: Prisma.diseasesWhereInput
+}
+
+export type diseasesUpdateToOneWithWhereWithoutDisease_treatmentsInput = {
+  where?: Prisma.diseasesWhereInput
+  data: Prisma.XOR<Prisma.diseasesUpdateWithoutDisease_treatmentsInput, Prisma.diseasesUncheckedUpdateWithoutDisease_treatmentsInput>
+}
+
+export type diseasesUpdateWithoutDisease_treatmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccine_report_details?: Prisma.vaccine_report_detailsUpdateManyWithoutDiseasesNestedInput
+}
+
+export type diseasesUncheckedUpdateWithoutDisease_treatmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vaccine_report_details?: Prisma.vaccine_report_detailsUncheckedUpdateManyWithoutDiseasesNestedInput
 }
 
 

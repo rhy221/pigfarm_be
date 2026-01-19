@@ -4,10 +4,75 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { material_categories } from '../generated/prisma/client';
 
 @Injectable()
 export class WarehouseService {
-  constructor() {}
+  constructor(private prisma: PrismaService) {}
+
+  async findAllCategories() {
+    return this.prisma.warehouse_categories.findMany({
+      include: {
+        _count: {
+          select: { products: true },
+        },
+      },
+      orderBy: { name: 'asc' },
+    });
+  }
+
+  async createCategory(data: {
+    name: string;
+    type: string;
+    description?: string;
+  }) {
+    return this.prisma.warehouse_categories.create({
+      data: {
+        name: data.name,
+        type: data.type.toLowerCase() as material_categories,
+        description: data.description || '',
+        is_active: true,
+      },
+    });
+  }
+
+  async updateCategory(
+    id: string,
+    data: { name?: string; description?: string; type?: string },
+  ) {
+    const updatePayload: any = {};
+    if (data.name !== undefined) updatePayload.name = data.name;
+    if (data.description !== undefined)
+      updatePayload.description = data.description;
+    if (data.type !== undefined) updatePayload.type = data.type.toLowerCase();
+
+    return this.prisma.warehouse_categories.update({
+      where: { id },
+      data: updatePayload,
+    });
+  }
+
+  async removeManyCategories(ids: string[]) {
+    const inUse = await this.prisma.warehouse_categories.findMany({
+      where: {
+        id: { in: ids },
+        products: { some: {} },
+      },
+      select: { name: true },
+    });
+
+    if (inUse.length > 0) {
+      const names = inUse.map((i) => i.name).join(', ');
+      throw new BadRequestException(
+        `Không thể xóa các loại: [${names}] vì đang có sản phẩm liên kết.`,
+      );
+    }
+
+    return this.prisma.warehouse_categories.deleteMany({
+      where: { id: { in: ids } },
+    });
+  }
 
   // ============ QUẢN LÝ KHO ============
 

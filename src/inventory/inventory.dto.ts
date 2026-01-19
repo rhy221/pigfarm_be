@@ -359,6 +359,11 @@ export class StockIssueItemDto {
   @Min(0.001)
   quantity: number;
 
+  @ApiPropertyOptional({ description: 'ID của lô hàng (inventory_batch) để xuất' })
+  @IsUUID()
+  @IsOptional()
+  batchId?: string;
+
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()

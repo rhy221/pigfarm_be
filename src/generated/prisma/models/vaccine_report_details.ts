@@ -406,16 +406,6 @@ export type vaccine_report_detailsUncheckedUpdateManyInput = {
   vaccine_report_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type Vaccine_report_detailsListRelationFilter = {
-  every?: Prisma.vaccine_report_detailsWhereInput
-  some?: Prisma.vaccine_report_detailsWhereInput
-  none?: Prisma.vaccine_report_detailsWhereInput
-}
-
-export type vaccine_report_detailsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type vaccine_report_detailsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -464,46 +454,14 @@ export type vaccine_report_detailsSumOrderByAggregateInput = {
   effectiveness_rate?: Prisma.SortOrder
 }
 
-export type vaccine_report_detailsCreateNestedManyWithoutDiseasesInput = {
-  create?: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput> | Prisma.vaccine_report_detailsCreateWithoutDiseasesInput[] | Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput[]
-  connectOrCreate?: Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput | Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput[]
-  createMany?: Prisma.vaccine_report_detailsCreateManyDiseasesInputEnvelope
-  connect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
+export type Vaccine_report_detailsListRelationFilter = {
+  every?: Prisma.vaccine_report_detailsWhereInput
+  some?: Prisma.vaccine_report_detailsWhereInput
+  none?: Prisma.vaccine_report_detailsWhereInput
 }
 
-export type vaccine_report_detailsUncheckedCreateNestedManyWithoutDiseasesInput = {
-  create?: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput> | Prisma.vaccine_report_detailsCreateWithoutDiseasesInput[] | Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput[]
-  connectOrCreate?: Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput | Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput[]
-  createMany?: Prisma.vaccine_report_detailsCreateManyDiseasesInputEnvelope
-  connect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
-}
-
-export type vaccine_report_detailsUpdateManyWithoutDiseasesNestedInput = {
-  create?: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput> | Prisma.vaccine_report_detailsCreateWithoutDiseasesInput[] | Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput[]
-  connectOrCreate?: Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput | Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput[]
-  upsert?: Prisma.vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput | Prisma.vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput[]
-  createMany?: Prisma.vaccine_report_detailsCreateManyDiseasesInputEnvelope
-  set?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
-  disconnect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
-  delete?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
-  connect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
-  update?: Prisma.vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput | Prisma.vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput[]
-  updateMany?: Prisma.vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput | Prisma.vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput[]
-  deleteMany?: Prisma.vaccine_report_detailsScalarWhereInput | Prisma.vaccine_report_detailsScalarWhereInput[]
-}
-
-export type vaccine_report_detailsUncheckedUpdateManyWithoutDiseasesNestedInput = {
-  create?: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput> | Prisma.vaccine_report_detailsCreateWithoutDiseasesInput[] | Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput[]
-  connectOrCreate?: Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput | Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput[]
-  upsert?: Prisma.vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput | Prisma.vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput[]
-  createMany?: Prisma.vaccine_report_detailsCreateManyDiseasesInputEnvelope
-  set?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
-  disconnect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
-  delete?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
-  connect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
-  update?: Prisma.vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput | Prisma.vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput[]
-  updateMany?: Prisma.vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput | Prisma.vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput[]
-  deleteMany?: Prisma.vaccine_report_detailsScalarWhereInput | Prisma.vaccine_report_detailsScalarWhereInput[]
+export type vaccine_report_detailsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type vaccine_report_detailsCreateNestedManyWithoutVaccine_reportsInput = {
@@ -590,67 +548,46 @@ export type vaccine_report_detailsUncheckedUpdateManyWithoutVaccinesNestedInput 
   deleteMany?: Prisma.vaccine_report_detailsScalarWhereInput | Prisma.vaccine_report_detailsScalarWhereInput[]
 }
 
-export type vaccine_report_detailsCreateWithoutDiseasesInput = {
-  id?: string
-  created_at?: Date | string
-  cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_vaccinated?: number | null
-  post_vaccination_status?: string | null
-  effectiveness_rate?: number | null
-  vaccines?: Prisma.vaccinesCreateNestedOneWithoutVaccine_report_detailsInput
-  vaccine_reports?: Prisma.vaccine_reportsCreateNestedOneWithoutVaccine_report_detailsInput
+export type vaccine_report_detailsCreateNestedManyWithoutDiseasesInput = {
+  create?: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput> | Prisma.vaccine_report_detailsCreateWithoutDiseasesInput[] | Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput[]
+  connectOrCreate?: Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput | Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput[]
+  createMany?: Prisma.vaccine_report_detailsCreateManyDiseasesInputEnvelope
+  connect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
 }
 
-export type vaccine_report_detailsUncheckedCreateWithoutDiseasesInput = {
-  id?: string
-  created_at?: Date | string
-  vaccine_id?: string | null
-  cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_vaccinated?: number | null
-  post_vaccination_status?: string | null
-  effectiveness_rate?: number | null
-  vaccine_report_id?: string | null
+export type vaccine_report_detailsUncheckedCreateNestedManyWithoutDiseasesInput = {
+  create?: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput> | Prisma.vaccine_report_detailsCreateWithoutDiseasesInput[] | Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput[]
+  connectOrCreate?: Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput | Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput[]
+  createMany?: Prisma.vaccine_report_detailsCreateManyDiseasesInputEnvelope
+  connect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
 }
 
-export type vaccine_report_detailsCreateOrConnectWithoutDiseasesInput = {
-  where: Prisma.vaccine_report_detailsWhereUniqueInput
-  create: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput>
+export type vaccine_report_detailsUpdateManyWithoutDiseasesNestedInput = {
+  create?: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput> | Prisma.vaccine_report_detailsCreateWithoutDiseasesInput[] | Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput[]
+  connectOrCreate?: Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput | Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput[]
+  upsert?: Prisma.vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput | Prisma.vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput[]
+  createMany?: Prisma.vaccine_report_detailsCreateManyDiseasesInputEnvelope
+  set?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
+  disconnect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
+  delete?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
+  connect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
+  update?: Prisma.vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput | Prisma.vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput[]
+  updateMany?: Prisma.vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput | Prisma.vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput[]
+  deleteMany?: Prisma.vaccine_report_detailsScalarWhereInput | Prisma.vaccine_report_detailsScalarWhereInput[]
 }
 
-export type vaccine_report_detailsCreateManyDiseasesInputEnvelope = {
-  data: Prisma.vaccine_report_detailsCreateManyDiseasesInput | Prisma.vaccine_report_detailsCreateManyDiseasesInput[]
-  skipDuplicates?: boolean
-}
-
-export type vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput = {
-  where: Prisma.vaccine_report_detailsWhereUniqueInput
-  update: Prisma.XOR<Prisma.vaccine_report_detailsUpdateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedUpdateWithoutDiseasesInput>
-  create: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput>
-}
-
-export type vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput = {
-  where: Prisma.vaccine_report_detailsWhereUniqueInput
-  data: Prisma.XOR<Prisma.vaccine_report_detailsUpdateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedUpdateWithoutDiseasesInput>
-}
-
-export type vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput = {
-  where: Prisma.vaccine_report_detailsScalarWhereInput
-  data: Prisma.XOR<Prisma.vaccine_report_detailsUpdateManyMutationInput, Prisma.vaccine_report_detailsUncheckedUpdateManyWithoutDiseasesInput>
-}
-
-export type vaccine_report_detailsScalarWhereInput = {
-  AND?: Prisma.vaccine_report_detailsScalarWhereInput | Prisma.vaccine_report_detailsScalarWhereInput[]
-  OR?: Prisma.vaccine_report_detailsScalarWhereInput[]
-  NOT?: Prisma.vaccine_report_detailsScalarWhereInput | Prisma.vaccine_report_detailsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"vaccine_report_details"> | string
-  created_at?: Prisma.DateTimeFilter<"vaccine_report_details"> | Date | string
-  vaccine_id?: Prisma.UuidNullableFilter<"vaccine_report_details"> | string | null
-  disease_id?: Prisma.UuidNullableFilter<"vaccine_report_details"> | string | null
-  cost?: Prisma.DecimalNullableFilter<"vaccine_report_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_vaccinated?: Prisma.IntNullableFilter<"vaccine_report_details"> | number | null
-  post_vaccination_status?: Prisma.StringNullableFilter<"vaccine_report_details"> | string | null
-  effectiveness_rate?: Prisma.FloatNullableFilter<"vaccine_report_details"> | number | null
-  vaccine_report_id?: Prisma.UuidNullableFilter<"vaccine_report_details"> | string | null
+export type vaccine_report_detailsUncheckedUpdateManyWithoutDiseasesNestedInput = {
+  create?: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput> | Prisma.vaccine_report_detailsCreateWithoutDiseasesInput[] | Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput[]
+  connectOrCreate?: Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput | Prisma.vaccine_report_detailsCreateOrConnectWithoutDiseasesInput[]
+  upsert?: Prisma.vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput | Prisma.vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput[]
+  createMany?: Prisma.vaccine_report_detailsCreateManyDiseasesInputEnvelope
+  set?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
+  disconnect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
+  delete?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
+  connect?: Prisma.vaccine_report_detailsWhereUniqueInput | Prisma.vaccine_report_detailsWhereUniqueInput[]
+  update?: Prisma.vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput | Prisma.vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput[]
+  updateMany?: Prisma.vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput | Prisma.vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput[]
+  deleteMany?: Prisma.vaccine_report_detailsScalarWhereInput | Prisma.vaccine_report_detailsScalarWhereInput[]
 }
 
 export type vaccine_report_detailsCreateWithoutVaccine_reportsInput = {
@@ -701,6 +638,21 @@ export type vaccine_report_detailsUpdateManyWithWhereWithoutVaccine_reportsInput
   data: Prisma.XOR<Prisma.vaccine_report_detailsUpdateManyMutationInput, Prisma.vaccine_report_detailsUncheckedUpdateManyWithoutVaccine_reportsInput>
 }
 
+export type vaccine_report_detailsScalarWhereInput = {
+  AND?: Prisma.vaccine_report_detailsScalarWhereInput | Prisma.vaccine_report_detailsScalarWhereInput[]
+  OR?: Prisma.vaccine_report_detailsScalarWhereInput[]
+  NOT?: Prisma.vaccine_report_detailsScalarWhereInput | Prisma.vaccine_report_detailsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"vaccine_report_details"> | string
+  created_at?: Prisma.DateTimeFilter<"vaccine_report_details"> | Date | string
+  vaccine_id?: Prisma.UuidNullableFilter<"vaccine_report_details"> | string | null
+  disease_id?: Prisma.UuidNullableFilter<"vaccine_report_details"> | string | null
+  cost?: Prisma.DecimalNullableFilter<"vaccine_report_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_vaccinated?: Prisma.IntNullableFilter<"vaccine_report_details"> | number | null
+  post_vaccination_status?: Prisma.StringNullableFilter<"vaccine_report_details"> | string | null
+  effectiveness_rate?: Prisma.FloatNullableFilter<"vaccine_report_details"> | number | null
+  vaccine_report_id?: Prisma.UuidNullableFilter<"vaccine_report_details"> | string | null
+}
+
 export type vaccine_report_detailsCreateWithoutVaccinesInput = {
   id?: string
   created_at?: Date | string
@@ -749,7 +701,18 @@ export type vaccine_report_detailsUpdateManyWithWhereWithoutVaccinesInput = {
   data: Prisma.XOR<Prisma.vaccine_report_detailsUpdateManyMutationInput, Prisma.vaccine_report_detailsUncheckedUpdateManyWithoutVaccinesInput>
 }
 
-export type vaccine_report_detailsCreateManyDiseasesInput = {
+export type vaccine_report_detailsCreateWithoutDiseasesInput = {
+  id?: string
+  created_at?: Date | string
+  cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_vaccinated?: number | null
+  post_vaccination_status?: string | null
+  effectiveness_rate?: number | null
+  vaccines?: Prisma.vaccinesCreateNestedOneWithoutVaccine_report_detailsInput
+  vaccine_reports?: Prisma.vaccine_reportsCreateNestedOneWithoutVaccine_report_detailsInput
+}
+
+export type vaccine_report_detailsUncheckedCreateWithoutDiseasesInput = {
   id?: string
   created_at?: Date | string
   vaccine_id?: string | null
@@ -760,37 +723,30 @@ export type vaccine_report_detailsCreateManyDiseasesInput = {
   vaccine_report_id?: string | null
 }
 
-export type vaccine_report_detailsUpdateWithoutDiseasesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_vaccinated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  post_vaccination_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  effectiveness_rate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  vaccines?: Prisma.vaccinesUpdateOneWithoutVaccine_report_detailsNestedInput
-  vaccine_reports?: Prisma.vaccine_reportsUpdateOneWithoutVaccine_report_detailsNestedInput
+export type vaccine_report_detailsCreateOrConnectWithoutDiseasesInput = {
+  where: Prisma.vaccine_report_detailsWhereUniqueInput
+  create: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput>
 }
 
-export type vaccine_report_detailsUncheckedUpdateWithoutDiseasesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  vaccine_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_vaccinated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  post_vaccination_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  effectiveness_rate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  vaccine_report_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+export type vaccine_report_detailsCreateManyDiseasesInputEnvelope = {
+  data: Prisma.vaccine_report_detailsCreateManyDiseasesInput | Prisma.vaccine_report_detailsCreateManyDiseasesInput[]
+  skipDuplicates?: boolean
 }
 
-export type vaccine_report_detailsUncheckedUpdateManyWithoutDiseasesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  vaccine_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total_vaccinated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  post_vaccination_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  effectiveness_rate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  vaccine_report_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+export type vaccine_report_detailsUpsertWithWhereUniqueWithoutDiseasesInput = {
+  where: Prisma.vaccine_report_detailsWhereUniqueInput
+  update: Prisma.XOR<Prisma.vaccine_report_detailsUpdateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedUpdateWithoutDiseasesInput>
+  create: Prisma.XOR<Prisma.vaccine_report_detailsCreateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedCreateWithoutDiseasesInput>
+}
+
+export type vaccine_report_detailsUpdateWithWhereUniqueWithoutDiseasesInput = {
+  where: Prisma.vaccine_report_detailsWhereUniqueInput
+  data: Prisma.XOR<Prisma.vaccine_report_detailsUpdateWithoutDiseasesInput, Prisma.vaccine_report_detailsUncheckedUpdateWithoutDiseasesInput>
+}
+
+export type vaccine_report_detailsUpdateManyWithWhereWithoutDiseasesInput = {
+  where: Prisma.vaccine_report_detailsScalarWhereInput
+  data: Prisma.XOR<Prisma.vaccine_report_detailsUpdateManyMutationInput, Prisma.vaccine_report_detailsUncheckedUpdateManyWithoutDiseasesInput>
 }
 
 export type vaccine_report_detailsCreateManyVaccine_reportsInput = {
@@ -874,6 +830,50 @@ export type vaccine_report_detailsUncheckedUpdateManyWithoutVaccinesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disease_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_vaccinated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  post_vaccination_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  effectiveness_rate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vaccine_report_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type vaccine_report_detailsCreateManyDiseasesInput = {
+  id?: string
+  created_at?: Date | string
+  vaccine_id?: string | null
+  cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_vaccinated?: number | null
+  post_vaccination_status?: string | null
+  effectiveness_rate?: number | null
+  vaccine_report_id?: string | null
+}
+
+export type vaccine_report_detailsUpdateWithoutDiseasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_vaccinated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  post_vaccination_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  effectiveness_rate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vaccines?: Prisma.vaccinesUpdateOneWithoutVaccine_report_detailsNestedInput
+  vaccine_reports?: Prisma.vaccine_reportsUpdateOneWithoutVaccine_report_detailsNestedInput
+}
+
+export type vaccine_report_detailsUncheckedUpdateWithoutDiseasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vaccine_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total_vaccinated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  post_vaccination_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  effectiveness_rate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vaccine_report_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type vaccine_report_detailsUncheckedUpdateManyWithoutDiseasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vaccine_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_vaccinated?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   post_vaccination_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
