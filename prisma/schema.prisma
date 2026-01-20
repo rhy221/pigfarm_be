@@ -972,9 +972,7 @@ model feeding_formulas {
   id                      String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at              DateTime?                 @default(now()) @db.Timestamptz(6)
   name                    String
-  stage_name              String
   start_day               Int
-  end_day                 Int
   amount_per_pig          Int
   ingredients             String?                   @default("")
   is_active               Boolean?                  @default(true)

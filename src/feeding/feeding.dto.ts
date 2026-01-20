@@ -18,27 +18,18 @@ export class FormulaIngredientItemDto {
 }
 
 export class CreateFeedingFormulaDto {
-  @ApiProperty({ example: 'Cám heo sữa A1' })
+  @ApiProperty({ example: 'Cám heo sữa A1', description: 'Tên hiển thị của công thức' })
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ example: 'GĐ1: Heo mới về' })
-  @IsString()
-  @IsNotEmpty()
-  stageName: string;
 
-  @ApiProperty({ example: 0 })
+  @ApiProperty({ example: 0, description: 'Áp dụng từ ngày tuổi thứ bao nhiêu' })
   @IsInt()
   @Min(0)
   startDay: number;
 
-  @ApiProperty({ example: 7 })
-  @IsInt()
-  @Min(0)
-  endDay: number;
-
-  @ApiProperty({ example: 200, description: 'Tổng định lượng ăn (gram/con/ngày)' })
+  @ApiProperty({ example: 200, description: 'Định lượng cho ăn (gram/con/ngày)' })
   @IsInt()
   @Min(0)
   amountPerPig: number;
@@ -57,14 +48,9 @@ export class FeedingFormulaResponseDto {
   @ApiProperty({ example: 'Cám heo sữa A1' })
   name: string;
 
-  @ApiProperty({ example: 'GĐ1: Heo mới về' })
-  stage_name: string; 
-
   @ApiProperty({ example: 0 })
   start_day: number;
 
-  @ApiProperty({ example: 7 })
-  end_day: number;
 
   @ApiProperty({ example: 200 })
   amount_per_pig: number;
@@ -84,16 +70,13 @@ export class TimelineStageDto {
   @ApiProperty({ example: 'uuid-formula-1' })
   id: string; 
 
-  @ApiProperty({ example: 'GĐ 1' })
-  shortName: string; 
-
-  @ApiProperty({ example: 'Heo mới về (≤ 7 ngày)' })
-  fullName: string;
+  @ApiProperty({ example: '0 - 30 ngày' })
+  desc: string;
 
   @ApiProperty({ example: 0 })
   startDay: number;
 
-  @ApiProperty({ example: 7 })
+  @ApiProperty({ example: 30 })
   endDay: number;
 
   @ApiProperty({ example: true })

@@ -7,18 +7,12 @@ import dayjs from 'dayjs';
 export class FeedingService {
   constructor(private prisma: PrismaService) {}
 
-  // ========================================================
-  // 1. TẠO CÔNG THỨC (CÓ LIÊN KẾT KHO)
-  // ========================================================
   async createFormula(data: CreateFeedingFormulaDto) {
     return this.prisma.feeding_formulas.create({
       data: {
         name: data.name,
-        stage_name: data.stageName,
         start_day: data.startDay,
-        end_day: data.endDay,
         amount_per_pig: data.amountPerPig,
-        ingredients: '', 
         feeding_formula_details: {
           create: data.items.map((item) => ({
             product_id: item.productId,
@@ -32,9 +26,6 @@ export class FeedingService {
     });
   }
 
-  // ========================================================
-  // 2. LẤY DANH SÁCH CÔNG THỨC (JOIN VỚI PRODUCTS)
-  // ========================================================
   async getFormulas() {
     const formulas = await this.prisma.feeding_formulas.findMany({
       orderBy: { start_day: 'asc' },
@@ -54,7 +45,7 @@ export class FeedingService {
 
       return {
         ...f,
-        ingredients: ingredientsText, 
+        ingredients: ingredientsText,
         details: f.feeding_formula_details.map((d) => ({
           productId: d.product_id,
           productName: d.products?.name,
@@ -64,135 +55,88 @@ export class FeedingService {
     });
   }
 
-  // ========================================================
-  // 3. XÓA CÔNG THỨC
-  // ========================================================
   async deleteFormula(id: string) {
     return this.prisma.feeding_formulas.delete({ where: { id } });
   }
 
-  // ========================================================
-  // 4. LẬP KẾ HOẠCH CHO ĂN (TÍNH TOÁN CHI TIẾT)
-  // ========================================================
-  async getFeedingPlan(batchId: string, selectedStageId?: string) {
-    const batch = await this.prisma.pig_batches.findUnique({
-      where: { id: batchId },
-    });
+  async getFeedingPlan(batchId: string) {
+    const batch = await this.prisma.pig_batches.findUnique({ where: { id: batchId } });
     if (!batch) throw new NotFoundException('Không tìm thấy lứa heo');
 
     const batchPens = await this.prisma.pens.findMany({
-      where: {
-        pigs: { some: { pig_batch_id: batchId } },
-      },
+      where: { pigs: { some: { pig_batch_id: batchId } } },
     });
 
     const today = dayjs();
     const arrival = dayjs(batch.arrival_date);
     const currentDaysOld = today.diff(arrival, 'day');
 
-    const allFormulas = await this.prisma.feeding_formulas.findMany({
-      orderBy: { start_day: 'asc' },
-    });
+    const timeline: any[] = [];
+    const BLOCKS = 6;
+    
+    for (let i = 0; i < BLOCKS; i++) {
+        const start = i * 30;
+        const end = (i + 1) * 30 - 1;
+        
+        let status = 'future';
+        if (currentDaysOld > end) status = 'past';
+        else if (currentDaysOld >= start && currentDaysOld <= end) status = 'current';
 
-    const uniqueStagesMap = new Map();
-    allFormulas.forEach((f) => {
-      const key = `${f.start_day}-${f.end_day}`;
-      if (!uniqueStagesMap.has(key)) {
-        uniqueStagesMap.set(key, {
-          id: f.id, 
-          name: f.stage_name,
-          start: f.start_day,
-          end: f.end_day,
+        timeline.push({
+            label: `Tháng ${i + 1}`,
+            desc: `${start} - ${end} ngày`,
+            startDay: start,
+            endDay: end,
+            isCurrent: status === 'current',
+            status: status
         });
-      }
-    });
-
-    const timeline = Array.from(uniqueStagesMap.values()).map((stage: any, index) => {
-      const isCurrentTime = currentDaysOld >= stage.start && currentDaysOld <= stage.end;
-      let status = 'future';
-      if (currentDaysOld > stage.end) status = 'past';
-      if (isCurrentTime) status = 'current';
-
-      return {
-        id: stage.id,
-        shortName: `GĐ ${index + 1}`,
-        fullName: `${stage.name} (${stage.start} - ${stage.end} ngày)`,
-        startDay: stage.start,
-        endDay: stage.end,
-        isCurrent: isCurrentTime,
-        status: status,
-      };
-    });
-
-    let targetStage: any = null;
-    if (selectedStageId) {
-      targetStage = timeline.find((t) => t.id === selectedStageId);
-    }
-    if (!targetStage) {
-      targetStage = timeline.find((t) => t.isCurrent); 
-    }
-    if (!targetStage && timeline.length > 0) {
-      targetStage = timeline[0]; 
     }
 
     const details: any[] = [];
-
-    if (targetStage) {
-      const applicableFormulas = await this.prisma.feeding_formulas.findMany({
-        where: {
-          start_day: targetStage.startDay,
-          end_day: targetStage.endDay,
-        },
+    
+    const allFormulas = await this.prisma.feeding_formulas.findMany({
+        orderBy: { start_day: 'desc' }, 
         include: {
-          feeding_formula_details: {
-            include: { products: true }, 
-          },
-        },
-      });
+            feeding_formula_details: { include: { products: true } }
+        }
+    });
 
-      for (const pen of batchPens) {
-        const pigCount = pen.current_quantity || 0;
-        if (pigCount <= 0) continue;
+    const currentFormula = allFormulas.find(f => f.start_day <= currentDaysOld);
 
-        for (const formula of applicableFormulas) {
-          const totalFeedKg = (formula.amount_per_pig * pigCount) / 1000;
-
-          const ingredientsText = formula.feeding_formula_details
+    if (currentFormula) {
+        const ingredientsText = currentFormula.feeding_formula_details
             .map(d => `${d.products?.name} (${d.percentage}%)`)
             .join(' + ');
 
-          const ingredientsBreakdown = formula.feeding_formula_details.map((detail) => {
-            const amountNeeded = (totalFeedKg * Number(detail.percentage)) / 100;
-            
-            return {
-              productName: detail.products?.name || 'Unknown Product',
-              ratio: `${detail.percentage}%`,
-              amountNeeded: `${amountNeeded.toFixed(2)} kg`,
-            };
-          });
+        for (const pen of batchPens) {
+            const pigCount = pen.current_quantity || 0;
+            if (pigCount <= 0) continue;
 
-          details.push({
-            penName: pen.pen_name || 'Unknown',
-            formulaName: formula.name,
-            ingredientsText: ingredientsText,
-            pigCount: pigCount,
-            amountPerPig: formula.amount_per_pig,
-            totalFeedAmount: `${totalFeedKg.toFixed(1)} kg`,
-            ingredients: ingredientsBreakdown, 
-          });
+            const totalFeedKg = (currentFormula.amount_per_pig * pigCount) / 1000;
+            const ingredientsBreakdown = currentFormula.feeding_formula_details.map((detail) => {
+                const amountNeeded = (totalFeedKg * Number(detail.percentage)) / 100;
+                return {
+                    productName: detail.products?.name,
+                    ratio: `${detail.percentage}%`,
+                    amountNeeded: `${amountNeeded.toFixed(2)} kg`,
+                };
+            });
+
+            details.push({
+                penName: pen.pen_name,
+                formulaName: currentFormula.name,
+                ingredientsText: ingredientsText,
+                pigCount: pigCount,
+                amountPerPig: currentFormula.amount_per_pig,
+                totalFeedAmount: `${totalFeedKg.toFixed(1)} kg`,
+                ingredients: ingredientsBreakdown,
+            });
         }
-      }
     }
 
-    return {
-      timeline,
-      details,
-    };
+    return { timeline, details };
   }
 
-  // ========================================================
-  // 5. CẬP NHẬT CÔNG THỨC (UPDATE)
-  // ========================================================
   async updateFormula(id: string, data: UpdateFeedingFormulaDto) {
     const existing = await this.prisma.feeding_formulas.findUnique({
       where: { id },
@@ -201,7 +145,7 @@ export class FeedingService {
 
     const formulaDetailsUpdate = data.items
       ? {
-          deleteMany: {}, 
+          deleteMany: {},
           create: data.items.map((item) => ({ 
             product_id: item.productId,
             percentage: item.percentage,
@@ -213,11 +157,8 @@ export class FeedingService {
       where: { id },
       data: {
         name: data.name,
-        stage_name: data.stageName,
         start_day: data.startDay,
-        end_day: data.endDay,
         amount_per_pig: data.amountPerPig,
-        
         feeding_formula_details: formulaDetailsUpdate,
       },
       include: {

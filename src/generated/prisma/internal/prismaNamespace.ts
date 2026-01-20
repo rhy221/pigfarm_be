@@ -6421,9 +6421,7 @@ export const Feeding_formulasScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   name: 'name',
-  stage_name: 'stage_name',
   start_day: 'start_day',
-  end_day: 'end_day',
   amount_per_pig: 'amount_per_pig',
   ingredients: 'ingredients',
   is_active: 'is_active'

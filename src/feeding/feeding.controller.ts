@@ -1,78 +1,109 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, Put } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags, ApiQuery, ApiBody } from '@nestjs/swagger';
-import { FeedingService, } from './feeding.service';
-import { 
-  CreateFeedingFormulaDto, 
-  FeedingFormulaResponseDto, // Import cái mới
-  FeedingPlanResponseDto,
-  UpdateFeedingFormulaDto
-} from './feeding.dto';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
 
-@ApiTags('Feeding Management')
-@Controller('feeding')
-export class FeedingController {
-  constructor(private readonly feedingService: FeedingService) {}
+// ========================================================
+// 1. DTO CHO REQUEST BODY (Gửi lên để tạo mới)
+// ========================================================
+export class CreateFeedingFormulaDto {
+  @ApiProperty({ example: 'Cám heo sữa A1', description: 'Tên hiển thị của công thức' })
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
+  
+  @ApiProperty({ example: 0, description: 'Ngày bắt đầu giai đoạn (tính theo ngày tuổi)' })
+  @IsInt()
+  @Min(0)
+  startDay: number;
 
-  @Post('formulas')
-  @ApiOperation({ summary: 'Tạo công thức/định mức cho ăn mới' })
-  @ApiBody({ type: CreateFeedingFormulaDto }) 
-  @ApiResponse({ 
-    status: 201, 
-    description: 'Tạo thành công', 
-    type: FeedingFormulaResponseDto 
-  })
-  createFormula(@Body() body: CreateFeedingFormulaDto) {
-    return this.feedingService.createFormula(body);
-  }
+  @ApiProperty({ example: 200, description: 'Định lượng cho ăn (gram/con/ngày)' })
+  @IsInt()
+  @Min(0)
+  amountPerPig: number;
 
-  @Get('formulas')
-  @ApiOperation({ summary: 'Lấy danh sách tất cả công thức (cho bảng Điều chỉnh)' })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Danh sách công thức', 
-    type: [FeedingFormulaResponseDto] 
-  })
-  getFormulas() {
-    return this.feedingService.getFormulas();
-  }
-
-  @Delete('formulas/:id')
-  @ApiOperation({ summary: 'Xóa công thức' })
-  @ApiResponse({ status: 200, description: 'Xóa thành công' })
-  deleteFormula(@Param('id') id: string) {
-    return this.feedingService.deleteFormula(id);
-  }
+  @ApiProperty({ example: '50% Cám - 50% Bột cá', required: false, description: 'Thành phần chi tiết' })
+  @IsOptional()
+  @IsString()
+  ingredients?: string;
+}
+export class UpdateFeedingFormulaDto extends PartialType(CreateFeedingFormulaDto) {}
 
 
-  @Get('plan')
-  @ApiOperation({ summary: 'Lấy kế hoạch cho ăn theo Lứa Heo (có Timeline & Tính toán)' })
-  @ApiQuery({ name: 'batchId', type: String, description: 'ID của Lứa heo (Pig Batch)' })
-  @ApiQuery({ name: 'stageId', type: String, required: false, description: 'ID giai đoạn (nếu chọn)' })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Dữ liệu timeline và bảng tính toán',
-    type: FeedingPlanResponseDto 
-  })
-  getPlan(
-    @Query('batchId') batchId: string,
-    @Query('stageId') stageId?: string
-  ) {
-    return this.feedingService.getFeedingPlan(batchId, stageId);
-  }
+// ========================================================
+// 3. DTO RESPONSE
+// ========================================================
+export class FeedingFormulaResponseDto {
+  @ApiProperty({ example: 'uuid-123-456' })
+  id: string;
 
-  @Put('formulas/:id')
-  @ApiOperation({ summary: 'Cập nhật công thức và thành phần' })
-  @ApiBody({ type: UpdateFeedingFormulaDto })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Cập nhật thành công',
-    type: FeedingFormulaResponseDto 
-  })
-  updateFormula(
-    @Param('id') id: string, 
-    @Body() body: UpdateFeedingFormulaDto
-  ) {
-    return this.feedingService.updateFormula(id, body);
-  }
+  @ApiProperty({ example: 'Cám heo sữa A1' })
+  name: string;
+
+  @ApiProperty({ example: 0 })
+  start_day: number;
+
+  @ApiProperty({ example: 200 })
+  amount_per_pig: number;
+
+  @ApiProperty({ example: '50% Cám - 50% Bột cá' })
+  ingredients: string;
+
+  @ApiProperty({ example: true })
+  is_active: boolean;
+
+  @ApiProperty({ example: '2025-01-01T00:00:00Z' })
+  created_at: Date;
+}
+
+// DTO cho phần Timeline
+export class TimelineStageDto {
+  @ApiProperty({ example: 'Tháng 1' })
+  label: string; 
+
+  @ApiProperty({ example: '0 - 29 ngày' })
+  desc: string; 
+
+  @ApiProperty({ example: 0 })
+  startDay: number;
+
+  @ApiProperty({ example: 29 })
+  endDay: number;
+
+  @ApiProperty({ example: true })
+  isCurrent: boolean;
+
+  @ApiProperty({ example: 'past', enum: ['past', 'current', 'future'] })
+  status: string; 
+}
+
+// DTO cho phần chi tiết bảng
+export class FeedingPlanItemDto {
+  @ApiProperty({ example: 'Chuồng A1' })
+  penName: string;
+
+  @ApiProperty({ example: 'Cám heo sữa A1' })
+  formulaName: string;
+
+  @ApiProperty({ example: '50% Cám - 50% Bột cá' })
+  ingredientsText: string;
+
+  @ApiProperty({ example: 50 })
+  pigCount: number;
+
+  @ApiProperty({ example: 200 })
+  amountPerPig: number;
+
+  @ApiProperty({ example: '10.0 kg' })
+  totalFeedAmount: string;
+
+  @ApiProperty({ example: [] })
+  ingredients: any[]; 
+}
+
+export class FeedingPlanResponseDto {
+  @ApiProperty({ type: [TimelineStageDto], description: 'Danh sách các mốc thời gian' })
+  timeline: TimelineStageDto[];
+
+  @ApiProperty({ type: [FeedingPlanItemDto], description: 'Danh sách chi tiết tính toán cho từng chuồng' })
+  details: FeedingPlanItemDto[];
 }
