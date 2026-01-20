@@ -7,11 +7,18 @@ export class UserGroupService {
 
   async findAll() {
     const groups = await this.prisma.user_group.findMany({
-      orderBy: { id: 'asc' },
+      include: {
+        _count: {
+          select: { users: true },
+        },
+      },
+      orderBy: { created_at: 'asc' },
     });
+
     return groups.map((g) => ({
-      ...g,
-      id: g.id.toString(), // Convert BigInt to String cho JSON
+      id: g.id,
+      name: g.name,
+      hasUsers: g._count.users > 0,
     }));
   }
 
@@ -24,21 +31,19 @@ export class UserGroupService {
       throw new BadRequestException(`Nhóm "${data.name}" đã tồn tại.`);
     }
 
-    const result = await this.prisma.user_group.create({
+    return await this.prisma.user_group.create({
       data: { name: data.name },
     });
-    return { ...result, id: result.id.toString() };
   }
 
   async update(id: string, data: { name: string }) {
     try {
-        const result = await this.prisma.user_group.update({
+      return await this.prisma.user_group.update({
         where: { id: id },
         data: { name: data.name },
-        });
-        return { ...result, id: result.id.toString() };
+      });
     } catch (error) {
-        throw new BadRequestException('Lỗi: Không tìm thấy nhóm hoặc dữ liệu không hợp lệ.');
+      throw new BadRequestException('Lỗi: Không tìm thấy nhóm hoặc dữ liệu không hợp lệ.');
     }
   }
 

@@ -22,6 +22,7 @@ import { ChemicalsModule } from './chemicals/chemicals.module';
 import { CleaningMethodsModule } from './cleaning-methods/cleaning-methods.module';
 import { UserGroupModule } from './user-group/user-group.module';
 import { UsersModule } from './users/users.module';
+import { AccessControlModule } from './access-control/access-control.module';
 import { FeedingModule } from './feeding/feeding.module';
 
 @Module({
@@ -46,6 +47,7 @@ import { FeedingModule } from './feeding/feeding.module';
     CleaningMethodsModule,
     UserGroupModule,
     UsersModule,
+    AccessControlModule,
   ],
   controllers: [AppController],
   providers: [AppService],

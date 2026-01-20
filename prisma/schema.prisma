@@ -996,15 +996,6 @@ model access_control {
   user_group  user_group @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model pig_batch_vaccines {
-  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  pig_batch_id String      @db.Uuid
-  vaccine_id   String      @db.Uuid
-  created_at   DateTime?   @default(now()) @db.Timestamptz(6)
-  pig_batches  pig_batches @relation(fields: [pig_batch_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "pig_batch_vaccines_batch_fkey")
-  vaccines     vaccines    @relation(fields: [vaccine_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "pig_batch_vaccines_vaccine_fkey")
-}
-
 model feeding_formula_details {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   formula_id       String           @db.Uuid
@@ -1014,6 +1005,15 @@ model feeding_formula_details {
   created_at       DateTime?        @default(now()) @db.Timestamptz(6)
   feeding_formulas feeding_formulas @relation(fields: [formula_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "feeding_formula_details_formula_fkey")
   products         products         @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "feeding_formula_details_product_fkey")
+}
+
+model pig_batch_vaccines {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pig_batch_id String      @db.Uuid
+  vaccine_id   String      @db.Uuid
+  created_at   DateTime?   @default(now()) @db.Timestamptz(6)
+  pig_batches  pig_batches @relation(fields: [pig_batch_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "pig_batch_vaccines_batch_fkey")
+  vaccines     vaccines    @relation(fields: [vaccine_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "pig_batch_vaccines_vaccine_fkey")
 }
 
 enum material_categories {
