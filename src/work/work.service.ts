@@ -7,6 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { WorkRepository } from './work.repository';
 import { CreateTaskDto, UpdateTaskDto, QueryTaskDto } from './dto';
 import { Prisma } from '../generated/prisma/client';
+import { async } from 'rxjs';
 
 type AssignmentDetailWithRelations = Prisma.assignment_detailsGetPayload<{
   include: {
@@ -122,6 +123,7 @@ export class WorkShiftsService {
         'Không thể cập nhật dữ liệu lên Supabase. Kiểm tra lại định dạng giờ.',
       );
     }
+  }
   }
 
   async removeMany(ids: string[]) {

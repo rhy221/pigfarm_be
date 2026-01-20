@@ -170,48 +170,54 @@ export class FinanceService {
       transactionDate,
     );
 
-    return this.prisma.$transaction(async (tx) => {
-      const newTransaction = await tx.transactions.create({
-        data: {
-          cash_account_id: dto.cashAccountId,
-          category_id: dto.categoryId,
-          transaction_code: transactionCode,
-          transaction_type: dto.transactionType,
-          transaction_date: transactionDate,
-          amount: dto.amount,
-          contact_type: dto.contactType,
-          contact_id: dto.contactId,
-          contact_name: dto.contactName,
-          reference_type: dto.referenceType,
-          reference_id: dto.referenceId,
-          description: dto.description,
-          notes: dto.notes,
-          is_recorded: dto.isRecorded ?? true,
-          status: 'confirmed',
-          created_by: createdById,
-        },
-        include: {
-          transaction_categories: true,
-          cash_accounts: true,
-        },
-      });
-
-      if (newTransaction.is_recorded) {
-        const balanceChange =
-          dto.transactionType === TransactionType.INCOME
-            ? dto.amount
-            : -dto.amount;
-
-        await tx.cash_accounts.update({
-          where: { id: dto.cashAccountId },
+    return this.prisma.$transaction(
+      async (tx) => {
+        const newTransaction = await tx.transactions.create({
           data: {
-            current_balance: { increment: balanceChange },
+            cash_account_id: dto.cashAccountId,
+            category_id: dto.categoryId,
+            transaction_code: transactionCode,
+            transaction_type: dto.transactionType,
+            transaction_date: transactionDate,
+            amount: dto.amount,
+            contact_type: dto.contactType,
+            contact_id: dto.contactId,
+            contact_name: dto.contactName,
+            reference_type: dto.referenceType,
+            reference_id: dto.referenceId,
+            description: dto.description,
+            notes: dto.notes,
+            is_recorded: dto.isRecorded ?? true,
+            status: 'confirmed',
+            created_by: createdById,
+          },
+          include: {
+            transaction_categories: true,
+            cash_accounts: true,
           },
         });
-      }
 
-      return newTransaction;
-    });
+        if (newTransaction.is_recorded) {
+          const balanceChange =
+            dto.transactionType === TransactionType.INCOME
+              ? dto.amount
+              : -dto.amount;
+
+          await tx.cash_accounts.update({
+            where: { id: dto.cashAccountId },
+            data: {
+              current_balance: { increment: balanceChange },
+            },
+          });
+        }
+
+        return newTransaction;
+      },
+      {
+        maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+        timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+      },
+    );
   }
 
   async updateTransaction(id: string, dto: UpdateTransactionDto) {
@@ -276,24 +282,30 @@ export class FinanceService {
     });
     if (!transaction) throw new NotFoundException('Không tìm thấy giao dịch');
 
-    return this.prisma.$transaction(async (tx) => {
-      if (transaction.is_recorded) {
-        const balanceChange =
-          transaction.transaction_type === 'income'
-            ? -Number(transaction.amount)
-            : Number(transaction.amount);
+    return this.prisma.$transaction(
+      async (tx) => {
+        if (transaction.is_recorded) {
+          const balanceChange =
+            transaction.transaction_type === 'income'
+              ? -Number(transaction.amount)
+              : Number(transaction.amount);
 
-        await tx.cash_accounts.update({
-          where: { id: transaction.cash_account_id },
-          data: { current_balance: { increment: balanceChange } },
+          await tx.cash_accounts.update({
+            where: { id: transaction.cash_account_id },
+            data: { current_balance: { increment: balanceChange } },
+          });
+        }
+
+        return tx.transactions.update({
+          where: { id },
+          data: { status: 'cancelled' },
         });
-      }
-
-      return tx.transactions.update({
-        where: { id },
-        data: { status: 'cancelled' },
-      });
-    });
+      },
+      {
+        maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+        timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+      },
+    );
   }
 
   async getTransactions(query: TransactionQueryDto) {
@@ -436,7 +448,7 @@ export class FinanceService {
       },
       {
         maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
-        timeout: 10000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+        timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
       },
     );
   }
@@ -685,47 +697,53 @@ export class FinanceService {
       throw new BadRequestException('Hóa đơn đã được thanh toán');
     }
 
-    return this.prisma.$transaction(async (tx) => {
-      const paidDate = dto.paidDate ? new Date(dto.paidDate) : new Date();
-      const transactionCode = await this.generateTransactionCode(
-        TransactionType.EXPENSE,
-        paidDate,
-      );
+    return this.prisma.$transaction(
+      async (tx) => {
+        const paidDate = dto.paidDate ? new Date(dto.paidDate) : new Date();
+        const transactionCode = await this.generateTransactionCode(
+          TransactionType.EXPENSE,
+          paidDate,
+        );
 
-      const transaction = await tx.transactions.create({
-        data: {
-          cash_account_id: dto.cashAccountId,
-          category_id: record.monthly_bills.category_id,
-          transaction_code: transactionCode,
-          transaction_type: TransactionType.EXPENSE,
-          transaction_date: paidDate,
-          amount: Number(record.amount),
-          reference_type: 'invoice',
-          reference_id: record.id,
-          description: `Thanh toán ${record.monthly_bills.name} - ${record.period_month}/${record.period_year}`,
-          notes: dto.notes,
-          is_recorded: true,
-          status: 'confirmed',
-          created_by: createdById,
-        },
-      });
+        const transaction = await tx.transactions.create({
+          data: {
+            cash_account_id: dto.cashAccountId,
+            category_id: record.monthly_bills.category_id,
+            transaction_code: transactionCode,
+            transaction_type: TransactionType.EXPENSE,
+            transaction_date: paidDate,
+            amount: Number(record.amount),
+            reference_type: 'invoice',
+            reference_id: record.id,
+            description: `Thanh toán ${record.monthly_bills.name} - ${record.period_month}/${record.period_year}`,
+            notes: dto.notes,
+            is_recorded: true,
+            status: 'confirmed',
+            created_by: createdById,
+          },
+        });
 
-      await tx.cash_accounts.update({
-        where: { id: dto.cashAccountId },
-        data: { current_balance: { decrement: Number(record.amount) } },
-      });
+        await tx.cash_accounts.update({
+          where: { id: dto.cashAccountId },
+          data: { current_balance: { decrement: Number(record.amount) } },
+        });
 
-      await tx.monthly_bill_records.update({
-        where: { id: dto.recordId },
-        data: {
-          status: 'paid',
-          paid_date: paidDate,
-          transaction_id: transaction.id,
-        },
-      });
+        await tx.monthly_bill_records.update({
+          where: { id: dto.recordId },
+          data: {
+            status: 'paid',
+            paid_date: paidDate,
+            transaction_id: transaction.id,
+          },
+        });
 
-      return transaction;
-    });
+        return transaction;
+      },
+      {
+        maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+        timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+      },
+    );
   }
 
   // Thanh toán trực tiếp từ bill - tự động tạo record nếu chưa có
@@ -811,7 +829,7 @@ export class FinanceService {
       },
       {
         maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
-        timeout: 10000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+        timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
       },
     );
   }

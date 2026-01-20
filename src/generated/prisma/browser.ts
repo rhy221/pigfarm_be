@@ -342,3 +342,18 @@ export type feeding_formulas = Prisma.feeding_formulasModel
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type user_group = Prisma.user_groupModel
+/**
+ * Model access_control
+ * 
+ */
+export type access_control = Prisma.access_controlModel
+/**
+ * Model feeding_formula_details
+ * 
+ */
+export type feeding_formula_details = Prisma.feeding_formula_detailsModel
+/**
+ * Model pig_batch_vaccines
+ * 
+ */
+export type pig_batch_vaccines = Prisma.pig_batch_vaccinesModel

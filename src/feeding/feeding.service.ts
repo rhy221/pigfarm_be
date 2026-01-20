@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateFeedingFormulaDto } from './feeding.dto';
+import { CreateFeedingFormulaDto, UpdateFeedingFormulaDto } from './feeding.dto';
 import dayjs from 'dayjs';
 
 @Injectable()
@@ -11,18 +11,47 @@ export class FeedingService {
     return this.prisma.feeding_formulas.create({
       data: {
         name: data.name,
-        stage_name: data.stageName,
         start_day: data.startDay,
-        end_day: data.endDay,
         amount_per_pig: data.amountPerPig,
-        ingredients: data.ingredients,
+        feeding_formula_details: {
+          create: data.items.map((item) => ({
+            product_id: item.productId,
+            percentage: item.percentage,
+          })),
+        },
+      },
+      include: {
+        feeding_formula_details: true,
       },
     });
   }
 
   async getFormulas() {
-    return this.prisma.feeding_formulas.findMany({
+    const formulas = await this.prisma.feeding_formulas.findMany({
       orderBy: { start_day: 'asc' },
+      include: {
+        feeding_formula_details: {
+          include: {
+            products: true,
+          },
+        },
+      },
+    });
+
+    return formulas.map((f) => {
+      const ingredientsText = f.feeding_formula_details
+        .map((d) => `${d.products?.name || 'Unknown'} (${d.percentage}%)`)
+        .join(' + ');
+
+      return {
+        ...f,
+        ingredients: ingredientsText,
+        details: f.feeding_formula_details.map((d) => ({
+          productId: d.product_id,
+          productName: d.products?.name,
+          percentage: d.percentage,
+        })),
+      };
     });
   }
 
@@ -30,109 +59,113 @@ export class FeedingService {
     return this.prisma.feeding_formulas.delete({ where: { id } });
   }
 
-  async getFeedingPlan(batchId: string, selectedStageId?: string) {
-    // UPDATED: Removed rearing_pens include
-    const batch = await this.prisma.pig_batches.findUnique({
-      where: { id: batchId },
-    });
-
+  async getFeedingPlan(batchId: string) {
+    const batch = await this.prisma.pig_batches.findUnique({ where: { id: batchId } });
     if (!batch) throw new NotFoundException('Không tìm thấy lứa heo');
 
-    // UPDATED: Find pens containing pigs of this batch
     const batchPens = await this.prisma.pens.findMany({
-        where: {
-            pigs: {
-                some: { pig_batch_id: batchId }
-            }
-        }
+      where: { pigs: { some: { pig_batch_id: batchId } } },
     });
 
     const today = dayjs();
     const arrival = dayjs(batch.arrival_date);
     const currentDaysOld = today.diff(arrival, 'day');
 
-    const formulas = await this.prisma.feeding_formulas.findMany({
-      orderBy: { start_day: 'asc' },
-    });
-
-    const uniqueStagesMap = new Map();
+    const timeline: any[] = [];
+    const BLOCKS = 6;
     
-    formulas.forEach(f => {
-        const key = `${f.start_day}-${f.end_day}`;
-        if (!uniqueStagesMap.has(key)) {
-            uniqueStagesMap.set(key, {
-                id: f.id,
-                name: f.stage_name,
-                start: f.start_day,
-                end: f.end_day
-            });
-        }
-    });
-
-    const timeline = Array.from(uniqueStagesMap.values()).map((stage: any, index) => {
-        const isCurrentTime = currentDaysOld >= stage.start && currentDaysOld <= stage.end;
+    for (let i = 0; i < BLOCKS; i++) {
+        const start = i * 30;
+        const end = (i + 1) * 30 - 1;
         
         let status = 'future';
-        if (currentDaysOld > stage.end) status = 'past';
-        if (isCurrentTime) status = 'current';
+        if (currentDaysOld > end) status = 'past';
+        else if (currentDaysOld >= start && currentDaysOld <= end) status = 'current';
 
-        return {
-            id: stage.id,
-            shortName: `GĐ ${index + 1}`,
-            fullName: `${stage.name} (${stage.start} - ${stage.end} ngày)`,
-            startDay: stage.start,
-            endDay: stage.end,
-            isCurrent: isCurrentTime,
+        timeline.push({
+            label: `Tháng ${i + 1}`,
+            desc: `${start} - ${end} ngày`,
+            startDay: start,
+            endDay: end,
+            isCurrent: status === 'current',
             status: status
-        };
-    });
-
-    let targetStage: any = null;
-
-    if (selectedStageId) {
-        const found = timeline.find(t => t.id === selectedStageId);
-        if (found) targetStage = found;
-    } 
-    
-    if (!targetStage) {
-        targetStage = timeline.find(t => t.isCurrent);
-    }
-    
-    if (!targetStage && timeline.length > 0) {
-        targetStage = timeline[0];
+        });
     }
 
     const details: any[] = [];
+    
+    const allFormulas = await this.prisma.feeding_formulas.findMany({
+        orderBy: { start_day: 'desc' }, 
+        include: {
+            feeding_formula_details: { include: { products: true } }
+        }
+    });
 
-    if (targetStage) {
-        const applicableFormulas = formulas.filter(
-            f => f.start_day === targetStage.startDay && f.end_day === targetStage.endDay
-        );
+    const currentFormula = allFormulas.find(f => f.start_day <= currentDaysOld);
 
-        // UPDATED: Iterate over pens directly
+    if (currentFormula) {
+        const ingredientsText = currentFormula.feeding_formula_details
+            .map(d => `${d.products?.name} (${d.percentage}%)`)
+            .join(' + ');
+
         for (const pen of batchPens) {
-            // Using current_quantity from pens table
             const pigCount = pen.current_quantity || 0;
             if (pigCount <= 0) continue;
 
-            for (const formula of applicableFormulas) {
-                const totalKg = (formula.amount_per_pig * pigCount) / 1000;
+            const totalFeedKg = (currentFormula.amount_per_pig * pigCount) / 1000;
+            const ingredientsBreakdown = currentFormula.feeding_formula_details.map((detail) => {
+                const amountNeeded = (totalFeedKg * Number(detail.percentage)) / 100;
+                return {
+                    productName: detail.products?.name,
+                    ratio: `${detail.percentage}%`,
+                    amountNeeded: `${amountNeeded.toFixed(2)} kg`,
+                };
+            });
 
-                details.push({
-                    penName: pen.pen_name || 'Unknown',
-                    formulaName: formula.name,
-                    ingredients: formula.ingredients,
-                    pigCount: pigCount,
-                    amountPerPig: formula.amount_per_pig,
-                    totalAmountLabel: `${totalKg.toFixed(1)} kg`,
-                });
-            }
+            details.push({
+                penName: pen.pen_name,
+                formulaName: currentFormula.name,
+                ingredientsText: ingredientsText,
+                pigCount: pigCount,
+                amountPerPig: currentFormula.amount_per_pig,
+                totalFeedAmount: `${totalFeedKg.toFixed(1)} kg`,
+                ingredients: ingredientsBreakdown,
+            });
         }
     }
 
-    return {
-        timeline,
-        details
-    };
+    return { timeline, details };
+  }
+
+  async updateFormula(id: string, data: UpdateFeedingFormulaDto) {
+    const existing = await this.prisma.feeding_formulas.findUnique({
+      where: { id },
+    });
+    if (!existing) throw new NotFoundException('Không tìm thấy công thức');
+
+    const formulaDetailsUpdate = data.items
+      ? {
+          deleteMany: {},
+          create: data.items.map((item) => ({ 
+            product_id: item.productId,
+            percentage: item.percentage,
+          })),
+        }
+      : undefined;
+
+    return this.prisma.feeding_formulas.update({
+      where: { id },
+      data: {
+        name: data.name,
+        start_day: data.startDay,
+        amount_per_pig: data.amountPerPig,
+        feeding_formula_details: formulaDetailsUpdate,
+      },
+      include: {
+        feeding_formula_details: {
+          include: { products: true },
+        },
+      },
+    });
   }
 }

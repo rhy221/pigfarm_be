@@ -22,7 +22,7 @@ export class UsersService {
         email: data.email,
         password_hash: data.password_hash,
         phone: data.phone,
-        role_id: String(data.role_id), 
+        role_id: data.role_id, 
         is_active: true,
       },
       include: { user_group: true },
@@ -36,13 +36,9 @@ export class UsersService {
   }
 
   async update(id: string, data: any) {
-    const updateData = { ...data };
-    if (updateData.role_id) {
-      updateData.role_id = BigInt(updateData.role_id);
-    }
     return this.prisma.users.update({
       where: { id },
-      data: updateData,
+      data: data,
       include: { user_group: true },
     });
   }
