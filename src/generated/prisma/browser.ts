@@ -347,3 +347,13 @@ export type user_group = Prisma.user_groupModel
  * 
  */
 export type access_control = Prisma.access_controlModel
+/**
+ * Model feeding_formula_details
+ * 
+ */
+export type feeding_formula_details = Prisma.feeding_formula_detailsModel
+/**
+ * Model pig_batch_vaccines
+ * 
+ */
+export type pig_batch_vaccines = Prisma.pig_batch_vaccinesModel

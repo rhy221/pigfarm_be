@@ -455,7 +455,9 @@ export const ModelName = {
   vaccination_templates: 'vaccination_templates',
   feeding_formulas: 'feeding_formulas',
   user_group: 'user_group',
-  access_control: 'access_control'
+  access_control: 'access_control',
+  feeding_formula_details: 'feeding_formula_details',
+  pig_batch_vaccines: 'pig_batch_vaccines'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -471,7 +473,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "assignment_details" | "assignments" | "chemicals" | "cleaning_details" | "cleaning_methods" | "cleaning_schedules" | "employees" | "environment_log_details" | "environment_logs" | "feeding_schedule_details" | "feeding_schedules" | "feeds" | "herd_report_pen_pigs" | "herd_report_pens" | "herd_reports" | "pen_types" | "pens" | "pig_breeds" | "pig_shipping_details" | "pig_shipping_statuses" | "pig_shippings" | "pig_statuses" | "pig_transfers" | "pigs" | "treatment_details" | "vaccination_schedule_details" | "vaccination_schedules" | "vaccine_report_details" | "vaccine_reports" | "vaccines" | "work_shifts" | "warehouses" | "cash_accounts" | "customers" | "daily_cash_snapshots" | "daily_inventory_snapshots" | "inventory" | "inventory_batches" | "inventory_check_items" | "inventory_checks" | "inventory_history" | "monthly_bill_records" | "monthly_bills" | "products" | "stock_issue_items" | "stock_issues" | "stock_receipt_items" | "stock_receipts" | "supplier_debts" | "suppliers" | "transaction_categories" | "transactions" | "units" | "users" | "warehouse_categories" | "diseases" | "disease_treatments" | "pig_in_treatment" | "treatment_logs" | "shipped_pig_items" | "chat_documents" | "pig_batches" | "vaccination_templates" | "feeding_formulas" | "user_group" | "access_control"
+    modelProps: "assignment_details" | "assignments" | "chemicals" | "cleaning_details" | "cleaning_methods" | "cleaning_schedules" | "employees" | "environment_log_details" | "environment_logs" | "feeding_schedule_details" | "feeding_schedules" | "feeds" | "herd_report_pen_pigs" | "herd_report_pens" | "herd_reports" | "pen_types" | "pens" | "pig_breeds" | "pig_shipping_details" | "pig_shipping_statuses" | "pig_shippings" | "pig_statuses" | "pig_transfers" | "pigs" | "treatment_details" | "vaccination_schedule_details" | "vaccination_schedules" | "vaccine_report_details" | "vaccine_reports" | "vaccines" | "work_shifts" | "warehouses" | "cash_accounts" | "customers" | "daily_cash_snapshots" | "daily_inventory_snapshots" | "inventory" | "inventory_batches" | "inventory_check_items" | "inventory_checks" | "inventory_history" | "monthly_bill_records" | "monthly_bills" | "products" | "stock_issue_items" | "stock_issues" | "stock_receipt_items" | "stock_receipts" | "supplier_debts" | "suppliers" | "transaction_categories" | "transactions" | "units" | "users" | "warehouse_categories" | "diseases" | "disease_treatments" | "pig_in_treatment" | "treatment_logs" | "shipped_pig_items" | "chat_documents" | "pig_batches" | "vaccination_templates" | "feeding_formulas" | "user_group" | "access_control" | "feeding_formula_details" | "pig_batch_vaccines"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5359,6 +5361,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    feeding_formula_details: {
+      payload: Prisma.$feeding_formula_detailsPayload<ExtArgs>
+      fields: Prisma.feeding_formula_detailsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.feeding_formula_detailsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.feeding_formula_detailsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload>
+        }
+        findFirst: {
+          args: Prisma.feeding_formula_detailsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.feeding_formula_detailsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload>
+        }
+        findMany: {
+          args: Prisma.feeding_formula_detailsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload>[]
+        }
+        create: {
+          args: Prisma.feeding_formula_detailsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload>
+        }
+        createMany: {
+          args: Prisma.feeding_formula_detailsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.feeding_formula_detailsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload>[]
+        }
+        delete: {
+          args: Prisma.feeding_formula_detailsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload>
+        }
+        update: {
+          args: Prisma.feeding_formula_detailsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload>
+        }
+        deleteMany: {
+          args: Prisma.feeding_formula_detailsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.feeding_formula_detailsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.feeding_formula_detailsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload>[]
+        }
+        upsert: {
+          args: Prisma.feeding_formula_detailsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$feeding_formula_detailsPayload>
+        }
+        aggregate: {
+          args: Prisma.Feeding_formula_detailsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFeeding_formula_details>
+        }
+        groupBy: {
+          args: Prisma.feeding_formula_detailsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Feeding_formula_detailsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.feeding_formula_detailsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Feeding_formula_detailsCountAggregateOutputType> | number
+        }
+      }
+    }
+    pig_batch_vaccines: {
+      payload: Prisma.$pig_batch_vaccinesPayload<ExtArgs>
+      fields: Prisma.pig_batch_vaccinesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.pig_batch_vaccinesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.pig_batch_vaccinesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload>
+        }
+        findFirst: {
+          args: Prisma.pig_batch_vaccinesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.pig_batch_vaccinesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload>
+        }
+        findMany: {
+          args: Prisma.pig_batch_vaccinesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload>[]
+        }
+        create: {
+          args: Prisma.pig_batch_vaccinesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload>
+        }
+        createMany: {
+          args: Prisma.pig_batch_vaccinesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.pig_batch_vaccinesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload>[]
+        }
+        delete: {
+          args: Prisma.pig_batch_vaccinesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload>
+        }
+        update: {
+          args: Prisma.pig_batch_vaccinesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload>
+        }
+        deleteMany: {
+          args: Prisma.pig_batch_vaccinesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.pig_batch_vaccinesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.pig_batch_vaccinesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload>[]
+        }
+        upsert: {
+          args: Prisma.pig_batch_vaccinesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pig_batch_vaccinesPayload>
+        }
+        aggregate: {
+          args: Prisma.Pig_batch_vaccinesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePig_batch_vaccines>
+        }
+        groupBy: {
+          args: Prisma.pig_batch_vaccinesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pig_batch_vaccinesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.pig_batch_vaccinesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pig_batch_vaccinesCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5646,7 +5796,9 @@ export const Pig_transfersScalarFieldEnum = {
   created_at: 'created_at',
   old_pen_id: 'old_pen_id',
   new_pen_id: 'new_pen_id',
-  pig_id: 'pig_id'
+  pig_id: 'pig_id',
+  transfer_type: 'transfer_type',
+  note: 'note'
 } as const
 
 export type Pig_transfersScalarFieldEnum = (typeof Pig_transfersScalarFieldEnum)[keyof typeof Pig_transfersScalarFieldEnum]
@@ -6189,7 +6341,8 @@ export const Disease_treatmentsScalarFieldEnum = {
   symptom: 'symptom',
   disease_id: 'disease_id',
   status: 'status',
-  end_date: 'end_date'
+  end_date: 'end_date',
+  start_date: 'start_date'
 } as const
 
 export type Disease_treatmentsScalarFieldEnum = (typeof Disease_treatmentsScalarFieldEnum)[keyof typeof Disease_treatmentsScalarFieldEnum]
@@ -6268,9 +6421,7 @@ export const Feeding_formulasScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   name: 'name',
-  stage_name: 'stage_name',
   start_day: 'start_day',
-  end_day: 'end_day',
   amount_per_pig: 'amount_per_pig',
   ingredients: 'ingredients',
   is_active: 'is_active'
@@ -6296,6 +6447,28 @@ export const Access_controlScalarFieldEnum = {
 } as const
 
 export type Access_controlScalarFieldEnum = (typeof Access_controlScalarFieldEnum)[keyof typeof Access_controlScalarFieldEnum]
+
+
+export const Feeding_formula_detailsScalarFieldEnum = {
+  id: 'id',
+  formula_id: 'formula_id',
+  product_id: 'product_id',
+  percentage: 'percentage',
+  notes: 'notes',
+  created_at: 'created_at'
+} as const
+
+export type Feeding_formula_detailsScalarFieldEnum = (typeof Feeding_formula_detailsScalarFieldEnum)[keyof typeof Feeding_formula_detailsScalarFieldEnum]
+
+
+export const Pig_batch_vaccinesScalarFieldEnum = {
+  id: 'id',
+  pig_batch_id: 'pig_batch_id',
+  vaccine_id: 'vaccine_id',
+  created_at: 'created_at'
+} as const
+
+export type Pig_batch_vaccinesScalarFieldEnum = (typeof Pig_batch_vaccinesScalarFieldEnum)[keyof typeof Pig_batch_vaccinesScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -6658,6 +6831,8 @@ export type GlobalOmitConfig = {
   feeding_formulas?: Prisma.feeding_formulasOmit
   user_group?: Prisma.user_groupOmit
   access_control?: Prisma.access_controlOmit
+  feeding_formula_details?: Prisma.feeding_formula_detailsOmit
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesOmit
 }
 
 /* Types for Logging */

@@ -28,13 +28,11 @@ export type AggregateFeeding_formulas = {
 
 export type Feeding_formulasAvgAggregateOutputType = {
   start_day: number | null
-  end_day: number | null
   amount_per_pig: number | null
 }
 
 export type Feeding_formulasSumAggregateOutputType = {
   start_day: number | null
-  end_day: number | null
   amount_per_pig: number | null
 }
 
@@ -42,9 +40,7 @@ export type Feeding_formulasMinAggregateOutputType = {
   id: string | null
   created_at: Date | null
   name: string | null
-  stage_name: string | null
   start_day: number | null
-  end_day: number | null
   amount_per_pig: number | null
   ingredients: string | null
   is_active: boolean | null
@@ -54,9 +50,7 @@ export type Feeding_formulasMaxAggregateOutputType = {
   id: string | null
   created_at: Date | null
   name: string | null
-  stage_name: string | null
   start_day: number | null
-  end_day: number | null
   amount_per_pig: number | null
   ingredients: string | null
   is_active: boolean | null
@@ -66,9 +60,7 @@ export type Feeding_formulasCountAggregateOutputType = {
   id: number
   created_at: number
   name: number
-  stage_name: number
   start_day: number
-  end_day: number
   amount_per_pig: number
   ingredients: number
   is_active: number
@@ -78,13 +70,11 @@ export type Feeding_formulasCountAggregateOutputType = {
 
 export type Feeding_formulasAvgAggregateInputType = {
   start_day?: true
-  end_day?: true
   amount_per_pig?: true
 }
 
 export type Feeding_formulasSumAggregateInputType = {
   start_day?: true
-  end_day?: true
   amount_per_pig?: true
 }
 
@@ -92,9 +82,7 @@ export type Feeding_formulasMinAggregateInputType = {
   id?: true
   created_at?: true
   name?: true
-  stage_name?: true
   start_day?: true
-  end_day?: true
   amount_per_pig?: true
   ingredients?: true
   is_active?: true
@@ -104,9 +92,7 @@ export type Feeding_formulasMaxAggregateInputType = {
   id?: true
   created_at?: true
   name?: true
-  stage_name?: true
   start_day?: true
-  end_day?: true
   amount_per_pig?: true
   ingredients?: true
   is_active?: true
@@ -116,9 +102,7 @@ export type Feeding_formulasCountAggregateInputType = {
   id?: true
   created_at?: true
   name?: true
-  stage_name?: true
   start_day?: true
-  end_day?: true
   amount_per_pig?: true
   ingredients?: true
   is_active?: true
@@ -215,9 +199,7 @@ export type Feeding_formulasGroupByOutputType = {
   id: string
   created_at: Date | null
   name: string
-  stage_name: string
   start_day: number
-  end_day: number
   amount_per_pig: number
   ingredients: string | null
   is_active: boolean | null
@@ -250,24 +232,22 @@ export type feeding_formulasWhereInput = {
   id?: Prisma.UuidFilter<"feeding_formulas"> | string
   created_at?: Prisma.DateTimeNullableFilter<"feeding_formulas"> | Date | string | null
   name?: Prisma.StringFilter<"feeding_formulas"> | string
-  stage_name?: Prisma.StringFilter<"feeding_formulas"> | string
   start_day?: Prisma.IntFilter<"feeding_formulas"> | number
-  end_day?: Prisma.IntFilter<"feeding_formulas"> | number
   amount_per_pig?: Prisma.IntFilter<"feeding_formulas"> | number
   ingredients?: Prisma.StringNullableFilter<"feeding_formulas"> | string | null
   is_active?: Prisma.BoolNullableFilter<"feeding_formulas"> | boolean | null
+  feeding_formula_details?: Prisma.Feeding_formula_detailsListRelationFilter
 }
 
 export type feeding_formulasOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
-  stage_name?: Prisma.SortOrder
   start_day?: Prisma.SortOrder
-  end_day?: Prisma.SortOrder
   amount_per_pig?: Prisma.SortOrder
   ingredients?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
+  feeding_formula_details?: Prisma.feeding_formula_detailsOrderByRelationAggregateInput
 }
 
 export type feeding_formulasWhereUniqueInput = Prisma.AtLeast<{
@@ -277,21 +257,18 @@ export type feeding_formulasWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.feeding_formulasWhereInput | Prisma.feeding_formulasWhereInput[]
   created_at?: Prisma.DateTimeNullableFilter<"feeding_formulas"> | Date | string | null
   name?: Prisma.StringFilter<"feeding_formulas"> | string
-  stage_name?: Prisma.StringFilter<"feeding_formulas"> | string
   start_day?: Prisma.IntFilter<"feeding_formulas"> | number
-  end_day?: Prisma.IntFilter<"feeding_formulas"> | number
   amount_per_pig?: Prisma.IntFilter<"feeding_formulas"> | number
   ingredients?: Prisma.StringNullableFilter<"feeding_formulas"> | string | null
   is_active?: Prisma.BoolNullableFilter<"feeding_formulas"> | boolean | null
+  feeding_formula_details?: Prisma.Feeding_formula_detailsListRelationFilter
 }, "id">
 
 export type feeding_formulasOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
-  stage_name?: Prisma.SortOrder
   start_day?: Prisma.SortOrder
-  end_day?: Prisma.SortOrder
   amount_per_pig?: Prisma.SortOrder
   ingredients?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -309,9 +286,7 @@ export type feeding_formulasScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"feeding_formulas"> | string
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"feeding_formulas"> | Date | string | null
   name?: Prisma.StringWithAggregatesFilter<"feeding_formulas"> | string
-  stage_name?: Prisma.StringWithAggregatesFilter<"feeding_formulas"> | string
   start_day?: Prisma.IntWithAggregatesFilter<"feeding_formulas"> | number
-  end_day?: Prisma.IntWithAggregatesFilter<"feeding_formulas"> | number
   amount_per_pig?: Prisma.IntWithAggregatesFilter<"feeding_formulas"> | number
   ingredients?: Prisma.StringNullableWithAggregatesFilter<"feeding_formulas"> | string | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"feeding_formulas"> | boolean | null
@@ -321,57 +296,51 @@ export type feeding_formulasCreateInput = {
   id?: string
   created_at?: Date | string | null
   name: string
-  stage_name: string
   start_day: number
-  end_day: number
   amount_per_pig: number
   ingredients?: string | null
   is_active?: boolean | null
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutFeeding_formulasInput
 }
 
 export type feeding_formulasUncheckedCreateInput = {
   id?: string
   created_at?: Date | string | null
   name: string
-  stage_name: string
   start_day: number
-  end_day: number
   amount_per_pig: number
   ingredients?: string | null
   is_active?: boolean | null
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutFeeding_formulasInput
 }
 
 export type feeding_formulasUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  stage_name?: Prisma.StringFieldUpdateOperationsInput | string
   start_day?: Prisma.IntFieldUpdateOperationsInput | number
-  end_day?: Prisma.IntFieldUpdateOperationsInput | number
   amount_per_pig?: Prisma.IntFieldUpdateOperationsInput | number
   ingredients?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutFeeding_formulasNestedInput
 }
 
 export type feeding_formulasUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  stage_name?: Prisma.StringFieldUpdateOperationsInput | string
   start_day?: Prisma.IntFieldUpdateOperationsInput | number
-  end_day?: Prisma.IntFieldUpdateOperationsInput | number
   amount_per_pig?: Prisma.IntFieldUpdateOperationsInput | number
   ingredients?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutFeeding_formulasNestedInput
 }
 
 export type feeding_formulasCreateManyInput = {
   id?: string
   created_at?: Date | string | null
   name: string
-  stage_name: string
   start_day: number
-  end_day: number
   amount_per_pig: number
   ingredients?: string | null
   is_active?: boolean | null
@@ -381,9 +350,7 @@ export type feeding_formulasUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  stage_name?: Prisma.StringFieldUpdateOperationsInput | string
   start_day?: Prisma.IntFieldUpdateOperationsInput | number
-  end_day?: Prisma.IntFieldUpdateOperationsInput | number
   amount_per_pig?: Prisma.IntFieldUpdateOperationsInput | number
   ingredients?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -393,9 +360,7 @@ export type feeding_formulasUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  stage_name?: Prisma.StringFieldUpdateOperationsInput | string
   start_day?: Prisma.IntFieldUpdateOperationsInput | number
-  end_day?: Prisma.IntFieldUpdateOperationsInput | number
   amount_per_pig?: Prisma.IntFieldUpdateOperationsInput | number
   ingredients?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -405,9 +370,7 @@ export type feeding_formulasCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  stage_name?: Prisma.SortOrder
   start_day?: Prisma.SortOrder
-  end_day?: Prisma.SortOrder
   amount_per_pig?: Prisma.SortOrder
   ingredients?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
@@ -415,7 +378,6 @@ export type feeding_formulasCountOrderByAggregateInput = {
 
 export type feeding_formulasAvgOrderByAggregateInput = {
   start_day?: Prisma.SortOrder
-  end_day?: Prisma.SortOrder
   amount_per_pig?: Prisma.SortOrder
 }
 
@@ -423,9 +385,7 @@ export type feeding_formulasMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  stage_name?: Prisma.SortOrder
   start_day?: Prisma.SortOrder
-  end_day?: Prisma.SortOrder
   amount_per_pig?: Prisma.SortOrder
   ingredients?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
@@ -435,9 +395,7 @@ export type feeding_formulasMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  stage_name?: Prisma.SortOrder
   start_day?: Prisma.SortOrder
-  end_day?: Prisma.SortOrder
   amount_per_pig?: Prisma.SortOrder
   ingredients?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
@@ -445,31 +403,132 @@ export type feeding_formulasMinOrderByAggregateInput = {
 
 export type feeding_formulasSumOrderByAggregateInput = {
   start_day?: Prisma.SortOrder
-  end_day?: Prisma.SortOrder
   amount_per_pig?: Prisma.SortOrder
 }
 
+export type Feeding_formulasScalarRelationFilter = {
+  is?: Prisma.feeding_formulasWhereInput
+  isNot?: Prisma.feeding_formulasWhereInput
+}
+
+export type feeding_formulasCreateNestedOneWithoutFeeding_formula_detailsInput = {
+  create?: Prisma.XOR<Prisma.feeding_formulasCreateWithoutFeeding_formula_detailsInput, Prisma.feeding_formulasUncheckedCreateWithoutFeeding_formula_detailsInput>
+  connectOrCreate?: Prisma.feeding_formulasCreateOrConnectWithoutFeeding_formula_detailsInput
+  connect?: Prisma.feeding_formulasWhereUniqueInput
+}
+
+export type feeding_formulasUpdateOneRequiredWithoutFeeding_formula_detailsNestedInput = {
+  create?: Prisma.XOR<Prisma.feeding_formulasCreateWithoutFeeding_formula_detailsInput, Prisma.feeding_formulasUncheckedCreateWithoutFeeding_formula_detailsInput>
+  connectOrCreate?: Prisma.feeding_formulasCreateOrConnectWithoutFeeding_formula_detailsInput
+  upsert?: Prisma.feeding_formulasUpsertWithoutFeeding_formula_detailsInput
+  connect?: Prisma.feeding_formulasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.feeding_formulasUpdateToOneWithWhereWithoutFeeding_formula_detailsInput, Prisma.feeding_formulasUpdateWithoutFeeding_formula_detailsInput>, Prisma.feeding_formulasUncheckedUpdateWithoutFeeding_formula_detailsInput>
+}
+
+export type feeding_formulasCreateWithoutFeeding_formula_detailsInput = {
+  id?: string
+  created_at?: Date | string | null
+  name: string
+  start_day: number
+  amount_per_pig: number
+  ingredients?: string | null
+  is_active?: boolean | null
+}
+
+export type feeding_formulasUncheckedCreateWithoutFeeding_formula_detailsInput = {
+  id?: string
+  created_at?: Date | string | null
+  name: string
+  start_day: number
+  amount_per_pig: number
+  ingredients?: string | null
+  is_active?: boolean | null
+}
+
+export type feeding_formulasCreateOrConnectWithoutFeeding_formula_detailsInput = {
+  where: Prisma.feeding_formulasWhereUniqueInput
+  create: Prisma.XOR<Prisma.feeding_formulasCreateWithoutFeeding_formula_detailsInput, Prisma.feeding_formulasUncheckedCreateWithoutFeeding_formula_detailsInput>
+}
+
+export type feeding_formulasUpsertWithoutFeeding_formula_detailsInput = {
+  update: Prisma.XOR<Prisma.feeding_formulasUpdateWithoutFeeding_formula_detailsInput, Prisma.feeding_formulasUncheckedUpdateWithoutFeeding_formula_detailsInput>
+  create: Prisma.XOR<Prisma.feeding_formulasCreateWithoutFeeding_formula_detailsInput, Prisma.feeding_formulasUncheckedCreateWithoutFeeding_formula_detailsInput>
+  where?: Prisma.feeding_formulasWhereInput
+}
+
+export type feeding_formulasUpdateToOneWithWhereWithoutFeeding_formula_detailsInput = {
+  where?: Prisma.feeding_formulasWhereInput
+  data: Prisma.XOR<Prisma.feeding_formulasUpdateWithoutFeeding_formula_detailsInput, Prisma.feeding_formulasUncheckedUpdateWithoutFeeding_formula_detailsInput>
+}
+
+export type feeding_formulasUpdateWithoutFeeding_formula_detailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  start_day?: Prisma.IntFieldUpdateOperationsInput | number
+  amount_per_pig?: Prisma.IntFieldUpdateOperationsInput | number
+  ingredients?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+}
+
+export type feeding_formulasUncheckedUpdateWithoutFeeding_formula_detailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  start_day?: Prisma.IntFieldUpdateOperationsInput | number
+  amount_per_pig?: Prisma.IntFieldUpdateOperationsInput | number
+  ingredients?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+}
+
+
+/**
+ * Count Type Feeding_formulasCountOutputType
+ */
+
+export type Feeding_formulasCountOutputType = {
+  feeding_formula_details: number
+}
+
+export type Feeding_formulasCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  feeding_formula_details?: boolean | Feeding_formulasCountOutputTypeCountFeeding_formula_detailsArgs
+}
+
+/**
+ * Feeding_formulasCountOutputType without action
+ */
+export type Feeding_formulasCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Feeding_formulasCountOutputType
+   */
+  select?: Prisma.Feeding_formulasCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Feeding_formulasCountOutputType without action
+ */
+export type Feeding_formulasCountOutputTypeCountFeeding_formula_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.feeding_formula_detailsWhereInput
+}
 
 
 export type feeding_formulasSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
   name?: boolean
-  stage_name?: boolean
   start_day?: boolean
-  end_day?: boolean
   amount_per_pig?: boolean
   ingredients?: boolean
   is_active?: boolean
+  feeding_formula_details?: boolean | Prisma.feeding_formulas$feeding_formula_detailsArgs<ExtArgs>
+  _count?: boolean | Prisma.Feeding_formulasCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["feeding_formulas"]>
 
 export type feeding_formulasSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   created_at?: boolean
   name?: boolean
-  stage_name?: boolean
   start_day?: boolean
-  end_day?: boolean
   amount_per_pig?: boolean
   ingredients?: boolean
   is_active?: boolean
@@ -479,9 +538,7 @@ export type feeding_formulasSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   created_at?: boolean
   name?: boolean
-  stage_name?: boolean
   start_day?: boolean
-  end_day?: boolean
   amount_per_pig?: boolean
   ingredients?: boolean
   is_active?: boolean
@@ -491,26 +548,30 @@ export type feeding_formulasSelectScalar = {
   id?: boolean
   created_at?: boolean
   name?: boolean
-  stage_name?: boolean
   start_day?: boolean
-  end_day?: boolean
   amount_per_pig?: boolean
   ingredients?: boolean
   is_active?: boolean
 }
 
-export type feeding_formulasOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "name" | "stage_name" | "start_day" | "end_day" | "amount_per_pig" | "ingredients" | "is_active", ExtArgs["result"]["feeding_formulas"]>
+export type feeding_formulasOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "name" | "start_day" | "amount_per_pig" | "ingredients" | "is_active", ExtArgs["result"]["feeding_formulas"]>
+export type feeding_formulasInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  feeding_formula_details?: boolean | Prisma.feeding_formulas$feeding_formula_detailsArgs<ExtArgs>
+  _count?: boolean | Prisma.Feeding_formulasCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type feeding_formulasIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type feeding_formulasIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $feeding_formulasPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "feeding_formulas"
-  objects: {}
+  objects: {
+    feeding_formula_details: Prisma.$feeding_formula_detailsPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     created_at: Date | null
     name: string
-    stage_name: string
     start_day: number
-    end_day: number
     amount_per_pig: number
     ingredients: string | null
     is_active: boolean | null
@@ -908,6 +969,7 @@ readonly fields: feeding_formulasFieldRefs;
  */
 export interface Prisma__feeding_formulasClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  feeding_formula_details<T extends Prisma.feeding_formulas$feeding_formula_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.feeding_formulas$feeding_formula_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$feeding_formula_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -940,9 +1002,7 @@ export interface feeding_formulasFieldRefs {
   readonly id: Prisma.FieldRef<"feeding_formulas", 'String'>
   readonly created_at: Prisma.FieldRef<"feeding_formulas", 'DateTime'>
   readonly name: Prisma.FieldRef<"feeding_formulas", 'String'>
-  readonly stage_name: Prisma.FieldRef<"feeding_formulas", 'String'>
   readonly start_day: Prisma.FieldRef<"feeding_formulas", 'Int'>
-  readonly end_day: Prisma.FieldRef<"feeding_formulas", 'Int'>
   readonly amount_per_pig: Prisma.FieldRef<"feeding_formulas", 'Int'>
   readonly ingredients: Prisma.FieldRef<"feeding_formulas", 'String'>
   readonly is_active: Prisma.FieldRef<"feeding_formulas", 'Boolean'>
@@ -963,6 +1023,10 @@ export type feeding_formulasFindUniqueArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
+  /**
    * Filter, which feeding_formulas to fetch.
    */
   where: Prisma.feeding_formulasWhereUniqueInput
@@ -981,6 +1045,10 @@ export type feeding_formulasFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
+  /**
    * Filter, which feeding_formulas to fetch.
    */
   where: Prisma.feeding_formulasWhereUniqueInput
@@ -998,6 +1066,10 @@ export type feeding_formulasFindFirstArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the feeding_formulas
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
   /**
    * Filter, which feeding_formulas to fetch.
    */
@@ -1047,6 +1119,10 @@ export type feeding_formulasFindFirstOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
+  /**
    * Filter, which feeding_formulas to fetch.
    */
   where?: Prisma.feeding_formulasWhereInput
@@ -1095,6 +1171,10 @@ export type feeding_formulasFindManyArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
+  /**
    * Filter, which feeding_formulas to fetch.
    */
   where?: Prisma.feeding_formulasWhereInput
@@ -1137,6 +1217,10 @@ export type feeding_formulasCreateArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the feeding_formulas
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
   /**
    * The data needed to create a feeding_formulas.
    */
@@ -1185,6 +1269,10 @@ export type feeding_formulasUpdateArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the feeding_formulas
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
   /**
    * The data needed to update a feeding_formulas.
    */
@@ -1252,6 +1340,10 @@ export type feeding_formulasUpsertArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
+  /**
    * The filter to search for the feeding_formulas to update in case it exists.
    */
   where: Prisma.feeding_formulasWhereUniqueInput
@@ -1278,6 +1370,10 @@ export type feeding_formulasDeleteArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
+  /**
    * Filter which feeding_formulas to delete.
    */
   where: Prisma.feeding_formulasWhereUniqueInput
@@ -1298,6 +1394,30 @@ export type feeding_formulasDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
+ * feeding_formulas.feeding_formula_details
+ */
+export type feeding_formulas$feeding_formula_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the feeding_formula_details
+   */
+  select?: Prisma.feeding_formula_detailsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the feeding_formula_details
+   */
+  omit?: Prisma.feeding_formula_detailsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formula_detailsInclude<ExtArgs> | null
+  where?: Prisma.feeding_formula_detailsWhereInput
+  orderBy?: Prisma.feeding_formula_detailsOrderByWithRelationInput | Prisma.feeding_formula_detailsOrderByWithRelationInput[]
+  cursor?: Prisma.feeding_formula_detailsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Feeding_formula_detailsScalarFieldEnum | Prisma.Feeding_formula_detailsScalarFieldEnum[]
+}
+
+/**
  * feeding_formulas without action
  */
 export type feeding_formulasDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1309,4 +1429,8 @@ export type feeding_formulasDefaultArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the feeding_formulas
    */
   omit?: Prisma.feeding_formulasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formulasInclude<ExtArgs> | null
 }

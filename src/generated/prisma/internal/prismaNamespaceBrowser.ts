@@ -114,7 +114,9 @@ export const ModelName = {
   vaccination_templates: 'vaccination_templates',
   feeding_formulas: 'feeding_formulas',
   user_group: 'user_group',
-  access_control: 'access_control'
+  access_control: 'access_control',
+  feeding_formula_details: 'feeding_formula_details',
+  pig_batch_vaccines: 'pig_batch_vaccines'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -381,7 +383,9 @@ export const Pig_transfersScalarFieldEnum = {
   created_at: 'created_at',
   old_pen_id: 'old_pen_id',
   new_pen_id: 'new_pen_id',
-  pig_id: 'pig_id'
+  pig_id: 'pig_id',
+  transfer_type: 'transfer_type',
+  note: 'note'
 } as const
 
 export type Pig_transfersScalarFieldEnum = (typeof Pig_transfersScalarFieldEnum)[keyof typeof Pig_transfersScalarFieldEnum]
@@ -924,7 +928,8 @@ export const Disease_treatmentsScalarFieldEnum = {
   symptom: 'symptom',
   disease_id: 'disease_id',
   status: 'status',
-  end_date: 'end_date'
+  end_date: 'end_date',
+  start_date: 'start_date'
 } as const
 
 export type Disease_treatmentsScalarFieldEnum = (typeof Disease_treatmentsScalarFieldEnum)[keyof typeof Disease_treatmentsScalarFieldEnum]
@@ -1003,9 +1008,7 @@ export const Feeding_formulasScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   name: 'name',
-  stage_name: 'stage_name',
   start_day: 'start_day',
-  end_day: 'end_day',
   amount_per_pig: 'amount_per_pig',
   ingredients: 'ingredients',
   is_active: 'is_active'
@@ -1031,6 +1034,28 @@ export const Access_controlScalarFieldEnum = {
 } as const
 
 export type Access_controlScalarFieldEnum = (typeof Access_controlScalarFieldEnum)[keyof typeof Access_controlScalarFieldEnum]
+
+
+export const Feeding_formula_detailsScalarFieldEnum = {
+  id: 'id',
+  formula_id: 'formula_id',
+  product_id: 'product_id',
+  percentage: 'percentage',
+  notes: 'notes',
+  created_at: 'created_at'
+} as const
+
+export type Feeding_formula_detailsScalarFieldEnum = (typeof Feeding_formula_detailsScalarFieldEnum)[keyof typeof Feeding_formula_detailsScalarFieldEnum]
+
+
+export const Pig_batch_vaccinesScalarFieldEnum = {
+  id: 'id',
+  pig_batch_id: 'pig_batch_id',
+  vaccine_id: 'vaccine_id',
+  created_at: 'created_at'
+} as const
+
+export type Pig_batch_vaccinesScalarFieldEnum = (typeof Pig_batch_vaccinesScalarFieldEnum)[keyof typeof Pig_batch_vaccinesScalarFieldEnum]
 
 
 export const SortOrder = {

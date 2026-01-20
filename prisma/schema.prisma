@@ -270,14 +270,18 @@ model pig_transfers {
   old_pen_id                          String?  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   new_pen_id                          String?  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   pig_id                              String?
+  transfer_type                       String?  @default("normal") @db.VarChar(50)
+  note                                String?  @default("")
   pens_pig_transfers_new_pen_idTopens pens?    @relation("pig_transfers_new_pen_idTopens", fields: [new_pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pens_pig_transfers_old_pen_idTopens pens?    @relation("pig_transfers_old_pen_idTopens", fields: [old_pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pigs                                pigs?    @relation(fields: [pig_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([transfer_type], map: "idx_pig_transfers_type")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model pigs {
-  id                   String                 @id(map: "pig_pkey") @default(dbgenerated("uuid_generate_v4()"))
+  id                   String                 @id(map: "pig_pkey") @default(dbgenerated("generate_pig_id()"))
   created_at           DateTime               @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   pig_batch_id         String?                @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   weight               Float?                 @default(0) @db.Real
@@ -315,7 +319,7 @@ model vaccination_schedule_details {
   dosage                Float?                 @default(0) @db.Real
   stage                 Int?                   @default(1)
   vaccine_id            String?                @db.Uuid
-  vaccination_schedules vaccination_schedules? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vaccination_schedules vaccination_schedules? @relation(fields: [schedule_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   vaccines              vaccines?              @relation(fields: [vaccine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -365,6 +369,7 @@ model vaccines {
   days_old                     Int?                           @default(0)
   dosage                       String?                        @default("")
   description                  String?                        @default("")
+  pig_batch_vaccines           pig_batch_vaccines[]
   vaccination_schedule_details vaccination_schedule_details[]
   vaccination_templates        vaccination_templates[]
   vaccine_report_details       vaccine_report_details[]
@@ -621,6 +626,7 @@ model products {
   created_at                DateTime?                   @default(now()) @db.Timestamptz(6)
   updated_at                DateTime?                   @default(now()) @db.Timestamptz(6)
   daily_inventory_snapshots daily_inventory_snapshots[]
+  feeding_formula_details   feeding_formula_details[]
   inventory                 inventory[]
   inventory_batches         inventory_batches[]
   inventory_check_items     inventory_check_items[]
@@ -886,6 +892,7 @@ model disease_treatments {
   disease_id        String?             @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   status            sick_group_status?
   end_date          DateTime?           @db.Timestamptz(6)
+  start_date        DateTime?           @default(dbgenerated("CURRENT_DATE")) @db.Date
   diseases          diseases?           @relation(fields: [disease_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pens              pens?               @relation(fields: [pen_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pigs_in_treatment pig_in_treatment[]
@@ -940,11 +947,12 @@ model chat_documents {
 }
 
 model pig_batches {
-  id           String    @id(map: "pig_batchs_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at   DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  arrival_date DateTime? @db.Date
-  batch_name   String?
-  pigs         pigs[]
+  id                 String               @id(map: "pig_batchs_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at         DateTime             @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  arrival_date       DateTime?            @db.Date
+  batch_name         String?
+  pig_batch_vaccines pig_batch_vaccines[]
+  pigs               pigs[]
 }
 
 model vaccination_templates {
@@ -961,15 +969,14 @@ model vaccination_templates {
 }
 
 model feeding_formulas {
-  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at     DateTime? @default(now()) @db.Timestamptz(6)
-  name           String
-  stage_name     String
-  start_day      Int
-  end_day        Int
-  amount_per_pig Int
-  ingredients    String?   @default("")
-  is_active      Boolean?  @default(true)
+  id                      String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at              DateTime?                 @default(now()) @db.Timestamptz(6)
+  name                    String
+  start_day               Int
+  amount_per_pig          Int
+  ingredients             String?                   @default("")
+  is_active               Boolean?                  @default(true)
+  feeding_formula_details feeding_formula_details[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -987,6 +994,26 @@ model access_control {
   role_id     String     @unique @db.Uuid
   permissions Json?      @default("{\"KHO\": false, \"LOGOUT\": true, \"BAO_CAO\": false, \"CHI_PHI\": false, \"VAC_XIN\": false, \"VE_SINH\": false, \"HEO_BENH\": false, \"SETTINGS\": false, \"KHAU_PHAN\": false, \"PHAN_CONG\": false, \"HEO_CHUONG\": false, \"XUAT_CHUONG\": false}")
   user_group  user_group @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model feeding_formula_details {
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  formula_id       String           @db.Uuid
+  product_id       String           @db.Uuid
+  percentage       Decimal          @default(0) @db.Decimal
+  notes            String?
+  created_at       DateTime?        @default(now()) @db.Timestamptz(6)
+  feeding_formulas feeding_formulas @relation(fields: [formula_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "feeding_formula_details_formula_fkey")
+  products         products         @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "feeding_formula_details_product_fkey")
+}
+
+model pig_batch_vaccines {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pig_batch_id String      @db.Uuid
+  vaccine_id   String      @db.Uuid
+  created_at   DateTime?   @default(now()) @db.Timestamptz(6)
+  pig_batches  pig_batches @relation(fields: [pig_batch_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "pig_batch_vaccines_batch_fkey")
+  vaccines     vaccines    @relation(fields: [vaccine_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "pig_batch_vaccines_vaccine_fkey")
 }
 
 enum material_categories {
