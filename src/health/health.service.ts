@@ -1,3 +1,4 @@
+// health/health.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
@@ -16,6 +17,8 @@ export class HealthService {
     );
   }
 
+  // --- PHẦN ĐIỀU TRỊ BỆNH (GIỮ LẠI) ---
+
   async getActiveTreatments() {
     const data = await this.prisma.disease_treatments.findMany({
       where: { status: 'TREATING' },
@@ -24,17 +27,17 @@ export class HealthService {
         pens: { select: { pen_name: true } },
         pigs_in_treatment: {
           where: { status: 'SICK' },
-          select: { id: true } 
+          select: { id: true },
         },
       },
       orderBy: { created_at: 'desc' },
     });
 
-    const processed = data.map(item => ({
+    const processed = data.map((item) => ({
       ...item,
       _count: {
-        pigs_in_treatment: item.pigs_in_treatment.length
-      }
+        pigs_in_treatment: item.pigs_in_treatment.length,
+      },
     }));
 
     return this.serialize(processed);
@@ -153,12 +156,12 @@ export class HealthService {
       });
 
       const actualPigIds = records.map((r) => r.pig_id).filter(Boolean);
-      
+
       await tx.pigs.updateMany({
         where: { id: { in: actualPigIds as string[] } },
         data: {
           pig_status_id: healthyStatus?.id,
-          pen_id: dto.target_pen_id, 
+          pen_id: dto.target_pen_id,
         },
       });
 
@@ -185,7 +188,7 @@ export class HealthService {
         medicine: data.medicine,
         dosage: data.dosage,
         condition: data.condition,
-        date: data.date ? new Date(data.date) : undefined, 
+        date: data.date ? new Date(data.date) : undefined,
       },
     });
   }
@@ -203,7 +206,7 @@ export class HealthService {
       });
     }
   }
-
+    
   async getAllPens() {
     const pens = await this.prisma.pens.findMany({
       include: { pen_types: true } 
@@ -215,6 +218,4 @@ export class HealthService {
     const types = await this.prisma.pen_types.findMany();
     return this.serialize(types);
   }
-
-  
 }

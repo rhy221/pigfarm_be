@@ -15,9 +15,11 @@ import {
   Request,
   HttpCode,
   HttpStatus,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { InventoryService } from './inventory.service';
+import { ResponseTransformInterceptor } from '../lib/response-transform.interceptor';
 import {
   CreateWarehouseDto,
   UpdateWarehouseDto,
@@ -33,6 +35,7 @@ import {
   UpdateStockReceiptDto,
   ConfirmStockReceiptDto,
   CreateStockIssueDto,
+  UpdateStockIssueDto,
   CreateInventoryCheckDto,
   InventoryQueryDto,
   StockReceiptQueryDto,
@@ -45,6 +48,7 @@ import {
 
 @ApiTags('Inventory - Quản lý kho')
 @Controller('api/inventory')
+@UseInterceptors(ResponseTransformInterceptor)
 // @UseGuards(JwtAuthGuard)
 // @ApiBearerAuth()
 export class InventoryController {
@@ -146,8 +150,10 @@ export class InventoryController {
   async getProducts(
     @Query('categoryId') categoryId?: string,
     @Query('search') search?: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
   ) {
-    return this.inventoryService.getProducts(categoryId, search);
+    return this.inventoryService.getProducts(categoryId, search, page ? +page : 1, limit ? +limit : 20);
   }
 
   @Get('products/:id')
@@ -263,6 +269,12 @@ export class InventoryController {
   @ApiOperation({ summary: 'Tạo phiếu xuất kho' })
   async createStockIssue(@Body() dto: CreateStockIssueDto, @Request() req: any) {
     return this.inventoryService.createStockIssue(dto, req.user?.id);
+  }
+
+  @Put('issues/:id')
+  @ApiOperation({ summary: 'Cập nhật phiếu xuất kho' })
+  async updateStockIssue(@Param('id') id: string, @Body() dto: UpdateStockIssueDto) {
+    return this.inventoryService.updateStockIssue(id, dto);
   }
 
   @Post('issues/:id/confirm')

@@ -1,19 +1,14 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Patch,
-  ParseUUIDPipe,
-} from '@nestjs/common';
+// health/health.controller.ts
 import { HealthService } from './health.service';
+import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Patch, Body, Param, ParseUUIDPipe } from '@nestjs/common';
 import {
   CreateTreatmentDto,
   AddTreatmentLogDto,
   UpdatePigsStatusDto,
 } from './dto/health.dto';
 
+@ApiTags('Health Management')
 @Controller('health')
 export class HealthController {
   constructor(private readonly healthService: HealthService) {}
@@ -78,5 +73,4 @@ export class HealthController {
   updateLog(@Param('id') id: string, @Body() dto: any) {
     return this.healthService.updateLog(id, dto);
   }
-  
 }

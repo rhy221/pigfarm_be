@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "D:\\doanOOAD\\pigfarm_be\\src\\generated\\prisma",
+      "value": "E:\\pigfarm_be\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -38,7 +38,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\doanOOAD\\pigfarm_be\\prisma\\schema.prisma",
+    "sourceFilePath": "E:\\pigfarm_be\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
