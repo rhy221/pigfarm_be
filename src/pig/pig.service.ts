@@ -304,14 +304,27 @@ export class PigService {
       }
 
       if (vaccineIds && vaccineIds.length > 0) {
-        await tx.pig_batch_vaccines.createMany({
-          data: vaccineIds.map((vId) => ({
-            pig_batch_id: batchId,
-            vaccine_id: vId,
-          })),
-          skipDuplicates: true 
+      if (existingBatchId) {
+        const duplicates = await tx.pig_batch_vaccines.findMany({
+            where: {
+              pig_batch_id: existingBatchId,
+              vaccine_id: { in: vaccineIds }
+            },
+            include: { vaccines: true }
         });
+
+        if (duplicates.length > 0) {
+            throw new BadRequestException(`Lứa này đã tiêm các loại: ${duplicates.map(d => d.vaccines.vaccine_name).join(', ')}`);
+        }
       }
+
+      await tx.pig_batch_vaccines.createMany({
+        data: vaccineIds.map((vId) => ({
+          pig_batch_id: batchId,
+          vaccine_id: vId,
+        })),
+      });
+    }
 
       const pigsData: any[] = [];
       for (let i = 0; i < quantity; i++) {

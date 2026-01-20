@@ -377,3 +377,8 @@ export type access_control = Prisma.access_controlModel
  * 
  */
 export type pig_batch_vaccines = Prisma.pig_batch_vaccinesModel
+/**
+ * Model feeding_formula_details
+ * 
+ */
+export type feeding_formula_details = Prisma.feeding_formula_detailsModel
