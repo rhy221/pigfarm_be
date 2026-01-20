@@ -194,7 +194,11 @@ export class FinanceService {
       }
 
       return newTransaction;
-    });
+    }, 
+  {
+  maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+  timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+});
   }
 
   async updateTransaction(id: string, dto: UpdateTransactionDto) {
@@ -270,7 +274,11 @@ export class FinanceService {
         where: { id },
         data: { status: 'cancelled' },
       });
-    });
+    },{
+  maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+  timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+} 
+  );
   }
 
   async getTransactions(query: TransactionQueryDto) {
@@ -394,7 +402,7 @@ export class FinanceService {
     }, 
   {
   maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
-  timeout: 10000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+  timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
 });
   }
 
@@ -648,7 +656,11 @@ export class FinanceService {
       });
 
       return transaction;
-    });
+    }, 
+  {
+  maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+  timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+});
   }
 
   // Thanh toán trực tiếp từ bill - tự động tạo record nếu chưa có
@@ -732,7 +744,7 @@ export class FinanceService {
       return transaction;
     }, {
   maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
-  timeout: 10000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+  timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
 });
   }
 

@@ -682,7 +682,11 @@ export class InventoryService {
           approved_by: approvedById,
         },
       });
-    });
+    },
+    {
+  maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+  timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+});
 
     return this.getStockReceiptById(id);
   }
@@ -992,7 +996,11 @@ export class InventoryService {
           approved_by: approvedById,
         },
       });
-    });
+    },
+    {
+  maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+  timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+});
 
     return this.getStockIssueById(id);
   }
@@ -1214,7 +1222,11 @@ export class InventoryService {
           approved_by: approvedById,
         },
       });
-    });
+    },
+  {
+  maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+  timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+});
 
     return this.prisma.inventory_checks.findUnique({
       where: { id },
@@ -1439,7 +1451,11 @@ export class InventoryService {
       });
 
       return { success: true, disposedQuantity: Number(batch.quantity) };
-    });
+    },
+  {
+  maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
+  timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+});
   }
 
   async updateExpiredBatches() {
