@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Query, Delete, Post, Body, Patch } from '@nestjs/common';
+import { Controller, Get, Param, Query, Delete, Post, Body, Patch, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PigService } from './pig.service';
-import { PigDashboardStatsDto, PenItemDto } from './pig.dto';
+import { PigDashboardStatsDto, PenItemDto, ImportPigBatchDto, ImportBatchResponseDto, UpdatePigListDto, TransferPigDto } from './pig.dto';
 
 @ApiTags('Pig Management')
 @Controller('pig')
@@ -63,5 +63,30 @@ export class PigController {
   @ApiResponse({ status: 200, type: [PenItemDto] })
   getPenList() {
     return this.pigService.getPenList();
+  }
+
+  @Post('import-batch')
+  @ApiOperation({ summary: 'Tiếp nhận heo (Tạo lứa mới HOẶC Thêm vào lứa cũ)' })
+  @ApiResponse({ status: 201, type: ImportBatchResponseDto })
+  async importBatch(@Body() dto: ImportPigBatchDto) {
+    return this.pigService.importPigBatch(dto);
+  }
+
+  @Put('update-details')
+  @ApiOperation({ summary: 'Cập nhật chi tiết heo (Mã tai, Trọng lượng) hàng loạt' })
+  async updatePigDetails(@Body() dto: UpdatePigListDto) {
+    return this.pigService.updatePigDetails(dto);
+  }
+
+  @Get('isolation-pens')
+  @ApiOperation({ summary: 'Lấy danh sách chuồng loại Cách ly (Để hiển thị dropdown)' })
+  async getIsolationPens() {
+    return this.pigService.getIsolationPens();
+  }
+
+  @Post('transfer')
+  @ApiOperation({ summary: 'Chuyển chuồng (Thường & Cách ly)' })
+  async transferPigs(@Body() dto: TransferPigDto) {
+    return this.pigService.transferPigs(dto);
   }
 }

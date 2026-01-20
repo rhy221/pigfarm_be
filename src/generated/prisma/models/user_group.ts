@@ -166,6 +166,7 @@ export type user_groupWhereInput = {
   created_at?: Prisma.DateTimeFilter<"user_group"> | Date | string
   name?: Prisma.StringNullableFilter<"user_group"> | string | null
   id?: Prisma.UuidFilter<"user_group"> | string
+  access_control?: Prisma.XOR<Prisma.Access_controlNullableScalarRelationFilter, Prisma.access_controlWhereInput> | null
   users?: Prisma.UsersListRelationFilter
 }
 
@@ -173,6 +174,7 @@ export type user_groupOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
+  access_control?: Prisma.access_controlOrderByWithRelationInput
   users?: Prisma.usersOrderByRelationAggregateInput
 }
 
@@ -183,6 +185,7 @@ export type user_groupWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.user_groupWhereInput | Prisma.user_groupWhereInput[]
   created_at?: Prisma.DateTimeFilter<"user_group"> | Date | string
   name?: Prisma.StringNullableFilter<"user_group"> | string | null
+  access_control?: Prisma.XOR<Prisma.Access_controlNullableScalarRelationFilter, Prisma.access_controlWhereInput> | null
   users?: Prisma.UsersListRelationFilter
 }, "id">
 
@@ -208,6 +211,7 @@ export type user_groupCreateInput = {
   created_at?: Date | string
   name?: string | null
   id?: string
+  access_control?: Prisma.access_controlCreateNestedOneWithoutUser_groupInput
   users?: Prisma.usersCreateNestedManyWithoutUser_groupInput
 }
 
@@ -215,6 +219,7 @@ export type user_groupUncheckedCreateInput = {
   created_at?: Date | string
   name?: string | null
   id?: string
+  access_control?: Prisma.access_controlUncheckedCreateNestedOneWithoutUser_groupInput
   users?: Prisma.usersUncheckedCreateNestedManyWithoutUser_groupInput
 }
 
@@ -222,6 +227,7 @@ export type user_groupUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  access_control?: Prisma.access_controlUpdateOneWithoutUser_groupNestedInput
   users?: Prisma.usersUpdateManyWithoutUser_groupNestedInput
 }
 
@@ -229,6 +235,7 @@ export type user_groupUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  access_control?: Prisma.access_controlUncheckedUpdateOneWithoutUser_groupNestedInput
   users?: Prisma.usersUncheckedUpdateManyWithoutUser_groupNestedInput
 }
 
@@ -273,6 +280,11 @@ export type user_groupMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
+export type User_groupScalarRelationFilter = {
+  is?: Prisma.user_groupWhereInput
+  isNot?: Prisma.user_groupWhereInput
+}
+
 export type user_groupCreateNestedOneWithoutUsersInput = {
   create?: Prisma.XOR<Prisma.user_groupCreateWithoutUsersInput, Prisma.user_groupUncheckedCreateWithoutUsersInput>
   connectOrCreate?: Prisma.user_groupCreateOrConnectWithoutUsersInput
@@ -289,16 +301,32 @@ export type user_groupUpdateOneWithoutUsersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.user_groupUpdateToOneWithWhereWithoutUsersInput, Prisma.user_groupUpdateWithoutUsersInput>, Prisma.user_groupUncheckedUpdateWithoutUsersInput>
 }
 
+export type user_groupCreateNestedOneWithoutAccess_controlInput = {
+  create?: Prisma.XOR<Prisma.user_groupCreateWithoutAccess_controlInput, Prisma.user_groupUncheckedCreateWithoutAccess_controlInput>
+  connectOrCreate?: Prisma.user_groupCreateOrConnectWithoutAccess_controlInput
+  connect?: Prisma.user_groupWhereUniqueInput
+}
+
+export type user_groupUpdateOneRequiredWithoutAccess_controlNestedInput = {
+  create?: Prisma.XOR<Prisma.user_groupCreateWithoutAccess_controlInput, Prisma.user_groupUncheckedCreateWithoutAccess_controlInput>
+  connectOrCreate?: Prisma.user_groupCreateOrConnectWithoutAccess_controlInput
+  upsert?: Prisma.user_groupUpsertWithoutAccess_controlInput
+  connect?: Prisma.user_groupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.user_groupUpdateToOneWithWhereWithoutAccess_controlInput, Prisma.user_groupUpdateWithoutAccess_controlInput>, Prisma.user_groupUncheckedUpdateWithoutAccess_controlInput>
+}
+
 export type user_groupCreateWithoutUsersInput = {
   created_at?: Date | string
   name?: string | null
   id?: string
+  access_control?: Prisma.access_controlCreateNestedOneWithoutUser_groupInput
 }
 
 export type user_groupUncheckedCreateWithoutUsersInput = {
   created_at?: Date | string
   name?: string | null
   id?: string
+  access_control?: Prisma.access_controlUncheckedCreateNestedOneWithoutUser_groupInput
 }
 
 export type user_groupCreateOrConnectWithoutUsersInput = {
@@ -321,12 +349,58 @@ export type user_groupUpdateWithoutUsersInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  access_control?: Prisma.access_controlUpdateOneWithoutUser_groupNestedInput
 }
 
 export type user_groupUncheckedUpdateWithoutUsersInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  access_control?: Prisma.access_controlUncheckedUpdateOneWithoutUser_groupNestedInput
+}
+
+export type user_groupCreateWithoutAccess_controlInput = {
+  created_at?: Date | string
+  name?: string | null
+  id?: string
+  users?: Prisma.usersCreateNestedManyWithoutUser_groupInput
+}
+
+export type user_groupUncheckedCreateWithoutAccess_controlInput = {
+  created_at?: Date | string
+  name?: string | null
+  id?: string
+  users?: Prisma.usersUncheckedCreateNestedManyWithoutUser_groupInput
+}
+
+export type user_groupCreateOrConnectWithoutAccess_controlInput = {
+  where: Prisma.user_groupWhereUniqueInput
+  create: Prisma.XOR<Prisma.user_groupCreateWithoutAccess_controlInput, Prisma.user_groupUncheckedCreateWithoutAccess_controlInput>
+}
+
+export type user_groupUpsertWithoutAccess_controlInput = {
+  update: Prisma.XOR<Prisma.user_groupUpdateWithoutAccess_controlInput, Prisma.user_groupUncheckedUpdateWithoutAccess_controlInput>
+  create: Prisma.XOR<Prisma.user_groupCreateWithoutAccess_controlInput, Prisma.user_groupUncheckedCreateWithoutAccess_controlInput>
+  where?: Prisma.user_groupWhereInput
+}
+
+export type user_groupUpdateToOneWithWhereWithoutAccess_controlInput = {
+  where?: Prisma.user_groupWhereInput
+  data: Prisma.XOR<Prisma.user_groupUpdateWithoutAccess_controlInput, Prisma.user_groupUncheckedUpdateWithoutAccess_controlInput>
+}
+
+export type user_groupUpdateWithoutAccess_controlInput = {
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  users?: Prisma.usersUpdateManyWithoutUser_groupNestedInput
+}
+
+export type user_groupUncheckedUpdateWithoutAccess_controlInput = {
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  users?: Prisma.usersUncheckedUpdateManyWithoutUser_groupNestedInput
 }
 
 
@@ -364,6 +438,7 @@ export type user_groupSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   created_at?: boolean
   name?: boolean
   id?: boolean
+  access_control?: boolean | Prisma.user_group$access_controlArgs<ExtArgs>
   users?: boolean | Prisma.user_group$usersArgs<ExtArgs>
   _count?: boolean | Prisma.User_groupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user_group"]>
@@ -388,6 +463,7 @@ export type user_groupSelectScalar = {
 
 export type user_groupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"created_at" | "name" | "id", ExtArgs["result"]["user_group"]>
 export type user_groupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  access_control?: boolean | Prisma.user_group$access_controlArgs<ExtArgs>
   users?: boolean | Prisma.user_group$usersArgs<ExtArgs>
   _count?: boolean | Prisma.User_groupCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -397,6 +473,7 @@ export type user_groupIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type $user_groupPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "user_group"
   objects: {
+    access_control: Prisma.$access_controlPayload<ExtArgs> | null
     users: Prisma.$usersPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -797,6 +874,7 @@ readonly fields: user_groupFieldRefs;
  */
 export interface Prisma__user_groupClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  access_control<T extends Prisma.user_group$access_controlArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_group$access_controlArgs<ExtArgs>>): Prisma.Prisma__access_controlClient<runtime.Types.Result.GetResult<Prisma.$access_controlPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   users<T extends Prisma.user_group$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user_group$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1215,6 +1293,25 @@ export type user_groupDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many user_groups to delete.
    */
   limit?: number
+}
+
+/**
+ * user_group.access_control
+ */
+export type user_group$access_controlArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the access_control
+   */
+  select?: Prisma.access_controlSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the access_control
+   */
+  omit?: Prisma.access_controlOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.access_controlInclude<ExtArgs> | null
+  where?: Prisma.access_controlWhereInput
 }
 
 /**
