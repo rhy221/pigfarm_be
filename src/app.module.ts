@@ -16,7 +16,7 @@ import { ReportModule } from './report/report.module';
 import { ConfigurationModule } from './configuration/configuration.module';
 import { WarehouseModule } from './warehouse/warehouse.module';
 import { PensModule } from './pen/pens.module';
-import { VaccinesModule } from './vaccines/vaccines.module';
+import { VaccinationModule } from './vaccines/vaccination.module';
 import { DiseasesModule } from './diseases/diseases.module';
 import { ChemicalsModule } from './chemicals/chemicals.module';
 import { CleaningMethodsModule } from './cleaning-methods/cleaning-methods.module';
@@ -38,7 +38,7 @@ import { UsersModule } from './users/users.module';
     ConfigurationModule,
     WarehouseModule,
     PensModule,
-    VaccinesModule,
+    VaccinationModule,
     DiseasesModule,
     ChemicalsModule,
     CleaningMethodsModule,
