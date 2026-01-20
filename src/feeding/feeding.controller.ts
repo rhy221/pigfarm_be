@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery, ApiBody } from '@nestjs/swagger';
-import { FeedingService } from './feeding.service';
+import { FeedingService, } from './feeding.service';
 import { 
   CreateFeedingFormulaDto, 
   FeedingFormulaResponseDto, // Import cái mới
-  FeedingPlanResponseDto 
+  FeedingPlanResponseDto,
+  UpdateFeedingFormulaDto
 } from './feeding.dto';
 
 @ApiTags('Feeding Management')
@@ -58,5 +59,20 @@ export class FeedingController {
     @Query('stageId') stageId?: string
   ) {
     return this.feedingService.getFeedingPlan(batchId, stageId);
+  }
+
+  @Put('formulas/:id')
+  @ApiOperation({ summary: 'Cập nhật công thức và thành phần' })
+  @ApiBody({ type: UpdateFeedingFormulaDto })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Cập nhật thành công',
+    type: FeedingFormulaResponseDto 
+  })
+  updateFormula(
+    @Param('id') id: string, 
+    @Body() body: UpdateFeedingFormulaDto
+  ) {
+    return this.feedingService.updateFormula(id, body);
   }
 }

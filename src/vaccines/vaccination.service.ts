@@ -34,8 +34,12 @@ export class VaccinationService {
       where: { current_quantity: { gt: 0 } },
       include: {
         pigs: {
-          select: { pig_batchs: true },
           take: 1,
+          select: { 
+            pig_batchs: {
+              include: { pig_batch_vaccines: true } 
+            } 
+          },
         },
       },
     });
@@ -76,12 +80,18 @@ export class VaccinationService {
     });
 
     for (const pen of activePens) {
-       // ... (Giữ nguyên logic forecast) ...
        const batch = pen.pigs?.[0]?.pig_batchs;
        if (!batch?.arrival_date) continue;
+       
+       const injectedVaccineIds = (batch as any).pig_batch_vaccines?.map((v: any) => v.vaccine_id) || [];
+
        const batchDate = dayjs(batch.arrival_date);
 
        for (const tpl of templates) {
+         if (injectedVaccineIds.includes(tpl.vaccine_id)) {
+            continue; 
+         }
+
          const targetDate = batchDate.add(tpl.days_old, 'day');
          if (targetDate.isAfter(startDate) && targetDate.isBefore(endDate)) {
            const dateKey = targetDate.format('YYYY-MM-DD');
@@ -110,7 +120,6 @@ export class VaccinationService {
   }
 
   async getDailyDetails(dateStr: string) {
-    // ... Copy logic từ getDailyDetails cũ sang đây ...
     const targetDate = dayjs(dateStr);
     const dateObj = targetDate.toDate();
 
@@ -119,10 +128,16 @@ export class VaccinationService {
     const activePens = await this.prisma.pens.findMany({
         where: { current_quantity: { gt: 0 } },
         include: { 
-            pigs: { select: { pig_batchs: true }, take: 1 } 
+            pigs: { 
+                select: { 
+                    pig_batchs: {
+                        include: { pig_batch_vaccines: true }
+                    } 
+                }, 
+                take: 1 
+            } 
         } 
     });
-
     const existingSchedules = await this.prisma.vaccination_schedules.findMany({
       where: { scheduled_date: { equals: dateObj } },
       include: {
@@ -167,9 +182,14 @@ export class VaccinationService {
     for (const pen of activePens) {
         const batch = pen.pigs?.[0]?.pig_batchs;
         if (!batch?.arrival_date) continue;
+
+        const injectedVaccineIds = (batch as any).pig_batch_vaccines?.map((v: any) => v.vaccine_id) || [];
+        
         const batchDate = dayjs(batch.arrival_date);
 
         for (const tpl of templates) {
+            if (injectedVaccineIds.includes(tpl.vaccine_id)) continue;
+
             const calculatedDate = batchDate.add(tpl.days_old, 'day');
             if (calculatedDate.isSame(targetDate, 'day')) {
                 const key = `${tpl.vaccine_id}_${tpl.stage}`;
@@ -273,7 +293,6 @@ export class VaccinationService {
   }
 
   async markAsVaccinated(items: VaccinationActionItem[]) {
-    // ... Copy logic markAsVaccinated cũ ...
     const realItems = items.filter(i => i.isReal && i.scheduleId);
     const forecastItems = items.filter(i => !i.isReal && i.templateId && i.penId);
 
@@ -281,7 +300,10 @@ export class VaccinationService {
       const idsToUpdate = realItems.map(i => i.scheduleId as string);
       await this.prisma.vaccination_schedules.updateMany({
         where: { id: { in: idsToUpdate } },
-        data: { status: 'completed' }
+        data: { 
+            status: 'completed',
+            scheduled_date: new Date() 
+        }
       });
     }
 
@@ -291,21 +313,44 @@ export class VaccinationService {
           where: { id: item.templateId }
         });
         if (!template) continue; 
-        await this.prisma.vaccination_schedules.create({
-          data: {
-            pen_id: item.penId,
-            scheduled_date: new Date(), 
-            status: 'completed',
-            employee_id: null,
-            vaccination_schedule_details: {
-              create: {
-                vaccine_id: template.vaccine_id,
-                stage: template.stage,
-                dosage: parseFloat(template.dosage?.replace(/[^0-9.]/g, '') || '0') 
-              }
+        
+        const existingSchedule = await this.prisma.vaccination_schedules.findFirst({
+            where: {
+                pen_id: item.penId,
+                vaccination_schedule_details: {
+                    some: {
+                        vaccine_id: template.vaccine_id,
+                        stage: template.stage
+                    }
+                }
             }
-          }
         });
+
+        if (existingSchedule) {
+            await this.prisma.vaccination_schedules.update({
+                where: { id: existingSchedule.id },
+                data: {
+                    status: 'completed',
+                    scheduled_date: new Date()
+                }
+            });
+        } else {
+            await this.prisma.vaccination_schedules.create({
+                data: {
+                    pen_id: item.penId,
+                    scheduled_date: new Date(), 
+                    status: 'completed',
+                    employee_id: null,
+                    vaccination_schedule_details: {
+                    create: {
+                        vaccine_id: template.vaccine_id,
+                        stage: template.stage,
+                        dosage: parseFloat(template.dosage?.replace(/[^0-9.]/g, '') || '0') 
+                    }
+                    }
+                }
+            });
+        }
       }
     }
     return { success: true, updated: realItems.length, created: forecastItems.length };

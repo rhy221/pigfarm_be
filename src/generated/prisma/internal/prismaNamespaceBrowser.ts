@@ -115,7 +115,8 @@ export const ModelName = {
   feeding_formulas: 'feeding_formulas',
   user_group: 'user_group',
   access_control: 'access_control',
-  pig_batch_vaccines: 'pig_batch_vaccines'
+  pig_batch_vaccines: 'pig_batch_vaccines',
+  feeding_formula_details: 'feeding_formula_details'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1045,6 +1046,18 @@ export const Pig_batch_vaccinesScalarFieldEnum = {
 } as const
 
 export type Pig_batch_vaccinesScalarFieldEnum = (typeof Pig_batch_vaccinesScalarFieldEnum)[keyof typeof Pig_batch_vaccinesScalarFieldEnum]
+
+
+export const Feeding_formula_detailsScalarFieldEnum = {
+  id: 'id',
+  formula_id: 'formula_id',
+  product_id: 'product_id',
+  percentage: 'percentage',
+  notes: 'notes',
+  created_at: 'created_at'
+} as const
+
+export type Feeding_formula_detailsScalarFieldEnum = (typeof Feeding_formula_detailsScalarFieldEnum)[keyof typeof Feeding_formula_detailsScalarFieldEnum]
 
 
 export const SortOrder = {

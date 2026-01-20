@@ -285,6 +285,7 @@ export type productsWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   daily_inventory_snapshots?: Prisma.Daily_inventory_snapshotsListRelationFilter
+  feeding_formula_details?: Prisma.Feeding_formula_detailsListRelationFilter
   inventory?: Prisma.InventoryListRelationFilter
   inventory_batches?: Prisma.Inventory_batchesListRelationFilter
   inventory_check_items?: Prisma.Inventory_check_itemsListRelationFilter
@@ -310,6 +311,7 @@ export type productsOrderByWithRelationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsOrderByRelationAggregateInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsOrderByRelationAggregateInput
   inventory?: Prisma.inventoryOrderByRelationAggregateInput
   inventory_batches?: Prisma.inventory_batchesOrderByRelationAggregateInput
   inventory_check_items?: Prisma.inventory_check_itemsOrderByRelationAggregateInput
@@ -338,6 +340,7 @@ export type productsWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"products"> | Date | string | null
   daily_inventory_snapshots?: Prisma.Daily_inventory_snapshotsListRelationFilter
+  feeding_formula_details?: Prisma.Feeding_formula_detailsListRelationFilter
   inventory?: Prisma.InventoryListRelationFilter
   inventory_batches?: Prisma.Inventory_batchesListRelationFilter
   inventory_check_items?: Prisma.Inventory_check_itemsListRelationFilter
@@ -401,6 +404,7 @@ export type productsCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
@@ -426,6 +430,7 @@ export type productsUncheckedCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -447,6 +452,7 @@ export type productsUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
@@ -472,6 +478,7 @@ export type productsUncheckedUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -781,6 +788,20 @@ export type productsUncheckedUpdateManyWithoutWarehouse_categoriesNestedInput = 
   deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
 }
 
+export type productsCreateNestedOneWithoutFeeding_formula_detailsInput = {
+  create?: Prisma.XOR<Prisma.productsCreateWithoutFeeding_formula_detailsInput, Prisma.productsUncheckedCreateWithoutFeeding_formula_detailsInput>
+  connectOrCreate?: Prisma.productsCreateOrConnectWithoutFeeding_formula_detailsInput
+  connect?: Prisma.productsWhereUniqueInput
+}
+
+export type productsUpdateOneRequiredWithoutFeeding_formula_detailsNestedInput = {
+  create?: Prisma.XOR<Prisma.productsCreateWithoutFeeding_formula_detailsInput, Prisma.productsUncheckedCreateWithoutFeeding_formula_detailsInput>
+  connectOrCreate?: Prisma.productsCreateOrConnectWithoutFeeding_formula_detailsInput
+  upsert?: Prisma.productsUpsertWithoutFeeding_formula_detailsInput
+  connect?: Prisma.productsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.productsUpdateToOneWithWhereWithoutFeeding_formula_detailsInput, Prisma.productsUpdateWithoutFeeding_formula_detailsInput>, Prisma.productsUncheckedUpdateWithoutFeeding_formula_detailsInput>
+}
+
 export type productsCreateWithoutDaily_inventory_snapshotsInput = {
   id?: string
   code?: string | null
@@ -793,6 +814,7 @@ export type productsCreateWithoutDaily_inventory_snapshotsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
@@ -817,6 +839,7 @@ export type productsUncheckedCreateWithoutDaily_inventory_snapshotsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -853,6 +876,7 @@ export type productsUpdateWithoutDaily_inventory_snapshotsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
@@ -877,6 +901,7 @@ export type productsUncheckedUpdateWithoutDaily_inventory_snapshotsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -898,6 +923,7 @@ export type productsCreateWithoutInventoryInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
   inventory_history?: Prisma.inventory_historyCreateNestedManyWithoutProductsInput
@@ -922,6 +948,7 @@ export type productsUncheckedCreateWithoutInventoryInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutProductsInput
@@ -958,6 +985,7 @@ export type productsUpdateWithoutInventoryInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
   inventory_history?: Prisma.inventory_historyUpdateManyWithoutProductsNestedInput
@@ -982,6 +1010,7 @@ export type productsUncheckedUpdateWithoutInventoryInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutProductsNestedInput
@@ -1002,6 +1031,7 @@ export type productsCreateWithoutInventory_batchesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
   inventory_history?: Prisma.inventory_historyCreateNestedManyWithoutProductsInput
@@ -1026,6 +1056,7 @@ export type productsUncheckedCreateWithoutInventory_batchesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutProductsInput
@@ -1062,6 +1093,7 @@ export type productsUpdateWithoutInventory_batchesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
   inventory_history?: Prisma.inventory_historyUpdateManyWithoutProductsNestedInput
@@ -1086,6 +1118,7 @@ export type productsUncheckedUpdateWithoutInventory_batchesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutProductsNestedInput
@@ -1106,6 +1139,7 @@ export type productsCreateWithoutInventory_check_itemsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
   inventory_history?: Prisma.inventory_historyCreateNestedManyWithoutProductsInput
@@ -1130,6 +1164,7 @@ export type productsUncheckedCreateWithoutInventory_check_itemsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
   inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutProductsInput
@@ -1166,6 +1201,7 @@ export type productsUpdateWithoutInventory_check_itemsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
   inventory_history?: Prisma.inventory_historyUpdateManyWithoutProductsNestedInput
@@ -1190,6 +1226,7 @@ export type productsUncheckedUpdateWithoutInventory_check_itemsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
   inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutProductsNestedInput
@@ -1210,6 +1247,7 @@ export type productsCreateWithoutInventory_historyInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
@@ -1234,6 +1272,7 @@ export type productsUncheckedCreateWithoutInventory_historyInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -1270,6 +1309,7 @@ export type productsUpdateWithoutInventory_historyInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
@@ -1294,6 +1334,7 @@ export type productsUncheckedUpdateWithoutInventory_historyInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -1314,6 +1355,7 @@ export type productsCreateWithoutStock_issue_itemsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
@@ -1338,6 +1380,7 @@ export type productsUncheckedCreateWithoutStock_issue_itemsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -1374,6 +1417,7 @@ export type productsUpdateWithoutStock_issue_itemsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
@@ -1398,6 +1442,7 @@ export type productsUncheckedUpdateWithoutStock_issue_itemsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -1418,6 +1463,7 @@ export type productsCreateWithoutStock_receipt_itemsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
@@ -1442,6 +1488,7 @@ export type productsUncheckedCreateWithoutStock_receipt_itemsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -1478,6 +1525,7 @@ export type productsUpdateWithoutStock_receipt_itemsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
@@ -1502,6 +1550,7 @@ export type productsUncheckedUpdateWithoutStock_receipt_itemsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -1522,6 +1571,7 @@ export type productsCreateWithoutUnitsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
@@ -1545,6 +1595,7 @@ export type productsUncheckedCreateWithoutUnitsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -1611,6 +1662,7 @@ export type productsCreateWithoutWarehouse_categoriesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
@@ -1634,6 +1686,7 @@ export type productsUncheckedCreateWithoutWarehouse_categoriesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
   inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
@@ -1668,6 +1721,114 @@ export type productsUpdateManyWithWhereWithoutWarehouse_categoriesInput = {
   data: Prisma.XOR<Prisma.productsUpdateManyMutationInput, Prisma.productsUncheckedUpdateManyWithoutWarehouse_categoriesInput>
 }
 
+export type productsCreateWithoutFeeding_formula_detailsInput = {
+  id?: string
+  code?: string | null
+  name: string
+  description?: string | null
+  min_quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  default_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  image_url?: string | null
+  barcode?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsCreateNestedManyWithoutProductsInput
+  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
+  inventory_batches?: Prisma.inventory_batchesCreateNestedManyWithoutProductsInput
+  inventory_check_items?: Prisma.inventory_check_itemsCreateNestedManyWithoutProductsInput
+  inventory_history?: Prisma.inventory_historyCreateNestedManyWithoutProductsInput
+  warehouse_categories?: Prisma.warehouse_categoriesCreateNestedOneWithoutProductsInput
+  units?: Prisma.unitsCreateNestedOneWithoutProductsInput
+  stock_issue_items?: Prisma.stock_issue_itemsCreateNestedManyWithoutProductsInput
+  stock_receipt_items?: Prisma.stock_receipt_itemsCreateNestedManyWithoutProductsInput
+}
+
+export type productsUncheckedCreateWithoutFeeding_formula_detailsInput = {
+  id?: string
+  category_id?: string | null
+  code?: string | null
+  name: string
+  description?: string | null
+  unit_id?: string | null
+  min_quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  default_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  image_url?: string | null
+  barcode?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedCreateNestedManyWithoutProductsInput
+  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
+  inventory_batches?: Prisma.inventory_batchesUncheckedCreateNestedManyWithoutProductsInput
+  inventory_check_items?: Prisma.inventory_check_itemsUncheckedCreateNestedManyWithoutProductsInput
+  inventory_history?: Prisma.inventory_historyUncheckedCreateNestedManyWithoutProductsInput
+  stock_issue_items?: Prisma.stock_issue_itemsUncheckedCreateNestedManyWithoutProductsInput
+  stock_receipt_items?: Prisma.stock_receipt_itemsUncheckedCreateNestedManyWithoutProductsInput
+}
+
+export type productsCreateOrConnectWithoutFeeding_formula_detailsInput = {
+  where: Prisma.productsWhereUniqueInput
+  create: Prisma.XOR<Prisma.productsCreateWithoutFeeding_formula_detailsInput, Prisma.productsUncheckedCreateWithoutFeeding_formula_detailsInput>
+}
+
+export type productsUpsertWithoutFeeding_formula_detailsInput = {
+  update: Prisma.XOR<Prisma.productsUpdateWithoutFeeding_formula_detailsInput, Prisma.productsUncheckedUpdateWithoutFeeding_formula_detailsInput>
+  create: Prisma.XOR<Prisma.productsCreateWithoutFeeding_formula_detailsInput, Prisma.productsUncheckedCreateWithoutFeeding_formula_detailsInput>
+  where?: Prisma.productsWhereInput
+}
+
+export type productsUpdateToOneWithWhereWithoutFeeding_formula_detailsInput = {
+  where?: Prisma.productsWhereInput
+  data: Prisma.XOR<Prisma.productsUpdateWithoutFeeding_formula_detailsInput, Prisma.productsUncheckedUpdateWithoutFeeding_formula_detailsInput>
+}
+
+export type productsUpdateWithoutFeeding_formula_detailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  min_quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  default_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
+  inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
+  inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
+  inventory_history?: Prisma.inventory_historyUpdateManyWithoutProductsNestedInput
+  warehouse_categories?: Prisma.warehouse_categoriesUpdateOneWithoutProductsNestedInput
+  units?: Prisma.unitsUpdateOneWithoutProductsNestedInput
+  stock_issue_items?: Prisma.stock_issue_itemsUpdateManyWithoutProductsNestedInput
+  stock_receipt_items?: Prisma.stock_receipt_itemsUpdateManyWithoutProductsNestedInput
+}
+
+export type productsUncheckedUpdateWithoutFeeding_formula_detailsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unit_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  min_quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  default_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
+  inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
+  inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
+  inventory_history?: Prisma.inventory_historyUncheckedUpdateManyWithoutProductsNestedInput
+  stock_issue_items?: Prisma.stock_issue_itemsUncheckedUpdateManyWithoutProductsNestedInput
+  stock_receipt_items?: Prisma.stock_receipt_itemsUncheckedUpdateManyWithoutProductsNestedInput
+}
+
 export type productsCreateManyUnitsInput = {
   id?: string
   category_id?: string | null
@@ -1696,6 +1857,7 @@ export type productsUpdateWithoutUnitsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
@@ -1719,6 +1881,7 @@ export type productsUncheckedUpdateWithoutUnitsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -1770,6 +1933,7 @@ export type productsUpdateWithoutWarehouse_categoriesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUpdateManyWithoutProductsNestedInput
@@ -1793,6 +1957,7 @@ export type productsUncheckedUpdateWithoutWarehouse_categoriesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   daily_inventory_snapshots?: Prisma.daily_inventory_snapshotsUncheckedUpdateManyWithoutProductsNestedInput
+  feeding_formula_details?: Prisma.feeding_formula_detailsUncheckedUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
   inventory_batches?: Prisma.inventory_batchesUncheckedUpdateManyWithoutProductsNestedInput
   inventory_check_items?: Prisma.inventory_check_itemsUncheckedUpdateManyWithoutProductsNestedInput
@@ -1823,6 +1988,7 @@ export type productsUncheckedUpdateManyWithoutWarehouse_categoriesInput = {
 
 export type ProductsCountOutputType = {
   daily_inventory_snapshots: number
+  feeding_formula_details: number
   inventory: number
   inventory_batches: number
   inventory_check_items: number
@@ -1833,6 +1999,7 @@ export type ProductsCountOutputType = {
 
 export type ProductsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   daily_inventory_snapshots?: boolean | ProductsCountOutputTypeCountDaily_inventory_snapshotsArgs
+  feeding_formula_details?: boolean | ProductsCountOutputTypeCountFeeding_formula_detailsArgs
   inventory?: boolean | ProductsCountOutputTypeCountInventoryArgs
   inventory_batches?: boolean | ProductsCountOutputTypeCountInventory_batchesArgs
   inventory_check_items?: boolean | ProductsCountOutputTypeCountInventory_check_itemsArgs
@@ -1856,6 +2023,13 @@ export type ProductsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
  */
 export type ProductsCountOutputTypeCountDaily_inventory_snapshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.daily_inventory_snapshotsWhereInput
+}
+
+/**
+ * ProductsCountOutputType without action
+ */
+export type ProductsCountOutputTypeCountFeeding_formula_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.feeding_formula_detailsWhereInput
 }
 
 /**
@@ -1916,6 +2090,7 @@ export type productsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   created_at?: boolean
   updated_at?: boolean
   daily_inventory_snapshots?: boolean | Prisma.products$daily_inventory_snapshotsArgs<ExtArgs>
+  feeding_formula_details?: boolean | Prisma.products$feeding_formula_detailsArgs<ExtArgs>
   inventory?: boolean | Prisma.products$inventoryArgs<ExtArgs>
   inventory_batches?: boolean | Prisma.products$inventory_batchesArgs<ExtArgs>
   inventory_check_items?: boolean | Prisma.products$inventory_check_itemsArgs<ExtArgs>
@@ -1982,6 +2157,7 @@ export type productsSelectScalar = {
 export type productsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "category_id" | "code" | "name" | "description" | "unit_id" | "min_quantity" | "default_price" | "image_url" | "barcode" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["products"]>
 export type productsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   daily_inventory_snapshots?: boolean | Prisma.products$daily_inventory_snapshotsArgs<ExtArgs>
+  feeding_formula_details?: boolean | Prisma.products$feeding_formula_detailsArgs<ExtArgs>
   inventory?: boolean | Prisma.products$inventoryArgs<ExtArgs>
   inventory_batches?: boolean | Prisma.products$inventory_batchesArgs<ExtArgs>
   inventory_check_items?: boolean | Prisma.products$inventory_check_itemsArgs<ExtArgs>
@@ -2005,6 +2181,7 @@ export type $productsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "products"
   objects: {
     daily_inventory_snapshots: Prisma.$daily_inventory_snapshotsPayload<ExtArgs>[]
+    feeding_formula_details: Prisma.$feeding_formula_detailsPayload<ExtArgs>[]
     inventory: Prisma.$inventoryPayload<ExtArgs>[]
     inventory_batches: Prisma.$inventory_batchesPayload<ExtArgs>[]
     inventory_check_items: Prisma.$inventory_check_itemsPayload<ExtArgs>[]
@@ -2423,6 +2600,7 @@ readonly fields: productsFieldRefs;
 export interface Prisma__productsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   daily_inventory_snapshots<T extends Prisma.products$daily_inventory_snapshotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$daily_inventory_snapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$daily_inventory_snapshotsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  feeding_formula_details<T extends Prisma.products$feeding_formula_detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$feeding_formula_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$feeding_formula_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventory<T extends Prisma.products$inventoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventory_batches<T extends Prisma.products$inventory_batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$inventory_batchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventory_batchesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventory_check_items<T extends Prisma.products$inventory_check_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$inventory_check_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventory_check_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2890,6 +3068,30 @@ export type products$daily_inventory_snapshotsArgs<ExtArgs extends runtime.Types
   take?: number
   skip?: number
   distinct?: Prisma.Daily_inventory_snapshotsScalarFieldEnum | Prisma.Daily_inventory_snapshotsScalarFieldEnum[]
+}
+
+/**
+ * products.feeding_formula_details
+ */
+export type products$feeding_formula_detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the feeding_formula_details
+   */
+  select?: Prisma.feeding_formula_detailsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the feeding_formula_details
+   */
+  omit?: Prisma.feeding_formula_detailsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.feeding_formula_detailsInclude<ExtArgs> | null
+  where?: Prisma.feeding_formula_detailsWhereInput
+  orderBy?: Prisma.feeding_formula_detailsOrderByWithRelationInput | Prisma.feeding_formula_detailsOrderByWithRelationInput[]
+  cursor?: Prisma.feeding_formula_detailsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Feeding_formula_detailsScalarFieldEnum | Prisma.Feeding_formula_detailsScalarFieldEnum[]
 }
 
 /**

@@ -1,39 +1,53 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
-
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { IsInt, IsNotEmpty, IsOptional, IsString, Min, IsArray, ValidateNested, IsNumber, Max } from 'class-validator';
+import { Type } from 'class-transformer';
 // ========================================================
 // 1. DTO CHO REQUEST BODY (Gửi lên để tạo mới)
 // ========================================================
+
+export class FormulaIngredientItemDto {
+  @ApiProperty({ description: 'ID của sản phẩm trong kho (Inventory Product ID)' })
+  @IsString()
+  @IsNotEmpty()
+  productId: string;
+
+  @ApiProperty({ description: 'Tỷ lệ phần trăm (%) hoặc khối lượng' })
+  @IsNumber()
+  @Min(0)
+  percentage: number; 
+}
+
 export class CreateFeedingFormulaDto {
-  @ApiProperty({ example: 'Cám heo sữa A1', description: 'Tên hiển thị của công thức' })
+  @ApiProperty({ example: 'Cám heo sữa A1' })
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ example: 'GĐ1: Heo mới về', description: 'Tên giai đoạn tương ứng' })
+  @ApiProperty({ example: 'GĐ1: Heo mới về' })
   @IsString()
   @IsNotEmpty()
   stageName: string;
 
-  @ApiProperty({ example: 0, description: 'Ngày bắt đầu giai đoạn (tính theo ngày tuổi)' })
+  @ApiProperty({ example: 0 })
   @IsInt()
   @Min(0)
   startDay: number;
 
-  @ApiProperty({ example: 7, description: 'Ngày kết thúc giai đoạn' })
+  @ApiProperty({ example: 7 })
   @IsInt()
   @Min(0)
   endDay: number;
 
-  @ApiProperty({ example: 200, description: 'Định lượng cho ăn (gram/con/ngày)' })
+  @ApiProperty({ example: 200, description: 'Tổng định lượng ăn (gram/con/ngày)' })
   @IsInt()
   @Min(0)
   amountPerPig: number;
 
-  @ApiProperty({ example: '50% Cám - 50% Bột cá', required: false, description: 'Thành phần chi tiết' })
-  @IsOptional()
-  @IsString()
-  ingredients?: string;
+  @ApiProperty({ type: [FormulaIngredientItemDto] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => FormulaIngredientItemDto)
+  items: FormulaIngredientItemDto[];
 }
 
 export class FeedingFormulaResponseDto {
@@ -117,3 +131,5 @@ export class FeedingPlanResponseDto {
   @ApiProperty({ type: [FeedingPlanItemDto], description: 'Danh sách chi tiết tính toán cho từng chuồng' })
   details: FeedingPlanItemDto[];
 }
+
+export class UpdateFeedingFormulaDto extends PartialType(CreateFeedingFormulaDto) {}

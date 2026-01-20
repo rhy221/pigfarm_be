@@ -22,6 +22,7 @@ import { ChemicalsModule } from './chemicals/chemicals.module';
 import { CleaningMethodsModule } from './cleaning-methods/cleaning-methods.module';
 import { UserGroupModule } from './user-group/user-group.module';
 import { UsersModule } from './users/users.module';
+import { FeedingModule } from './feeding/feeding.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { UsersModule } from './users/users.module';
     WarehouseModule,
     PensModule,
     VaccinationModule,
+    FeedingModule,
     DiseasesModule,
     ChemicalsModule,
     CleaningMethodsModule,
