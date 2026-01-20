@@ -140,13 +140,28 @@ export class WorkShiftsService {
     });
   }
 }
+@Injectable()
 export class WorkService {
-  constructor(private readonly repo: WorkRepository) {}
+  constructor(
+    private readonly repo: WorkRepository,
+    private readonly prisma: PrismaService,
+  ) {}
 
   private mapToResponse(detail: AssignmentDetailWithRelations): TaskResponse {
+    // Format date in local timezone (avoid UTC conversion)
+    const formatDateLocal = (
+      date: Date | null | undefined,
+    ): string | undefined => {
+      if (!date) return undefined;
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
     return {
       id: detail.id,
-      date: detail.assignments?.assignment_date?.toISOString().split('T')[0],
+      date: formatDateLocal(detail.assignments?.assignment_date),
       shift: detail.work_shifts?.session || '',
       barnId: detail.pen_id,
       barnName: detail.pens?.pen_name || '',
@@ -185,9 +200,19 @@ export class WorkService {
 
   async create(dto: CreateTaskDto): Promise<TaskResponse> {
     const shift = await this.repo.findOrCreateShift(dto.shift);
-    const assignment = await this.repo.findOrCreateAssignment(
-      new Date(dto.date),
-    );
+    const assignment = await this.repo.findOrCreateAssignment(dto.date);
+
+    // Get user info and sync to employees table
+    const user = await this.prisma.users.findUnique({
+      where: { id: dto.employeeId },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User ${dto.employeeId} not found`);
+    }
+
+    // Sync user to employee
+    await this.repo.syncUserToEmployee(user.id, user.full_name, user.email);
 
     const detail = await this.repo.create({
       task_description: dto.taskDescription,
@@ -198,7 +223,7 @@ export class WorkService {
         connect: { id: assignment.id },
       },
       employees: {
-        connect: { id: dto.employeeId },
+        connect: { id: user.id },
       },
       pens: {
         connect: { id: dto.barnId },
@@ -232,9 +257,7 @@ export class WorkService {
       updateData.work_shifts = { connect: { id: shift.id } };
     }
     if (dto.date) {
-      const assignment = await this.repo.findOrCreateAssignment(
-        new Date(dto.date),
-      );
+      const assignment = await this.repo.findOrCreateAssignment(dto.date);
       updateData.assignments = { connect: { id: assignment.id } };
     }
 
@@ -249,7 +272,14 @@ export class WorkService {
   }
 
   async getEmployees() {
-    return this.repo.findAllEmployees();
+    const users = await this.repo.findAllEmployees();
+    return users.map((user) => ({
+      id: user.id,
+      name: user.full_name,
+      role: user.role_id,
+      email: user.email,
+      phone: user.phone,
+    }));
   }
 
   async getPens() {

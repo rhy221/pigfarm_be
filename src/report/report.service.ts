@@ -29,31 +29,43 @@ export class ReportService {
       pens,
     };
   }
-  async getInventoryReport(query: { month?: string }) {
+  async getInventoryReport(query: {
+    month?: string;
+    warehouseId?: string;
+    categoryId?: string;
+  }) {
     const targetMonth = query.month || new Date().toISOString().slice(0, 7);
     const [year, month] = targetMonth.split('-').map(Number);
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0, 23, 59, 59);
 
-    const report = await this.repo.findInventoryReport(startDate, endDate);
+    const report = await this.repo.findInventoryReport(
+      startDate,
+      endDate,
+      query.warehouseId,
+      query.categoryId,
+    );
     const items =
-      report?.inventory_report_items.map(
-        (i: {
-          material_id: string;
-          materials: { name: string } | null;
-          opening_stock: number;
-          change_amout: number;
-          closing_stock: number;
-        }) => ({
-          materialId: String(i.material_id || ''),
-          materialName: String(i.materials?.name || ''),
-          openingStock: Number(i.opening_stock || 0),
-          changeAmount: Number(i.change_amout || 0),
-          closingStock: Number(i.closing_stock || 0),
-        }),
-      ) || [];
+      report?.inventory_report_items.map((i: any) => ({
+        productId: String(i.product_id || ''),
+        productName: String(i.products?.name || ''),
+        productCode: String(i.products?.code || ''),
+        openingStock: Number(i.opening_stock || 0),
+        receivedQuantity: Number(i.received_quantity || 0),
+        issuedQuantity: Number(i.issued_quantity || 0),
+        closingStock: Number(i.closing_stock || 0),
+        avgCost: Number(i.avg_cost || 0),
+        totalValue: Number(i.total_value || 0),
+      })) || [];
 
-    return { month: targetMonth, items, trends: report?.trends || [] };
+    const firstItem = report?.inventory_report_items[0];
+    return {
+      month: targetMonth,
+      warehouseId: query.warehouseId,
+      warehouseName: firstItem?.warehouses?.name,
+      items,
+      trends: report?.trends || [],
+    };
   }
 
   async getVaccineReport(query: { month?: string; vaccine?: string }) {

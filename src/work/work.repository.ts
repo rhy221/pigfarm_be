@@ -47,13 +47,23 @@ export class WorkRepository {
     await this.prisma.assignment_details.delete({ where: { id } });
   }
 
-  async findOrCreateAssignment(date: Date) {
+  async findOrCreateAssignment(dateString: string) {
+    // Parse date string YYYY-MM-DD without timezone conversion
+    const [year, month, day] = dateString.split('-').map(Number);
+    const localDate = new Date(year, month - 1, day);
+
+    // Find assignment by date (comparing just the date part)
     let assignment = await this.prisma.assignments.findFirst({
-      where: { assignment_date: date },
+      where: {
+        assignment_date: {
+          gte: new Date(year, month - 1, day, 0, 0, 0),
+          lt: new Date(year, month - 1, day + 1, 0, 0, 0),
+        },
+      },
     });
     if (!assignment) {
       assignment = await this.prisma.assignments.create({
-        data: { assignment_date: date },
+        data: { assignment_date: localDate },
       });
     }
     return assignment;
@@ -72,9 +82,41 @@ export class WorkRepository {
   }
 
   async findAllEmployees() {
-    return this.prisma.employees.findMany({
-      select: { id: true, name: true, role: true, email: true },
+    return this.prisma.users.findMany({
+      select: {
+        id: true,
+        full_name: true,
+        role_id: true,
+        email: true,
+        phone: true,
+      },
+      orderBy: { full_name: 'asc' },
     });
+  }
+
+  async syncUserToEmployee(
+    userId: string,
+    userName: string,
+    userEmail: string,
+  ) {
+    // Check if employee already exists
+    let employee = await this.prisma.employees.findUnique({
+      where: { id: userId },
+    });
+
+    if (!employee) {
+      // Create employee from user
+      employee = await this.prisma.employees.create({
+        data: {
+          id: userId,
+          name: userName,
+          email: userEmail,
+          role: 'employee',
+        },
+      });
+    }
+
+    return employee;
   }
 
   async findAllPens() {

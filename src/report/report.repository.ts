@@ -42,80 +42,191 @@ export class ReportRepository {
     });
   }
 
-  // Inventory Reports
-  async findInventoryReport(startDate: Date, endDate: Date) {
-    // 1. Get all inventory items to ensure everything is listed
+  // Inventory Reports - Using inventory + inventory_history
+  async findInventoryReport(
+    startDate: Date,
+    endDate: Date,
+    warehouseId?: string,
+    categoryId?: string,
+  ) {
+    // 1. Get all inventory items
+    const inventoryWhere: any = {};
+    if (warehouseId) {
+      inventoryWhere.warehouse_id = warehouseId;
+    }
+    if (categoryId) {
+      inventoryWhere.products = {
+        category_id: categoryId,
+      };
+    }
+
     const allInventory = await this.prisma.inventory.findMany({
-      include: { products: true },
+      where: inventoryWhere,
+      include: {
+        products: true,
+        warehouses: true,
+      },
     });
 
-    // 2. Get inventory history for the period
-    const inventoryHistory = await this.prisma.inventory_history.findMany({
-      where: { created_at: { gte: startDate, lte: endDate } },
+    // Lấy danh sách product_id để filter history nếu có categoryId
+    const productIds = allInventory.map((inv) => inv.product_id);
+
+    // 2. Get ALL history up to endDate (để tính tồn đầu và trong tháng)
+    const historyWhereAll: any = {
+      created_at: { lte: endDate },
+    };
+    if (warehouseId) {
+      historyWhereAll.warehouse_id = warehouseId;
+    }
+    if (categoryId && productIds.length > 0) {
+      historyWhereAll.product_id = { in: productIds };
+    }
+
+    const allHistory = await this.prisma.inventory_history.findMany({
+      where: historyWhereAll,
       orderBy: { created_at: 'asc' },
     });
 
-    // 3. Map history by product
-    const historyMap = new Map<string, any[]>();
-    for (const record of inventoryHistory) {
-      if (!historyMap.has(record.product_id)) {
-        historyMap.set(record.product_id, []);
+    // 3. Map history by product + warehouse
+    const historyBeforeMap = new Map<string, any[]>(); // history before startDate
+    const historyInPeriodMap = new Map<string, any[]>(); // history in period
+
+    for (const record of allHistory) {
+      const key = `${record.warehouse_id}_${record.product_id}`;
+
+      if (record.created_at && record.created_at < startDate) {
+        // History before period (để tính tồn đầu)
+        if (!historyBeforeMap.has(key)) {
+          historyBeforeMap.set(key, []);
+        }
+        historyBeforeMap.get(key)?.push(record);
+      } else if (record.created_at) {
+        // History in period (để tính nhập/xuất trong tháng)
+        if (!historyInPeriodMap.has(key)) {
+          historyInPeriodMap.set(key, []);
+        }
+        historyInPeriodMap.get(key)?.push(record);
       }
-      historyMap.get(record.product_id)?.push(record);
     }
 
-    // 4. Calculate stats for each product
+    // 4. Calculate for each inventory item
     const inventoryReportItems = allInventory.map((inv) => {
-      const history = historyMap.get(inv.product_id) || [];
-      const changeAmount = history.reduce(
-        (sum, h) => sum + Number(h.quantity_change),
-        0,
-      );
+      const key = `${inv.warehouse_id}_${inv.product_id}`;
+      const historyBefore = historyBeforeMap.get(key) || [];
+      const historyInPeriod = historyInPeriodMap.get(key) || [];
 
-      // Closing stock: either the last record in the period, or current inventory if it's the current month
-      let closingStock = Number(inv.quantity);
-      if (history.length > 0) {
-        closingStock = Number(history[history.length - 1].quantity_after);
+      // Tồn đầu: Ưu tiên lấy từ history trong tháng trước
+      let openingStock = 0;
+      if (historyInPeriod.length > 0) {
+        // Có history trong tháng → lấy quantity_before của record ĐẦU TIÊN
+        const firstRecord = historyInPeriod[0];
+        openingStock = Number(firstRecord.quantity_before || 0);
+      } else if (historyBefore.length > 0) {
+        // Không có history trong tháng nhưng có history trước đó
+        // → lấy quantity_after của record cuối cùng trước tháng
+        const lastRecord = historyBefore[historyBefore.length - 1];
+        openingStock = Number(lastRecord.quantity_after || 0);
       } else {
-        // If no history in this period, we check if there's any history AFTER this period
-        // to backtrack. But for simplicity, we'll use the current quantity.
-        // In a real-world scenario, you'd want a daily snapshot table.
+        // Không có history nào cả → lấy quantity hiện tại
+        openingStock = Number(inv.quantity || 0);
       }
 
+      // Tính nhập và xuất TRONG tháng
+      const receivedQuantity = historyInPeriod
+        .filter((h) => h.transaction_type?.toLowerCase() === 'in')
+        .reduce((sum, h) => sum + Math.abs(Number(h.quantity_change || 0)), 0);
+
+      const issuedQuantity = historyInPeriod
+        .filter((h) => h.transaction_type?.toLowerCase() === 'out')
+        .reduce((sum, h) => sum + Math.abs(Number(h.quantity_change || 0)), 0);
+
+      // Tồn cuối = tồn đầu + nhập - xuất
+      let closingStock = openingStock + receivedQuantity - issuedQuantity;
+
+      // Nếu không có history nào cả, dùng quantity hiện tại
+      if (historyBefore.length === 0 && historyInPeriod.length === 0) {
+        closingStock = Number(inv.quantity || 0);
+      }
+
+      const totalValue = closingStock * Number(inv.avg_cost);
+
       return {
-        material_id: inv.product_id,
-        materials: inv.products,
-        opening_stock: closingStock - changeAmount,
-        change_amout: changeAmount,
+        product_id: inv.product_id,
+        products: inv.products,
+        warehouses: inv.warehouses,
+        opening_stock: openingStock,
+        received_quantity: receivedQuantity,
+        issued_quantity: issuedQuantity,
         closing_stock: closingStock,
+        avg_cost: Number(inv.avg_cost),
+        total_value: totalValue,
       };
     });
 
-    // 5. Calculate Trends (Last 6 months)
+    // Calculate Trends (Last 6 months) - tính đúng giá trị tồn cuối từng tháng
     const trends: { month: string; value: number }[] = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date();
       d.setMonth(d.getMonth() - i);
-      const monthStr = d.toISOString().slice(0, 7); // YYYY-MM
+      const monthStr = d.toISOString().slice(0, 7);
 
-      // For a real trend, we would query daily_inventory_snapshots
-      // Since we might not have it populated, we'll sum current total value as a placeholder or
-      // ideally query the snapshot table if it exists.
-      const snapshot = await this.prisma.daily_inventory_snapshots.aggregate({
-        where: {
-          snapshot_date: {
-            lte: new Date(d.getFullYear(), d.getMonth() + 1, 0),
-            gte: new Date(d.getFullYear(), d.getMonth(), 1),
-          },
-        },
-        _sum: {
-          total_value: true,
-        },
+      // Lấy ngày cuối tháng
+      const trendEndDate = new Date(
+        d.getFullYear(),
+        d.getMonth() + 1,
+        0,
+        23,
+        59,
+        59,
+      );
+
+      const trendHistoryWhere: any = {
+        created_at: { lte: trendEndDate },
+      };
+      if (warehouseId) {
+        trendHistoryWhere.warehouse_id = warehouseId;
+      }
+      if (categoryId) {
+        // Filter by product category
+        const productsInCategory = await this.prisma.products.findMany({
+          where: { category_id: categoryId },
+          select: { id: true },
+        });
+        trendHistoryWhere.product_id = {
+          in: productsInCategory.map((p) => p.id),
+        };
+      }
+
+      // Lấy tất cả history đến cuối tháng đó
+      const trendHistory = await this.prisma.inventory_history.findMany({
+        where: trendHistoryWhere,
+        orderBy: { created_at: 'asc' },
       });
+
+      // Group by product để lấy quantity_after cuối cùng
+      const productLastHistory = new Map<string, any>();
+      for (const record of trendHistory) {
+        const key = `${record.warehouse_id}_${record.product_id}`;
+        productLastHistory.set(key, record);
+      }
+
+      // Tính tổng giá trị = sum(quantity_after * avg_cost)
+      let totalValue = 0;
+      for (const [key, lastRecord] of productLastHistory.entries()) {
+        // Lấy avg_cost từ inventory hiện tại
+        const [warehouseId, productId] = key.split('_');
+        const inv = allInventory.find(
+          (i) => i.warehouse_id === warehouseId && i.product_id === productId,
+        );
+        if (inv) {
+          totalValue +=
+            Number(lastRecord.quantity_after || 0) * Number(inv.avg_cost || 0);
+        }
+      }
 
       trends.push({
         month: monthStr,
-        value: Number(snapshot._sum.total_value) || 0,
+        value: totalValue,
       });
     }
 
