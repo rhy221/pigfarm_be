@@ -30,17 +30,6 @@ export class DailyVaccinationDetailDto {
   pens: PenVaccinationStatusDto[];
 }
 
-export class CalendarEventItemDto {
-  @ApiProperty({ example: '123e4567-e89b-12d3-a456-426614174000' })
-  id: string;
-
-  @ApiProperty({ example: 'Suyễn heo' })
-  name: string;
-
-  @ApiProperty({ example: 'pending' })
-  status: string;
-}
-
 export class VaccinationActionItem {
   @ApiProperty({ description: 'True nếu là lịch đã có trong DB, False nếu là lịch dự kiến' })
   @IsBoolean()
