@@ -174,6 +174,7 @@ export type pig_batchesWhereInput = {
   created_at?: Prisma.DateTimeFilter<"pig_batches"> | Date | string
   arrival_date?: Prisma.DateTimeNullableFilter<"pig_batches"> | Date | string | null
   batch_name?: Prisma.StringNullableFilter<"pig_batches"> | string | null
+  pig_batch_vaccines?: Prisma.Pig_batch_vaccinesListRelationFilter
   pigs?: Prisma.PigsListRelationFilter
 }
 
@@ -182,6 +183,7 @@ export type pig_batchesOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   arrival_date?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_name?: Prisma.SortOrderInput | Prisma.SortOrder
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesOrderByRelationAggregateInput
   pigs?: Prisma.pigsOrderByRelationAggregateInput
 }
 
@@ -193,6 +195,7 @@ export type pig_batchesWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"pig_batches"> | Date | string
   arrival_date?: Prisma.DateTimeNullableFilter<"pig_batches"> | Date | string | null
   batch_name?: Prisma.StringNullableFilter<"pig_batches"> | string | null
+  pig_batch_vaccines?: Prisma.Pig_batch_vaccinesListRelationFilter
   pigs?: Prisma.PigsListRelationFilter
 }, "id">
 
@@ -221,6 +224,7 @@ export type pig_batchesCreateInput = {
   created_at?: Date | string
   arrival_date?: Date | string | null
   batch_name?: string | null
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesCreateNestedManyWithoutPig_batchesInput
   pigs?: Prisma.pigsCreateNestedManyWithoutPig_batchsInput
 }
 
@@ -229,6 +233,7 @@ export type pig_batchesUncheckedCreateInput = {
   created_at?: Date | string
   arrival_date?: Date | string | null
   batch_name?: string | null
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesUncheckedCreateNestedManyWithoutPig_batchesInput
   pigs?: Prisma.pigsUncheckedCreateNestedManyWithoutPig_batchsInput
 }
 
@@ -237,6 +242,7 @@ export type pig_batchesUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesUpdateManyWithoutPig_batchesNestedInput
   pigs?: Prisma.pigsUpdateManyWithoutPig_batchsNestedInput
 }
 
@@ -245,6 +251,7 @@ export type pig_batchesUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesUncheckedUpdateManyWithoutPig_batchesNestedInput
   pigs?: Prisma.pigsUncheckedUpdateManyWithoutPig_batchsNestedInput
 }
 
@@ -295,6 +302,11 @@ export type pig_batchesMinOrderByAggregateInput = {
   batch_name?: Prisma.SortOrder
 }
 
+export type Pig_batchesScalarRelationFilter = {
+  is?: Prisma.pig_batchesWhereInput
+  isNot?: Prisma.pig_batchesWhereInput
+}
+
 export type pig_batchesCreateNestedOneWithoutPigsInput = {
   create?: Prisma.XOR<Prisma.pig_batchesCreateWithoutPigsInput, Prisma.pig_batchesUncheckedCreateWithoutPigsInput>
   connectOrCreate?: Prisma.pig_batchesCreateOrConnectWithoutPigsInput
@@ -311,11 +323,26 @@ export type pig_batchesUpdateOneWithoutPigsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.pig_batchesUpdateToOneWithWhereWithoutPigsInput, Prisma.pig_batchesUpdateWithoutPigsInput>, Prisma.pig_batchesUncheckedUpdateWithoutPigsInput>
 }
 
+export type pig_batchesCreateNestedOneWithoutPig_batch_vaccinesInput = {
+  create?: Prisma.XOR<Prisma.pig_batchesCreateWithoutPig_batch_vaccinesInput, Prisma.pig_batchesUncheckedCreateWithoutPig_batch_vaccinesInput>
+  connectOrCreate?: Prisma.pig_batchesCreateOrConnectWithoutPig_batch_vaccinesInput
+  connect?: Prisma.pig_batchesWhereUniqueInput
+}
+
+export type pig_batchesUpdateOneRequiredWithoutPig_batch_vaccinesNestedInput = {
+  create?: Prisma.XOR<Prisma.pig_batchesCreateWithoutPig_batch_vaccinesInput, Prisma.pig_batchesUncheckedCreateWithoutPig_batch_vaccinesInput>
+  connectOrCreate?: Prisma.pig_batchesCreateOrConnectWithoutPig_batch_vaccinesInput
+  upsert?: Prisma.pig_batchesUpsertWithoutPig_batch_vaccinesInput
+  connect?: Prisma.pig_batchesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.pig_batchesUpdateToOneWithWhereWithoutPig_batch_vaccinesInput, Prisma.pig_batchesUpdateWithoutPig_batch_vaccinesInput>, Prisma.pig_batchesUncheckedUpdateWithoutPig_batch_vaccinesInput>
+}
+
 export type pig_batchesCreateWithoutPigsInput = {
   id?: string
   created_at?: Date | string
   arrival_date?: Date | string | null
   batch_name?: string | null
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesCreateNestedManyWithoutPig_batchesInput
 }
 
 export type pig_batchesUncheckedCreateWithoutPigsInput = {
@@ -323,6 +350,7 @@ export type pig_batchesUncheckedCreateWithoutPigsInput = {
   created_at?: Date | string
   arrival_date?: Date | string | null
   batch_name?: string | null
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesUncheckedCreateNestedManyWithoutPig_batchesInput
 }
 
 export type pig_batchesCreateOrConnectWithoutPigsInput = {
@@ -346,6 +374,7 @@ export type pig_batchesUpdateWithoutPigsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesUpdateManyWithoutPig_batchesNestedInput
 }
 
 export type pig_batchesUncheckedUpdateWithoutPigsInput = {
@@ -353,6 +382,55 @@ export type pig_batchesUncheckedUpdateWithoutPigsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pig_batch_vaccines?: Prisma.pig_batch_vaccinesUncheckedUpdateManyWithoutPig_batchesNestedInput
+}
+
+export type pig_batchesCreateWithoutPig_batch_vaccinesInput = {
+  id?: string
+  created_at?: Date | string
+  arrival_date?: Date | string | null
+  batch_name?: string | null
+  pigs?: Prisma.pigsCreateNestedManyWithoutPig_batchsInput
+}
+
+export type pig_batchesUncheckedCreateWithoutPig_batch_vaccinesInput = {
+  id?: string
+  created_at?: Date | string
+  arrival_date?: Date | string | null
+  batch_name?: string | null
+  pigs?: Prisma.pigsUncheckedCreateNestedManyWithoutPig_batchsInput
+}
+
+export type pig_batchesCreateOrConnectWithoutPig_batch_vaccinesInput = {
+  where: Prisma.pig_batchesWhereUniqueInput
+  create: Prisma.XOR<Prisma.pig_batchesCreateWithoutPig_batch_vaccinesInput, Prisma.pig_batchesUncheckedCreateWithoutPig_batch_vaccinesInput>
+}
+
+export type pig_batchesUpsertWithoutPig_batch_vaccinesInput = {
+  update: Prisma.XOR<Prisma.pig_batchesUpdateWithoutPig_batch_vaccinesInput, Prisma.pig_batchesUncheckedUpdateWithoutPig_batch_vaccinesInput>
+  create: Prisma.XOR<Prisma.pig_batchesCreateWithoutPig_batch_vaccinesInput, Prisma.pig_batchesUncheckedCreateWithoutPig_batch_vaccinesInput>
+  where?: Prisma.pig_batchesWhereInput
+}
+
+export type pig_batchesUpdateToOneWithWhereWithoutPig_batch_vaccinesInput = {
+  where?: Prisma.pig_batchesWhereInput
+  data: Prisma.XOR<Prisma.pig_batchesUpdateWithoutPig_batch_vaccinesInput, Prisma.pig_batchesUncheckedUpdateWithoutPig_batch_vaccinesInput>
+}
+
+export type pig_batchesUpdateWithoutPig_batch_vaccinesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pigs?: Prisma.pigsUpdateManyWithoutPig_batchsNestedInput
+}
+
+export type pig_batchesUncheckedUpdateWithoutPig_batch_vaccinesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  arrival_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pigs?: Prisma.pigsUncheckedUpdateManyWithoutPig_batchsNestedInput
 }
 
 
@@ -361,10 +439,12 @@ export type pig_batchesUncheckedUpdateWithoutPigsInput = {
  */
 
 export type Pig_batchesCountOutputType = {
+  pig_batch_vaccines: number
   pigs: number
 }
 
 export type Pig_batchesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pig_batch_vaccines?: boolean | Pig_batchesCountOutputTypeCountPig_batch_vaccinesArgs
   pigs?: boolean | Pig_batchesCountOutputTypeCountPigsArgs
 }
 
@@ -381,6 +461,13 @@ export type Pig_batchesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.
 /**
  * Pig_batchesCountOutputType without action
  */
+export type Pig_batchesCountOutputTypeCountPig_batch_vaccinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.pig_batch_vaccinesWhereInput
+}
+
+/**
+ * Pig_batchesCountOutputType without action
+ */
 export type Pig_batchesCountOutputTypeCountPigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.pigsWhereInput
 }
@@ -391,6 +478,7 @@ export type pig_batchesSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   created_at?: boolean
   arrival_date?: boolean
   batch_name?: boolean
+  pig_batch_vaccines?: boolean | Prisma.pig_batches$pig_batch_vaccinesArgs<ExtArgs>
   pigs?: boolean | Prisma.pig_batches$pigsArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_batchesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pig_batches"]>
@@ -418,6 +506,7 @@ export type pig_batchesSelectScalar = {
 
 export type pig_batchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "arrival_date" | "batch_name", ExtArgs["result"]["pig_batches"]>
 export type pig_batchesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pig_batch_vaccines?: boolean | Prisma.pig_batches$pig_batch_vaccinesArgs<ExtArgs>
   pigs?: boolean | Prisma.pig_batches$pigsArgs<ExtArgs>
   _count?: boolean | Prisma.Pig_batchesCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -427,6 +516,7 @@ export type pig_batchesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.
 export type $pig_batchesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "pig_batches"
   objects: {
+    pig_batch_vaccines: Prisma.$pig_batch_vaccinesPayload<ExtArgs>[]
     pigs: Prisma.$pigsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -828,6 +918,7 @@ readonly fields: pig_batchesFieldRefs;
  */
 export interface Prisma__pig_batchesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  pig_batch_vaccines<T extends Prisma.pig_batches$pig_batch_vaccinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_batches$pig_batch_vaccinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pig_batch_vaccinesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pigs<T extends Prisma.pig_batches$pigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pig_batches$pigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pigsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1247,6 +1338,30 @@ export type pig_batchesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many pig_batches to delete.
    */
   limit?: number
+}
+
+/**
+ * pig_batches.pig_batch_vaccines
+ */
+export type pig_batches$pig_batch_vaccinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the pig_batch_vaccines
+   */
+  select?: Prisma.pig_batch_vaccinesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the pig_batch_vaccines
+   */
+  omit?: Prisma.pig_batch_vaccinesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.pig_batch_vaccinesInclude<ExtArgs> | null
+  where?: Prisma.pig_batch_vaccinesWhereInput
+  orderBy?: Prisma.pig_batch_vaccinesOrderByWithRelationInput | Prisma.pig_batch_vaccinesOrderByWithRelationInput[]
+  cursor?: Prisma.pig_batch_vaccinesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Pig_batch_vaccinesScalarFieldEnum | Prisma.Pig_batch_vaccinesScalarFieldEnum[]
 }
 
 /**
