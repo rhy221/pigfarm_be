@@ -96,4 +96,10 @@ export class PigController {
   async getAllBatches() {
     return this.pigService.getAllBatches();
   }
+
+  @Get('regular-pens')
+  @ApiOperation({ summary: 'Lấy danh sách chuồng thịt (Hỗ trợ dropdown)' })
+  async getRegularPens() {
+    return this.pigService.getRegularPens();
+  }
 }

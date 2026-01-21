@@ -519,4 +519,24 @@ export class PigService {
       }
     });
   }
+
+  async getRegularPens() {
+    return (this.prisma as any).pens.findMany({
+      where: {
+        pen_types: {
+          pen_type_name: {
+            contains: 'Chuồng thịt', 
+            mode: 'insensitive'
+          }
+        }
+      },
+      select: {
+        id: true,
+        pen_name: true,
+        capacity: true,
+        current_quantity: true
+      },
+      orderBy: { pen_name: 'asc' }
+    });
+  }
 }

@@ -163,7 +163,7 @@ export class TransferPigDto {
     description: 'Danh sách ID các con heo cần chuyển' 
   })
   @IsArray()
-  @IsUUID('4', { each: true })
+  @IsString({ each: true })      
   pigIds: string[];
 
   @ApiProperty({ 
