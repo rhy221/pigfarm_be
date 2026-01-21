@@ -10,7 +10,37 @@ import { material_categories } from '../generated/prisma/client';
 @Injectable()
 export class WarehouseService {
   constructor(private prisma: PrismaService) {}
+  async getProducts(filters?: { type?: string; search?: string; categoryId?: string }) {
+    const where: any = { 
+      is_active: true 
+    };
 
+    if (filters?.type) {
+      where.warehouse_categories = {
+        type: filters.type.toLowerCase() 
+      };
+    }
+
+    if (filters?.categoryId) {
+      where.category_id = filters.categoryId;
+    }
+
+    if (filters?.search) {
+      where.OR = [
+        { name: { contains: filters.search, mode: 'insensitive' } },
+        { code: { contains: filters.search, mode: 'insensitive' } }
+      ];
+    }
+
+    return this.prisma.products.findMany({
+      where,
+      include: {
+        warehouse_categories: true, 
+        units: true                
+      },
+      orderBy: { name: 'asc' }
+    });
+  }
   async findAllCategories() {
     return this.prisma.warehouse_categories.findMany({
       include: {

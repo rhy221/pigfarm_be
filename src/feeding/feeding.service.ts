@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateFeedingFormulaDto, UpdateFeedingFormulaDto } from './feeding.dto';
 import dayjs from 'dayjs';
@@ -8,22 +8,21 @@ export class FeedingService {
   constructor(private prisma: PrismaService) {}
 
   async createFormula(data: CreateFeedingFormulaDto) {
-    return this.prisma.feeding_formulas.create({
-      data: {
-        name: data.name,
-        start_day: data.startDay,
-        amount_per_pig: data.amountPerPig,
-        feeding_formula_details: {
-          create: data.items.map((item) => ({
-            product_id: item.productId,
-            percentage: item.percentage,
-          })),
-        },
-      },
-      include: {
-        feeding_formula_details: true,
-      },
+    
+    const productIds = data.items.map((item) => item.productId);
+
+    const invalidProductsCount = await this.prisma.products.count({
+      where: {
+        id: { in: productIds },
+        warehouse_categories: {
+          type: { not: 'feed' } 
+        }
+      }
     });
+
+    if (invalidProductsCount > 0) {
+      throw new BadRequestException('Công thức chỉ được chứa sản phẩm thuộc loại Thức ăn chăn nuôi (feed)!');
+    }
   }
 
   async getFormulas() {
