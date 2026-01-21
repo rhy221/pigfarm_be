@@ -508,4 +508,15 @@ export class PigService {
       };
     });
   }
+
+  async getAllBatches() {
+    return (this.prisma as any).pig_batches.findMany({
+      orderBy: { arrival_date: 'desc' }, 
+      select: {
+        id: true,
+        batch_name: true,
+        arrival_date: true,
+      }
+    });
+  }
 }
