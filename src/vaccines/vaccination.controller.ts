@@ -84,4 +84,10 @@ export class VaccinationController {
   deleteTemplateItem(@Param('id') id: string) {
     return this.vaccinationService.deleteTemplate(id);
   }
+
+  @Get('active-pens')
+  @ApiOperation({ summary: 'Lấy danh sách chuồng đang có heo (cho dropdown tạo lịch)' })
+  getActivePens() {
+      return this.vaccinationService.getActivePens();
+  }
 }

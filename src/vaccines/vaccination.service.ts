@@ -477,4 +477,26 @@ export class VaccinationService {
     if (days <= 45) return 'orange'; 
     return 'blue';                   
   }
+
+  async getActivePens() {
+    const pens = await this.prisma.pens.findMany({
+      where: { 
+        current_quantity: { gt: 0 } 
+      },
+      orderBy: { 
+        pen_name: 'asc' 
+      },
+      select: {
+        id: true,
+        pen_name: true,
+        current_quantity: true
+      }
+    });
+
+    return pens.map(p => ({
+      id: p.id,
+      name: p.pen_name,
+      quantity: p.current_quantity
+    }));
+  }
 }
