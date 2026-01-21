@@ -2,7 +2,11 @@
 // INVENTORY MODULE - SERVICE
 // =====================================================
 
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   CreateWarehouseDto,
@@ -26,46 +30,52 @@ import {
   InventoryHistoryQueryDto,
   DocumentStatus,
 } from './inventory.dto';
-import {NamingUtils} from '../lib/utils';
+import { NamingUtils } from '../lib/utils';
 import { Prisma } from '../generated/prisma/client';
 @Injectable()
 export class InventoryService {
   constructor(private prisma: PrismaService) {}
 
   // ============ HELPER METHODS ============
-  private async generateDocumentCode(prefix: string, date: Date): Promise<string> {
+  private async generateDocumentCode(
+    prefix: string,
+    date: Date,
+  ): Promise<string> {
     const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '');
-    
+
     let count = 1;
     if (prefix === 'PN') {
-      count = await this.prisma.stock_receipts.count({
-        where: {
-          receipt_date: {
-            gte: new Date(date.setHours(0, 0, 0, 0)),
-            lt: new Date(date.setHours(23, 59, 59, 999)),
+      count =
+        (await this.prisma.stock_receipts.count({
+          where: {
+            receipt_date: {
+              gte: new Date(date.setHours(0, 0, 0, 0)),
+              lt: new Date(date.setHours(23, 59, 59, 999)),
+            },
           },
-        },
-      }) + 1;
+        })) + 1;
     } else if (prefix === 'PX') {
-      count = await this.prisma.stock_issues.count({
-        where: {
-          issue_date: {
-            gte: new Date(date.setHours(0, 0, 0, 0)),
-            lt: new Date(date.setHours(23, 59, 59, 999)),
+      count =
+        (await this.prisma.stock_issues.count({
+          where: {
+            issue_date: {
+              gte: new Date(date.setHours(0, 0, 0, 0)),
+              lt: new Date(date.setHours(23, 59, 59, 999)),
+            },
           },
-        },
-      }) + 1;
+        })) + 1;
     } else if (prefix === 'KK') {
-      count = await this.prisma.inventory_checks.count({
-        where: {
-          check_date: {
-            gte: new Date(date.setHours(0, 0, 0, 0)),
-            lt: new Date(date.setHours(23, 59, 59, 999)),
+      count =
+        (await this.prisma.inventory_checks.count({
+          where: {
+            check_date: {
+              gte: new Date(date.setHours(0, 0, 0, 0)),
+              lt: new Date(date.setHours(23, 59, 59, 999)),
+            },
           },
-        },
-      }) + 1;
+        })) + 1;
     }
-    
+
     return `${prefix}-${dateStr}-${String(count).padStart(3, '0')}`;
   }
 
@@ -84,7 +94,9 @@ export class InventoryService {
   }
 
   async updateWarehouse(id: string, dto: UpdateWarehouseDto) {
-    const warehouse = await this.prisma.warehouses.findUnique({ where: { id } });
+    const warehouse = await this.prisma.warehouses.findUnique({
+      where: { id },
+    });
     if (!warehouse) {
       throw new NotFoundException('Không tìm thấy kho');
     }
@@ -102,7 +114,9 @@ export class InventoryService {
   }
 
   async deleteWarehouse(id: string) {
-    const warehouse = await this.prisma.warehouses.findUnique({ where: { id } });
+    const warehouse = await this.prisma.warehouses.findUnique({
+      where: { id },
+    });
     if (!warehouse) {
       throw new NotFoundException('Không tìm thấy kho');
     }
@@ -148,11 +162,16 @@ export class InventoryService {
 
   // ============ WAREHOUSE CATEGORY METHODS ============
   async createWarehouseCategory(dto: CreateWarehouseCategoryDto) {
-    return this.prisma.warehouse_categories.create({ data: NamingUtils.toSnakeCase(dto) });
+    return this.prisma.warehouse_categories.create({
+      data: NamingUtils.toSnakeCase(dto),
+    });
   }
 
   async updateWarehouseCategory(id: string, dto: UpdateWarehouseCategoryDto) {
-    return this.prisma.warehouse_categories.update({ where: { id }, data: NamingUtils.toSnakeCase(dto) });
+    return this.prisma.warehouse_categories.update({
+      where: { id },
+      data: NamingUtils.toSnakeCase(dto),
+    });
   }
 
   async getWarehouseCategories() {
@@ -168,7 +187,10 @@ export class InventoryService {
   }
 
   async updateUnit(id: string, dto: UpdateUnitDto) {
-    return this.prisma.units.update({ where: { id }, data: NamingUtils.toSnakeCase(dto) });
+    return this.prisma.units.update({
+      where: { id },
+      data: NamingUtils.toSnakeCase(dto),
+    });
   }
 
   async getUnits() {
@@ -205,7 +227,12 @@ export class InventoryService {
     });
   }
 
-  async getProducts(categoryId?: string, search?: string, page = 1, limit = 20) {
+  async getProducts(
+    categoryId?: string,
+    search?: string,
+    page = 1,
+    limit = 20,
+  ) {
     const skip = (page - 1) * limit;
     const where: Prisma.productsWhereInput = {
       is_active: true,
@@ -251,7 +278,10 @@ export class InventoryService {
   }
 
   async updateSupplier(id: string, dto: UpdateSupplierDto) {
-    return this.prisma.suppliers.update({ where: { id }, data: NamingUtils.toSnakeCase(dto) });
+    return this.prisma.suppliers.update({
+      where: { id },
+      data: NamingUtils.toSnakeCase(dto),
+    });
   }
 
   async deleteSupplier(id: string) {
@@ -261,8 +291,8 @@ export class InventoryService {
     });
   }
 
-  async getSuppliers( search?: string) {
-    const where: Prisma.suppliersWhereInput = { is_active: true };
+  async getSuppliers(search?: string) {
+    const where: any = { is_active: true };
     if (search) {
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },
@@ -295,15 +325,22 @@ export class InventoryService {
 
   // ============ INVENTORY METHODS ============
   async getInventory(query: InventoryQueryDto) {
-    const {warehouseId, categoryId, search, stockStatus, page = 1, limit = 20 } = query;
+    const {
+      warehouseId,
+      categoryId,
+      search,
+      stockStatus,
+      page = 1,
+      limit = 20,
+    } = query;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.inventoryWhereInput = {};
+    const where: any = {};
     if (warehouseId) where.warehouse_id = warehouseId;
     if (categoryId) where.products = { category_id: categoryId };
     if (search) {
       where.products = {
-        ...where.products as object,
+        ...(where.products as object),
         OR: [
           { name: { contains: search, mode: 'insensitive' } },
           { code: { contains: search, mode: 'insensitive' } },
@@ -349,7 +386,6 @@ export class InventoryService {
 
   async getInventorySummary() {
     const inventory = await this.prisma.inventory.findMany({
-      
       include: {
         products: { include: { warehouse_categories: true } },
       },
@@ -376,7 +412,8 @@ export class InventoryService {
       else if (qty <= minQty) summary.lowStock++;
       else summary.inStock++;
 
-      const categoryName = item.products.warehouse_categories?.name || 'Chưa phân loại';
+      const categoryName =
+        item.products.warehouse_categories?.name || 'Chưa phân loại';
       if (!summary.byCategory[categoryName]) {
         summary.byCategory[categoryName] = { count: 0, value: 0 };
       }
@@ -390,7 +427,7 @@ export class InventoryService {
   // ============ STOCK RECEIPT METHODS ============
   async createStockReceipt(dto: CreateStockReceiptDto, createdById?: string) {
     const receiptDate = new Date(dto.receiptDate);
-    const receiptCode = await this.generateDocumentCode( 'PN', receiptDate);
+    const receiptCode = await this.generateDocumentCode('PN', receiptDate);
 
     // Format date for batch number: YYYYMMDD
     const dateStr = receiptDate.toISOString().slice(0, 10).replace(/-/g, '');
@@ -399,16 +436,20 @@ export class InventoryService {
     let totalAmount = 0;
     const itemsData = dto.items.map((item, index) => {
       const itemTotal = item.quantity * item.unitPrice;
-      const discountAmt = item.discountAmount || (itemTotal * (item.discountPercent || 0)) / 100;
+      const discountAmt =
+        item.discountAmount || (itemTotal * (item.discountPercent || 0)) / 100;
       const afterDiscount = itemTotal - discountAmt;
-      const taxAmt = item.taxAmount || (afterDiscount * (item.taxPercent || 0)) / 100;
+      const taxAmt =
+        item.taxAmount || (afterDiscount * (item.taxPercent || 0)) / 100;
       const finalTotal = afterDiscount + taxAmt;
       totalAmount += finalTotal;
 
       // Auto-generate batch number if not provided
-      const batchNumber = item.batchNumber || `LOT-${dateStr}-${String(index + 1).padStart(3, '0')}`;
+      const batchNumber =
+        item.batchNumber ||
+        `LOT-${dateStr}-${String(index + 1).padStart(3, '0')}`;
 
-      return NamingUtils.toSnakeCase( {
+      return NamingUtils.toSnakeCase({
         productId: item.productId,
         quantity: item.quantity,
         unitPrice: item.unitPrice,
@@ -436,7 +477,6 @@ export class InventoryService {
 
     return this.prisma.stock_receipts.create({
       data: {
-
         warehouse_id: dto.warehouseId,
         supplier_id: dto.supplierId,
         receipt_code: receiptCode,
@@ -458,7 +498,9 @@ export class InventoryService {
         stock_receipt_items: { create: itemsData },
       },
       include: {
-        stock_receipt_items: { include: { products: { include: { units: true } } } },
+        stock_receipt_items: {
+          include: { products: { include: { units: true } } },
+        },
         suppliers: true,
         warehouses: true,
       },
@@ -466,7 +508,9 @@ export class InventoryService {
   }
 
   async updateStockReceipt(id: string, dto: UpdateStockReceiptDto) {
-    const receipt = await this.prisma.stock_receipts.findUnique({ where: { id } });
+    const receipt = await this.prisma.stock_receipts.findUnique({
+      where: { id },
+    });
     if (!receipt) throw new NotFoundException('Không tìm thấy phiếu nhập kho');
     if (receipt.status === 'confirmed') {
       throw new BadRequestException('Không thể sửa phiếu đã xác nhận');
@@ -474,25 +518,34 @@ export class InventoryService {
 
     // Delete old items and recreate
     if (dto.items) {
-      await this.prisma.stock_receipt_items.deleteMany({ where: { receipt_id: id } });
+      await this.prisma.stock_receipt_items.deleteMany({
+        where: { receipt_id: id },
+      });
 
       // Format date for batch number: YYYYMMDD
-      const receiptDate = dto.receiptDate ? new Date(dto.receiptDate) : receipt.receipt_date;
+      const receiptDate = dto.receiptDate
+        ? new Date(dto.receiptDate)
+        : receipt.receipt_date;
       const dateStr = receiptDate.toISOString().slice(0, 10).replace(/-/g, '');
 
       let totalAmount = 0;
       const itemsData = dto.items.map((item, index) => {
         const itemTotal = item.quantity * item.unitPrice;
-        const discountAmt = item.discountAmount || (itemTotal * (item.discountPercent || 0)) / 100;
+        const discountAmt =
+          item.discountAmount ||
+          (itemTotal * (item.discountPercent || 0)) / 100;
         const afterDiscount = itemTotal - discountAmt;
-        const taxAmt = item.taxAmount || (afterDiscount * (item.taxPercent || 0)) / 100;
+        const taxAmt =
+          item.taxAmount || (afterDiscount * (item.taxPercent || 0)) / 100;
         const finalTotal = afterDiscount + taxAmt;
         totalAmount += finalTotal;
 
         // Auto-generate batch number if not provided
-        const batchNumber = item.batchNumber || `LOT-${dateStr}-${String(index + 1).padStart(3, '0')}`;
+        const batchNumber =
+          item.batchNumber ||
+          `LOT-${dateStr}-${String(index + 1).padStart(3, '0')}`;
 
-        return NamingUtils.toSnakeCase( {
+        return NamingUtils.toSnakeCase({
           receiptId: id,
           productId: item.productId,
           quantity: item.quantity,
@@ -510,10 +563,12 @@ export class InventoryService {
 
       await this.prisma.stock_receipt_items.createMany({ data: itemsData });
 
-      const discountAmount = dto.discountAmount ?? Number(receipt.discount_amount);
+      const discountAmount =
+        dto.discountAmount ?? Number(receipt.discount_amount);
       const taxAmount = dto.taxAmount ?? Number(receipt.tax_amount);
       const shippingFee = dto.shippingFee ?? Number(receipt.shipping_fee);
-      const finalAmount = totalAmount - discountAmount + taxAmount + shippingFee;
+      const finalAmount =
+        totalAmount - discountAmount + taxAmount + shippingFee;
       const paidAmount = dto.paidAmount ?? Number(receipt.paid_amount);
       const debtAmount = finalAmount - paidAmount;
 
@@ -541,7 +596,9 @@ export class InventoryService {
           invoice_date: dto.invoiceDate ? new Date(dto.invoiceDate) : undefined,
         },
         include: {
-          stock_receipt_items: { include: { products: { include: { units: true } } } },
+          stock_receipt_items: {
+            include: { products: { include: { units: true } } },
+          },
           suppliers: true,
           warehouses: true,
         },
@@ -556,7 +613,9 @@ export class InventoryService {
         invoice_date: dto.invoiceDate ? new Date(dto.invoiceDate) : undefined,
       },
       include: {
-        stock_receipt_items: { include: { products: { include: { units: true } } } },
+        stock_receipt_items: {
+          include: { products: { include: { units: true } } },
+        },
         suppliers: true,
         warehouses: true,
       },
@@ -589,9 +648,12 @@ export class InventoryService {
         const currentQty = inventory ? Number(inventory.quantity) : 0;
         const currentCost = inventory ? Number(inventory.avg_cost) : 0;
         const newQty = currentQty + Number(item.quantity);
-        const newCost = newQty > 0
-          ? ((currentQty * currentCost) + (Number(item.quantity) * Number(item.unit_price))) / newQty
-          : Number(item.unit_price);
+        const newCost =
+          newQty > 0
+            ? (currentQty * currentCost +
+                Number(item.quantity) * Number(item.unit_price)) /
+              newQty
+            : Number(item.unit_price);
         const upsertedInventory = await tx.inventory.upsert({
           where: {
             warehouse_id_product_id: {
@@ -692,7 +754,9 @@ export class InventoryService {
   }
 
   async cancelStockReceipt(id: string) {
-    const receipt = await this.prisma.stock_receipts.findUnique({ where: { id } });
+    const receipt = await this.prisma.stock_receipts.findUnique({
+      where: { id },
+    });
     if (!receipt) throw new NotFoundException('Không tìm thấy phiếu nhập kho');
     if (receipt.status === 'confirmed') {
       throw new BadRequestException('Không thể hủy phiếu đã xác nhận');
@@ -705,10 +769,20 @@ export class InventoryService {
   }
 
   async getStockReceipts(query: StockReceiptQueryDto) {
-    const { warehouseId, supplierId, fromDate, toDate, status, paymentStatus, search, page = 1, limit = 20 } = query;
+    const {
+      warehouseId,
+      supplierId,
+      fromDate,
+      toDate,
+      status,
+      paymentStatus,
+      search,
+      page = 1,
+      limit = 20,
+    } = query;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.stock_receiptsWhereInput = {};
+    const where: any = {};
     if (warehouseId) where.warehouse_id = warehouseId;
     if (supplierId) where.supplier_id = supplierId;
     if (status) where.status = status;
@@ -732,7 +806,9 @@ export class InventoryService {
         include: {
           suppliers: true,
           warehouses: true,
-          users_stock_receipts_created_byTousers: { select: { id: true, full_name: true } },
+          users_stock_receipts_created_byTousers: {
+            select: { id: true, full_name: true },
+          },
         },
         skip,
         take: limit,
@@ -748,11 +824,19 @@ export class InventoryService {
     const receipt = await this.prisma.stock_receipts.findUnique({
       where: { id },
       include: {
-        stock_receipt_items: { include: { products: { include: { units: true, warehouse_categories: true } } } },
+        stock_receipt_items: {
+          include: {
+            products: { include: { units: true, warehouse_categories: true } },
+          },
+        },
         suppliers: true,
         warehouses: true,
-        users_stock_receipts_created_byTousers: { select: { id: true, full_name: true } },
-        users_stock_receipts_approved_byTousers: { select: { id: true, full_name: true } },
+        users_stock_receipts_created_byTousers: {
+          select: { id: true, full_name: true },
+        },
+        users_stock_receipts_approved_byTousers: {
+          select: { id: true, full_name: true },
+        },
       },
     });
     if (!receipt) throw new NotFoundException('Không tìm thấy phiếu nhập kho');
@@ -779,9 +863,11 @@ export class InventoryService {
       });
 
       if (!inventory || Number(inventory.quantity) < item.quantity) {
-        const product = await this.prisma.products.findUnique({ where: { id: item.productId } });
+        const product = await this.prisma.products.findUnique({
+          where: { id: item.productId },
+        });
         throw new BadRequestException(
-          `Sản phẩm "${product?.name || item.productId}" không đủ số lượng trong kho`
+          `Sản phẩm "${product?.name || item.productId}" không đủ số lượng trong kho`,
         );
       }
 
@@ -789,14 +875,16 @@ export class InventoryService {
       const itemTotal = item.quantity * unitCost;
       totalAmount += itemTotal;
 
-      itemsData.push(NamingUtils.toSnakeCase({
-        productId: item.productId,
-        quantity: item.quantity,
-        unitCost,
-        totalAmount: itemTotal,
-        batchId: item.batchId,
-        notes: item.notes,
-      }));
+      itemsData.push(
+        NamingUtils.toSnakeCase({
+          productId: item.productId,
+          quantity: item.quantity,
+          unitCost,
+          totalAmount: itemTotal,
+          batchId: item.batchId,
+          notes: item.notes,
+        }),
+      );
     }
 
     return this.prisma.stock_issues.create({
@@ -814,7 +902,12 @@ export class InventoryService {
         stock_issue_items: { create: itemsData },
       },
       include: {
-        stock_issue_items: { include: { products: { include: { units: true } }, inventory_batches: true } },
+        stock_issue_items: {
+          include: {
+            products: { include: { units: true } },
+            inventory_batches: true,
+          },
+        },
         warehouses: true,
       },
     });
@@ -829,7 +922,9 @@ export class InventoryService {
 
     // Delete old items and recreate
     if (dto.items) {
-      await this.prisma.stock_issue_items.deleteMany({ where: { issue_id: id } });
+      await this.prisma.stock_issue_items.deleteMany({
+        where: { issue_id: id },
+      });
 
       const itemsData: any = [];
       let totalAmount = 0;
@@ -845,9 +940,11 @@ export class InventoryService {
         });
 
         if (!inventory || Number(inventory.quantity) < item.quantity) {
-          const product = await this.prisma.products.findUnique({ where: { id: item.productId } });
+          const product = await this.prisma.products.findUnique({
+            where: { id: item.productId },
+          });
           throw new BadRequestException(
-            `Sản phẩm "${product?.name || item.productId}" không đủ số lượng trong kho`
+            `Sản phẩm "${product?.name || item.productId}" không đủ số lượng trong kho`,
           );
         }
 
@@ -855,15 +952,17 @@ export class InventoryService {
         const itemTotal = item.quantity * unitCost;
         totalAmount += itemTotal;
 
-        itemsData.push(NamingUtils.toSnakeCase({
-          issueId: id,
-          productId: item.productId,
-          quantity: item.quantity,
-          unitCost,
-          totalAmount: itemTotal,
-          batchId: item.batchId,
-          notes: item.notes,
-        }));
+        itemsData.push(
+          NamingUtils.toSnakeCase({
+            issueId: id,
+            productId: item.productId,
+            quantity: item.quantity,
+            unitCost,
+            totalAmount: itemTotal,
+            batchId: item.batchId,
+            notes: item.notes,
+          }),
+        );
       }
 
       await this.prisma.stock_issue_items.createMany({ data: itemsData });
@@ -881,7 +980,12 @@ export class InventoryService {
           updated_at: new Date(),
         },
         include: {
-          stock_issue_items: { include: { products: { include: { units: true } }, inventory_batches: true } },
+          stock_issue_items: {
+            include: {
+              products: { include: { units: true } },
+              inventory_batches: true,
+            },
+          },
           warehouses: true,
         },
       });
@@ -900,7 +1004,12 @@ export class InventoryService {
         updated_at: new Date(),
       },
       include: {
-        stock_issue_items: { include: { products: { include: { units: true } }, inventory_batches: true } },
+        stock_issue_items: {
+          include: {
+            products: { include: { units: true } },
+            inventory_batches: true,
+          },
+        },
         warehouses: true,
       },
     });
@@ -929,9 +1038,11 @@ export class InventoryService {
         });
 
         if (!inventory || Number(inventory.quantity) < Number(item.quantity)) {
-          const product = await tx.products.findUnique({ where: { id: item.product_id } });
+          const product = await tx.products.findUnique({
+            where: { id: item.product_id },
+          });
           throw new BadRequestException(
-            `Sản phẩm "${product?.name}" không đủ số lượng trong kho`
+            `Sản phẩm "${product?.name}" không đủ số lượng trong kho`,
           );
         }
 
@@ -959,7 +1070,10 @@ export class InventoryService {
 
           if (batch) {
             const batchCurrentQty = Number(batch.quantity);
-            const batchNewQty = Math.max(0, batchCurrentQty - Number(item.quantity));
+            const batchNewQty = Math.max(
+              0,
+              batchCurrentQty - Number(item.quantity),
+            );
 
             await tx.inventory_batches.update({
               where: { id: item.batch_id },
@@ -1018,10 +1132,19 @@ export class InventoryService {
   }
 
   async getStockIssues(query: StockIssueQueryDto) {
-    const { warehouseId, fromDate, toDate, status, issueType, search, page = 1, limit = 20 } = query;
+    const {
+      warehouseId,
+      fromDate,
+      toDate,
+      status,
+      issueType,
+      search,
+      page = 1,
+      limit = 20,
+    } = query;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.stock_issuesWhereInput = {};
+    const where: any = {};
     if (warehouseId) where.warehouse_id = warehouseId;
     if (status) where.status = status;
     if (issueType) where.issue_type = issueType;
@@ -1042,7 +1165,9 @@ export class InventoryService {
         where,
         include: {
           warehouses: true,
-          users_stock_issues_created_byTousers: { select: { id: true, full_name: true } },
+          users_stock_issues_created_byTousers: {
+            select: { id: true, full_name: true },
+          },
         },
         skip,
         take: limit,
@@ -1058,12 +1183,19 @@ export class InventoryService {
     const issue = await this.prisma.stock_issues.findUnique({
       where: { id },
       include: {
-        stock_issue_items: { include: {
-          inventory_batches: true, 
-          products: { include: { units: true, warehouse_categories: true } } } },
+        stock_issue_items: {
+          include: {
+            inventory_batches: true,
+            products: { include: { units: true, warehouse_categories: true } },
+          },
+        },
         warehouses: true,
-        users_stock_issues_created_byTousers: { select: { id: true, full_name: true } },
-        users_stock_issues_approved_byTousers: { select: { id: true, full_name: true } },
+        users_stock_issues_created_byTousers: {
+          select: { id: true, full_name: true },
+        },
+        users_stock_issues_approved_byTousers: {
+          select: { id: true, full_name: true },
+        },
       },
     });
     if (!issue) throw new NotFoundException('Không tìm thấy phiếu xuất kho');
@@ -1072,11 +1204,19 @@ export class InventoryService {
 
   // ============ INVENTORY HISTORY METHODS ============
   async getInventoryHistory(query: InventoryHistoryQueryDto) {
-    const { warehouseId, productId, fromDate, toDate, transactionType, page = 1, limit = 20 } = query;
+    const {
+      warehouseId,
+      productId,
+      fromDate,
+      toDate,
+      transactionType,
+      page = 1,
+      limit = 20,
+    } = query;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.inventory_historyWhereInput = {};
-  if (warehouseId) where.warehouse_id = warehouseId;
+    const where: any = {};
+    if (warehouseId) where.warehouse_id = warehouseId;
     if (productId) where.product_id = productId;
     if (transactionType) where.transaction_type = transactionType;
     if (fromDate || toDate) {
@@ -1104,9 +1244,12 @@ export class InventoryService {
   }
 
   // ============ INVENTORY CHECK METHODS ============
-  async createInventoryCheck(dto: CreateInventoryCheckDto, createdById?: string) {
+  async createInventoryCheck(
+    dto: CreateInventoryCheckDto,
+    createdById?: string,
+  ) {
     const checkDate = new Date(dto.checkDate);
-    const checkCode = await this.generateDocumentCode( 'KK', checkDate);
+    const checkCode = await this.generateDocumentCode('KK', checkDate);
 
     const itemsData: any = [];
     for (const item of dto.items) {
@@ -1124,15 +1267,17 @@ export class InventoryService {
       const difference = item.actualQuantity - systemQuantity;
       const differenceValue = difference * unitCost;
 
-      itemsData.push(NamingUtils.toSnakeCase({
-        productId: item.productId,
-        systemQuantity,
-        actualQuantity: item.actualQuantity,
-        difference,
-        unitCost,
-        differenceValue,
-        notes: item.notes,
-      }));
+      itemsData.push(
+        NamingUtils.toSnakeCase({
+          productId: item.productId,
+          systemQuantity,
+          actualQuantity: item.actualQuantity,
+          difference,
+          unitCost,
+          differenceValue,
+          notes: item.notes,
+        }),
+      );
     }
 
     return this.prisma.inventory_checks.create({
@@ -1146,7 +1291,9 @@ export class InventoryService {
         inventory_check_items: { create: itemsData },
       },
       include: {
-        inventory_check_items: { include: { products: { include: { units: true } } } },
+        inventory_check_items: {
+          include: { products: { include: { units: true } } },
+        },
         warehouses: true,
       },
     });
@@ -1231,7 +1378,9 @@ export class InventoryService {
     return this.prisma.inventory_checks.findUnique({
       where: { id },
       include: {
-        inventory_check_items: { include: { products: { include: { units: true } } } },
+        inventory_check_items: {
+          include: { products: { include: { units: true } } },
+        },
         warehouses: true,
       },
     });
@@ -1258,10 +1407,15 @@ export class InventoryService {
       },
     });
 
-    let expiredCount = 0, criticalCount = 0, warningCount = 0, noticeCount = 0;
-    let expiredValue = 0, criticalValue = 0, warningValue = 0;
+    let expiredCount = 0,
+      criticalCount = 0,
+      warningCount = 0,
+      noticeCount = 0;
+    let expiredValue = 0,
+      criticalValue = 0,
+      warningValue = 0;
 
-    batches.forEach(batch => {
+    batches.forEach((batch) => {
       const value = Number(batch.quantity) * Number(batch.unit_cost);
       const expiryDate = batch.expiry_date!;
 
@@ -1299,7 +1453,14 @@ export class InventoryService {
     page?: number;
     limit?: number;
   }) {
-    const { expiryStatus, warehouseId, categoryId, productId, page = 1, limit = 20 } = query;
+    const {
+      expiryStatus,
+      warehouseId,
+      categoryId,
+      productId,
+      page = 1,
+      limit = 20,
+    } = query;
     const skip = (page - 1) * limit;
 
     const now = new Date();
@@ -1345,9 +1506,7 @@ export class InventoryService {
             },
           },
         },
-        orderBy: [
-          { expiry_date: 'asc' },
-        ],
+        orderBy: [{ expiry_date: 'asc' }],
         skip,
         take: limit,
       }),
@@ -1355,9 +1514,12 @@ export class InventoryService {
     ]);
 
     // Calculate expiry status for each batch
-    const data = batches.map(batch => {
+    const data = batches.map((batch) => {
       const daysUntilExpiry = batch.expiry_date
-        ? Math.ceil((batch.expiry_date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+        ? Math.ceil(
+            (batch.expiry_date.getTime() - now.getTime()) /
+              (1000 * 60 * 60 * 24),
+          )
         : null;
 
       let status = 'no_expiry';
@@ -1478,10 +1640,12 @@ export class InventoryService {
     return this.prisma.inventory_batches.findMany({
       where: {
         inventory_id: inventoryId,
-        ...(includeAll ? {} : { 
-          status: 'active',
-          quantity: { gt: 0 },
-        }),
+        ...(includeAll
+          ? {}
+          : {
+              status: 'active',
+              quantity: { gt: 0 },
+            }),
       },
       include: {
         stock_receipt_items: {

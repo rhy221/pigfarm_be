@@ -1,10 +1,9 @@
 export class NamingUtils {
   static camelToSnake(str: string): string {
     // Thêm xử lý để không bị gạch dưới ở đầu chuỗi nếu là PascalCase
-    return str
-      .replace(/([A-Z])/g, (_match, letter, offset) => {
-        return offset === 0 ? letter.toLowerCase() : `_${letter.toLowerCase()}`;
-      });
+    return str.replace(/([A-Z])/g, (_match, letter, offset) => {
+      return offset === 0 ? letter.toLowerCase() : `_${letter.toLowerCase()}`;
+    });
   }
 
   static snakeToCamel(str: string): string {

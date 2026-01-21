@@ -1,5 +1,9 @@
 // src/warehouse/warehouse.service.ts
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { material_categories } from '../generated/prisma/client';
 
@@ -18,21 +22,29 @@ export class WarehouseService {
     });
   }
 
-  async createCategory(data: { name: string; type: string; description?: string }) {
-  return this.prisma.warehouse_categories.create({
-    data: {
-      name: data.name,
-      type: data.type.toLowerCase() as material_categories, 
-      description: data.description || '',
-      is_active: true,
-    },
-  });
-}
+  async createCategory(data: {
+    name: string;
+    type: string;
+    description?: string;
+  }) {
+    return this.prisma.warehouse_categories.create({
+      data: {
+        name: data.name,
+        type: data.type.toLowerCase() as material_categories,
+        description: data.description || '',
+        is_active: true,
+      },
+    });
+  }
 
-  async updateCategory(id: string, data: { name?: string; description?: string; type?: string }) {
+  async updateCategory(
+    id: string,
+    data: { name?: string; description?: string; type?: string },
+  ) {
     const updatePayload: any = {};
     if (data.name !== undefined) updatePayload.name = data.name;
-    if (data.description !== undefined) updatePayload.description = data.description;
+    if (data.description !== undefined)
+      updatePayload.description = data.description;
     if (data.type !== undefined) updatePayload.type = data.type.toLowerCase();
 
     return this.prisma.warehouse_categories.update({

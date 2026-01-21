@@ -4,6 +4,6 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],
-  providers: [FeedingService]
+  providers: [FeedingService],
 })
 export class FeedingModule {}

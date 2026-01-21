@@ -17,7 +17,12 @@ import {
   HttpStatus,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { InventoryService } from './inventory.service';
 import { ResponseTransformInterceptor } from '../lib/response-transform.interceptor';
 import {
@@ -64,7 +69,10 @@ export class InventoryController {
 
   @Put('warehouses/:id')
   @ApiOperation({ summary: 'Cập nhật kho' })
-  async updateWarehouse(@Param('id') id: string, @Body() dto: UpdateWarehouseDto) {
+  async updateWarehouse(
+    @Param('id') id: string,
+    @Body() dto: UpdateWarehouseDto,
+  ) {
     return this.inventoryService.updateWarehouse(id, dto);
   }
 
@@ -96,7 +104,10 @@ export class InventoryController {
 
   @Put('categories/:id')
   @ApiOperation({ summary: 'Cập nhật danh mục kho' })
-  async updateCategory(@Param('id') id: string, @Body() dto: UpdateWarehouseCategoryDto) {
+  async updateCategory(
+    @Param('id') id: string,
+    @Body() dto: UpdateWarehouseCategoryDto,
+  ) {
     return this.inventoryService.updateWarehouseCategory(id, dto);
   }
 
@@ -171,7 +182,10 @@ export class InventoryController {
 
   @Put('suppliers/:id')
   @ApiOperation({ summary: 'Cập nhật nhà cung cấp' })
-  async updateSupplier(@Param('id') id: string, @Body() dto: UpdateSupplierDto) {
+  async updateSupplier(
+    @Param('id') id: string,
+    @Body() dto: UpdateSupplierDto,
+  ) {
     return this.inventoryService.updateSupplier(id, dto);
   }
 
@@ -226,13 +240,19 @@ export class InventoryController {
   // ============ STOCK RECEIPT ENDPOINTS ============
   @Post('receipts')
   @ApiOperation({ summary: 'Tạo phiếu nhập kho' })
-  async createStockReceipt(@Body() dto: CreateStockReceiptDto, @Request() req: any) {
+  async createStockReceipt(
+    @Body() dto: CreateStockReceiptDto,
+    @Request() req: any,
+  ) {
     return this.inventoryService.createStockReceipt(dto, req.user?.id);
   }
 
   @Put('receipts/:id')
   @ApiOperation({ summary: 'Cập nhật phiếu nhập kho' })
-  async updateStockReceipt(@Param('id') id: string, @Body() dto: UpdateStockReceiptDto) {
+  async updateStockReceipt(
+    @Param('id') id: string,
+    @Body() dto: UpdateStockReceiptDto,
+  ) {
     return this.inventoryService.updateStockReceipt(id, dto);
   }
 
@@ -243,7 +263,10 @@ export class InventoryController {
     @Body() dto: ConfirmStockReceiptDto,
     @Request() req: any,
   ) {
-    return this.inventoryService.confirmStockReceipt(id, dto.approvedById || req.user?.id);
+    return this.inventoryService.confirmStockReceipt(
+      id,
+      dto.approvedById || req.user?.id,
+    );
   }
 
   @Post('receipts/:id/cancel')
@@ -267,7 +290,10 @@ export class InventoryController {
   // ============ STOCK ISSUE ENDPOINTS ============
   @Post('issues')
   @ApiOperation({ summary: 'Tạo phiếu xuất kho' })
-  async createStockIssue(@Body() dto: CreateStockIssueDto, @Request() req: any) {
+  async createStockIssue(
+    @Body() dto: CreateStockIssueDto,
+    @Request() req: any,
+  ) {
     return this.inventoryService.createStockIssue(dto, req.user?.id);
   }
 
@@ -304,7 +330,10 @@ export class InventoryController {
   // ============ INVENTORY CHECK ENDPOINTS ============
   @Post('checks')
   @ApiOperation({ summary: 'Tạo phiếu kiểm kê' })
-  async createInventoryCheck(@Body() dto: CreateInventoryCheckDto, @Request() req: any) {
+  async createInventoryCheck(
+    @Body() dto: CreateInventoryCheckDto,
+    @Request() req: any,
+  ) {
     return this.inventoryService.createInventoryCheck(dto, req.user?.id);
   }
 
@@ -330,7 +359,11 @@ export class InventoryController {
   @Post('expiry/dispose')
   @ApiOperation({ summary: 'Hủy lô hàng hết hạn' })
   async disposeBatch(@Body() dto: DisposeBatchDto) {
-    return this.inventoryService.disposeBatch(dto.batchId, dto.reason, dto.notes);
+    return this.inventoryService.disposeBatch(
+      dto.batchId,
+      dto.reason,
+      dto.notes,
+    );
   }
 
   @Post('expiry/update-status')
@@ -345,6 +378,9 @@ export class InventoryController {
     @Param('inventoryId') inventoryId: string,
     @Query('includeAll') includeAll?: string,
   ) {
-    return this.inventoryService.getInventoryBatches(inventoryId, includeAll === 'true');
+    return this.inventoryService.getInventoryBatches(
+      inventoryId,
+      includeAll === 'true',
+    );
   }
 }

@@ -1,0 +1,616 @@
+{
+  "info": {
+    "name": "Pigfarm API - Complete Collection",
+    "description": "API collection with proper DTO-compliant request bodies",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Work Management",
+      "item": [
+        {
+          "name": "Get All Tasks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/work/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["work", "tasks"]
+            }
+          }
+        },
+        {
+          "name": "Get Employees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/work/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["work", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Get Pens",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/work/pens",
+              "host": ["{{baseUrl}}"],
+              "path": ["work", "pens"]
+            }
+          }
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2026-01-15T00:00:00.000Z\",\n  \"shift\": \"morning\",\n  \"barnId\": \"{{penId}}\",\n  \"employeeId\": \"{{employeeId}}\",\n  \"taskType\": \"feeding\",\n  \"taskDescription\": \"Cho heo ăn sáng và kiểm tra sức khỏe chuồng A\",\n  \"status\": \"pending\",\n  \"notes\": \"Lưu ý kiểm tra heo con đặc biệt\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/work/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["work", "tasks"]
+            }
+          }
+        },
+        {
+          "name": "Update Task",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\",\n  \"notes\": \"Đã hoàn thành. Tất cả heo khỏe mạnh.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/work/tasks/{{taskId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["work", "tasks", "{{taskId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/work/tasks/{{taskId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["work", "tasks", "{{taskId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Get Herd Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/report/herd",
+              "host": ["{{baseUrl}}"],
+              "path": ["report", "herd"]
+            }
+          }
+        },
+        {
+          "name": "Get Inventory Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/report/inventory",
+              "host": ["{{baseUrl}}"],
+              "path": ["report", "inventory"]
+            }
+          }
+        },
+        {
+          "name": "Get Vaccine Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/report/vaccines",
+              "host": ["{{baseUrl}}"],
+              "path": ["report", "vaccines"]
+            }
+          }
+        },
+        {
+          "name": "Get Expenses Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/report/expenses",
+              "host": ["{{baseUrl}}"],
+              "path": ["report", "expenses"]
+            }
+          }
+        },
+        {
+          "name": "Get Revenue Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/report/revenue",
+              "host": ["{{baseUrl}}"],
+              "path": ["report", "revenue"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory",
+      "item": [
+        {
+          "name": "Warehouses - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Kho chính\",\n  \"location\": \"Nhà kho A - Khu vực trung tâm\",\n  \"description\": \"Kho chứa thức ăn và vật tư chính\",\n  \"warehouseType\": \"main\",\n  \"isDefault\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/warehouses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "warehouses"]
+            }
+          }
+        },
+        {
+          "name": "Warehouses - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/warehouses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "warehouses"]
+            }
+          }
+        },
+        {
+          "name": "Warehouses - Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Kho chính (đã cập nhật)\",\n  \"location\": \"Nhà kho A - Khu vực mới\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/warehouses/{{warehouseId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "warehouses", "{{warehouseId}}"]
+            }
+          }
+        },
+        {
+          "name": "Categories - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Thức ăn hỗn hợp\",\n  \"description\": \"Thức ăn tổng hợp cho heo\",\n  \"type\": \"feed\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Categories - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Units - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Kilogram\",\n  \"abbreviation\": \"kg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/units",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "units"]
+            }
+          }
+        },
+        {
+          "name": "Units - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/units",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "units"]
+            }
+          }
+        },
+        {
+          "name": "Products - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"{{categoryId}}\",\n  \"code\": \"TA001\",\n  \"name\": \"Thức ăn hỗn hợp cao cấp\",\n  \"description\": \"Thức ăn dành cho heo thịt giai đoạn nuôi cuối\",\n  \"unitId\": \"{{unitId}}\",\n  \"minQuantity\": 100,\n  \"defaultPrice\": 18000,\n  \"barcode\": \"8934567890123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "products"]
+            }
+          }
+        },
+        {
+          "name": "Products - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "products"]
+            }
+          }
+        },
+        {
+          "name": "Suppliers - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"NCC001\",\n  \"name\": \"Công ty TNHH Thức ăn chăn nuôi ABC\",\n  \"contactPerson\": \"Nguyễn Văn A\",\n  \"phone\": \"0901234567\",\n  \"email\": \"contact@feedabc.com\",\n  \"address\": \"123 Đường ABC, Q.1, TP.HCM\",\n  \"taxCode\": \"0123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/suppliers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "suppliers"]
+            }
+          }
+        },
+        {
+          "name": "Suppliers - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/suppliers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "suppliers"]
+            }
+          }
+        },
+        {
+          "name": "Stock - Get Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/stock/summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "stock", "summary"]
+            }
+          }
+        },
+        {
+          "name": "Receipts - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receiptCode\": \"PN202601001\",\n  \"warehouseId\": \"{{warehouseId}}\",\n  \"supplierId\": \"{{supplierId}}\",\n  \"receiptType\": \"purchase\",\n  \"receiptDate\": \"2026-01-15T10:00:00.000Z\",\n  \"description\": \"Nhập thức ăn tháng 1/2026\",\n  \"details\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 1000,\n      \"unitPrice\": 18000,\n      \"totalPrice\": 18000000,\n      \"lotNumber\": \"LOT202601A\",\n      \"expiryDate\": \"2026-07-15\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/receipts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "receipts"]
+            }
+          }
+        },
+        {
+          "name": "Receipts - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/receipts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "receipts"]
+            }
+          }
+        },
+        {
+          "name": "Issues - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"issueCode\": \"PX202601001\",\n  \"warehouseId\": \"{{warehouseId}}\",\n  \"issueType\": \"usage\",\n  \"issueDate\": \"2026-01-15T15:00:00.000Z\",\n  \"recipientName\": \"Phòng chăm sóc heo\",\n  \"description\": \"Xuất thức ăn cho chuồng A\",\n  \"details\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 50,\n      \"unitPrice\": 18000,\n      \"totalPrice\": 900000,\n      \"lotNumber\": \"LOT202601A\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/issues",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "issues"]
+            }
+          }
+        },
+        {
+          "name": "Issues - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/inventory/issues",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "inventory", "issues"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Finance",
+      "item": [
+        {
+          "name": "Categories - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Thu từ bán heo\",\n  \"type\": \"income\",\n  \"code\": \"THU001\",\n  \"description\": \"Doanh thu từ việc bán heo thịt\",\n  \"sortOrder\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Categories - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Accounts - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Quỹ tiền mặt\",\n  \"accountType\": \"cash\",\n  \"openingBalance\": 50000000,\n  \"description\": \"Quỹ tiền mặt chính\",\n  \"isDefault\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/accounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "accounts"]
+            }
+          }
+        },
+        {
+          "name": "Accounts - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/accounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "accounts"]
+            }
+          }
+        },
+        {
+          "name": "Transactions - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cashAccountId\": \"{{accountId}}\",\n  \"categoryId\": \"{{categoryId}}\",\n  \"transactionType\": \"expense\",\n  \"transactionDate\": \"2026-01-15T00:00:00.000Z\",\n  \"amount\": 5000000,\n  \"contactType\": \"supplier\",\n  \"contactName\": \"Công ty ABC\",\n  \"referenceType\": \"stock_receipt\",\n  \"description\": \"Thanh toán tiền mua thức ăn\",\n  \"notes\": \"Đã thanh toán đầy đủ\",\n  \"isRecorded\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/transactions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "transactions"]
+            }
+          }
+        },
+        {
+          "name": "Transactions - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/transactions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "transactions"]
+            }
+          }
+        },
+        {
+          "name": "Customers - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"KH001\",\n  \"name\": \"Công ty TNHH Thịt heo XYZ\",\n  \"contactPerson\": \"Trần Văn B\",\n  \"phone\": \"0912345678\",\n  \"email\": \"contact@meatabc.com\",\n  \"address\": \"456 Đường XYZ, Q.3, TP.HCM\",\n  \"taxCode\": \"0987654321\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/customers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "customers"]
+            }
+          }
+        },
+        {
+          "name": "Customers - Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/customers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "customers"]
+            }
+          }
+        },
+        {
+          "name": "Reports - Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/reports/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "reports", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Reports - Cash Book",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/finance/reports/cash-book?startDate=2026-01-01&endDate=2026-01-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "finance", "reports", "cash-book"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2026-01-31"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

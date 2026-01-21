@@ -46,6 +46,16 @@ lerna-debug.log*
 .temp
 .tmp
 
+# Chatbot & Python General
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+venv/
+.venv/
+env/
+pigfarm_chatbot/.env
+
 # Runtime data
 pids
 *.pid
@@ -56,3 +66,4 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 /generated/prisma
+
