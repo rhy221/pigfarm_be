@@ -71,9 +71,9 @@ export class WorkController {
     return this.workService.remove(id);
   }
 
-  @Get('employees')
-  getEmployees() {
-    return this.workService.getEmployees();
+  @Get('users')
+  getUsers() {
+    return this.workService.getUsers();
   }
 
   @Get('pens')

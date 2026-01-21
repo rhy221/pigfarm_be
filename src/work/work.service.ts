@@ -24,8 +24,8 @@ export interface TaskResponse {
   shift: string;
   barnId: string | null;
   barnName: string;
-  employeeId: string | null;
-  employeeName: string;
+  userId: string | null;
+  userName: string;
   taskType: string;
   taskDescription: string;
   status: string;
@@ -154,23 +154,12 @@ export class WorkService {
       date: Date | null | undefined,
     ): string | undefined => {
       if (!date) return undefined;
-      
-      console.log('formatDateLocal input:', {
-        date: date.toString(),
-        iso: date.toISOString(),
-        getUTCFullYear: date.getUTCFullYear(),
-        getUTCMonth: date.getUTCMonth(),
-        getUTCDate: date.getUTCDate(),
-      });
-      
+
       // Extract date parts from UTC timestamp
       const year = date.getUTCFullYear();
       const month = String(date.getUTCMonth() + 1).padStart(2, '0');
       const day = String(date.getUTCDate()).padStart(2, '0');
-      const result = `${year}-${month}-${day}`;
-      
-      console.log('formatDateLocal output:', result);
-      return result;
+      return `${year}-${month}-${day}`;
     };
 
     return {
@@ -179,8 +168,8 @@ export class WorkService {
       shift: detail.work_shifts?.session || '',
       barnId: detail.pen_id,
       barnName: detail.pens?.pen_name || '',
-      employeeId: detail.employee_id,
-      employeeName: detail.employees?.name || '',
+      userId: detail.employee_id,
+      userName: detail.employees?.name || '',
       taskType: detail.task_type || 'other',
       taskDescription: detail.task_description || '',
       status: detail.status || 'pending',
@@ -216,16 +205,16 @@ export class WorkService {
     const shift = await this.repo.findOrCreateShift(dto.shift);
     const assignment = await this.repo.findOrCreateAssignment(dto.date);
 
-    // Get user info and sync to employees table
+    // Verify user exists
     const user = await this.prisma.users.findUnique({
-      where: { id: dto.employeeId },
+      where: { id: dto.userId },
     });
 
     if (!user) {
-      throw new NotFoundException(`User ${dto.employeeId} not found`);
+      throw new NotFoundException(`User ${dto.userId} not found`);
     }
 
-    // Sync user to employee
+    // Sync user to employees table
     await this.repo.syncUserToEmployee(user.id, user.full_name, user.email);
 
     const detail = await this.repo.create({
@@ -260,8 +249,20 @@ export class WorkService {
     if (dto.status !== undefined) updateData.status = dto.status;
     if (dto.notes !== undefined) updateData.notes = dto.notes;
 
-    if (dto.employeeId !== undefined) {
-      updateData.employees = { connect: { id: dto.employeeId } };
+    if (dto.userId !== undefined) {
+      // Verify user exists and sync to employees table
+      const user = await this.prisma.users.findUnique({
+        where: { id: dto.userId },
+      });
+
+      if (!user) {
+        throw new NotFoundException(`User ${dto.userId} not found`);
+      }
+
+      // Sync user to employee before connecting
+      await this.repo.syncUserToEmployee(user.id, user.full_name, user.email);
+
+      updateData.employees = { connect: { id: dto.userId } };
     }
     if (dto.barnId !== undefined) {
       updateData.pens = { connect: { id: dto.barnId } };
@@ -285,15 +286,31 @@ export class WorkService {
     await this.repo.delete(id);
   }
 
-  async getEmployees() {
-    const users = await this.repo.findAllEmployees();
-    return users.map((user) => ({
-      id: user.id,
-      name: user.full_name,
-      role: user.role_id,
-      email: user.email,
-      phone: user.phone,
-    }));
+  async getUsers() {
+    const users = await this.repo.findAllUsers();
+    return users.map((user) => {
+      // Map user_group name to role type
+      let role = 'employee'; // default
+      if (user.user_group?.name) {
+        const groupName = user.user_group.name.toLowerCase();
+        if (groupName.includes('admin') || groupName.includes('quản lý')) {
+          role = 'admin';
+        } else if (
+          groupName.includes('bác sĩ') ||
+          groupName.includes('veterinarian')
+        ) {
+          role = 'veterinarian';
+        }
+      }
+
+      return {
+        id: user.id,
+        name: user.full_name,
+        role: role,
+        email: user.email || '',
+        phone: user.phone || '',
+      };
+    });
   }
 
   async getPens() {

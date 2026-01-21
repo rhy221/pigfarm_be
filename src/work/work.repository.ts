@@ -50,15 +50,9 @@ export class WorkRepository {
   async findOrCreateAssignment(dateString: string) {
     // Parse date string YYYY-MM-DD
     const [year, month, day] = dateString.split('-').map(Number);
-    
+
     // Create date at noon UTC to avoid any timezone conversion issues
     const targetDate = new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
-
-    console.log('findOrCreateAssignment:', {
-      dateString,
-      targetDate: targetDate.toISOString(),
-      targetDateLocal: targetDate.toString(),
-    });
 
     // Search for existing assignment by checking if the date part matches
     const assignments = await this.prisma.assignments.findMany({
@@ -71,23 +65,13 @@ export class WorkRepository {
     });
 
     let assignment = assignments[0];
-    
+
     if (!assignment) {
       assignment = await this.prisma.assignments.create({
         data: { assignment_date: targetDate },
       });
-      console.log('Created assignment:', {
-        id: assignment.id,
-        assignment_date: assignment.assignment_date,
-        iso: assignment.assignment_date?.toISOString(),
-      });
-    } else {
-      console.log('Found existing assignment:', {
-        id: assignment.id,
-        assignment_date: assignment.assignment_date,
-        iso: assignment.assignment_date?.toISOString(),
-      });
     }
+
     return assignment;
   }
 
@@ -103,14 +87,18 @@ export class WorkRepository {
     return shift;
   }
 
-  async findAllEmployees() {
+  async findAllUsers() {
     return this.prisma.users.findMany({
-      select: {
-        id: true,
-        full_name: true,
-        role_id: true,
-        email: true,
-        phone: true,
+      where: {
+        is_active: true,
+      },
+      include: {
+        user_group: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
       orderBy: { full_name: 'asc' },
     });
@@ -122,13 +110,13 @@ export class WorkRepository {
     userEmail: string,
   ) {
     // Check if employee already exists
-    let employee = await this.prisma.employees.findUnique({
+    const employee = await this.prisma.employees.findUnique({
       where: { id: userId },
     });
 
     if (!employee) {
       // Create employee from user
-      employee = await this.prisma.employees.create({
+      await this.prisma.employees.create({
         data: {
           id: userId,
           name: userName,
@@ -137,8 +125,6 @@ export class WorkRepository {
         },
       });
     }
-
-    return employee;
   }
 
   async findAllPens() {

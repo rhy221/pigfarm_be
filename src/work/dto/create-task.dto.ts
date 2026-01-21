@@ -39,7 +39,7 @@ export class CreateTaskDto {
   barnId: string;
 
   @IsUUID()
-  employeeId: string;
+  userId: string;
 
   @IsEnum(TaskType)
   taskType: TaskType;
