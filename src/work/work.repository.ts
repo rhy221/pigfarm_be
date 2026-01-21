@@ -48,22 +48,44 @@ export class WorkRepository {
   }
 
   async findOrCreateAssignment(dateString: string) {
-    // Parse date string YYYY-MM-DD without timezone conversion
+    // Parse date string YYYY-MM-DD
     const [year, month, day] = dateString.split('-').map(Number);
-    const localDate = new Date(year, month - 1, day);
+    
+    // Create date at noon UTC to avoid any timezone conversion issues
+    const targetDate = new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
 
-    // Find assignment by date (comparing just the date part)
-    let assignment = await this.prisma.assignments.findFirst({
+    console.log('findOrCreateAssignment:', {
+      dateString,
+      targetDate: targetDate.toISOString(),
+      targetDateLocal: targetDate.toString(),
+    });
+
+    // Search for existing assignment by checking if the date part matches
+    const assignments = await this.prisma.assignments.findMany({
       where: {
         assignment_date: {
-          gte: new Date(year, month - 1, day, 0, 0, 0),
-          lt: new Date(year, month - 1, day + 1, 0, 0, 0),
+          gte: new Date(Date.UTC(year, month - 1, day, 0, 0, 0)),
+          lt: new Date(Date.UTC(year, month - 1, day + 1, 0, 0, 0)),
         },
       },
     });
+
+    let assignment = assignments[0];
+    
     if (!assignment) {
       assignment = await this.prisma.assignments.create({
-        data: { assignment_date: localDate },
+        data: { assignment_date: targetDate },
+      });
+      console.log('Created assignment:', {
+        id: assignment.id,
+        assignment_date: assignment.assignment_date,
+        iso: assignment.assignment_date?.toISOString(),
+      });
+    } else {
+      console.log('Found existing assignment:', {
+        id: assignment.id,
+        assignment_date: assignment.assignment_date,
+        iso: assignment.assignment_date?.toISOString(),
       });
     }
     return assignment;
