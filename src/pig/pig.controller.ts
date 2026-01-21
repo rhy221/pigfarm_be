@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, Delete, Post, Body, Patch, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PigService } from './pig.service';
-import { PigDashboardStatsDto, PenItemDto, ImportPigBatchDto, ImportBatchResponseDto, UpdatePigListDto, TransferPigDto } from './pig.dto';
+import { PigDashboardStatsDto, PenItemDto, ImportPigBatchDto, ImportBatchResponseDto, UpdatePigListDto, TransferPigDto, PigBatchResponseDto } from './pig.dto';
 
 @ApiTags('Pig Management')
 @Controller('pig')
@@ -88,5 +88,12 @@ export class PigController {
   @ApiOperation({ summary: 'Chuyển chuồng (Thường & Cách ly)' })
   async transferPigs(@Body() dto: TransferPigDto) {
     return this.pigService.transferPigs(dto);
+  }
+
+  @Get('batches')
+  @ApiOperation({ summary: 'Lấy danh sách lứa heo (Hỗ trợ dropdown chọn lứa cũ)' })
+  @ApiResponse({ status: 200, type: [PigBatchResponseDto] })
+  async getAllBatches() {
+    return this.pigService.getAllBatches();
   }
 }
