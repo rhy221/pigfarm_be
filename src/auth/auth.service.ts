@@ -25,7 +25,10 @@ export class AuthService {
       },
     });
 
-    if (!user || !(await bcrypt.compare(password, user.password_hash))) {
+    if (!user || 
+      // !(await bcrypt.compare(password, user.password_hash))
+      password !== user.password_hash
+    ) {
       throw new UnauthorizedException('Email hoặc mật khẩu không chính xác');
     }
 

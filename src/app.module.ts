@@ -24,6 +24,7 @@ import { UserGroupModule } from './user-group/user-group.module';
 import { UsersModule } from './users/users.module';
 import { AccessControlModule } from './access-control/access-control.module';
 import { FeedingModule } from './feeding/feeding.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { FeedingModule } from './feeding/feeding.module';
     UserGroupModule,
     UsersModule,
     AccessControlModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
