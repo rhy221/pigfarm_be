@@ -236,6 +236,7 @@ export class VaccinationService {
           scheduled_date: new Date(data.scheduledDate),
           status: 'pending',
           color: data.color || '#3B82F6',
+          employee_id: null,
           vaccination_schedule_details: {
             create: {
               vaccine_id: targetVaccineId,
