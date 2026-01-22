@@ -5,8 +5,30 @@ import { ReportRepository } from './report.repository';
 export class ReportService {
   constructor(private repo: ReportRepository) {}
 
-  async getHerdReport(query: { date?: string; pen?: string }) {
-    const targetDate = query.date ? new Date(query.date) : new Date();
+  async getHerdReport(query: { date?: string; month?: string; pen?: string }) {
+    let targetDate: Date;
+    let dateLabel: string;
+
+    // Ưu tiên month nếu có, nếu không dùng date
+    if (query.month) {
+      const targetMonth = query.month;
+
+      // Kiểm tra nếu chọn "all" hoặc chỉ có năm (VD: "2026" hoặc "2026-all")
+      if (targetMonth.includes('all') || !targetMonth.includes('-')) {
+        const year = parseInt(targetMonth.split('-')[0]);
+        // Với "all", lấy ngày cuối năm
+        targetDate = new Date(year, 11, 31, 23, 59, 59);
+        dateLabel = `Năm ${year}`;
+      } else {
+        // Lấy ngày cuối tháng
+        const [year, month] = targetMonth.split('-').map(Number);
+        targetDate = new Date(year, month, 0, 23, 59, 59);
+        dateLabel = `${targetMonth}`;
+      }
+    } else {
+      targetDate = query.date ? new Date(query.date) : new Date();
+      dateLabel = targetDate.toISOString().split('T')[0];
+    }
 
     // Get stats directly from Pens and Pigs tables
     const penStats = await this.repo.getRealtimeHerdStats(
@@ -24,7 +46,7 @@ export class ReportService {
     }));
 
     return {
-      date: targetDate.toISOString().split('T')[0],
+      date: dateLabel,
       totalPigs: pens.reduce((sum, p) => sum + p.healthyCount + p.sickCount, 0),
       pens,
     };
@@ -35,9 +57,19 @@ export class ReportService {
     categoryId?: string;
   }) {
     const targetMonth = query.month || new Date().toISOString().slice(0, 7);
-    const [year, month] = targetMonth.split('-').map(Number);
-    const startDate = new Date(year, month - 1, 1);
-    const endDate = new Date(year, month, 0, 23, 59, 59);
+    let startDate: Date;
+    let endDate: Date;
+
+    // Kiểm tra nếu chọn "all" hoặc chỉ có năm (VD: "2026" hoặc "2026-all")
+    if (targetMonth.includes('all') || !targetMonth.includes('-')) {
+      const year = parseInt(targetMonth.split('-')[0]);
+      startDate = new Date(year, 0, 1); // 1/1/năm
+      endDate = new Date(year, 11, 31, 23, 59, 59); // 31/12/năm
+    } else {
+      const [year, month] = targetMonth.split('-').map(Number);
+      startDate = new Date(year, month - 1, 1);
+      endDate = new Date(year, month, 0, 23, 59, 59);
+    }
 
     const report = await this.repo.findInventoryReport(
       startDate,
@@ -70,13 +102,24 @@ export class ReportService {
 
   async getVaccineReport(query: { month?: string; vaccine?: string }) {
     const targetMonth = query.month || new Date().toISOString().slice(0, 7);
-    const [year, month] = targetMonth.split('-').map(Number);
-    const startDate = new Date(year, month - 1, 1);
-    const endDate = new Date(year, month, 0, 23, 59, 59);
+    let startDate: Date;
+    let endDate: Date;
+
+    // Kiểm tra nếu chọn "all" hoặc chỉ có năm (VD: "2026" hoặc "2026-all")
+    if (targetMonth.includes('all') || !targetMonth.includes('-')) {
+      const year = parseInt(targetMonth.split('-')[0]);
+      startDate = new Date(year, 0, 1); // 1/1/năm
+      endDate = new Date(year, 11, 31, 23, 59, 59); // 31/12/năm
+    } else {
+      const [year, month] = targetMonth.split('-').map(Number);
+      startDate = new Date(year, month - 1, 1);
+      endDate = new Date(year, month, 0, 23, 59, 59);
+    }
 
     const vaccineStats = await this.repo.getVaccineStatsDirect(
       startDate,
       endDate,
+      query.vaccine,
     );
 
     const details = vaccineStats.map((v) => ({
@@ -114,86 +157,129 @@ export class ReportService {
     month?: string;
     category?: string;
     status?: string;
+    type?: string;
   }) {
     const targetMonth = query.month || new Date().toISOString().slice(0, 7);
-    const [year, month] = targetMonth.split('-').map(Number);
-    const startDate = new Date(year, month - 1, 1);
-    const endDate = new Date(year, month, 0, 23, 59, 59);
+    let startDate: Date;
+    let endDate: Date;
+
+    // Kiểm tra nếu chọn "all" hoặc chỉ có năm (VD: "2026" hoặc "2026-all")
+    if (targetMonth.includes('all') || !targetMonth.includes('-')) {
+      const year = parseInt(targetMonth.split('-')[0]);
+      startDate = new Date(year, 0, 1); // 1/1/năm
+      endDate = new Date(year, 11, 31, 23, 59, 59); // 31/12/năm
+    } else {
+      const [year, month] = targetMonth.split('-').map(Number);
+      startDate = new Date(year, month - 1, 1);
+      endDate = new Date(year, month, 0, 23, 59, 59);
+    }
+
+    // Lấy transactions theo loại (income/expense/all)
+    const transactionType =
+      query.type === 'all' ? undefined : query.type || 'expense';
 
     const transactions = await this.repo.findTransactions(
       startDate,
       endDate,
-      'expense',
+      transactionType,
       query.category,
       query.status,
     );
+
     const items = transactions.map((t) => ({
       id: t.id,
       transactionCode: t.transaction_code || '',
       date: t.transaction_date.toISOString().split('T')[0],
       category: t.transaction_categories?.name || 'Khác',
       amount: Number(t.amount) || 0,
+      type: (t.transaction_type as 'income' | 'expense') || 'expense',
       status: t.status || 'confirmed',
+      isRecorded: t.is_recorded ?? true,
       description: t.description || '',
       contactName: t.contact_name || '',
     }));
 
-    const total = items.reduce((s, e) => s + e.amount, 0);
-    const confirmed = items
-      .filter((e) => e.status === 'confirmed')
+    // Tính toán chi
+    const expenseItems = items.filter((t) => t.type === 'expense');
+    const totalExpense = expenseItems.reduce((s, e) => s + e.amount, 0);
+    const recordedExpense = expenseItems
+      .filter((e) => e.isRecorded)
       .reduce((s, e) => s + e.amount, 0);
+    const unrecordedExpense = totalExpense - recordedExpense;
+
+    // Tính toán thu
+    const incomeItems = items.filter((t) => t.type === 'income');
+    const totalIncome = incomeItems.reduce((s, e) => s + e.amount, 0);
+    const recordedIncome = incomeItems
+      .filter((e) => e.isRecorded)
+      .reduce((s, e) => s + e.amount, 0);
+    const unrecordedIncome = totalIncome - recordedIncome;
+
+    // Thu ròng
+    const netAmount = totalIncome - totalExpense;
 
     return {
       month: targetMonth,
-      totalExpense: total,
-      paidExpense: confirmed,
-      unpaidExpense: total - confirmed,
-      expenses: items,
+      totalExpense,
+      recordedExpense,
+      unrecordedExpense,
+      totalIncome,
+      recordedIncome,
+      unrecordedIncome,
+      netAmount,
+      transactions: items,
     };
   }
 
   async getRevenueReport(query: { month?: string }) {
     const targetMonth = query.month || new Date().toISOString().slice(0, 7);
-    const [year, month] = targetMonth.split('-').map(Number);
-    const startDate = new Date(year, month - 1, 1);
-    const endDate = new Date(year, month, 0, 23, 59, 59);
+    let startDate: Date;
+    let endDate: Date;
 
-    const shippings = await this.repo.findShippings(startDate, endDate);
-    const revenueItems = shippings.map((s) => ({
-      id: s.id,
-      date: s.created_at.toISOString().split('T')[0],
-      description: `Xuất bán: ${s.customer_name || 'Khách lẻ'}`,
-      amount: Number(s.total_amount) || 0,
-      type: 'revenue' as const,
-    }));
+    // Kiểm tra nếu chọn "all" hoặc chỉ có năm (VD: "2026" hoặc "2026-all")
+    if (targetMonth.includes('all') || !targetMonth.includes('-')) {
+      const year = parseInt(targetMonth.split('-')[0]);
+      startDate = new Date(year, 0, 1); // 1/1/năm
+      endDate = new Date(year, 11, 31, 23, 59, 59); // 31/12/năm
+    } else {
+      const [year, month] = targetMonth.split('-').map(Number);
+      startDate = new Date(year, month - 1, 1);
+      endDate = new Date(year, month, 0, 23, 59, 59);
+    }
 
-    // 1. Operational Expenses from Transactions
-    const transactions = await this.repo.findTransactions(
+    // Lấy TẤT CẢ transactions (cả thu và chi) từ bảng transactions
+    const allTransactions = await this.repo.findTransactions(
       startDate,
       endDate,
-      'expense',
+      undefined, // Lấy tất cả
     );
-    const operationalExpenseItems = transactions.map((t) => ({
-      id: t.id,
-      date: t.transaction_date.toISOString().split('T')[0],
-      description:
-        t.description || `Chi phí: ${t.transaction_categories?.name || 'Khác'}`,
-      amount: Number(t.amount) || 0,
-      type: 'expense' as const,
-    }));
 
-    // 2. Import Expenses (Stock Receipts)
-    const stockReceipts = await this.repo.findStockReceipts(startDate, endDate);
-    const importExpenseItems = stockReceipts.map((r) => ({
-      id: r.id,
-      date: r.receipt_date.toISOString().split('T')[0],
-      description: `Nhập kho: ${r.receipt_code} (${r.suppliers?.name || 'NCC lẻ'})`,
-      amount: Number(r.final_amount || r.total_amount) || 0,
-      type: 'expense' as const,
-    }));
+    // Phân loại thành thu và chi
+    const revenueItems = allTransactions
+      .filter((t) => t.transaction_type === 'income')
+      .map((t) => ({
+        id: t.id,
+        date: t.transaction_date.toISOString().split('T')[0],
+        description:
+          t.description || `Thu: ${t.transaction_categories?.name || 'Khác'}`,
+        amount: Number(t.amount) || 0,
+        type: 'revenue' as const,
+        isRecorded: t.is_recorded ?? true,
+        contactName: t.contact_name || '',
+      }));
 
-    // Combine Expenses
-    const expenseItems = [...operationalExpenseItems, ...importExpenseItems];
+    const expenseItems = allTransactions
+      .filter((t) => t.transaction_type === 'expense')
+      .map((t) => ({
+        id: t.id,
+        date: t.transaction_date.toISOString().split('T')[0],
+        description:
+          t.description || `Chi: ${t.transaction_categories?.name || 'Khác'}`,
+        amount: Number(t.amount) || 0,
+        type: 'expense' as const,
+        isRecorded: t.is_recorded ?? true,
+        contactName: t.contact_name || '',
+      }));
 
     const totalRevenue = revenueItems.reduce((s, r) => s + r.amount, 0);
     const totalExpense = expenseItems.reduce((s, e) => s + e.amount, 0);

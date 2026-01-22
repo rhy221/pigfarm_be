@@ -1,9 +1,13 @@
-import { IsOptional, IsDateString, IsUUID } from 'class-validator';
+import { IsOptional, IsDateString, IsUUID, IsString } from 'class-validator';
 
 export class HerdReportQueryDto {
   @IsOptional()
   @IsDateString()
   date?: string;
+
+  @IsOptional()
+  @IsString()
+  month?: string;
 
   @IsOptional()
   @IsUUID()

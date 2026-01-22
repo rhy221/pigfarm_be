@@ -409,11 +409,22 @@ export class ReportRepository {
   }
 
   // Logic for Direct Vaccine Calculation
-  async getVaccineStatsDirect(startDate: Date, endDate: Date) {
+  async getVaccineStatsDirect(
+    startDate: Date,
+    endDate: Date,
+    vaccineId?: string,
+  ) {
     const schedules = await this.prisma.vaccination_schedules.findMany({
       where: {
         scheduled_date: { gte: startDate, lte: endDate },
         status: 'completed',
+        ...(vaccineId && {
+          vaccination_schedule_details: {
+            some: {
+              vaccine_id: vaccineId,
+            },
+          },
+        }),
       },
       include: {
         vaccination_schedule_details: {
