@@ -64,6 +64,8 @@ export class SalesService {
           });
 
           if (detail.pig_ids?.length) {
+            const soldCount = detail.pig_ids.length; 
+
             await tx.shipped_pig_items.createMany({
               data: detail.pig_ids.map((pigId) => ({
                 shipping_detail_id: shippingDetail.id,
@@ -77,6 +79,15 @@ export class SalesService {
                 pig_status_id: soldStatus?.id || '75687aab-a78e-4173-a9df-b018b66f82e5', 
                 pen_id: null,
               },
+            });
+
+            await tx.pens.update({
+                where: { id: detail.pen_id },
+                data: {
+                    current_quantity: {
+                        decrement: soldCount 
+                    }
+                }
             });
           }
         }

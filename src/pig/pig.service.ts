@@ -8,22 +8,51 @@ export class PigService {
   constructor(private prisma: PrismaService) {}
 
   async getAllBatches() {
-    return (this.prisma as any).pig_batches.findMany({
-      orderBy: { arrival_date: 'desc' },
-      select: {
-        id: true,
-        batch_name: true,
-        arrival_date: true,
+  const batches = await (this.prisma as any).pig_batches.findMany({
+    orderBy: { arrival_date: 'desc' },
+    select: {
+      id: true,
+      batch_name: true,
+      arrival_date: true,
+      breed_id: true, 
+      pig_batch_vaccines: {
+        select: {
+          vaccines: {
+            select: {
+              id: true,
+              vaccine_name: true
+            }
+          }
+        }
       }
-    });
-  }
+    }
+  });
+
+  return batches.map(b => {
+    const today = dayjs();
+    const arrival = dayjs(b.arrival_date);
+    const currentDaysOld = today.diff(arrival, 'day');
+
+    return {
+      id: b.id,
+      name: b.batch_name,
+      arrivalDate: b.arrival_date,
+      breedId: b.breed_id, 
+      daysOld: currentDaysOld > 0 ? currentDaysOld : 0, 
+      vaccineIds: b.pig_batch_vaccines.map(v => v.vaccines.id),
+      vaccineNames: b.pig_batch_vaccines.map(v => v.vaccines.vaccine_name)
+    };
+  });
+}
 
   async getRegularPens() {
     return (this.prisma as any).pens.findMany({
       where: {
+        current_quantity: 0, 
+
         pen_types: {
           pen_type_name: {
-            contains: 'thịt', 
+            contains: 'Chuồng thịt', 
             mode: 'insensitive'
           }
         }
@@ -37,6 +66,35 @@ export class PigService {
       orderBy: { pen_name: 'asc' }
     });
   }
+
+  async getPensForTransfer() {
+  const pens = await (this.prisma as any).pens.findMany({
+    where: {
+      pen_types: {
+        pen_type_name: { contains: 'thịt', mode: 'insensitive' }
+      }
+    },
+    select: {
+      id: true,
+      pen_name: true,
+      capacity: true,
+      current_quantity: true,
+      pigs: {
+        take: 1,
+        select: { pig_batch_id: true }
+      }
+    },
+    orderBy: { pen_name: 'asc' }
+  });
+
+  return pens.map(p => ({
+    id: p.id,
+    name: p.pen_name,
+    capacity: p.capacity,
+    current_quantity: p.current_quantity,
+    currentBatchId: p.pigs[0]?.pig_batch_id || null 
+  }));
+}
 
   async getAllDiseases() {
     return this.prisma.diseases.findMany({

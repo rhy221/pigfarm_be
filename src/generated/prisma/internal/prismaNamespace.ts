@@ -6398,7 +6398,8 @@ export const Pig_batchesScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   arrival_date: 'arrival_date',
-  batch_name: 'batch_name'
+  batch_name: 'batch_name',
+  breed_id: 'breed_id'
 } as const
 
 export type Pig_batchesScalarFieldEnum = (typeof Pig_batchesScalarFieldEnum)[keyof typeof Pig_batchesScalarFieldEnum]

@@ -90,15 +90,11 @@ export class PigController {
     return this.pigService.transferPigs(dto);
   }
 
+
   @Get('batches')
   @ApiOperation({ summary: 'Lấy danh sách lứa heo (Hỗ trợ dropdown chọn lứa cũ)' })
   async getAllBatches() {
-    const batches = await this.pigService.getAllBatches();
-    return (batches || []).map(b => ({
-      id: b.id,
-      name: b.batch_name, 
-      arrivalDate: b.arrival_date
-    }));
+    return this.pigService.getAllBatches();
   }
 
   @Get('regular-pens')
@@ -117,5 +113,11 @@ export class PigController {
   @ApiOperation({ summary: 'Lấy danh sách bệnh' })
   async getDiseases() {
     return this.pigService.getAllDiseases();
+  }
+
+  @Get('transfer-pens')
+  @ApiOperation({ summary: 'Lấy danh sách chuồng thịt kèm thông tin lứa (Cho tính năng chuyển chuồng)' })
+  async getPensForTransfer() {
+    return this.pigService.getPensForTransfer();
   }
 }
