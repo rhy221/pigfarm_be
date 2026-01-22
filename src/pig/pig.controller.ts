@@ -92,14 +92,30 @@ export class PigController {
 
   @Get('batches')
   @ApiOperation({ summary: 'Lấy danh sách lứa heo (Hỗ trợ dropdown chọn lứa cũ)' })
-  @ApiResponse({ status: 200, type: [PigBatchResponseDto] })
   async getAllBatches() {
-    return this.pigService.getAllBatches();
+    const batches = await this.pigService.getAllBatches();
+    return (batches || []).map(b => ({
+      id: b.id,
+      name: b.batch_name, 
+      arrivalDate: b.arrival_date
+    }));
   }
 
   @Get('regular-pens')
   @ApiOperation({ summary: 'Lấy danh sách chuồng thịt (Hỗ trợ dropdown)' })
   async getRegularPens() {
-    return this.pigService.getRegularPens();
+    const pens = await this.pigService.getRegularPens();
+    return pens.map(p => ({
+      id: p.id,
+      name: p.pen_name, 
+      capacity: p.capacity,
+      currentPigs: p.current_quantity
+    }));
+  }
+
+  @Get('diseases')
+  @ApiOperation({ summary: 'Lấy danh sách bệnh' })
+  async getDiseases() {
+    return this.pigService.getAllDiseases();
   }
 }
