@@ -10,13 +10,16 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
- app.enableCors({
-    origin: '*',
-    methods: '*',
-    allowedHeaders: '*',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-  });
+app.enableCors({
+  origin: [
+    process.env.FRONTEND_URL || 'https://pigfarm-fe.vercel.app', // Link chính thức
+    'http://localhost:3000'          // Link local
+  ],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Accept,Authorization',
+  credentials: true, // Thêm dòng này nếu bạn có dùng Token/Cookie
+  optionsSuccessStatus: 204,
+});
 
   app.useGlobalPipes(
     new ValidationPipe({
