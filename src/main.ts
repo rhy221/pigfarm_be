@@ -53,6 +53,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import express from 'express'; // Đã sửa cách import
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 const server = express();
 
@@ -67,11 +68,28 @@ export const bootstrap = async (expressInstance: any) => {
     credentials: true,
   });
 
-  app.useGlobalPipes(new ValidationPipe({ 
-    whitelist: true, 
-    transform: true,
-    transformOptions: { enableImplicitConversion: true }
-  }));
+    app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+    }),
+  );
+
+  const config = new DocumentBuilder()
+    .setTitle('Pig Farm Management API')
+    .setDescription('API quản lý trại heo - Kho và Chi phí')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+
+  const port = process.env.PORT || 3001;
+  console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`Swagger docs: http://localhost:${port}/api/docs`);
 
   await app.init();
   return app;
