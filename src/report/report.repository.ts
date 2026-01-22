@@ -127,8 +127,15 @@ export class ReportRepository {
         const lastRecord = historyBefore[historyBefore.length - 1];
         openingStock = Number(lastRecord.quantity_after || 0);
       } else {
-        // Không có history nào cả → lấy quantity hiện tại
-        openingStock = Number(inv.quantity || 0);
+        // Không có history nào cả
+        // CHỈ lấy quantity hiện tại nếu endDate >= ngày hiện tại (query tháng hiện tại hoặc tương lai)
+        const now = new Date();
+        if (endDate >= now) {
+          openingStock = Number(inv.quantity || 0);
+        } else {
+          // Query tháng quá khứ mà không có history → tồn = 0
+          openingStock = 0;
+        }
       }
 
       // Tính nhập và xuất TRONG tháng
@@ -143,8 +150,13 @@ export class ReportRepository {
       // Tồn cuối = tồn đầu + nhập - xuất
       let closingStock = openingStock + receivedQuantity - issuedQuantity;
 
-      // Nếu không có history nào cả, dùng quantity hiện tại
-      if (historyBefore.length === 0 && historyInPeriod.length === 0) {
+      // Nếu không có history nào cả và query tháng hiện tại, dùng quantity hiện tại
+      const now = new Date();
+      if (
+        historyBefore.length === 0 &&
+        historyInPeriod.length === 0 &&
+        endDate >= now
+      ) {
         closingStock = Number(inv.quantity || 0);
       }
 
