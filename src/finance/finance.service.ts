@@ -16,6 +16,7 @@ import {
   CreateTransactionDto,
   UpdateTransactionDto,
   CreateSupplierPaymentDto,
+  CreatePigSaleCollectionDto,
   CreateMonthlyBillDto,
   UpdateMonthlyBillDto,
   CreateMonthlyBillRecordDto,
@@ -36,7 +37,7 @@ export class FinanceService {
   constructor(private prisma: PrismaService) {}
 
   // ============ HELPER METHODS ============
-  private async generateTransactionCode(
+  public async generateTransactionCode(
     type: TransactionType,
     date: Date,
   ): Promise<string> {
@@ -449,6 +450,86 @@ export class FinanceService {
       {
         maxWait: 5000, // Thời gian tối đa để lấy được kết nối database
         timeout: 15000, // Tăng thời gian thực thi lên 10 giây (10000ms)
+      },
+    );
+  }
+
+  // ============ PIG SALE COLLECTION METHODS ============
+  async createPigSaleCollection(
+    dto: CreatePigSaleCollectionDto,
+    createdById?: string,
+  ) {
+    // Get customer name
+    let customerName = dto.customerName || '';
+    // if (dto.customerId) {
+    //   const customer = await this.prisma.customers.findUnique({
+    //     where: { id: dto.customerId },
+    //   });
+    //   if (customer) {
+    //     customerName = customer.name;
+    //   }
+    // }
+
+    const collectionDate = new Date(dto.collectionDate);
+    const transactionCode = await this.generateTransactionCode(
+      TransactionType.INCOME,
+      collectionDate,
+    );
+
+    return this.prisma.$transaction(
+      async (tx) => {
+        // Find category with code DT001 (Doanh thu xuất heo)
+        const category = await tx.transaction_categories.findFirst({
+          where: { code: 'DT001', is_active: true },
+        });
+
+        const transaction = await tx.transactions.create({
+          data: {
+            cash_account_id: dto.cashAccountId,
+            category_id: category?.id,
+            transaction_code: transactionCode,
+            transaction_type: TransactionType.INCOME,
+            transaction_date: collectionDate,
+            amount: dto.amount,
+            contact_type: 'customer',
+            // contact_id: dto.customerId,
+            contact_name: customerName,
+            reference_type: dto.pigShippingId ? 'pig_shipping' : 'other',
+            reference_id: dto.pigShippingId,
+            description:
+              dto.description || `Thu tiền xuất heo${customerName ? `: ${customerName}` : ''}`,
+            notes: dto.notes,
+            is_recorded: true,
+            status: 'confirmed',
+            created_by: createdById,
+          },
+        });
+
+        // Update cash account balance (increment for income)
+        await tx.cash_accounts.update({
+          where: { id: dto.cashAccountId },
+          data: { current_balance: { increment: dto.amount } },
+        });
+
+        // Update customer receivable if customerId is provided
+        // if (dto.customerId) {
+        //   const customer = await tx.customers.findUnique({
+        //     where: { id: dto.customerId },
+        //   });
+        //   if (customer && customer.total_receivable) {
+        //     const newReceivable = Math.max(0, Number(customer.total_receivable) - dto.amount);
+        //     await tx.customers.update({
+        //       where: { id: dto.customerId },
+        //       data: { total_receivable: newReceivable },
+        //     });
+        //   }
+        // }
+
+        return transaction;
+      },
+      {
+        maxWait: 5000,
+        timeout: 15000,
       },
     );
   }
