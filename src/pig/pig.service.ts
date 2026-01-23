@@ -111,10 +111,10 @@ export class PigService {
       where: { 
         pen_id: penId,
         pig_statuses: {
-          status_name: {
-            contains: 'Khoẻ',
-            mode: 'insensitive'
-          }
+          // status_name: {
+          //   contains: 'Khoẻ',
+          //   mode: 'insensitive'
+          // }
         }
       },
       include: { 

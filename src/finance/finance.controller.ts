@@ -27,6 +27,7 @@ import {
   CreateTransactionDto,
   UpdateTransactionDto,
   CreateSupplierPaymentDto,
+  CreatePigSaleCollectionDto,
   CreateMonthlyBillDto,
   UpdateMonthlyBillDto,
   CreateMonthlyBillRecordDto,
@@ -162,6 +163,16 @@ export class FinanceController {
     @Request() req: any,
   ) {
     return this.financeService.createSupplierPayment(dto, req.user?.id);
+  }
+
+  // ============ PIG SALE COLLECTION ENDPOINTS ============
+  @Post('pig-sale-collections')
+  @ApiOperation({ summary: 'Thu tiền xuất heo' })
+  async createPigSaleCollection(
+    @Body() dto: CreatePigSaleCollectionDto,
+    @Request() req: any,
+  ) {
+    return this.financeService.createPigSaleCollection(dto, req.user?.id);
   }
 
   // ============ REPORT ENDPOINTS ============

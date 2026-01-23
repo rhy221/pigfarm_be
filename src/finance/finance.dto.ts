@@ -227,6 +227,47 @@ export class CreateSupplierPaymentDto {
   notes?: string;
 }
 
+// ============ PIG SALE COLLECTION DTOs ============
+export class CreatePigSaleCollectionDto {
+  @ApiPropertyOptional({ description: 'ID khách hàng (nếu có)' })
+  @IsUUID()
+  @IsOptional()
+  customerId?: string;
+
+  @ApiPropertyOptional({ description: 'Tên khách hàng (nếu không có customerId)' })
+  @IsString()
+  @IsOptional()
+  customerName?: string;
+
+  @ApiPropertyOptional({ description: 'ID phiếu xuất heo (pig_shippings)' })
+  @IsUUID()
+  @IsOptional()
+  pigShippingId?: string;
+
+  @ApiProperty({ description: 'ID tài khoản thu' })
+  @IsUUID()
+  cashAccountId: string;
+
+  @ApiProperty({ description: 'Ngày thu' })
+  @IsDateString()
+  collectionDate: string;
+
+  @ApiProperty({ description: 'Số tiền thu' })
+  @IsNumber()
+  @Min(0)
+  amount: number;
+
+  @ApiPropertyOptional({ description: 'Mô tả' })
+  @IsString()
+  @IsOptional()
+  description?: string;
+
+  @ApiPropertyOptional({ description: 'Ghi chú' })
+  @IsString()
+  @IsOptional()
+  notes?: string;
+}
+
 // ============ MONTHLY BILL DTOs ============
 export class CreateMonthlyBillDto {
   @ApiPropertyOptional()

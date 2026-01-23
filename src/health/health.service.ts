@@ -49,7 +49,16 @@ export class HealthService {
       include: {
         diseases: { select: { name: true } },
         pens: { select: { pen_name: true } },
-        pigs_in_treatment: true,
+        pigs_in_treatment: {
+          include: {
+            pigs: {
+              select: {
+                id: true,
+                ear_tag_number: true,
+              }
+            }
+          }
+        },
         treatment_logs: { orderBy: { date: 'desc' } },
       },
       orderBy: { end_date: 'desc' },
