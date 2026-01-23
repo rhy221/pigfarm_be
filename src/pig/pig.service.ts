@@ -11,12 +11,12 @@ export class PigService {
     return (this.prisma as any).pigs.findMany({
       where: { 
         pen_id: penId,
-        pig_statuses: {
-          // status_name: {
-          //   contains: 'Khoẻ',
-          //   mode: 'insensitive'
-          // }
-        }
+        // pig_statuses: {
+        //   status_name: {
+        //     contains: 'Khoẻ',
+        //     mode: 'insensitive'
+        //   }
+        // }
       },
       include: { 
         pig_breeds: true,
