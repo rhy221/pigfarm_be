@@ -1,9 +1,8 @@
-# FastAPI & Server
-fastapi[standard]==0.128.0
+# FastAPI - Bỏ [standard] để giảm dung lượng
+fastapi==0.128.0
 sse-starlette==3.1.2
 
-# LangChain Ecosystem
-langchain==1.2.3
+# LangChain - Chỉ lấy những phần thực sự dùng
 langchain-google-genai==4.1.3
 langchain-community==0.4.1
 langchain-core==1.2.7
@@ -13,9 +12,8 @@ asyncpg==0.31.0
 sqlalchemy[asyncio]==2.0.45
 pgvector==0.4.2
 
-# Document Processing
+# Document Processing - pypdf rất nhẹ, giữ lại được
 pypdf==6.6.0
-tiktoken==0.12.0
 
 # Reranking
 cohere==5.20.1
@@ -24,8 +22,7 @@ cohere==5.20.1
 python-dotenv==1.2.1
 pydantic==2.12.5
 pydantic-settings==2.12.0
-numpy==2.4.1
 google-generativeai==0.8.6
 
-# Observability & Evaluation
-langsmith==0.6.2
+# Loại bỏ numpy và tiktoken nếu logic code không bắt buộc dùng trực tiếp. 
+# LangChain sẽ tự cài bản numpy-light nếu cần.
