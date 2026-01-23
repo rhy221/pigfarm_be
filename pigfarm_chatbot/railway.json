@@ -4,6 +4,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "gunicorn -w 4 -k uvicorn.workers.UvicornWorker pigfarm_chatbot.app.main:app --bind 0.0.0.0:8080"
+    "startCommand": "gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8080"
   }
 }
