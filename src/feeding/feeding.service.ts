@@ -58,7 +58,7 @@ export class FeedingService {
     return this.prisma.feeding_formulas.delete({ where: { id } });
   }
 
-  async getFeedingPlan(batchId: string) {
+  async getFeedingPlan(batchId: string, stageQuery?: number) { 
     const batch = await this.prisma.pig_batches.findUnique({ where: { id: batchId } });
     if (!batch) throw new NotFoundException('Không tìm thấy lứa heo');
 
@@ -68,10 +68,11 @@ export class FeedingService {
 
     const today = dayjs();
     const arrival = dayjs(batch.arrival_date);
-    const currentDaysOld = today.diff(arrival, 'day');
+    const currentDaysOld = today.diff(arrival, 'day'); 
 
     const timeline: any[] = [];
     const BLOCKS = 6;
+    let currentStageIndex = 0; 
     
     for (let i = 0; i < BLOCKS; i++) {
         const start = i * 30;
@@ -79,17 +80,25 @@ export class FeedingService {
         
         let status = 'future';
         if (currentDaysOld > end) status = 'past';
-        else if (currentDaysOld >= start && currentDaysOld <= end) status = 'current';
+        else if (currentDaysOld >= start && currentDaysOld <= end) {
+            status = 'current';
+            currentStageIndex = i;
+        }
 
         timeline.push({
+            stageIndex: i, 
             label: `Tháng ${i + 1}`,
             desc: `${start} - ${end} ngày`,
             startDay: start,
             endDay: end,
-            isCurrent: status === 'current',
+            isCurrent: status === 'current', 
             status: status
         });
     }
+
+    const targetStageIndex = stageQuery !== undefined ? Number(stageQuery) : currentStageIndex;
+    
+    const targetDaysOld = targetStageIndex * 30;
 
     const details: any[] = [];
     
@@ -100,10 +109,10 @@ export class FeedingService {
         }
     });
 
-    const currentFormula = allFormulas.find(f => f.start_day <= currentDaysOld);
+    const targetFormula = allFormulas.find(f => f.start_day <= targetDaysOld);
 
-    if (currentFormula) {
-        const ingredientsText = currentFormula.feeding_formula_details
+    if (targetFormula) {
+        const ingredientsText = targetFormula.feeding_formula_details
             .map(d => `${d.products?.name} (${d.percentage}%)`)
             .join(' + ');
 
@@ -111,29 +120,33 @@ export class FeedingService {
             const pigCount = pen.current_quantity || 0;
             if (pigCount <= 0) continue;
 
-            const totalFeedKg = (currentFormula.amount_per_pig * pigCount) / 1000;
-            const ingredientsBreakdown = currentFormula.feeding_formula_details.map((detail) => {
-                const amountNeeded = (totalFeedKg * Number(detail.percentage)) / 100;
+            const dailyFeedKg = (targetFormula.amount_per_pig * pigCount) / 1000;
+            
+            const stageTotalKg = dailyFeedKg * 30;
+
+            const ingredientsBreakdown = targetFormula.feeding_formula_details.map((detail) => {
+                const amountNeededDaily = (dailyFeedKg * Number(detail.percentage)) / 100;
                 return {
                     productName: detail.products?.name,
                     ratio: `${detail.percentage}%`,
-                    amountNeeded: `${amountNeeded.toFixed(2)} kg`,
+                    amountNeeded: `${amountNeededDaily.toFixed(2)} kg`, 
                 };
             });
 
             details.push({
                 penName: pen.pen_name,
-                formulaName: currentFormula.name,
+                formulaName: targetFormula.name,
                 ingredientsText: ingredientsText,
                 pigCount: pigCount,
-                amountPerPig: currentFormula.amount_per_pig,
-                totalFeedAmount: `${totalFeedKg.toFixed(1)} kg`,
+                amountPerPig: targetFormula.amount_per_pig, 
+                dailyTotalAmount: `${dailyFeedKg.toFixed(1)} kg`, 
+                stageTotalAmount: `${stageTotalKg.toFixed(1)} kg`,
                 ingredients: ingredientsBreakdown,
             });
         }
     }
 
-    return { timeline, details };
+    return { timeline, details, selectedStage: targetStageIndex };
   }
 
   async updateFormula(id: string, data: UpdateFeedingFormulaDto) {

@@ -90,4 +90,15 @@ export class VaccinationController {
   getActivePens() {
       return this.vaccinationService.getActivePens();
   }
+
+  @Delete('revert/:id')
+  @ApiOperation({ summary: 'Hoàn tác: Hủy xác nhận tiêm' })
+  async revertVaccination(@Param('id') id: string) {
+    await this.vaccinationService.revertVaccination(id);
+    
+    return { 
+        success: true, 
+        message: 'Đã hoàn tác thành công' 
+    };
+  }
 }

@@ -157,6 +157,8 @@ export class ImportBatchResponseDto {
   pigs: PigResponseDto[];
 }
 
+// src/pig/pig.dto.ts
+
 export class TransferPigDto {
   @ApiProperty({ 
     example: ['pig-uuid-1', 'pig-uuid-2'], 
@@ -189,14 +191,15 @@ export class TransferPigDto {
   @IsDateString()
   diseaseDate?: string;
 
-  @ApiProperty({ 
-    required: false, 
-    example: 'uuid-loai-benh', 
-    description: 'ID loại bệnh (Bắt buộc nếu là cách ly)' 
-  })
+  @ApiProperty({ required: false, description: 'ID loại bệnh (Nếu chọn từ danh sách)' })
   @IsOptional()
   @IsUUID()
-  diseaseId?: string;
+  diseaseId?: string; 
+
+  @ApiProperty({ required: false, description: 'Tên bệnh (Nếu nhập tay)' })
+  @IsOptional()
+  @IsString()
+  diseaseName?: string;
 
   @ApiProperty({ 
     required: false, 

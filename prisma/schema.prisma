@@ -191,7 +191,7 @@ model pens {
   id                                           String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at                                   DateTime                   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   pen_name                                     String?                    @default("")
-  pen_type_id                                  String?                    @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pen_type_id                                  String?                    @db.Uuid
   capacity                                     Int?                       @default(100)
   current_quantity                             Int?                       @default(0)
   assignment_details                           assignment_details[]
@@ -210,10 +210,11 @@ model pens {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model pig_breeds {
-  id         String   @id(map: "pigBreed_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  breed_name String?  @default("")
-  pigs       pigs[]
+  id          String        @id(map: "pigBreed_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at  DateTime      @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  breed_name  String?       @default("")
+  pig_batches pig_batches[]
+  pigs        pigs[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -952,7 +953,9 @@ model pig_batches {
   created_at         DateTime             @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
   arrival_date       DateTime?            @db.Date
   batch_name         String?
+  breed_id           String?              @db.Uuid
   pig_batch_vaccines pig_batch_vaccines[]
+  pig_breeds         pig_breeds?          @relation(fields: [breed_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pigs               pigs[]
 }
 

@@ -25,19 +25,28 @@ export class VaccinationService {
   async getVaccinationCalendar(month: number, year: number) {
     const startDate = dayjs(`${year}-${month}-01`).startOf('month');
     const endDate = dayjs(`${year}-${month}-01`).endOf('month');
+    
+    // Convert sang Date object để so sánh nhanh hơn trong vòng lặp
+    const startObj = startDate.toDate();
+    const endObj = endDate.toDate();
 
+    // 1. Chỉ select các trường cần thiết (Giảm tải Network DB)
     const templates = await this.prisma.vaccination_templates.findMany({
-      include: { vaccines: true },
+      include: { vaccines: { select: { vaccine_name: true } } }, // Chỉ lấy tên
     });
 
     const activePens = await this.prisma.pens.findMany({
       where: { current_quantity: { gt: 0 } },
-      include: {
+      select: { // Select tối giản
+        id: true,
         pigs: {
           take: 1,
           select: { 
             pig_batchs: {
-              include: { pig_batch_vaccines: true } 
+              select: { 
+                 arrival_date: true,
+                 pig_batch_vaccines: { select: { vaccine_id: true } } // Chỉ lấy ID
+              }
             } 
           },
         },
@@ -47,63 +56,68 @@ export class VaccinationService {
     const existingSchedules = await this.prisma.vaccination_schedules.findMany({
       where: {
         scheduled_date: {
-          gte: startDate.toDate(),
-          lte: endDate.toDate(),
+          gte: startObj,
+          lte: endObj,
         },
       },
       include: {
-        vaccination_schedule_details: { include: { vaccines: true } },
+        vaccination_schedule_details: { include: { vaccines: { select: { vaccine_name: true } } } },
       },
     });
 
     const calendarMap: Record<string, any[]> = {};
 
-    existingSchedules.forEach((schedule) => {
-        // ... (Giữ nguyên logic cũ của bạn ở đây) ...
-        const sched = schedule as any; 
-        if (!sched.scheduled_date) return;
-        const dateKey = dayjs(sched.scheduled_date).format('YYYY-MM-DD');
+    const pushToMap = (dateKey: string, item: any) => {
         if (!calendarMap[dateKey]) calendarMap[dateKey] = [];
+        const exists = calendarMap[dateKey].some(i => i.name === item.name && i.id === item.id);
+        if (!exists) calendarMap[dateKey].push(item);
+    }
 
-        sched.vaccination_schedule_details.forEach((detail: any) => {
-            const vaccineName = detail.vaccines?.vaccine_name || 'Unknown';
-            if (!calendarMap[dateKey].some((i) => i.name === vaccineName && i.scheduleId === sched.id)) {
-                calendarMap[dateKey].push({
+    for (const sched of existingSchedules) {
+        if (!sched.scheduled_date) continue;
+        const dateKey = dayjs(sched.scheduled_date).format('YYYY-MM-DD'); 
+
+        for (const detail of sched.vaccination_schedule_details) {
+            pushToMap(dateKey, {
                 id: sched.id,
-                name: vaccineName,
+                name: detail.vaccines?.vaccine_name || 'Unknown',
                 status: sched.status,
                 type: 'actual',
-                color: sched.color || (sched.status === 'completed' ? '#10B981' : '#3B82F6') 
+                color: sched.color || (sched.status === 'completed' ? '#10B981' : '#3B82F6')
             });
-            }
-        });
-    });
+        }
+    }
 
     for (const pen of activePens) {
        const batch = pen.pigs?.[0]?.pig_batchs;
        if (!batch?.arrival_date) continue;
        
-       const injectedVaccineIds = (batch as any).pig_batch_vaccines?.map((v: any) => v.vaccine_id) || [];
-
        const batchDate = dayjs(batch.arrival_date);
+       const injectedVaccineIds = new Set(
+           (batch as any).pig_batch_vaccines?.map((v: any) => v.vaccine_id) || []
+       );
 
        for (const tpl of templates) {
-         if (injectedVaccineIds.includes(tpl.vaccine_id)) {
-            continue; 
-         }
+         if (injectedVaccineIds.has(tpl.vaccine_id)) continue; 
 
          const targetDate = batchDate.add(tpl.days_old, 'day');
-         if (targetDate.isAfter(startDate) && targetDate.isBefore(endDate)) {
-           const dateKey = targetDate.format('YYYY-MM-DD');
-           if (!calendarMap[dateKey]) calendarMap[dateKey] = [];
-           const vaccineName = tpl.vaccines?.vaccine_name || 'Unknown';
-           
-           const alreadyExists = calendarMap[dateKey].some(
-              item => item.name === vaccineName && item.type === 'actual'
-           );
-           if (!alreadyExists) {
-              const isVisualExist = calendarMap[dateKey].some(i => i.name === vaccineName && i.type === 'forecast');
-              if (!isVisualExist) {
+         
+         if (targetDate.isAfter(endDate) || targetDate.isBefore(startDate)) {
+             continue; 
+         }
+
+         const dateKey = targetDate.format('YYYY-MM-DD');
+         const vaccineName = tpl.vaccines?.vaccine_name || 'Unknown';
+         
+         if (!calendarMap[dateKey]) calendarMap[dateKey] = [];
+         
+         const hasRealSchedule = calendarMap[dateKey].some(
+             item => item.name === vaccineName && item.type === 'actual'
+         );
+         
+         if (!hasRealSchedule) {
+             const isVisualExist = calendarMap[dateKey].some(i => i.name === vaccineName && i.type === 'forecast');
+             if (!isVisualExist) {
                  calendarMap[dateKey].push({
                      id: `virtual-${tpl.id}-${dateKey}`,
                      name: vaccineName,
@@ -111,19 +125,22 @@ export class VaccinationService {
                      type: 'forecast',
                      color: 'orange'
                  });
-              }
-           }
+             }
          }
        }
     }
     return calendarMap;
   }
 
-  async getDailyDetails(dateStr: string) {
-    const targetDate = dayjs(dateStr);
-    const dateObj = targetDate.toDate();
+async getDailyDetails(dateStr: string) {
+    const queryDate = dayjs(dateStr);
+    const isToday = queryDate.isSame(dayjs(), 'day'); 
+    const startOfDay = dayjs(dateStr).startOf('day').toDate();
+    const endOfDay = dayjs(dateStr).endOf('day').toDate();
 
-    const templates = await this.prisma.vaccination_templates.findMany({ include: { vaccines: true } });
+    const templates = await this.prisma.vaccination_templates.findMany({
+      include: { vaccines: true }
+    });
     
     const activePens = await this.prisma.pens.findMany({
         where: { current_quantity: { gt: 0 } },
@@ -131,15 +148,22 @@ export class VaccinationService {
             pigs: { 
                 select: { 
                     pig_batchs: {
-                        include: { pig_batch_vaccines: true }
+                        select: { arrival_date: true }
                     } 
                 }, 
                 take: 1 
             } 
         } 
     });
+
+    // 1. Lấy lịch của ngày hiện tại (để hiển thị chi tiết hôm nay)
     const existingSchedules = await this.prisma.vaccination_schedules.findMany({
-      where: { scheduled_date: { equals: dateObj } },
+      where: { 
+        scheduled_date: { 
+            gte: startOfDay, 
+            lte: endOfDay    
+        } 
+      },
       include: {
         pens: true,
         vaccination_schedule_details: { include: { vaccines: true } },
@@ -147,6 +171,32 @@ export class VaccinationService {
     });
 
     const groupedResult = new Map<string, any>();
+    const bookedMap = new Set<string>();
+
+    // =========================================================================
+    // [FIX MỚI] 2. Lấy toàn bộ lịch sử đã tiêm của các chuồng này (Bất kể ngày nào)
+    // Để đảm bảo nếu đã tiêm hôm qua, hôm nay không hiện nhắc nhở nữa
+    // =========================================================================
+    const historySchedules = await this.prisma.vaccination_schedules.findMany({
+        where: {
+            pen_id: { in: activePens.map(p => p.id) }, // Chỉ check các chuồng đang có heo
+            status: 'completed' // Chỉ quan tâm các mũi ĐÃ TIÊM
+        },
+        select: {
+            pen_id: true,
+            vaccination_schedule_details: {
+                select: { vaccine_id: true, stage: true }
+            }
+        }
+    });
+
+    // Nạp lịch sử vào bookedMap để chặn hiển thị dự kiến
+    historySchedules.forEach(sched => {
+        sched.vaccination_schedule_details.forEach(detail => {
+            bookedMap.add(`${sched.pen_id}-${detail.vaccine_id}-${detail.stage}`);
+        });
+    });
+
     const addToGroup = (key: string, vaccineName: string, stage: number, penInfo: any) => {
         if (!groupedResult.has(key)) {
             groupedResult.set(key, {
@@ -157,18 +207,23 @@ export class VaccinationService {
             });
         }
         const group = groupedResult.get(key);
-        if (!group.pens.some(p => p.penName === penInfo.penName)) {
+        if (!group.pens.some((p: any) => p.penName === penInfo.penName)) {
             group.totalPens += 1;
             group.pens.push(penInfo);
         }
     };
 
-    // Logic A: Lịch thật
+    // Logic A: Hiển thị các lịch CÓ trong ngày hôm nay (Query Date)
     existingSchedules.forEach((schedule) => {
         const sched = schedule as any; 
         sched.vaccination_schedule_details.forEach((detail: any) => {
             if (!detail.vaccines) return;
-            const key = `${detail.vaccines.id}_${detail.stage}`;
+            
+            // Cũng add vào bookedMap (dù thừa nhưng an toàn cho trường hợp pending trong ngày)
+            bookedMap.add(`${sched.pen_id}-${detail.vaccines.id}-${detail.stage}`);
+
+            const key = `${detail.vaccines.id}_${detail.stage}_${sched.status}`; 
+            
             addToGroup(key, detail.vaccines.vaccine_name || 'Unknown', detail.stage || 1, {
                 scheduleId: sched.id,
                 penName: sched.pens?.pen_name,
@@ -178,41 +233,45 @@ export class VaccinationService {
         });
     });
 
-    // Logic B: Lịch dự kiến (Templates)
+    // Logic B: Tính toán dự kiến (Dựa trên Template)
     for (const pen of activePens) {
-        const batch = pen.pigs?.[0]?.pig_batchs;
-        if (!batch?.arrival_date) continue;
+      const batch = pen.pigs?.[0]?.pig_batchs;
+      if (!batch?.arrival_date) continue;
 
-        const injectedVaccineIds = (batch as any).pig_batch_vaccines?.map((v: any) => v.vaccine_id) || [];
-        
-        const batchDate = dayjs(batch.arrival_date);
+      const batchDate = dayjs(batch.arrival_date);
 
-        for (const tpl of templates) {
-            if (injectedVaccineIds.includes(tpl.vaccine_id)) continue;
+      for (const tpl of templates) {
+          // Kiểm tra xem chuồng này đã tiêm mũi này chưa (Check trong toàn bộ lịch sử)
+          if (bookedMap.has(`${pen.id}-${tpl.vaccine_id}-${tpl.stage}`)) {
+              continue; // Nếu đã tiêm rồi thì BỎ QUA, không hiện dự kiến nữa
+          }
 
-            const calculatedDate = batchDate.add(tpl.days_old, 'day');
-            if (calculatedDate.isSame(targetDate, 'day')) {
-                const key = `${tpl.vaccine_id}_${tpl.stage}`;
-                const group = groupedResult.get(key);
-                const alreadyScheduled = group?.pens.some(p => p.penName === pen.pen_name);
-                if (!alreadyScheduled) {
-                    addToGroup(key, tpl.vaccines?.vaccine_name || 'Unknown', tpl.stage || 1, {
-                        scheduleId: null,
-                        templateId: tpl.id,
-                        penId: pen.id,
-                        penName: pen.pen_name,
-                        status: 'forecast',
-                        isReal: false
-                    });
-                }
-            }
-        }
-    }
+          const calculatedDate = batchDate.add(tpl.days_old, 'day');
+          const isExactDate = calculatedDate.isSame(queryDate, 'day');
+          const isOverdue = isToday && 
+                            calculatedDate.isBefore(queryDate, 'day') && 
+                            calculatedDate.isAfter(queryDate.subtract(60, 'day'));
+
+          if (isExactDate || isOverdue) {
+              const key = `${tpl.vaccine_id}_${tpl.stage}_forecast`;
+
+              addToGroup(key, tpl.vaccines?.vaccine_name || 'Unknown', tpl.stage || 1, {
+                  scheduleId: null,
+                  templateId: tpl.id,
+                  penId: pen.id,
+                  penName: pen.pen_name,
+                  status: 'forecast',
+                  isReal: false,
+                  isOverdue: isOverdue, 
+                  originalDate: calculatedDate.format('DD/MM') 
+              });
+          }
+      }
+  }
     return Array.from(groupedResult.values());
   }
 
   async createManualSchedule(data: CreateManualScheduleDto) {
-    // ... Copy logic createManualSchedule cũ ...
     let targetVaccineId = data.vaccineId;
     if (!targetVaccineId && data.vaccineName) {
       const existing = await this.prisma.vaccines.findFirst({
@@ -233,7 +292,7 @@ export class VaccinationService {
       return this.prisma.vaccination_schedules.create({
         data: {
           pen_id: penId,
-          scheduled_date: new Date(data.scheduledDate),
+          scheduled_date: dayjs(data.scheduledDate).startOf('day').toDate(),
           status: 'pending',
           color: data.color || '#3B82F6',
           employee_id: null,
@@ -315,25 +374,28 @@ export class VaccinationService {
         });
         if (!template) continue; 
         
+        const penWithBatch = await this.prisma.pens.findUnique({
+            where: { id: item.penId },
+            include: {
+                pigs: {
+                    take: 1, 
+                    select: { pig_batchs: true }
+                }
+            }
+        });
+        const batchId = penWithBatch?.pigs?.[0]?.pig_batchs?.id;
         const existingSchedule = await this.prisma.vaccination_schedules.findFirst({
             where: {
                 pen_id: item.penId,
                 vaccination_schedule_details: {
-                    some: {
-                        vaccine_id: template.vaccine_id,
-                        stage: template.stage
-                    }
+                    some: { vaccine_id: template.vaccine_id, stage: template.stage }
                 }
             }
         });
-
         if (existingSchedule) {
             await this.prisma.vaccination_schedules.update({
                 where: { id: existingSchedule.id },
-                data: {
-                    status: 'completed',
-                    scheduled_date: new Date()
-                }
+                data: { status: 'completed', scheduled_date: new Date() }
             });
         } else {
             await this.prisma.vaccination_schedules.create({
@@ -341,16 +403,33 @@ export class VaccinationService {
                     pen_id: item.penId,
                     scheduled_date: new Date(), 
                     status: 'completed',
-                    employee_id: null,
+                    employee_id: null, 
                     vaccination_schedule_details: {
-                    create: {
-                        vaccine_id: template.vaccine_id,
-                        stage: template.stage,
-                        dosage: parseFloat(template.dosage?.replace(/[^0-9.]/g, '') || '0') 
-                    }
+                        create: {
+                            vaccine_id: template.vaccine_id,
+                            stage: template.stage,
+                            dosage: parseFloat(template.dosage?.replace(/[^0-9.]/g, '') || '0') 
+                        }
                     }
                 }
             });
+        }
+        if (batchId) {
+            const exists = await this.prisma.pig_batch_vaccines.findFirst({
+                where: {
+                    pig_batch_id: batchId,
+                    vaccine_id: template.vaccine_id
+                }
+            });
+
+            if (!exists) {
+                await this.prisma.pig_batch_vaccines.create({
+                    data: {
+                        pig_batch_id: batchId,
+                        vaccine_id: template.vaccine_id
+                    }
+                });
+            }
         }
       }
     }
@@ -499,5 +578,68 @@ export class VaccinationService {
       name: p.pen_name,
       quantity: p.current_quantity
     }));
+  }
+
+  // ==========================================================
+  // REPLACE THE OLD revertVaccination FUNCTION WITH THIS ONE
+  // ==========================================================
+  async revertVaccination(scheduleId: string) {
+    // 1. Lấy thông tin lịch tiêm trước khi xóa để biết Vaccine nào và Lô heo nào
+    const schedule = await this.prisma.vaccination_schedules.findUnique({
+      where: { id: scheduleId },
+      include: {
+        vaccination_schedule_details: true,
+        pens: {
+          include: {
+            pigs: { take: 1, select: { pig_batchs: true } },
+          },
+        },
+      },
+    });
+
+    if (!schedule) {
+      throw new Error('Lịch tiêm không tồn tại hoặc đã bị xóa.');
+    }
+
+    const vaccineId = schedule.vaccination_schedule_details?.[0]?.vaccine_id;
+    const batchId = schedule.pens?.pigs?.[0]?.pig_batchs?.id;
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.vaccination_schedule_details.deleteMany({
+        where: { schedule_id: scheduleId },
+      });
+
+      await tx.vaccination_schedules.delete({
+        where: { id: scheduleId },
+      });
+
+      if (vaccineId && batchId) {
+        const remainingSchedules = await tx.vaccination_schedules.count({
+          where: {
+            id: { not: scheduleId }, 
+            status: 'completed',
+            pens: {
+              pigs: {
+                some: {
+                  pig_batchs: { id: batchId }
+                }
+              }
+            },
+            vaccination_schedule_details: {
+              some: { vaccine_id: vaccineId }
+            }
+          },
+        });
+
+        if (remainingSchedules === 0) {
+          await tx.pig_batch_vaccines.deleteMany({
+            where: {
+              pig_batch_id: batchId,
+              vaccine_id: vaccineId,
+            },
+          });
+        }
+      }
+    });
   }
 }

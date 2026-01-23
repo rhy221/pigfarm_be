@@ -7,6 +7,105 @@ import dayjs from 'dayjs';
 export class PigService {
   constructor(private prisma: PrismaService) {}
 
+  async getAllBatches() {
+  const batches = await (this.prisma as any).pig_batches.findMany({
+    orderBy: { arrival_date: 'desc' },
+    select: {
+      id: true,
+      batch_name: true,
+      arrival_date: true,
+      breed_id: true, 
+      pig_batch_vaccines: {
+        select: {
+          vaccines: {
+            select: {
+              id: true,
+              vaccine_name: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return batches.map(b => {
+    const today = dayjs();
+    const arrival = dayjs(b.arrival_date);
+    const currentDaysOld = today.diff(arrival, 'day');
+
+    return {
+      id: b.id,
+      name: b.batch_name,
+      arrivalDate: b.arrival_date,
+      breedId: b.breed_id, 
+      daysOld: currentDaysOld > 0 ? currentDaysOld : 0, 
+      vaccineIds: b.pig_batch_vaccines.map(v => v.vaccines.id),
+      vaccineNames: b.pig_batch_vaccines.map(v => v.vaccines.vaccine_name)
+    };
+  });
+}
+
+  async getRegularPens() {
+    return (this.prisma as any).pens.findMany({
+      where: {
+        current_quantity: 0, 
+
+        pen_types: {
+          pen_type_name: {
+            contains: 'Chuồng thịt', 
+            mode: 'insensitive'
+          }
+        }
+      },
+      select: {
+        id: true,
+        pen_name: true,
+        capacity: true,
+        current_quantity: true
+      },
+      orderBy: { pen_name: 'asc' }
+    });
+  }
+
+  async getPensForTransfer() {
+  const pens = await (this.prisma as any).pens.findMany({
+    where: {
+      pen_types: {
+        pen_type_name: { contains: 'thịt', mode: 'insensitive' }
+      }
+    },
+    select: {
+      id: true,
+      pen_name: true,
+      capacity: true,
+      current_quantity: true,
+      pigs: {
+        take: 1,
+        select: { pig_batch_id: true }
+      }
+    },
+    orderBy: { pen_name: 'asc' }
+  });
+
+  return pens.map(p => ({
+    id: p.id,
+    name: p.pen_name,
+    capacity: p.capacity,
+    current_quantity: p.current_quantity,
+    currentBatchId: p.pigs[0]?.pig_batch_id || null 
+  }));
+}
+
+  async getAllDiseases() {
+    return this.prisma.diseases.findMany({
+      orderBy: { name: 'asc' },
+      select: {
+        id: true,
+        name: true
+      }
+    });
+  }
+
   async findByPen(penId: string) {
     return (this.prisma as any).pigs.findMany({
       where: { 
@@ -387,6 +486,8 @@ export class PigService {
         message: `Đã cập nhật thông tin cho ${results.length} con heo`,
         updatedCount: results.length
       };
+    }, {
+      timeout: 20000 
     });
   }
 
@@ -410,11 +511,21 @@ export class PigService {
   }
 
   async transferPigs(dto: TransferPigDto) {
-    const { pigIds, targetPenId, isIsolation, diseaseDate, diseaseId, symptoms } = dto;
+    const { 
+      pigIds, 
+      targetPenId, 
+      isIsolation, 
+      diseaseDate, 
+      diseaseId, 
+      diseaseName, 
+      symptoms 
+    } = dto;
 
+    // 1. Kiểm tra chuồng đích
     const targetPen = await (this.prisma as any).pens.findUnique({ where: { id: targetPenId } });
     if (!targetPen) throw new BadRequestException('Chuồng đích không tồn tại');
 
+    // 2. Kiểm tra sức chứa chuồng đích
     const totalPigsToMove = pigIds.length;
     const currentQty = targetPen.current_quantity || 0;
     const capacity = targetPen.capacity || 0;
@@ -425,6 +536,7 @@ export class PigService {
       );
     }
 
+    // 3. Lấy thông tin các con heo cần chuyển
     const pigsToMove = await (this.prisma as any).pigs.findMany({
       where: { id: { in: pigIds } },
       select: { id: true, pen_id: true }
@@ -434,6 +546,7 @@ export class PigService {
       throw new BadRequestException('Một số ID heo không tồn tại trong hệ thống');
     }
 
+    // 4. Tính toán số lượng cần trừ ở các chuồng cũ
     const sourcePenCounts = {};
     for (const pig of pigsToMove) {
       if (pig.pen_id) {
@@ -441,18 +554,41 @@ export class PigService {
       }
     }
 
+    // 5. Xử lý Logic Bệnh & Cách ly
     let sickStatusId = null;
+    let finalDiseaseId = diseaseId;
+
     if (isIsolation) {
-      if (!diseaseId || !diseaseDate) throw new BadRequestException('Vui lòng nhập ngày phát bệnh và loại bệnh');
+      if (!diseaseDate) throw new BadRequestException('Vui lòng nhập ngày phát bệnh');
       
+      // Xử lý Tên bệnh vs ID bệnh
+      if (!finalDiseaseId && diseaseName) {
+        let disease = await (this.prisma as any).diseases.findFirst({
+            where: { name: { equals: diseaseName, mode: 'insensitive' } }
+        });
+        
+        if (!disease) {
+            disease = await (this.prisma as any).diseases.create({
+                data: { name: diseaseName }
+            });
+        }
+        finalDiseaseId = disease.id;
+      }
+
+      if (!finalDiseaseId) {
+        throw new BadRequestException('Vui lòng chọn loại bệnh hoặc nhập tên bệnh mới');
+      }
+
       const sickStatus = await (this.prisma as any).pig_statuses.findFirst({
         where: { status_name: { contains: 'Bệnh', mode: 'insensitive' } }
       });
       if (sickStatus) sickStatusId = sickStatus.id;
     }
 
+    // 6. Thực hiện Transaction
     return (this.prisma as any).$transaction(async (tx) => {
       
+      // Trừ số lượng ở chuồng cũ
       for (const [oldPenId, count] of Object.entries(sourcePenCounts)) {
         await tx.pens.update({
           where: { id: oldPenId },
@@ -460,11 +596,13 @@ export class PigService {
         });
       }
 
+      // Cộng số lượng ở chuồng mới
       await tx.pens.update({
         where: { id: targetPenId },
         data: { current_quantity: { increment: totalPigsToMove } }
       });
 
+      // Update heo
       await tx.pigs.updateMany({
         where: { id: { in: pigIds } },
         data: { 
@@ -473,21 +611,25 @@ export class PigService {
         }
       });
 
+      // Lưu lịch sử
       const transferLogs = pigsToMove.map(pig => ({
         pig_id: pig.id,
         old_pen_id: pig.pen_id,
         new_pen_id: targetPenId,
+        transfer_type: isIsolation ? 'ISOLATION' : 'NORMAL',
+        note: isIsolation ? `Chuyển cách ly: ${diseaseName || 'Theo dõi bệnh'}` : 'Chuyển chuồng thường'
       }));
       await tx.pig_transfers.createMany({ data: transferLogs });
 
+      // Nếu chuyển cách ly -> Tạo bệnh án
       if (isIsolation) {
         const treatment = await tx.disease_treatments.create({
           data: {
             pen_id: targetPenId,
-            disease_id: diseaseId,
+            disease_id: finalDiseaseId,
             symptom: symptoms || '',
             status: 'TREATING',
-            created_at: new Date(diseaseDate || new Date()) 
+            created_at: new Date(diseaseDate as string) 
           }
         });
 
@@ -504,39 +646,9 @@ export class PigService {
         message: 'Chuyển chuồng thành công',
         movedCount: totalPigsToMove,
         targetPenId: targetPenId,
-        isIsolationTransfer: isIsolation
+        isIsolationTransfer: isIsolation,
+        diseaseName: diseaseName || null
       };
-    });
-  }
-
-  async getAllBatches() {
-    return (this.prisma as any).pig_batches.findMany({
-      orderBy: { arrival_date: 'desc' }, 
-      select: {
-        id: true,
-        batch_name: true,
-        arrival_date: true,
-      }
-    });
-  }
-
-  async getRegularPens() {
-    return (this.prisma as any).pens.findMany({
-      where: {
-        pen_types: {
-          pen_type_name: {
-            contains: 'Chuồng thịt', 
-            mode: 'insensitive'
-          }
-        }
-      },
-      select: {
-        id: true,
-        pen_name: true,
-        capacity: true,
-        current_quantity: true
-      },
-      orderBy: { pen_name: 'asc' }
     });
   }
 }

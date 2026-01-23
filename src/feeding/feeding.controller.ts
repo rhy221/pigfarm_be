@@ -33,8 +33,11 @@ export class FeedingController {
   }
 
   @Get('plan/:batchId')
-  @ApiOperation({ summary: 'Tính toán lịch cho ăn theo lứa heo (Batch ID)' })
-  getFeedingPlan(@Param('batchId') batchId: string) {
-    return this.feedingService.getFeedingPlan(batchId);
+  @ApiOperation({ summary: 'Tính toán lịch cho ăn theo lứa heo (Batch ID) và giai đoạn (Stage)' })
+  getFeedingPlan(
+    @Param('batchId') batchId: string, 
+    @Query('stage') stage?: number
+  ) {
+    return this.feedingService.getFeedingPlan(batchId, stage);
   }
 }

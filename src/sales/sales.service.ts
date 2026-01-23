@@ -98,6 +98,8 @@ export class SalesService {
             });
 
             if (detail.pig_ids?.length) {
+              const soldCount = detail.pig_ids.length;
+
               await tx.shipped_pig_items.createMany({
                 data: detail.pig_ids.map((pigId) => ({
                   shipping_detail_id: shippingDetail.id,
@@ -113,53 +115,62 @@ export class SalesService {
                   pen_id: null,
                 },
               });
-            }
-          }
-          // Tự động tạo phiếu thu khi xuất chuồng thành công
-          try {
-            // Lấy tài khoản tiền mặt mặc định
-            const defaultAccount = await tx.cash_accounts.findFirst({
-              where: { is_default: true },
-            });
 
-            // Lấy danh mục giao dịch cho bán hàng (thu tiền từ bán heo)
-            const salesCategory = await tx.transaction_categories.findFirst({
-              where: {
-                type: TransactionType.INCOME,
-                name: { contains: 'Bán' },
-              },
-            });
-
-            if (defaultAccount) {
-              const transactionCode = await this.generateTransactionCode(
-                tx,
-                TransactionType.INCOME,
-                new Date(dto.export_date),
-              );
-
-              await tx.transactions.create({
+              await tx.pens.update({
+                where: { id: detail.pen_id },
                 data: {
-                  transaction_code: transactionCode,
-                  cash_account_id: defaultAccount.id,
-                  category_id: salesCategory?.id,
-                  transaction_type: TransactionType.INCOME,
-                  transaction_date: new Date(dto.export_date),
-                  amount: new Decimal(totalAmount),
-                  contact_type: 'customer',
-                  contact_id: finalCustomerId,
-                  contact_name: dto.customer_name,
-                  reference_type: 'other',
-                  reference_id: receipt.id,
-                  description: `Thu tiền từ phiếu xuất chuồng ${dto.receipt_code}`,
-                  notes: `Khách hàng: ${dto.customer_name} - SĐT: ${dto.phone_number || 'N/A'}`,
-                  is_recorded: false, // Chưa ghi sổ, sẽ ghi khi khách thanh toán
+                  current_quantity: {
+                    decrement: soldCount,
+                  },
                 },
               });
             }
-          } catch (financeError) {
-            console.error('Lỗi khi tạo phiếu thu tự động:', financeError);
-            // Không throw error để không ảnh hưởng đến việc tạo phiếu xuất
           }
+          // Tự động tạo phiếu thu khi xuất chuồng thành công
+          // try {
+          //   // Lấy tài khoản tiền mặt mặc định
+          //   const defaultAccount = await tx.cash_accounts.findFirst({
+          //     where: { is_default: true },
+          //   });
+
+          //   // Lấy danh mục giao dịch cho bán hàng (thu tiền từ bán heo)
+          //   const salesCategory = await tx.transaction_categories.findFirst({
+          //     where: {
+          //       type: TransactionType.INCOME,
+          //       name: { contains: 'Bán' },
+          //     },
+          //   });
+
+          //   if (defaultAccount) {
+          //     const transactionCode = await this.generateTransactionCode(
+          //       tx,
+          //       TransactionType.INCOME,
+          //       new Date(dto.export_date),
+          //     );
+
+          //     await tx.transactions.create({
+          //       data: {
+          //         transaction_code: transactionCode,
+          //         cash_account_id: defaultAccount.id,
+          //         category_id: salesCategory?.id,
+          //         transaction_type: TransactionType.INCOME,
+          //         transaction_date: new Date(dto.export_date),
+          //         amount: new Decimal(totalAmount),
+          //         contact_type: 'customer',
+          //         contact_id: finalCustomerId,
+          //         contact_name: dto.customer_name,
+          //         reference_type: 'other',
+          //         reference_id: receipt.id,
+          //         description: `Thu tiền từ phiếu xuất chuồng ${dto.receipt_code}`,
+          //         notes: `Khách hàng: ${dto.customer_name} - SĐT: ${dto.phone_number || 'N/A'}`,
+          //         is_recorded: false, // Chưa ghi sổ, sẽ ghi khi khách thanh toán
+          //       },
+          //     });
+          //   }
+          // } catch (financeError) {
+          //   console.error('Lỗi khi tạo phiếu thu tự động:', financeError);
+          //   // Không throw error để không ảnh hưởng đến việc tạo phiếu xuất
+          // }
           return receipt;
         },
         {
